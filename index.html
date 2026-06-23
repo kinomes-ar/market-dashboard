@@ -131,6 +131,15 @@ body { overflow-x: hidden; }
 .mv-row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rd-top > .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 
+/* collapsible sections */
+.collapsible { cursor: pointer; user-select: none; }
+.caret { margin-left: 10px; font-size: 11px; color: #8a8a8a; transition: transform .15s ease; display: inline-block; flex: none; }
+.collapsed .caret { transform: rotate(-90deg); }
+.country.collapsed > :not(.chead), .live.collapsed > :not(.chead) { display: none; }
+.summary.collapsed > p, .summary.collapsed > .flow { display: none; }
+.summary.collapsed h2 { margin-bottom: 0; }
+.chead.collapsible:hover h3, .summary h2.collapsible:hover { color: #ffffff; }
+
 /* ---------- mobile ---------- */
 @media (max-width: 600px) {
   .wrap { padding: 16px 12px 44px; }
@@ -570,6 +579,33 @@ function tick(){
 setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; });
+
+// 섹션 접기/펼치기 (상태 기억)
+function setupCollapse(){
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('gmd_collapsed') || '{}'); } catch(e){}
+  function attach(sec, head, key){
+    if(!sec || !head) return;
+    head.classList.add('collapsible');
+    const caret = document.createElement('span');
+    caret.className = 'caret'; caret.textContent = '▾';
+    head.appendChild(caret);
+    if(saved[key]) sec.classList.add('collapsed');
+    head.addEventListener('click', ()=>{
+      sec.classList.toggle('collapsed');
+      saved[key] = sec.classList.contains('collapsed');
+      try { localStorage.setItem('gmd_collapsed', JSON.stringify(saved)); } catch(e){}
+    });
+  }
+  document.querySelectorAll('.country, .live').forEach((sec, i)=>{
+    const head = sec.querySelector('.chead');
+    const t = head ? head.querySelector('h3') : null;
+    attach(sec, head, t ? t.textContent.trim() : ('sec'+i));
+  });
+  const sum = document.querySelector('.summary');
+  if(sum) attach(sum, sum.querySelector('h2'), 'summary');
+}
+setupCollapse();
 </script>
 </body>
 </html>
