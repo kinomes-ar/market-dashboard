@@ -1,661 +1,379 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>글로벌 마켓 데일리 — 미국·한국·중국</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>정기 시험 모의고사</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 <style>
-:root { color-scheme: dark; }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  background: #141414; color: #ededed; line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 22px 60px; }
-header.top { margin-bottom: 22px; }
-.kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #9a9a9a; text-transform: uppercase; }
-h1 { font-size: 26px; font-weight: 800; margin: 4px 0 6px; letter-spacing: -.02em; color: #fafafa; }
-.asof { font-size: 13px; color: #9a9a9a; }
+  :root{
+    color-scheme:light;
+    --bg:#F2F1EC; --card:#FFFFFF; --ink:#181820; --sub:#83838E;
+    --line:#E6E4DC; --line-strong:#D8D6CC;
+    --brand:#3D3AD4; --brand-soft:#ECEBFB;
+    --ok:#177E55; --ok-bg:#E4F3EB; --ok-line:#9FD6BC;
+    --no:#C5362B; --no-bg:#FBEAE7; --no-line:#EDB3AC;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(24,24,32,.04), 0 8px 24px rgba(24,24,32,.06);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#131318; --card:#1E1E26; --ink:#F1F0EA; --sub:#9696A2;
+    --line:#2B2B35; --line-strong:#3B3B47;
+    --brand:#8E89FF; --brand-soft:#272540;
+    --ok:#48C68F; --ok-bg:#14302A; --ok-line:#2F6B54;
+    --no:#F0746A; --no-bg:#371F1D; --no-line:#6E3A35;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;letter-spacing:-0.01em;
+    transition:background .25s var(--ease), color .25s var(--ease);}
+  /* 호스트(iframe/앱 미리보기)가 배경을 어둡게 강제해도 테마색이 항상 보이도록 고정 배경 레이어 */
+  body::before{content:"";position:fixed;inset:0;background:var(--bg);z-index:-1;
+    transition:background .25s var(--ease)}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:560px;margin:0 auto;min-height:100dvh;
+    padding:calc(env(safe-area-inset-top) + 14px) 18px calc(env(safe-area-inset-bottom) + 18px);
+    display:flex;flex-direction:column;}
 
-/* cross-market summary */
-.summary {
-  background: linear-gradient(135deg, #1e1e1e 0%, #262626 100%);
-  color: #ededed; border: 1px solid #333333; border-radius: 16px; padding: 22px 24px; margin: 18px 0 26px;
-}
-.summary h2 { font-size: 15px; font-weight: 700; color: #c2c2c2; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.summary p { font-size: 15px; color: #d4d4d4; }
-.summary .flow { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-.tag { font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); color: #d4d4d4; }
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .counter{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--sub);white-space:nowrap}
+  .counter b{color:var(--ink)}
+  .bar{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar > i{display:block;height:100%;width:0%;background:var(--brand);border-radius:99px;transition:width .45s var(--ease)}
+  .back{appearance:none;border:none;background:none;color:var(--sub);font-size:14px;font-weight:600;padding:0}
 
-/* country sections */
-.country { background: #1e1e1e; border: 1px solid #333333; border-radius: 16px; margin-bottom: 22px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
-.chead { padding: 18px 22px 14px; border-bottom: 1px solid #333333; display: flex; align-items: center; gap: 10px; }
-.flag { font-size: 22px; }
-.chead h3 { font-size: 18px; font-weight: 800; color: #fafafa; }
-.chead .sub { font-size: 11px; color: #8a8a8a; margin-left: auto; font-weight: 600; text-align: right; line-height: 1.55; }
-.chead .sub b { color: #cfcfcf; font-weight: 800; }
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 20px}
 
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: #333333; }
-.tile { background: #1e1e1e; padding: 14px 18px; }
-.tile .label { font-size: 11px; color: #8a8a8a; font-weight: 600; }
-.tile .val { font-size: 19px; font-weight: 800; margin-top: 3px; letter-spacing: -.01em; color: #fafafa; }
-.tile .chg { font-size: 12px; font-weight: 700; margin-top: 2px; }
-.up { color: #ff6b6b; }      /* 한국식: 상승=빨강 */
-.down { color: #58a6ff; }    /* 하락=파랑 */
-.flat { color: #9a9a9a; }
+  .start{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .start-head{text-align:center;margin-bottom:8px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--brand);text-transform:uppercase}
+  .start-head h1{margin:5px 0 0;font-size:27px;font-weight:800;letter-spacing:-0.03em}
+  .start-head p{margin:6px 0 0;color:var(--sub);font-size:14.5px}
 
-.body { padding: 18px 22px 20px; }
-.body h4 { font-size: 13px; font-weight: 800; color: #c2c2c2; margin: 16px 0 7px; letter-spacing: -.01em; }
-.body h4:first-child { margin-top: 0; }
-.body p { font-size: 14px; color: #d4d4d4; margin-bottom: 8px; }
-.body ul { margin: 0 0 8px 2px; padding-left: 18px; }
-.body li { font-size: 14px; color: #d4d4d4; margin-bottom: 5px; }
-.body b { color: #fafafa; }
-.signal { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }
-.s-watch { background: #3d2f0a; color: #e3b341; }
-.s-pos { background: #3d1d1b; color: #ff8d85; }
-.s-neg { background: #0d2d4f; color: #79c0ff; }
+  .field{margin-top:22px;text-align:left}
+  .field-label{font-size:12.5px;font-weight:700;color:var(--sub);letter-spacing:.05em;margin:0 4px 9px}
+  .seg{display:grid;gap:8px}
+  .seg.c4{grid-template-columns:repeat(4,1fr)}
+  .seg.c2{grid-template-columns:repeat(2,1fr)}
+  .seg button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:13px;padding:13px 0;font-size:14.5px;font-weight:700;
+    font-variant-numeric:tabular-nums;transition:all .15s var(--ease);}
+  .seg button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
 
-.takeaway { background: #141414; border-left: 3px solid #4d4d4d; border-radius: 0 8px 8px 0; padding: 11px 15px; margin-top: 12px; }
-.takeaway .t-label { font-size: 11px; font-weight: 800; color: #8a8a8a; letter-spacing: .04em; }
-.takeaway p { font-size: 13.5px; color: #c2c2c2; margin: 3px 0 0; }
+  .toggle{display:flex;align-items:center;justify-content:space-between;width:100%;
+    padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);text-align:left}
+  .toggle .tlabel{font-size:15px;font-weight:600}
+  .toggle .tdesc{font-size:12.5px;color:var(--sub);margin-top:2px}
+  .switch{position:relative;width:46px;height:28px;border-radius:99px;background:var(--line-strong);
+    transition:background .25s var(--ease);flex:none;margin-left:14px}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .25s var(--ease)}
+  .toggle[aria-pressed="true"] .switch{background:var(--brand)}
+  .toggle[aria-pressed="true"] .switch::after{transform:translateX(18px)}
+  .toggle.disabled{opacity:.4;pointer-events:none}
 
-footer { margin-top: 26px; font-size: 12px; color: #8a8a8a; text-align: center; line-height: 1.8; }
-.src { margin-top: 10px; font-size: 11.5px; color: #6b6b6b; }
-.sched { background: #1e1e1e; border: 1px solid #333333; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #d4d4d4; }
-.sched b { font-weight: 800; color: #fafafa; }
+  .q-eyebrow{font-size:13px;font-weight:700;color:var(--sub);letter-spacing:.04em;font-variant-numeric:tabular-nums;margin-bottom:10px}
+  .q-text{font-size:19px;font-weight:700;letter-spacing:-0.02em;line-height:1.5;margin:0 0 20px;white-space:pre-wrap;word-break:break-word}
+  .options{display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+    background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px;
+    font-size:16px;font-weight:500;color:var(--ink);min-height:54px;
+    transition:border-color .15s var(--ease), background .15s var(--ease), transform .08s var(--ease);}
+  button.opt:active{transform:scale(.99)}
+  .opt .mark{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-strong);
+    display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--sub);
+    font-variant-numeric:tabular-nums;margin-top:-1px;transition:all .15s var(--ease)}
+  .opt .otext{flex:1;padding-top:1px;word-break:break-word}
+  .opt.is-correct{border-color:var(--ok-line);background:var(--ok-bg)}
+  .opt.is-correct .mark{border-color:var(--ok);background:var(--ok);color:#fff}
+  .opt.is-wrong{border-color:var(--no-line);background:var(--no-bg)}
+  .opt.is-wrong .mark{border-color:var(--no);background:var(--no);color:#fff}
+  .opt.locked{cursor:default}
+  .opt.locked.dim{opacity:.5}
 
-/* live modules */
-.live { background: #1e1e1e; border: 1px solid #333333; border-radius: 16px; margin-bottom: 22px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
-.live .chead { padding: 18px 22px 14px; border-bottom: 1px solid #333333; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.live .chead h3 { font-size: 18px; font-weight: 800; color: #fafafa; }
-.badge { font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
-.badge.open { background: #13301c; color: #5dd47e; border: 1px solid #1f5132; }
-.badge.closed { background: #2e1414; color: #ff7b72; border: 1px solid #5a2522; }
-.live .chead .sub { font-size: 12px; color: #8a8a8a; margin-left: auto; font-weight: 600; }
-.controls { display: flex; gap: 18px; flex-wrap: wrap; padding: 14px 22px 0; }
-.segbox { display: inline-flex; background: #141414; border: 1px solid #333333; border-radius: 10px; padding: 3px; gap: 2px; }
-.segbox .lab { font-size: 10px; color: #8a8a8a; align-self: center; padding: 0 8px 0 4px; font-weight: 700; letter-spacing: .03em; }
-.seg { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 8px; border: 0; background: transparent; color: #c2c2c2; cursor: pointer; }
-.seg.active { background: #2f2f2f; color: #fafafa; }
-.mv-wrap { padding: 14px 22px 20px; }
-.mv-head, .mv-row { display: grid; grid-template-columns: 34px 1fr 110px 110px; align-items: center; gap: 8px; padding: 9px 10px; }
-.mv-head { font-size: 11px; color: #8a8a8a; font-weight: 700; border-bottom: 1px solid #333333; text-transform: none; }
-.mv-head .num, .mv-row .num { text-align: right; }
-.mv-row { border-bottom: 1px solid #262626; font-size: 14px; }
-.mv-row:last-child { border-bottom: 0; }
-.mv-row .tk { font-weight: 800; color: #fafafa; }
-.mv-row .nm { font-size: 12px; color: #9a9a9a; margin-top: 1px; }
-.mv-row .px { text-align: right; font-weight: 700; color: #ededed; }
-.mv-row .pct { text-align: right; font-weight: 800; }
-.mv-row .rk { color: #8a8a8a; font-weight: 700; }
-.expand { width: 100%; margin-top: 10px; padding: 10px; background: #141414; border: 1px solid #333333; border-radius: 10px; color: #c2c2c2; font-weight: 700; font-size: 13px; cursor: pointer; }
-.expand:hover { background: #242424; }
-.status { padding: 22px; font-size: 14px; color: #9a9a9a; text-align: center; }
-.status.err { color: #ff8d85; }
-.asof-live { font-size: 11px; color: #6b6b6b; padding: 0 22px 14px; }
+  .verdict{margin-top:18px;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;opacity:0;transform:translateY(4px)}
+  .verdict.show{opacity:1;transform:none;transition:all .3s var(--ease)}
+  .verdict.ok{color:var(--ok)} .verdict.no{color:var(--no)}
+  .explain{margin-top:10px;font-size:14.5px;color:var(--sub);line-height:1.55;padding-left:2px;white-space:pre-wrap;opacity:0}
+  .explain.show{opacity:1;transition:opacity .3s var(--ease) .05s}
 
-/* reddit */
-.rd-row { display: grid; grid-template-columns: 30px 70px 1fr auto; align-items: center; gap: 10px; padding: 11px 10px; border-bottom: 1px solid #262626; }
-.rd-row:last-child { border-bottom: 0; }
-.rd-row .rk { color: #8a8a8a; font-weight: 800; text-align: center; }
-.rd-row .tk { font-weight: 800; color: #fafafa; font-size: 14px; }
-.rd-row .desc { font-size: 13px; color: #d4d4d4; }
-.rd-row .desc .nm { color: #9a9a9a; font-size: 11px; }
-.sent { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
-.sent.bull { background: #2a1614; color: #ff8d85; }
-.sent.bear { background: #11233f; color: #79c0ff; }
-.sent.neu { background: #2a2f37; color: #adbac7; }
+  /* 정답 같이 보기 (학습 모드) */
+  .study-item{margin-bottom:14px}
+  .study-item .q-text{font-size:17px;margin-bottom:14px}
+  .study-item .opt{min-height:0;padding:12px 14px;font-size:15px}
+  .ans-pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;
+    color:var(--ok);background:var(--ok-bg);border:1px solid var(--ok-line);
+    padding:3px 9px;border-radius:99px;margin-top:14px}
 
-/* market status + countdown */
-.mkt { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 13px 22px 0; }
-.mkt .cd { font-size: 12px; color: #9a9a9a; font-weight: 700; }
-.mkt .cd b { color: #ededed; font-variant-numeric: tabular-nums; }
+  .footer{margin-top:auto;padding-top:20px}
+  .btn{width:100%;border:none;border-radius:14px;padding:17px;font-size:16px;font-weight:700;
+    letter-spacing:-0.01em;background:var(--brand);color:#fff;transition:opacity .15s var(--ease), transform .08s var(--ease)}
+  .btn:active{transform:scale(.99)}
+  .btn:disabled{opacity:.32;cursor:default}
+  .btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line-strong)}
+  .btn + .btn{margin-top:10px}
 
-/* reddit posts */
-.rd-item { padding: 13px 10px; border-bottom: 1px solid #262626; }
-.rd-item:last-child { border-bottom: 0; }
-.rd-top { display: grid; grid-template-columns: 28px 70px 1fr auto; gap: 10px; align-items: center; }
-.rd-top .rk { color: #8a8a8a; font-weight: 800; text-align: center; }
-.rd-top .tk { font-weight: 800; color: #fafafa; font-size: 14px; }
-.rd-top .nm { font-size: 12px; color: #9a9a9a; }
-.rd-posts { margin: 9px 0 0 38px; display: flex; flex-direction: column; gap: 6px; }
-.rd-post { display: grid; grid-template-columns: 56px 1fr; gap: 9px; align-items: baseline; font-size: 12.5px; }
-.rd-post .ups { color: #ff8d85; font-weight: 800; white-space: nowrap; font-size: 11px; text-align: right; }
-.rd-post .pt { color: #cfcfcf; }
+  .result{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .score-card{text-align:center;padding:34px 20px}
+  .score-num{font-size:64px;font-weight:800;letter-spacing:-0.04em;line-height:1;font-variant-numeric:tabular-nums}
+  .score-num small{font-size:26px;color:var(--sub);font-weight:700}
+  .score-sub{margin-top:10px;color:var(--sub);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .score-tag{display:inline-block;margin-top:16px;padding:7px 16px;border-radius:99px;font-size:14px;font-weight:700;background:var(--brand-soft);color:var(--brand)}
+  .review-title{font-size:14px;font-weight:700;color:var(--sub);margin:26px 4px 10px;letter-spacing:.02em}
+  .review-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:9px}
+  .review-q{font-size:15px;font-weight:600;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+  .review-a{margin-top:8px;font-size:13.5px;line-height:1.5}
+  .review-a .lab{font-weight:700}
+  .review-a .yours{color:var(--no)} .review-a .right{color:var(--ok)}
 
-/* prevent horizontal overflow + tidy truncation */
-body { overflow-x: hidden; }
-.mv-row > div { min-width: 0; }
-.mv-row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rd-top > .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-
-/* collapsible sections */
-.collapsible { cursor: pointer; user-select: none; }
-.caret { margin-left: 12px; font-size: 16px; line-height: 1; color: #cfcfcf; transition: transform .18s ease; display: inline-flex; align-items: center; justify-content: center; flex: none; width: 26px; height: 26px; border-radius: 7px; background: #2a2a2a; border: 1px solid #3a3a3a; }
-.collapsible:hover .caret { background: #353535; color: #ffffff; }
-.collapsed .caret { transform: rotate(-90deg); }
-.country.collapsed > :not(.chead), .live.collapsed > :not(.chead) { display: none; }
-.summary.collapsed > p, .summary.collapsed > .flow { display: none; }
-.summary.collapsed h2 { margin-bottom: 0; }
-.chead.collapsible:hover h3, .summary h2.collapsible:hover { color: #ffffff; }
-
-/* top navigation (appears on scroll) */
-.topnav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; gap: 4px; justify-content: center; align-items: center;
-  background: rgba(18,18,18,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #333; padding: 8px 10px;
-  transform: translateY(-105%); transition: transform .24s ease;
-  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-}
-.topnav::-webkit-scrollbar { display: none; }
-.topnav.show { transform: translateY(0); }
-.topnav a {
-  color: #c2c2c2; text-decoration: none; font-size: 13.5px; font-weight: 700;
-  padding: 7px 14px; border-radius: 8px; white-space: nowrap;
-}
-.topnav a:hover { background: #2a2a2a; color: #fafafa; }
-.topnav a.active { background: #2f2f2f; color: #fafafa; }
-.spy { scroll-margin-top: 56px; }
-
-/* ---------- mobile ---------- */
-@media (max-width: 600px) {
-  .wrap { padding: 16px 12px 44px; }
-  .kicker { font-size: 11px; }
-  h1 { font-size: 20px; }
-  .asof { font-size: 12px; }
-  .sched { padding: 12px 14px; font-size: 12px; }
-  .summary { padding: 16px 15px; border-radius: 14px; }
-  .summary h2 { font-size: 14px; }
-  .summary p { font-size: 13.5px; }
-  .tag { font-size: 11px; padding: 4px 9px; }
-
-  .country, .live { border-radius: 14px; }
-  .chead { flex-wrap: wrap; padding: 14px 15px 11px; gap: 6px 8px; }
-  .chead h3 { font-size: 16px; }
-  .chead .sub { font-size: 10px; line-height: 1.45; }
-  .chead .live-dot, .badge { font-size: 11px; padding: 3px 9px; }
-
-  .tiles { grid-template-columns: repeat(2, 1fr); }
-  .tile { padding: 11px 13px; }
-  .tile .label { font-size: 10px; }
-  .tile .val { font-size: 16px; }
-  .tile .chg { font-size: 11px; }
-
-  .body { padding: 15px 15px 16px; }
-  .body h4 { font-size: 12.5px; }
-  .body li, .body p { font-size: 13px; }
-  .takeaway { padding: 10px 13px; }
-  .takeaway p { font-size: 12.5px; }
-
-  .controls { padding: 12px 15px 0; gap: 8px; }
-  .segbox { padding: 3px; }
-  .segbox .lab { padding: 0 4px 0 6px; font-size: 10px; }
-  .seg { padding: 6px 10px; font-size: 12px; }
-  .mkt { padding: 12px 15px 0; gap: 8px; }
-  .mkt .cd { font-size: 11px; }
-  .asof-live { padding: 0 15px 12px; }
-
-  .mv-wrap { padding: 12px 13px 16px; }
-  .mv-head, .mv-row { grid-template-columns: 22px 1fr 72px 60px; gap: 6px; padding: 9px 3px; }
-  .mv-head { font-size: 10px; }
-  .mv-row { font-size: 13px; }
-  .mv-row .tk { font-size: 13px; }
-  .mv-row .nm { font-size: 10.5px; }
-  .mv-row .px { font-size: 12px; }
-  .mv-row .pct { font-size: 12.5px; }
-  .expand { font-size: 12px; }
-
-  .rd-item { padding: 12px 6px; }
-  .rd-top { grid-template-columns: 22px 54px 1fr auto; gap: 7px; }
-  .rd-top .tk { font-size: 13px; }
-  .rd-top .nm { font-size: 11px; }
-  .sent { font-size: 10px; padding: 3px 8px; }
-  .rd-posts { margin: 8px 0 0 26px; }
-  .rd-post { grid-template-columns: 46px 1fr; gap: 7px; font-size: 12px; }
-}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important}}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
 </style>
 </head>
 <body>
-<nav class="topnav" id="topnav">
-  <a href="#sec-summary">요약</a>
-  <a href="#sec-us">미국</a>
-  <a href="#sec-kr">한국</a>
-  <a href="#sec-cn">중국</a>
-  <a href="#sec-live">실시간</a>
-  <a href="#sec-reddit">레딧</a>
-</nav>
-<div class="wrap">
-
-  <header class="top">
-    <div class="kicker">Global Market Daily</div>
-    <h1>글로벌 마켓 데일리 — 미국 · 한국 · 중국</h1>
-    <div class="asof" id="asof">기준: 2026년 6월 23일 (화) · 직전 거래일 종가 기준</div>
-  </header>
-
-  <div class="sched">
-    🔔 <b>장마감 기준 자동 업데이트</b> (상하이 시간) — 각 시장 카드는 해당 장이 끝난 뒤 자동 갱신됩니다: <b>중국 15:00 · 한국 14:30 · 미국 익일 04:00</b>. 주간 종합 분석은 <b>미국 금요일 장 마감 후(토요일 오전)</b> 추가됩니다.
-  </div>
-
-  <!-- CROSS-MARKET SUMMARY -->
-  <section class="summary spy" id="sec-summary">
-    <h2>📊 오늘의 시장 흐름 한눈에</h2>
-    <p>
-      <b>'AI 빅테크 매도'가 전방위 글로벌 위험회피로 확산됐다.</b> <b>미국</b>은 6/24 마이크론 실적을 앞둔 차익실현과 AI 자본지출 우려가 겹쳐 <b>엔비디아 -7.9%·애플 -6.8%·MS -4.4%</b>로 빅테크가 급락(나스닥 -2.3%, S&P -1.53%). 전일 사상 첫 3,000을 넘었던 러셀2000마저 -1.66% 반락해 '순환매' 버팀목이 흔들렸고, 미·이란 60일 원유 라이선스로 유가는 3개월 최저(WTI $73.78).
-      <b>한국</b>은 이 매도세가 그대로 전이돼 <b>코스피가 -9.99% 폭락('검은 화요일')</b>, 서킷브레이커 2회 발동·SK하이닉스·삼성전자 12%대 동반 급락 — SK하이닉스 시총 1위 등극 직후의 반도체 쏠림이 역풍으로 돌아왔다.
-      <b>중국</b>은 인민은행(PBOC)의 단기금리 체계 개편·위안화 국제화 기대와 수출 호조가 완충하며 상대적 안정세이나, A주도 강세장 뒤 첫 조정(상하이종합 -1.37%)에 들어섰다. <b>6/24 마이크론 실적</b>이 AI 메모리 트레이드의 다음 분수령.
-    </p>
-    <div class="flow">
-      <span class="tag">🇺🇸 빅테크 급락 → 나스닥 -2.3%</span>
-      <span class="tag">📉 엔비디아 -7.9% · 애플 -6.8%</span>
-      <span class="tag">🔻 러셀2000 -1.66% 반락</span>
-      <span class="tag">🛢️ 유가 3개월 최저 (이란 라이선스)</span>
-      <span class="tag">🇰🇷 코스피 -10% 검은 화요일</span>
-      <span class="tag">🇨🇳 PBOC 완충 · A주 첫 조정</span>
-      <span class="tag">🔑 6/24 마이크론 실적 분수령</span>
-    </div>
-  </section>
-
-  <!-- USA -->
-  <section class="country spy" id="sec-us">
-    <div class="chead"><span class="flag">🇺🇸</span><h3>미국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us">6/23 21:43</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · 상하이</div></div>
-    </div>
-    <div class="tiles">
-      <div class="tile"><div class="label">S&P 500</div><div class="val">7,358.46</div><div class="chg down">▼ -1.53%</div></div>
-      <div class="tile"><div class="label">나스닥 종합</div><div class="val">25,564.77</div><div class="chg down">▼ -2.30%</div></div>
-      <div class="tile"><div class="label">다우</div><div class="val">51,412.78</div><div class="chg down">▼ -0.58%</div></div>
-      <div class="tile"><div class="label">러셀 2000</div><div class="val">2,954.53</div><div class="chg down">▼ -1.66%</div></div>
-      <div class="tile"><div class="label">연준 기준금리</div><div class="val">3.50–3.75%</div><div class="chg flat">동결(매파)</div></div>
-      <div class="tile"><div class="label">美 10년물</div><div class="val">4.45%</div><div class="chg flat">2년물 4.18%</div></div>
-      <div class="tile"><div class="label">WTI 유가</div><div class="val">$73.78</div><div class="chg down">▼ 3개월 최저</div></div>
-    </div>
-    <div class="body">
-      <h4>핵심 이슈 <span class="signal s-neg">빅테크 급락 · 아시아 전이</span></h4>
-      <ul>
-        <li><b>빅테크發 매도가 전면 확산(장중).</b> 마이크론 실적(6/24)을 앞둔 차익실현과 AI 자본지출 우려가 겹쳐 <b>엔비디아 -7.9%·애플 -6.8%·MS -4.4%</b> 급락. 나스닥 -2.3%, S&P -1.53%, 다우 -0.58%로 전일 '순환매' 양상이 전방위 위험회피로 전환됐다.</li>
-        <li><b>소형주도 동반 약세.</b> 전일 사상 첫 3,000을 돌파했던 <b>러셀2000이 -1.66%</b> 반락해 '리더십 교체' 버팀목마저 흔들림. 메가캡·헬스케어 등 그간 주도주의 되돌림이 지수 전반을 압박.</li>
-        <li><b>매도세 글로벌 전이.</b> 미 테크 약세가 아시아로 번져 <b>한국 코스피 -9.99%(서킷브레이커 2회)</b>, 일본 닛케이는 8거래일 연속 상승 마감. AI·반도체 쏠림의 역회전이 시장 전반의 핵심 동인.</li>
-        <li><b>유가 3개월 최저.</b> 미국이 이란에 60일 원유 수출 라이선스를 부여하며 공급 확대 기대로 <b>Brent $77선·WTI $73.78</b>, 3개월 최저권. 호르무즈 해협 통항 회복도 약세 압력. 단 이란 핵사찰 재개 여부엔 불확실성 잔존.</li>
-      </ul>
-      <div class="takeaway">
-        <div class="t-label">읽는 법</div>
-        <p>전일 '빅테크→소형주 순환매'가 하루 만에 <b>전방위 위험회피</b>로 바뀐 점이 핵심 — 소형주(러셀)까지 빠지며 방어처가 줄었다. 워시 연준의 매파 기조(인상 여지·짧아진 성명문)가 고밸류 성장주를 계속 누르고 2년물(4.18%)은 상방. <b>6/24 마이크론 실적</b>(2026년 HBM 완판·마진 81% 가이드)이 AI 메모리 트레이드의 분수령이며, 미 테크 매도가 한국(-10%)·일본으로 전이된 만큼 아시아 추가 충격 강도를 함께 봐야 한다. ※ 미국 정규장은 갱신 시점 기준 장중.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- KOREA -->
-  <section class="country spy" id="sec-kr">
-    <div class="chead"><span class="flag">🇰🇷</span><h3>한국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr">6/23 20:06</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · 상하이</div></div>
-    </div>
-    <div class="tiles">
-      <div class="tile"><div class="label">코스피</div><div class="val">8,203.84</div><div class="chg down">▼ -9.99%</div></div>
-      <div class="tile"><div class="label">코스닥</div><div class="val">891.55</div><div class="chg down">▼ -7.94%</div></div>
-      <div class="tile"><div class="label">SK하이닉스</div><div class="val">₩2,555,000</div><div class="chg down">▼ -12.47%</div></div>
-      <div class="tile"><div class="label">삼성전자</div><div class="val">₩310,000</div><div class="chg down">▼ -12.31%</div></div>
-      <div class="tile"><div class="label">원/달러 환율</div><div class="val">1,539.10</div><div class="chg up">▲ +0.14%</div></div>
-      <div class="tile"><div class="label">한은 기준금리</div><div class="val">2.50%</div><div class="chg flat">7/16 금통위</div></div>
-    </div>
-    <div class="body">
-      <h4>핵심 이슈 <span class="signal s-neg">패닉 셀 · 서킷브레이커</span></h4>
-      <ul>
-        <li><b>코스피 9.99% 폭락 '검은 화요일'.</b> 910.71p 내린 8,203.84로 마감 — <b>역대 최대 포인트 낙폭</b>이자 금융위기 이후 최악의 하루. 장중 8% 넘게 빠지며 올해 네 번째 <b>서킷브레이커</b> 발동, 시총 약 743조 원 증발. 코스닥도 -7.94%(891.55).</li>
-        <li><b>'삼전닉스' 12%대 동반 급락.</b> SK하이닉스 -12.47%(255만5,000원), 삼성전자 -12.31%(31만원). 시총 역전(SK하이닉스 1위 등극) 직후 '고점' 인식이 확산되며 반도체 쏠림이 역풍으로.</li>
-        <li><b>외국인·기관 11조 매도 폭탄, 개인이 받아냄.</b> 외국인 -4조1,320억·기관 -4조5,500억 순매도, 개인은 8조5,900억 <b>역대 최대 순매수</b>. 미 마이크론 실적 발표 경계감과 연준 매파 시그널이 차익실현을 촉발.</li>
-        <li><b>고환율 부담 가중.</b> 원/달러 1,539.1원(+0.14%), 장중 1,540원 돌파해 보름 만에 최고. 외국인 대량 매도 → 환율 상승 악순환 우려.</li>
-      </ul>
-      <div class="takeaway">
-        <div class="t-label">읽는 법</div>
-        <p>반도체 단일 테마 쏠림이 만든 급등이 하루 만에 급락으로 되돌려진 전형적 변동성 폭발. 외국인·기관이 동시에 던지고 개인이 역대급으로 받아낸 구도라 단기 추가 변동성이 크다. 마이크론 실적·연준 발언·환율(1,540선)이 반등 여부의 분기점 — 패닉 국면에선 수급(외국인 순매수 전환)이 지수보다 먼저 신호를 준다.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHINA -->
-  <section class="country spy" id="sec-cn">
-    <div class="chead"><span class="flag">🇨🇳</span><h3>중국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn">6/23 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · 상하이</div></div>
-    </div>
-    <div class="tiles">
-      <div class="tile"><div class="label">상하이종합</div><div class="val">4,106.25</div><div class="chg down">▼ -1.37%</div></div>
-      <div class="tile"><div class="label">선전성분</div><div class="val">15,854</div><div class="chg down">▼ -3.17%</div></div>
-      <div class="tile"><div class="label">항셍(홍콩)</div><div class="val">23,766</div><div class="chg down">▼ -0.3%</div></div>
-      <div class="tile"><div class="label">USD/CNY 고시</div><div class="val">6.8171</div><div class="chg flat">위안 절하 고시</div></div>
-    </div>
-    <div class="body">
-      <h4>핵심 이슈 <span class="signal s-neg">차익실현 조정</span></h4>
-      <ul>
-        <li><b>A주 급락, 강세장 뒤 첫 큰 조정.</b> 상하이종합 -1.37%(4,106.25), 선전성분 -3.17%, 성장주 중심 <b>촹예반(ChiNext) -3.84%(4,192.19)</b>, 커촹(STAR) -1.31%. 10년래 고점까지 오른 뒤 차익실현 출회. 양 시장 거래대금 3.44조 위안으로 전일 대비 2,964억 위안 감소.</li>
-        <li><b>업종 차별화 뚜렷.</b> 제약·휴머노이드 로봇·인산화학(인광석)이 상승 주도, 반면 <b>비철금속이 낙폭 주도</b>. 성장·고밸류주에서 자금 이탈.</li>
-        <li><b>PBOC, 위안화 절하 방향 고시.</b> 6/23 USD/CNY 기준환율 6.8171 — 로이터 예상(6.7762)보다 위안 약세로 고시해 <b>완만한 절하 용인</b>. 수출 지원 의도로 해석되나 자본유출·환율 변동성 경계.</li>
-        <li><b>대외 변수 혼재.</b> 연준의 '고금리 장기화' 시사가 위험자산에 부담. 다만 미·이란 평화협상 진전으로 유가가 안정권에 머문 점은 우호적.</li>
-      </ul>
-      <div class="takeaway">
-        <div class="t-label">읽는 법</div>
-        <p>강세장 후 첫 의미 있는 조정으로, 성장주(촹예반·선전) 낙폭이 커 <b>고밸류 차익실현</b> 성격이 짙다. 거래대금이 줄며 관망세도 확대. PBOC의 위안 절하 용인은 수출 방어 신호일 수 있으나 환율·자본흐름 변동성을 키울 수 있어 주의. 업종 순환매(제약·로봇 ↔ 비철금속)와 거래대금 회복 여부가 단기 방향의 가늠자.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE MOVERS -->
-  <section class="live spy" id="sec-live">
-    <div class="chead">
-      <span class="flag">📈</span><h3>실시간 미국 주식 등락</h3>
-      <span class="badge closed" id="mktBadge">● 상태 확인 중…</span>
-      <span class="sub">FMP · 자동 갱신</span>
-    </div>
-    <div class="controls">
-      <div class="segbox">
-        <span class="lab">지수</span>
-        <button class="seg active" data-idx="sp500">S&P 500</button>
-        <button class="seg" data-idx="ndx">나스닥 100</button>
-      </div>
-      <div class="segbox">
-        <span class="lab">정렬</span>
-        <button class="seg active" data-dir="up">상승순 ▲</button>
-        <button class="seg" data-dir="down">하락순 ▼</button>
-      </div>
-    </div>
-    <div class="mkt">
-      <span class="cd" id="mktCountdown"></span>
-    </div>
-    <div class="asof-live" id="moversAsof">데이터를 불러오는 중…</div>
-    <div id="moversBody">
-      <div class="status" id="moversStatus">⏳ 실시간 시세를 불러오는 중입니다…</div>
-    </div>
-  </section>
-
-  <!-- REDDIT -->
-  <section class="live spy" id="sec-reddit">
-    <div class="chead">
-      <span class="flag">👽</span><h3>레딧 화제 종목 TOP 10</h3>
-      <span class="sub" id="redditAsof">매일 1회 갱신</span>
-    </div>
-    <div class="mv-wrap" id="redditBody"></div>
-    <div class="asof-live">출처: r/wallstreetbets · r/stocks 등 레딧 투자 커뮤니티 멘션·심리·인기글 (AltIndex·ApeWisdom 집계, 매일 1회 갱신). 인기는 수익을 보장하지 않습니다.</div>
-  </section>
-
-  <footer>
-    데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.
-    <div class="src">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</div>
-  </footer>
-
-</div>
-
+<div class="wrap" id="app"></div>
 <script>
-const FMP_KEY = "7X3tfOyp1apwDoclCQSe0Xm3NczkEOaB";
-const BASE = "https://financialmodelingprep.com/stable";
-const V3 = "https://financialmodelingprep.com/api/v3";
+const QUIZ = {
+  title: "정기 시험 모의고사",
+  subtitle: "中医 정기고사 · 객관식",
+  questions: [{"q": "治疗呕吐脾胃气虚证，首选的方剂是", "options": ["香砂六君子汤", "参苓白术散", "七味白术散", "理中汤", "黄建中汤"], "answer": 0}, {"q": "心肌损伤的心电图特征性表现是", "options": ["ST段弓背型抬高", "T波倒置", "ST段下斜型压低", "病理性Q 波", "ST-T鱼钩样压低"], "answer": 0}, {"q": "童某，男，88 岁。3 年来小便点滴不爽，排出无力，神气怯弱，畏寒肢冷，腰膝酸软，舌淡胖，苔薄白，脉沉细弱。该病证的治法是", "options": ["疏利气机，通利小便", "升清降浊，化气行水", "行瘀散结，通利水道", "温补肾阳，化气利水", "清利湿热，通利小便"], "answer": 3}, {"q": "中国糖尿病的控制目标中，HbA1c 应达到的水平是", "options": ["<8%", "<7.5%", "<7%", "<6.5%", "<6%"], "answer": 2}, {"q": "患者，素有黄疸反复发作史。现症腹大坚满，膨如蛙腹，按之如囊裹水，烦热口苦，面、目发黄，小便赤涩，大便秘结，舌边尖红，苔黄腻，脉弦数。其诊断是", "options": ["黄疸水湿困脾证", "黄疸水热蕴结证", "黄疸病阳虚水盛证", "黄疸（阳黄）湿重于热证", "黄疸（阴黄）脾虚湿滞证"], "answer": 1}, {"q": "在下列各项中，属于医患关系暂时不协调的是", "options": ["医患关系的民主化", "医患要求的多元化", "医患关系的物化", "医患纠纷的增多", "医患关系的法制化"], "answer": 2}, {"q": "引起继发性再生障碍性贫血最常见的药物是", "options": ["氟尿嘧啶", "保泰松", "氯霉素", "卡马西平", "甲硫咪唑"], "answer": 2}, {"q": "不属于再生障碍性贫血的诊断要点的是", "options": ["全细胞减少", "脾肿大", "骨髓增生减低", "一般抗贫血治疗无效", "除外其他引起全血细胞减少的疾病"], "answer": 1}, {"q": "患者，男，18 岁。5 天来双膝关节、肌肉疼痛酸楚，屈伸不利，疼痛呈游走性，初起有恶风、发热。舌苔薄白，脉浮。此病证的证机概要是", "options": ["湿邪兼夹风寒，留滞经脉，闭阻气血", "风邪兼夹寒湿，留滞经脉，闭阻气血", "风湿热邪壅滞经脉，气血闭阻不通", "寒邪兼夹风湿，留滞经脉，闭阻气血", "痰瘀互结，留滞肌肤，闭阻经脉"], "answer": 1}, {"q": "患者，男，32 岁。平素急躁易怒，头痛失眠 5 日。今日突发狂乱无知，骂骂咧咧，不避亲疏不食不眠，舌质红绛，苔黄腻，脉滑数。其诊断是", "options": ["癫证痰气郁结证", "狂证痰热瘀结证", "肝阳头痛", "狂证痰火扰神证", "狂证火盛阴伤证"], "answer": 3}, {"q": "患者，男性，18 岁，双侧臀部交替性疼痛半年，双眼曾发生虹膜睫状体炎，为确诊其患有“强直性脊柱炎”，应作的检查是", "options": ["腰椎X 线摄片", "HLA-B27", "ESR、CRP", "ANA、RF", "骶髂关节摄片"], "answer": 4}, {"q": "一位患者因头痛第二次看医生，以下是医生和患者的对话。医生：“用药后，您感觉怎么样？”患者：“头痛差一点了？”医生：“您说的差一点了，是什么意思？”患者：“就是轻点了。”以上医生使用了病史采集中的哪项技能", "options": ["询问就诊原因", "问明患者的全部意向", "问清病史", "澄清患者的主诉", "辅助病人讲述"], "answer": 3}, {"q": "患者，男，80 岁，表情呆滞，沉默寡言，记忆减退，失认失算，口齿含糊，词不达意，四肢不温，腹痛喜按，五更泄泻，舌质淡白，舌体胖大，苔白，脉沉细弱，双尺尤甚。治疗首选的处方是", "options": ["还少丹", "洗心汤", "涤痰汤", "七福饮", "肾气丸"], "answer": 0}, {"q": "患者，女，40 岁。平素多病，自觉头晕、目眩加重半月，胁痛，肢体麻木，筋脉拘急，闭经，面色不华，唇、指甲色淡，肌肤枯槁，舌质淡红，苔少，脉细。其证机概要是", "options": ["肝肾阴虚，瘀血阻络", "阴虚阳亢，上扰清空", "肝血亏虚，筋脉失养", "肝阳上亢，神窍闭阻", "气虚血瘀，脉络失养"], "answer": 2}, {"q": "患者，节律性上腹痛伴有恶心、呕吐、反酸，胃镜检查诊断为胃溃疡，提示处于愈合期的内镜下表现是", "options": ["黏膜皱襞向溃疡集中", "溃疡基底部呈现红色瘢痕", "溃疡基底部呈现白色瘢痕", "溃疡基底部有白色厚苔", "溃疡表浅苔变薄"], "answer": 1}, {"q": "慢性肾衰竭引起肾性骨病的主要原因是", "options": ["肾小球高滤过", "促红素分泌减少", "甲状旁腺功能亢进", "肾素-血管紧张素-醛固酮活性增高", "营养与代谢失衡"], "answer": 2}, {"q": "下列各项，属于痢疾虚中夹实证特点的是", "options": ["发病急，病程短", "腹痛胀满，痛而拒按", "痛时窘迫欲便", "便后里急后重暂时减轻", "便后里急后重不减"], "answer": 4}, {"q": "患者夜寐盗汗，五心烦热，两颧色红，口渴，舌红少苔，脉细。其治法是", "options": ["调和营卫", "活血化瘀", "滋阴降火", "补益气血", "益气固表"], "answer": 2}, {"q": "慢性肾炎应首先鉴别的继发性肾小球疾病是", "options": ["狼疮肾炎", "急性肾小球肾炎", "肾结核", "急性肾盂肾炎", "糖尿病肾病"], "answer": 0}, {"q": "原发性肝癌最多见的形态学分类是", "options": ["块状型", "弥漫型", "小癌型", "结节型", "亚临床型"], "answer": 0}, {"q": "患者，男，78 岁。反复咳 2 余年。胸部膨满，憋闷如塞，短气喘息，稍劳即著，咳嗽痰多，色白黏腻，脘痞纳少，倦怠乏力，舌暗，苔薄腻，脉小滑。其诊断是", "options": ["肺胀痰浊壅肺证", "肺胀肺肾气虚证", "肺胀阳虚水泛证", "肺胀痰热郁肺证", "喘证痰浊壅肺证"], "answer": 0}, {"q": "患者女性，18 岁，发热 1 个月。近 1 周来两面颊部出现对称性红斑、手指关节红肿，化验血红蛋白90g/L，红细胞3.0×10^9/L，尿蛋白+++，抗 ds-DNA抗体+，应首先考虑的诊断是", "options": ["缺铁性贫血", "慢性肾炎", "类风湿性关节炎", "系统性红斑狼疮", "风湿热"], "answer": 3}, {"q": "慢性肺心病最常见的病因是", "options": ["重症肺结核", "先天性肺囊肿", "支气管扩张", "慢性阻塞性肺病", "支气管哮喘"], "answer": 3}, {"q": "下列关于肺痿治疗的各项叙述中，错误的是", "options": ["不可妄投燥热，以免助火伤津", "忌苦寒滋腻碍胃", "慎用祛痰峻剂", "重视调理肝肾", "以补肺生津为原则"], "answer": 3}, {"q": "下列不属外感咳嗽与内伤咳嗽的鉴别要点的是", "options": ["病程的长短", "起病的缓急", "咳痰的多少", "是否兼有脏腑受损的兼症", "是否兼有表证"], "answer": 2}, {"q": "有助于鉴别原发性肝癌与肝脓肿的检查是", "options": ["血AFP检测", "腹部B 超", "腹部CT", "血CEA测定", "肝功能检查"], "answer": 0}, {"q": "李某，88 岁，男性，平素中上腹疼痛不适二十余年，伴嗳气反酸，长期不规律服用兰索拉唑等药物控制病情，病情时有反复。此次2 周前，无明显诱因下解黑便3 次，量约 100mL，伴头晕乏力，血压100/60mmHg，遂就诊查血红蛋白70g/L，空腹B 超正常，心电图提示窦性心动过速。综合考虑患者年龄较大，待无明显活动性出血后拟行消化道钡餐检查，则该患者检查中最不可能出现的征象是", "options": ["胃小弯龛影", "胃腔粘膜皱襞破坏、消失", "胃腔狭窄", "串珠样充盈缺损", "激惹征"], "answer": 3}, {"q": "影响病人社会认知的主观因素主要包括", "options": ["个人经验", "认知者的性格特点", "认知者的个人需要", "以上均是"], "answer": 3}, {"q": "郁证主要的病因是", "options": ["七情所伤", "正气亏虚", "饮食所伤", "外感湿邪", "外感燥热"], "answer": 0}, {"q": "汗证可加用固涩敛汗的药物是", "options": ["秦艽、银柴胡、白薇", "五味子、槐米干、牡蛎", "甘麦、大枣", "黄芪、白术、防风", "麦冬、五味子"], "answer": 1}, {"q": "1981 年 6 月，在上海举行的第一次全国医学伦理道德学术讨论会确立了医德基本原则", "options": ["救死扶伤", "防病治病", "实行革命的人道主义", "全心全意为人民服务", "以上都是"], "answer": 4}, {"q": "完全性卒中发病后，病情达到高峰的时间是", "options": ["<0.5小时", "<1小时", "<3小时", "<6小时", "<12小时"], "answer": 3}, {"q": "下列关于淋证患者的预防调护的叙述，错误的是", "options": ["避免纵欲过劳，保持心情舒畅", "注意外阴清洁", "不憋尿，多饮水", "长期口服抗生素，提高机体抗病能力", "饮食宜清淡，忌肥腻辛辣酒醇之品"], "answer": 3}, {"q": "一位 60多岁的妇女因为心慌头晕到医院看病。医生问：你是不是心脏这里不舒服？病人说：是的，最近我总觉得心很慌，很不安，头经常晕。医生问：心慌是一直不停地呢？还是间断性的？病人说：就是时不时的心慌。医生问：除了心慌之外，心有没有痛？病人说：没有。医生问：你这心慌一般在什么时候出现？会不会早上醒来或干什么话觉得更严重一点？以上医生和患者的对话中，医生使用的是哪一种提问方式", "options": ["开放式提问", "封闭式提问", "半开放式半封闭式提问", "先开放式后封闭式提问", "先封闭式后开放式提问"], "answer": 3}, {"q": "内伤发热病证的基本病机是", "options": ["血行瘀滞，瘀热内生", "气郁日久，化火生热", "气血阴阳亏虚，脏腑功能失调", "中气不足，阴火内生", "血虚失养，阴不配阳"], "answer": 2}, {"q": "男性，65 岁，双手双腕关节肿痛 2 个月，晨僵超过 1 小时，查体双手背可凹性水肿，双腕关节活动受限，压痛（+），查RF（+），非甾体类抗炎药效果差，应首先考虑的诊断是", "options": ["风湿热", "骨关节炎", "纤维肌痛综合征", "类风湿关节炎", "肾小球肾炎"], "answer": 3}, {"q": "下列属于癫狂初期治则的是", "options": ["醒脑开窍", "补益心脾", "祛风通络", "育阴养血", "理气解郁"], "answer": 4}, {"q": "下列不属于治疗类风湿关节炎药物的是", "options": ["长效青霉素", "糖皮质激素", "非甾体类抗炎药", "慢作用抗风湿药", "雷公藤多苷"], "answer": 0}, {"q": "消化性溃疡患者需紧急手术治疗的并发症是", "options": ["急性胃穿孔", "幽门梗阻", "可疑癌变", "上消化道出血", "恶性贫血"], "answer": 0}, {"q": "某36 岁男性，有乙肝后肝硬化病史，因饮食不慎于 1 小时前而发生呕血1 次，量约 300ml，色暗红。下列说法中错误的是", "options": ["该患者门脉高压症并发食道-胃底静脉曲张破裂的可能性较大", "需要做好输血的准备", "短时间内有再次发生呕血或解黑便的可能", "必须待活动性出血停止后行内镜检查，以明确诊断", "以上均不是"], "answer": 3}, {"q": "慢性肾衰竭肾功能进行性恶化的主要机制是", "options": ["促红素分泌减少", "肾小球高滤过", "甲状旁腺功能亢进", "尿毒症毒素作用", "肾素-血管紧张素-醛固酮活性增加"], "answer": 1}, {"q": "医学人文是体现医学对生命终极关怀的、内涵丰富的医学哲学范畴，蕴含着多个医学人文子范畴，以下哪项不属于子系列范畴", "options": ["医学人文网站", "医学人文精神", "医学人文价值", "医学人文素质", "医学人文关怀"], "answer": 0}, {"q": "某男，66 岁，头摇肢颤，持物不稳，腰膝酸软，失眠心烦，头晕耳鸣，善忘，神呆，舌质红，苔薄白，脉细数，其证型是", "options": ["阳气虚衰证", "气血亏虚证", "痰热风动证", "髓海不足证", "风阳内动证"], "answer": 3}, {"q": "下列关于肺炎支原体肺炎的叙述，错误的是", "options": ["约占各种肺炎的10%", "多见于老年人", "多数起病较缓慢", "体温恢复正常后仍有咳嗽", "具有自限性"], "answer": 1}, {"q": "2型糖尿病的控制目标中，主动有氧运动的要求是", "options": ["≥90分钟/周", "≥120分钟/周", "≥150分钟/周", "≥180分钟/周", "≥240分钟/周"], "answer": 2}, {"q": "病人的自主权在下列哪种情况下有效", "options": ["患精神疾病时", "与其他病人的利益冲突时", "对他人生命造成威胁时", "自杀时", "以上都不是"], "answer": 4}, {"q": "胃癌的主要体征是", "options": ["上腹触痛", "腹部肿块", "剑突下反跳痛", "移动性浊音（+）", "振水音（+）"], "answer": 1}, {"q": "除关节肿痛外对诊断类风湿关节炎的最有意义的表现是", "options": ["贫血", "足跟、脚掌痛", "出血性皮疹", "弥漫性肺间质病变", "关节无痛性皮下结节"], "answer": 4}, {"q": "患者，吐血色红，夹有食物残渣，脘腹胀闷，口臭，便秘，大便色黑，舌红苔黄，脉滑数。治疗宜选用", "options": ["清胃散合泻心汤", "泻心汤合十灰散", "玉女煎合左金丸", "龙胆泻肝汤合清胃散", "加味清胃散合茜根散"], "answer": 1}, {"q": "患者恶寒轻，发热重，汗出，头胀痛，鼻流黄涕，咽喉红肿疼痛，咳痰黄稠，舌苔薄黄，脉浮数，其病机是", "options": ["燥热袭表，肺失清润", "风热袭表，肺失清肃", "风寒袭表，肺失宣降", "痰热袭肺，肺失肃降", "阴虚感邪，肺失宣降"], "answer": 1}, {"q": "下列关于眩晕主症特点的叙述中，错误的是", "options": ["眩晕是指眼花或眼前发黑", "晕是指头晕或感觉自身或外界景物旋转", "轻者闭目即止，重者如坐车船，旋转不定，不能站立", "突然昏仆，不省人事，四肢厥冷", "可伴有恶心、呕吐、汗出，甚则昏倒等症状"], "answer": 3}, {"q": "消渴“下消”的突出症状是", "options": ["消谷善饥", "烦热多汗", "腰膝酸软", "烦渴引饮", "尿频量多"], "answer": 4}, {"q": "患者，咳嗽反复，咳声重浊，痰多稠厚，胸闷纳呆，身重肢倦，苔白腻，其治法是", "options": ["健脾燥湿，化痰止咳", "清热化痰，肃肺止咳", "清肝泻火，降逆止咳", "滋阴清热，调脾止咳", "补肺益气，止咳化痰"], "answer": 0}, {"q": "甲亢患者由甲状腺素分泌过多引起的临床表现是", "options": ["突眼", "甲状腺肿大", "怕热，多汗，多食而消瘦", "畏寒", "眼裂增宽，凝视"], "answer": 2}, {"q": "沟通时不良的肢体姿态与动作不包括以下哪项", "options": ["抖动双腿", "双臂抱于胸前", "向窗外看", "前倾坐位"], "answer": 3}, {"q": "大腹疼痛的病变脏腑主要是", "options": ["肝、胆", "大小肠", "肾、膀胱", "脾、胃", "胞宫"], "answer": 3}, {"q": "罗某，女，40 岁。昨日过食油腻食物，今胁肋重着疼痛，痛有定处，触痛明显。口苦口黏，纳呆恶心，小便黄赤，舌红苔黄腻，脉弦滑数。该病证的治法是", "options": ["消食导滞", "健脾和胃", "清热利湿", "祛瘀通络", "疏肝理气"], "answer": 2}, {"q": "患者，两周前身发疮疡，恶风发热。前天起眼睑浮肿，继而延及全身，皮肤光亮，尿少色赤，舌质红，苔薄黄，脉浮数。其证机概要是", "options": ["湿热内盛，三焦壅滞，气滞水停", "风邪袭表，肺气闭塞，通调失职，风遏水阻", "水湿内侵，脾气受困，脾阳不振", "疮毒内归脾肺，三焦气化不利，水湿内停", "水停湿阻，气滞血瘀，三焦气化不利"], "answer": 3}, {"q": "毛泽东在( )给延安中国医大的题词：“救死扶伤，实行革命的人道主义”。", "options": ["1938年", "1940年", "1941年", "1945年", "1949年"], "answer": 2}, {"q": "社会主义医德基本原则确定的社会主义医德价值目标是", "options": ["救死扶伤", "防病治病", "全心全意为人民健康服务", "实行社会主义人道主义", "为人民健康服务"], "answer": 2}, {"q": "患者，女，57 岁。有心悸病史 5 年余，平素心悸气短，面色无华，倦怠乏力，纳呆食少，舌淡红，脉细弱。治疗应首选的方剂是", "options": ["炙甘草汤", "参苓白术散", "归脾汤", "六味地黄丸", "当归补血汤"], "answer": 2}, {"q": "患者男性，21 岁，因腰背部僵硬 1 月，经检查诊断为“强直性脊柱炎”。有磺胺类过敏史。治疗首选的药物是", "options": ["雷公藤", "柳氮磺胺吡啶", "甲氨蝶呤", "环磷酰胺", "以上均可"], "answer": 2}, {"q": "患者，男，68 岁。反复咳嗽咳痰10 年，近半年咳呛时作，咳吐少量黏痰，口干咽燥，午后潮热，颧红，盗汗，形体消瘦，舌质偏红，少苔，脉小数。治疗宜首选的方剂是", "options": ["左归丸", "七福饮", "六味地黄丸", "葶苈大枣泻肺汤", "沙参麦冬汤合泻白散"], "answer": 4}, {"q": "患者，产后不久，低热，头晕眼花，疲乏无力，面色无华，心悸眠差，唇甲色淡，舌质淡，脉细弱，其证候是", "options": ["气虚发热", "血虚发热", "阴虚发热", "血瘀发热", "肝郁发热"], "answer": 1}, {"q": "患者，女性，58 岁。甲状腺 I 度肿大，反应迟钝，厌食，腹泻。实验室检查 FT3↑，TT4 正常，TSH↓，甲状腺摄碘 131 率正常。诊断是", "options": ["亚急性甲状腺炎", "亚临床型甲亢", "T3型甲亢", "甲状腺危象", "淡漠型甲亢"], "answer": 2}, {"q": "下列属于社会行为的是", "options": ["母性行为", "防御", "好奇", "攻击", "性"], "answer": 3}, {"q": "古代医家把医学称为", "options": ["医术", "仁术", "人术", "技术", "艺术"], "answer": 1}, {"q": "多见于慢性肾衰竭的尿液异常是", "options": ["少量白细胞", "畸形红细胞", "白细胞管型", "颗粒管型", "透明管型"], "answer": 3}, {"q": "下列食物中影响铁剂吸收的是", "options": ["牛奶", "菠菜", "肉类", "茶叶", "植物油"], "answer": 3}, {"q": "治疗淋证之热淋，应首选的方剂是", "options": ["小蓟饮子", "补中益气汤", "八正散", "石韦散", "程氏萆薢分清饮"], "answer": 2}, {"q": "胁痛的病理因素是", "options": ["气滞", "痰饮", "水湿", "热毒", "风热"], "answer": 0}, {"q": "下列不属减少肝性脑病患者肠道毒物生成及吸收的治疗措施是", "options": ["限制蛋白质摄入", "乳果糖灌肠", "应用谷氨酸钠", "口服抗生素", "导泻清除肠内积食"], "answer": 2}, {"q": "糖尿病的饮食治疗中，脂肪占饮食总热量的百分比是", "options": ["5%", "10%", "20%", "30%", "40%"], "answer": 3}, {"q": "下列各项，不属甲亢时心血管系统的临床表现是", "options": ["脉压缩小", "心动过速", "早搏或房颤", "心尖区收缩期杂音", "心力衰竭"], "answer": 0}, {"q": "心绞痛发作的典型部位是", "options": ["胸骨上中段之后", "心尖部", "心前区向颈咽部放射", "胸骨下段后", "剑突下"], "answer": 0}, {"q": "省、自治区、直辖市人民政府负责中医药管理的部门应当按照国家有关规定，制定中医药人员培训计划，以完善本地区中医药人员", "options": ["高等专业教育制度", "学历教育制度", "继续教育制度", "业务培养提高", "高水平业务骨干技术能力"], "answer": 2}, {"q": "肺痨患者，咳嗽半年余，咳时无力，气短声低，咳痰清稀色白，量较多，时有咯血，血色淡红，午后潮热，伴有畏风、怕冷，自汗盗汗，纳少神疲，便溏，面白颧红。舌质光淡，边有齿印，苔薄，脉细弱而数。治疗本病证首选的方法是", "options": ["秦艽鳖甲散", "月华丸", "百合固金汤", "保真汤", "补天大造丸"], "answer": 3}, {"q": "患者，男性，39 岁，慢性肾小球肾炎病史12 年，近1 年来病情明显加重，实验室检查GFR 12ml/(min·1.73m²)，其分期诊断是", "options": ["肾损伤GFR正常", "肾损伤GFR轻度下降", "GFR中度下降", "GFR重度下降", "肾衰竭"], "answer": 4}, {"q": "患者，男，29 岁。半年前因工受伤后，眩晕时作，头痛如刺，精神不振，面唇紫暗，舌暗有瘀斑，脉细涩。其治疗应首选的方剂是", "options": ["半夏白术天麻汤", "左归丸", "通窍活血汤", "归脾汤", "天麻钩藤饮"], "answer": 2}, {"q": "目前治疗系统性红斑狼疮的主要药物是", "options": ["糖皮质激素", "抗生素", "细胞毒性药物", "雷公藤", "环孢素A"], "answer": 0}, {"q": "患者，女性，28 岁，对抗甲状腺药物有过敏反应。治疗宜选择的是", "options": ["甲状腺次全切除术", "放射性碘131治疗", "抗甲状腺药联合糖皮质激素", "复方碘液", "普萘洛尔"], "answer": 1}, {"q": "患者症见咳嗽痰多，白色泡沫痰，喘息不能平卧，胸部膨满，憋闷如塞，面色紫黯，唇甲紫绀，舌质暗，舌下青筋明显，苔白腻，脉弦滑，其证候诊断是", "options": ["痰热郁肺", "痰瘀阻肺", "痰蒙神窍", "肺肾气虚", "阳虚水泛"], "answer": 1}, {"q": "下列各项，对于鉴别胃癌与鼓胀无意义的是", "options": ["腹壁青筋暴露", "目睛黄染", "自觉腹部胀满", "胁下癥积坚硬", "腹部按之绷急"], "answer": 2}, {"q": "正确进行医学伦理决策的条件不包括", "options": ["把握基本的医学伦理知识和技能", "确立一定的伦理决策模式", "了解病人及其家属的价值观", "熟悉法律法规和政策", "求助、参加医学伦理委员会"], "answer": 1}, {"q": "患者自汗明显，心悸少寐，神疲气短，面色少华，舌淡，脉细。治疗应首选的方剂是", "options": ["血府逐瘀汤", "当归六黄汤", "桂枝汤", "玉屏风散", "归脾汤"], "answer": 4}, {"q": "肾盂肾炎最常见的感染途径是", "options": ["上行感染", "血行感染", "淋巴道感染", "直接感染", "局部浸染"], "answer": 0}, {"q": "治疗颤证痰热风动证，应首选的方剂是", "options": ["大定风珠", "天麻钩藤饮合镇肝息风汤", "导痰汤合羚角钩藤汤", "地黄饮子", "黄连温胆汤"], "answer": 2}, {"q": "35 岁女性，2 周前出现双手、双腕关节肿胀疼痛，晨起僵硬明显，活动后可缓解，双手活动受限，前来门诊就诊。查体双腕 S（+）T（+），右手MCP3-5 S（+）T（+），左手 MCP2-3 S（+）T（+）。RF（+），ESR 69mm/h。应首先考虑的诊断是", "options": ["腱鞘炎", "骨关节炎", "类风湿关节炎", "强直性脊柱炎", "系统性红斑狼疮"], "answer": 2}, {"q": "甲亢浸润性突眼的主要机制是", "options": ["交感神经兴奋眼外肌", "上睑肌张力增高", "眶内软组织增生和眼肌病变", "精神兴奋、紧张", "球后水肿"], "answer": 2}, {"q": "以下情形中，可以参加执业医师资格考试的是", "options": ["有医学专科学历，在医疗机构中工作满一年", "有医学专科学历，在医疗机构中试用期满二年", "有医学专科学历，在医疗机构中工作满二年", "取得执业助理医师执业证书后，具有医学专科学历，在医疗机构中工作满二年", "取得执业助理医师执业证书后，具有医学专科学历，在医疗机构中试用期满二年"], "answer": 3}, {"q": "根据《医师定期考核管理办法》规定，考核类别不包括", "options": ["临床", "民族医学", "美容医学", "公共卫生"], "answer": 2}, {"q": "关于生物心理学，下列说法不正确的是", "options": ["探讨的是心理活动的生理基础和脑机制", "从基因、大脑、神经系统以及内分泌系统寻找行为的原因", "探讨动物的心理活动规律", "是当代心理学的重要研究取向", "损毁法是其重要的研究方法"], "answer": 2}, {"q": "某男，68 岁，头摇不止，肢麻震颤，头晕目眩，胸脘痞闷，口苦口黏，舌体胖大，有齿痕，舌质红，苔黄腻，脉弦滑数，其证型是", "options": ["阳气虚衰证", "气血亏虚证", "痰热风动证", "髓海不足证", "风阳内动证"], "answer": 2}, {"q": "世界医学教育联合会《福冈宣言》中指出：所有医生必须学会交流和处理人际关系的技能，缺少以下哪一项，与技术不精一样，应该看作是无能力的表现", "options": ["同情", "专业知识", "医德高尚", "实践技能", "技术精湛"], "answer": 0}, {"q": "全身强直-阵挛发作首选的治疗药物是", "options": ["丙戊酸钠", "苯巴比妥", "乙琥胺", "拉莫三嗪", "促肾上腺皮质激素"], "answer": 0}, {"q": "下列各项，不属颤证病因的是", "options": ["年老体虚", "情志过极", "饮食不节", "跌仆损伤", "劳逸失当"], "answer": 3}, {"q": "肺炎链球菌肺炎患者，病程中出现心悸、气短、心脏扩大、奔马律、心脏收缩期杂音，应考虑出现的并发症是", "options": ["感染性休克", "胸膜炎", "心肌炎", "脓胸", "急性肾衰竭"], "answer": 2}, {"q": "患者，男性，50岁，心前区剧痛2小时就诊，查体血压100/66mmHg，端坐呼吸，两肺底细湿啰音，心率 120次/分，律齐，S1 减弱，有 S3，心电图示V1-5 呈病理性 Q波及 ST段上抬。治疗中不可应用的药物是", "options": ["吗啡", "硝酸甘油", "毛花苷C", "阿司匹林", "尿激酶"], "answer": 2}, {"q": "病情最凶险的疟疾种类是", "options": ["正疟", "温疟", "瘴疟", "冷疟", "劳疟"], "answer": 2}, {"q": "表现为全血细胞减少、骨髓三系增生低下的血液病是", "options": ["缺铁性贫血", "再生障碍性贫血", "巨幼红细胞性贫血", "急性白血病", "原发性血小板减少性紫癜"], "answer": 1}, {"q": "患者，男，41 岁，反复肢体浮肿5 年。腰以下为甚，按之凹陷不易恢复，纳减便溏，神疲乏力，四肢倦怠，小便短少，舌质淡，苔白腻，脉沉缓。其诊断是", "options": ["水肿水湿浸渍证", "水肿脾阳虚衰证", "癃闭膀胱湿热证", "淋证劳淋"], "answer": 1}, {"q": "患者，女，32 岁。产后抑郁多年，长期自觉咽中有物梗塞，但无咽痛及吞咽困难，在心情愉快时，症状可减轻或消失，而当心情抑郁或注意力集中于咽部时，则梗塞感觉加重，苔白腻，脉弦滑。本证候的证机概要是", "options": ["肝郁化火，上扰心神", "肝郁气滞，脾胃失和", "气郁痰凝，阻滞胸咽", "肝郁化火，横逆犯胃", "肝郁不舒，气机上逆"], "answer": 2}, {"q": "患者，初始纳少，腹胀便溏，面色少华，逐渐出现四肢萎软乏力，神疲倦怠，舌淡苔白，脉弱。治疗应首选的方剂是", "options": ["加味二妙散", "清燥救肺汤", "参苓白术散", "虎潜丸", "补阳还五汤"], "answer": 2}, {"q": "患者，男，45 岁。有鼓胀病史 8 年，昨日起神识昏迷，烦躁不安，怒目狂叫，四肢抽搐颤动，口臭便秘，舌红苔黄，脉弦滑数。其病机是", "options": ["痰热内扰，蒙蔽心窍", "痰浊壅盛，蒙蔽心窍", "肝阳暴张，神窍闭阻", "气血上逆，神窍闭阻", "肝肾阴虚，风阳上扰"], "answer": 0}, {"q": "一名女性患者因不孕症、闭经、伴厌食、消瘦到妇科就诊。妇科做了各种常规检查后，决定行腹腔镜检查，通知患者准备。患者不知该检查如何做，便随医生进入处置室检查，检查中发现作了切口。患者及家属均不满意开刀，遂向院方提出了赔偿要求。该案例行腹腔镜检查应如何决定为合理", "options": ["必须征得患者同意", "可以征得患者同意", "可以由医生决定", "必须由医院决定", "可以由医院或科室决定"], "answer": 0}, {"q": "急淋白血病治疗选用的是", "options": ["HOAP方案", "VP方案", "白消安", "丙酸睾酮", "硫酸亚铁"], "answer": 1}, {"q": "X 线钡餐检查诊断消化性溃疡的直接征象是", "options": ["黏膜呈锯齿状增粗", "有激惹及变形", "龛影", "充盈缺损", "胃壁蠕动减少呈皮革状"], "answer": 2}, {"q": "患者，女，50 岁。近半月来出现小便频数，量多混浊如脂膏，口干唇燥，而脉数乏力等症。其中医诊断是", "options": ["胃热炽盛型消渴", "脾胃气虚型消渴", "肾阴亏虚型消渴", "肺热津亏，气阴两伤型消渴", "以上均不是"], "answer": 2}, {"q": "下列关于尿道综合征的叙述，错误的是", "options": ["中年女性多见", "仅有膀胱刺激征", "尿常规多查见细菌", "抗生素治疗无效", "地西泮治疗有效"], "answer": 2}, {"q": "陆某，男性，65 岁。反复腹痛 1 年，近2 天腹痛绵绵，时作时止，喜温喜按，形寒肢冷，气短懒言，胃纳不佳，大便溏薄，舌质淡，苔薄白，脉沉细。其治疗应首选的方剂是", "options": ["理中丸", "吴茱萸汤", "良附丸", "小建中汤", "参苓白术散"], "answer": 3}, {"q": "明显改善心力衰竭患者临床症状，减少住院率的药物是", "options": ["洋地黄", "β受体阻滞剂", "血管紧张素转换酶抑制剂", "血管紧张素II受体拮抗剂", "利尿剂"], "answer": 2}, {"q": "患者，女，29岁，素有痫病，平时神疲乏力，心悸气短，失眠多梦，面色苍白，体瘦纳呆，大便溏薄，舌质淡，苔白腻，脉沉细而弱，其治疗应首选的方剂是", "options": ["定痫丸", "涤痰汤加减", "天王补心丹加减", "补阳还五汤", "六君子汤合归脾汤"], "answer": 4}, {"q": "美国医师爱德华·利文斯顿·特鲁迪奥（Edward LivingstonTrudeau 1848-1915）的墓志铭上刻着以下哪句话", "options": ["有时去治愈；经常去帮助；总是去安慰", "有时去帮助；经常去治愈；总是去安慰", "有时去安慰；经常去帮助；总是去治愈", "有时去治愈；经常去安慰；总是去帮助", "有时去安慰；经常去治愈；总是去帮助"], "answer": 0}, {"q": "应激反应最贴切的含义是指个体因为应激源所致的", "options": ["神经内分泌系统的变化", "认知和情绪变化", "精神症状方面的变化", "身体健康状况的变化", "生物、心理、社会、行为方面的变化"], "answer": 4}, {"q": "除了下列哪项外均是虚劳的病因病机", "options": ["烦劳过度，损伤五脏", "气机郁滞，瘀血阻络", "饮食不节，损伤脾胃", "大病久病，失于调理", "失治误治，损耗精气"], "answer": 1}, {"q": "确诊蛛网膜下腔出血的最重要体征是", "options": ["意识障碍", "脑膜刺激征", "三偏征", "双目同侧偏盲", "交叉性瘫痪"], "answer": 1}, {"q": "可出现异嗜癖症状的贫血是", "options": ["缺铁性贫血", "溶血性贫血", "巨幼细胞贫血", "自身免疫性溶血性贫血", "再生障碍性贫血"], "answer": 0}, {"q": "患者肝病日久，内有瘀血，头晕、目眩、耳鸣、胁痛、闭经、肌肤甲错、面色白、舌青紫，脉细涩。方选", "options": ["抵当汤", "桃红四物汤", "大黄䗪虫丸", "膈下逐瘀汤", "以上均不是"], "answer": 2}, {"q": "肝硬化腹水无下肢水肿患者，利尿后体重减轻的适宜水平是", "options": ["每天100g", "每天200g", "每天300g", "每天400g", "每天500g"], "answer": 2}, {"q": "治疗支饮寒饮伏肺证，应首选的方剂是", "options": ["柴枳半夏汤", "小青龙汤", "香附旋覆花汤", "甘遂半夏汤", "金匮肾气丸"], "answer": 1}, {"q": "《麻醉药品、第一类精神药品购用印鉴卡》有效期为", "options": ["一年", "两年", "三年", "半年"], "answer": 2}, {"q": "类风湿关节炎最多见的表现是", "options": ["关节肿胀", "类风湿结节", "抗角蛋白抗体阳性", "贫血", "晨僵"], "answer": 4}, {"q": "下列各项，不属颤证气血亏虚证主症特点的是", "options": ["头摇肢颤", "心情紧张时颤动加重", "神疲乏力", "面色淡白", "表情淡漠"], "answer": 1}, {"q": "下列痿证的各项护理措施中，错误的是", "options": ["居住环境不宜潮湿", "饮食宜富于营养", "患肢避免活动", "瘫痪者注意患肢保暖", "瘫痪肢体保持功能体位"], "answer": 2}, {"q": "头痛的辨证，应首辨的要点是", "options": ["脏腑经络", "寒热缓急", "外感内伤", "虚实缓急", "寒热虚实"], "answer": 2}, {"q": "以下叙述不正确的是", "options": ["神经心理学主要研究大脑和心理活动的具体关系", "心理生理学与精神病学没有差别", "心理生理学主要研究心理或行为与生理变化的关系", "生理心理学研究心理现象的生理机制"], "answer": 1}, {"q": "患者 60 岁，突然不能说话，右侧肢体无力，约 5～6 分钟恢复，反复发作，发作后检查无神经系统体征。首先应考虑的诊断是", "options": ["局灶性癫痫发作", "脑栓塞", "癫痫发作", "颈内动脉系统TIA", "椎基底动脉系统TIA"], "answer": 3}, {"q": "下列用于肝硬化保护肝细胞的维生素类药，错误的是", "options": ["维生素C", "维生素B", "维生素E", "维生素K", "维生素D"], "answer": 4}, {"q": "52 岁脑梗死患者，病后第 3 天，意识不清，血压 19/14kPa，左侧偏瘫。脑压2.74kPa（280mmHg），宜首先选用的是", "options": ["降血压治疗", "扩血管治疗", "尿激酶静脉点滴", "20%甘露醇静脉点滴", "肝素静脉点滴"], "answer": 3}, {"q": "共同参与型的医患关系模式最适合于", "options": ["急性病人", "精神病人", "慢性病人", "重症病人"], "answer": 2}, {"q": "脑出血患者出现典型三偏征伴同向偏视，最可能的出血部位是", "options": ["壳核出血", "丘脑出血", "脑桥出血", "小脑出血", "脑叶出血"], "answer": 0}, {"q": "哪种类型的人格是冠心病发病的一个较强预测因素", "options": ["A型人格", "B型人格", "C型人格", "D型人格", "内向人格"], "answer": 0}, {"q": "胡某，男性，45 岁。有腹胀病史 8 年，昨日起神识昏迷，烦躁不安，怒目狂叫，四肢抽搐颤动，口臭便秘，舌红苔黄，脉弦滑数。其病机是", "options": ["痰浊壅盛，蒙蔽心窍", "肝阳暴张，神窍闭阻", "气血上逆，神窍闭阻", "痰热内扰，蒙蔽心窍", "肝肾阴虚，风阳上扰"], "answer": 3}, {"q": "癫痫大发作的表现是", "options": ["短暂意识丧失，昏睡", "意识丧失，四肢强直，阵挛，昏睡", "单侧肢体抽动", "躁动、乱语", "发作性四肢抽搐"], "answer": 1}, {"q": "患者男性，27 岁。3 个月前出现腰、骶、臀、髋疼痛酸软，腰膝无力，晨起加重，伴口干，手足心热，心烦多梦，舌红少苔，脉细弦。治疗应首选的方剂是", "options": ["身痛逐瘀汤加减", "右归丸", "左归丸", "乌头汤", "渗湿汤"], "answer": 2}, {"q": "患者恶寒重，发热轻，无汗，头项疼痛，肢节酸痛，鼻塞声重，喷嚏流涕，咽痒，咳嗽，咳痰稀薄，口不渴，苔薄白，脉浮紧。治疗应首选的方剂是", "options": ["参苏饮", "荆防达表汤", "麻黄汤", "桂枝加附子汤", "麻黄附子细辛汤"], "answer": 1}, {"q": "患者，男，59 岁。头晕头痛，手足麻木，突然发生口舌歪斜，口角流涎，舌强语謇，半身不遂，舌质紫暗有瘀斑，苔薄白，脉弦涩。其证机概要是", "options": ["肝阳化风，风痰上扰，经脉闭阻", "肝阳暴张，痰火壅盛，气血上逆，神窍闭阻", "痰浊偏盛，上壅清窍，内蒙心神，神机闭塞", "气血运行不利", "肝火偏旺，阳亢化风，横窜络脉"], "answer": 0}, {"q": "原发性癫痫的病因是", "options": ["先天性脑发育异常", "颅脑外伤", "全身疾病", "颅脑肿瘤", "遗传因素"], "answer": 4}, {"q": "男性，57岁，咳嗽，咯痰，胸闷，低热4 月，胸片左肺上叶前段反复出现片状阴影，白细胞 11×10⁹/L，痰结核菌涂片阴性，经用抗生素治疗症状缓解，但肺部阴影消散不完全，为确定诊断最重要的检查是", "options": ["痰培养及药物敏感试验", "结核菌素试验", "胸部CT检查", "纤维支气管镜检查", "血清肿瘤标志物检查"], "answer": 3}, {"q": "人把直接作用于感官的客观事物的各种属性或各个部分作为整体反映的知觉特征是", "options": ["知觉选择性", "知觉整体性", "知觉恒常性", "知觉理解性"], "answer": 1}, {"q": "患者张 XX，女，62岁，因患结肠癌住院治疗，主治罗医生告知其病情并建议手术治疗，但患者家属反对手术，并告知医生，他们详细咨询同村的人，了解到有两个结肠癌村民都因为手术后没有治好，反而在2 个月内就死亡了，故手术要加快病人的死亡。他们的担心属于", "options": ["担心经费太高", "担心主管医生采取不负责任的治疗措施", "担心治疗结果不理想或治疗中出现意外", "担心小孩无人抚养", "担心患者不能接受手术治疗"], "answer": 2}, {"q": "儿童语言发展的关键期是", "options": ["婴儿期", "幼儿期", "学龄期", "少年期"], "answer": 0}, {"q": "认真履行医师职责，积极救治，尽职尽责为患者服务，增强（ ）意识，努力防范和控制医疗责任差错事件。", "options": ["责任安全", "防范", "服务", "质量", "道德"], "answer": 0}, {"q": "医学伦理委员会以敏锐的伦理思维与正确的伦理判断能力，为医患双方提供符合医学伦理原则的、有意义有价值的咨询意见，有效地帮助医务人员正确处理高新医学技术应用带来的临床与生命伦理学的难题，保护医患双方的利益。体现的是医学伦理委员会的", "options": ["教育培训功能", "咨询服务功能", "政策研究功能", "审查批准功能", "伦理管理与临床伦理指导监督功能"], "answer": 1}, {"q": "患者有意识或无意识地回避某些敏感话题，称为", "options": ["压抑", "移情", "阻抗", "自卫机制"], "answer": 2}, {"q": "患者，突觉排尿涩痛，尿中夹砂石，少腹拘急，左侧腰腹绞痛难忍，尿中带血，舌红，苔薄黄，脉弦或带数。若患者小腹胀痛明显，可加用的药物为", "options": ["芍药、甘草", "山甲、王不留行", "木香、乌药", "桃仁、红花", "杜仲、续断"], "answer": 2}, {"q": "关于涉及人体的临床医学研究，正确的是", "options": ["必须在开始之前提交伦理委员会审查", "在进行中必须提交伦理委员会审查", "必须在开始之后提交伦理委员会审查", "必须在完成之后提交伦理委员会进行监督", "只要遵守国际国内准则就无须提交伦理委员会审查"], "answer": 0}, {"q": "患者，腹部结块柔软，时聚时散，攻窜胀痛，脘胁胀闷不舒，苔薄，脉弦，其证候是", "options": ["聚证—肝气郁结", "聚证—食滞痰阻", "积证—气结血瘀", "积证—气郁血阻", "积证—瘀血内结"], "answer": 0}, {"q": "磺脲类药物的主要作用机制是", "options": ["提高外周组织对糖的利用", "抑制肝糖异生", "促使胰岛素受体亲和力增强", "抑制肠道糖吸收", "促进胰岛素分泌"], "answer": 4}, {"q": "女性，70 岁，既往体健，近 2 月来反复头晕，测血压多在160/70mmHg到180/95mmHg间。给予降压治疗，其收缩压目标值应该是", "options": ["<120mmHg", "<130mmHg", "<140mmHg", "<150mmHg", "<160mmHg"], "answer": 3}, {"q": "下列关于医疗技术应用的观点正确的是", "options": ["无论患者的情况如何，都应用最新的技术", "排斥新技术", "绝对不用旧技术", "保证医疗技术应用的科学性、合理性"], "answer": 3}, {"q": "女性，64岁。糖尿病史 8 年，冠心病心绞痛史3 年。近检查血脂总胆固醇（TC）5.86mmol/L，低密度脂蛋白（LDL）3.18mmol/L。根据《2014 年中国胆固醇教育计划血脂异常防治专家建议》，其调脂治疗低密度脂蛋白目标值应是", "options": ["<1.5mmol/L", "<1.8mmol/L", "<2.0mmol/L", "<2.6mmol/L", "<3.4mmol/L"], "answer": 1}, {"q": "下列各项，不属腹痛常见病因的是", "options": ["外感时邪", "饮食不节", "情志失调", "素体阳虚", "他病转移"], "answer": 4}, {"q": "患者痔疮病史二年，便血色红黏稠，大便不畅或稀溏，或有腹痛，口苦，舌质红，苔黄腻，脉濡数。此证属", "options": ["脾胃积热", "胃热壅盛", "肠道湿热", "肝火熏蒸", "气不摄血"], "answer": 2}, {"q": "老年患者，因急性前间壁心肌梗死3 小时入院，现出现频发室早，其治疗首选的药物是", "options": ["利多卡因", "苯妥英钠", "普罗帕酮", "维拉帕米", "普鲁卡因胺"], "answer": 0}, {"q": "治疗肝硬化大量腹水首选的利尿剂联合方案是", "options": ["甘露醇+螺内酯", "利尿酸钠+氢氯噻嗪", "氢氯噻嗪+甘露醇", "螺内酯+呋塞米", "呋塞米+甘露醇"], "answer": 3}, {"q": "诊断糖尿病的主要依据是", "options": ["空腹血糖测定", "糖化血红蛋白测定", "尿糖测定", "血胰岛素水平测定", "OGTT"], "answer": 0}, {"q": "在紧急情况下为抢救垂危患者生命，护士的正确行为是", "options": ["等待医生到来，什么也不做", "电话通知医生", "应及时实施必要的紧急救护", "自己过去把医生带过来"], "answer": 2}, {"q": "王某，男性，50 岁。患者腹部疼痛、大便不出 3 日，食辛辣热饮，重按、心情不佳时加重，平素喜饮食辛辣油腻，目前腹痛拒按，烦渴引饮，大便秘结，潮热汗出，小便短黄，舌质红，苔黄燥，脉滑数。其治法应是", "options": ["散寒温里，理气止痛", "消食导滞，理气止痛", "活血化瘀，和络止痛", "疏肝解郁，理气止痛", "泄热通腑，行气导滞"], "answer": 4}, {"q": "无并发症的轻型2 型糖尿病患者初始选用的措施是", "options": ["单纯饮食控制", "口服降糖药", "饮食治疗+胰岛素", "饮食治疗+胰岛素+口服降糖药", "胰岛素治疗"], "answer": 0}, {"q": "胸痹的主要病机为", "options": ["痰浊瘀阻", "气血阴阳亏虚", "寒凝气滞", "心脉痹阻", "胸阳不振"], "answer": 3}, {"q": "厥证与中风的鉴别中，主要的区别是", "options": ["患者的年龄", "发病时有无四肢厥冷", "神昏时间的长短", "醒后有无后遗症", "发病时有无牙关紧闭"], "answer": 3}, {"q": "下列各项，属于鼓胀病严重变证的是", "options": ["虚劳", "泄泻", "水肿", "大出血", "关格"], "answer": 3}, {"q": "患者有冠心病史十年余，心悸怔忡，心胸憋闷刺痛，脉涩。其证型是", "options": ["瘀阻心脉证", "痰阻心脉证", "寒凝心脉证", "气滞心脉证", "心气虚证"], "answer": 0}, {"q": "关于道德权利，下述提法中正确的是", "options": ["道德权利都是法律权利", "道德权利是依法行使的权利和应享受的利益", "道德权利是法律权利的后盾", "道德权利与道德义务是对应的", "道德权利是尽道德义务的前提"], "answer": 3}, {"q": "下列关于便秘的叙述中，错误的是", "options": ["排便间隔时间超过自己的习惯一天以上", "大便粪质干结，排出艰难", "欲大便而艰涩不畅", "常伴腹胀、纳差等症状", "两次排便时间间隔2 天以上"], "answer": 4}, {"q": "腹痛发生的基本病机是", "options": ["外邪内传，阻塞气机", "脏腑气机阻滞，经脉痹阻", "肝脾湿热，络脉不和", "肝气郁结，胃失和降", "食滞肠胃，痞塞不通"], "answer": 1}, {"q": "患者，一年来身目俱黄，黄色晦暗，神疲乏力，脘腹胀满，纳谷减少，大便不实，舌淡苔腻，脉濡缓。其治法是", "options": ["健脾养血，利湿退黄", "调和肝脾，理气助运", "利湿化浊运脾", "温中化湿，健脾和胃", "疏肝理气，活血化瘀"], "answer": 3}, {"q": "患者，男，58 岁，有冠心病史 5 年。近几日来心痛憋闷，心悸盗汗，虚烦不寐，腰酸膝软，舌红少津，苔薄，脉细数。其治法是", "options": ["温补阳气，振奋心阳", "滋阴清火，养心和络", "益气养阴，活血通脉", "辛温散寒，宣通心阳", "疏肝理气，活血通络"], "answer": 1}, {"q": "患者，男，56 岁。反复脘闷 2 年，脘腹痞闷，嘈杂，饥不欲食，恶心嗳气，口燥咽干，大便秘结，舌红少苔，脉细数。其证候诊断是", "options": ["饮食内停证", "湿热阻胃证", "痰湿中阻证", "肝胃不和证", "胃阴不足证"], "answer": 4}, {"q": "诊断为 2 级高血压的是", "options": ["120-139mmHg/80-89mmHg", "140-159mmHg/90-99mmHg", "160-179mmHg/100-109mmHg", "≥140mmHg/≥90mmHg", "≥180mmHg/≥110mmHg"], "answer": 2}, {"q": "瘰疬的治疗中，经常使用黄药子，其有小毒，一般用药剂量不超过多少克", "options": ["6克", "8克", "10克", "12克", "15克"], "answer": 2}, {"q": "肺痈患者的脓血痰吐入水中，结果是", "options": ["痈脓浮在水上", "痈脓悬浮在水中", "痈脓沉入水底", "痈脓溶解在水中", "痰分成三层"], "answer": 2}, {"q": "阳痿湿热下注证的证机概要是", "options": ["肝郁气滞，血行不畅，宗筋所聚无能", "心脾两虚，气血乏源，宗筋失养", "惊恐伤肾，肾精破散，心气逆乱，气血不达宗筋", "湿热下注肝经，宗筋经络失畅", "命门火衰，精气虚冷，宗筋失养"], "answer": 3}, {"q": "患者证见头痛昏蒙，胸脘满闷，呕恶痰涎，舌苔白腻，脉弦滑。其最佳治疗方剂是", "options": ["滚痰丸", "二陈汤", "苓桂术甘汤", "半夏白术天麻汤", "理中化痰丸"], "answer": 3}, {"q": "关于溃疡性结肠炎应用糖皮质激素治疗的叙述，错误的是", "options": ["具有非特异性抗炎作用", "抑制免疫反应", "对急性发作期疗效好", "可采用药物保留灌肠", "主要用于轻中型患者"], "answer": 4}, {"q": "患者，女，66 岁，右手掌指关节疼痛痛势较剧，部位固定，遇寒则痛甚，得热则痛缓，关节屈伸不利。舌质淡，舌苔薄白，脉弦紧。其治疗应首选的方剂是", "options": ["宣痹汤", "防风汤", "薏苡仁汤", "乌头汤", "双合汤"], "answer": 3}, {"q": "下列关于类风湿因子的叙述，错误的是", "options": ["诊断特异性高", "常规检测IgM型", "与疾病严重性成正比", "与疾病活动性有关", "阳性率约70%-80%"], "answer": 0}, {"q": "肺胀最特征性的症状是", "options": ["发作性痰鸣气喘", "喘促气急", "咳嗽咳痰", "胸部膨满，憋闷如塞", "胸胁饱满，咳唾引痛"], "answer": 3}, {"q": "男性，65岁，右颈部疼痛 2 个月，呈持续性加重，且向右臂放射，查体见眼球内陷，右眼睑下垂，余无异常，X 线胸片提示右肺尖胸膜增厚，本例最可能的诊断是", "options": ["肺结核", "胸膜增厚粘连", "肺上沟癌", "肺结节病", "转移性肺肿瘤"], "answer": 2}, {"q": "急性白血病中最易发生中枢神经系统白血病的是", "options": ["急红白血病", "急粒白血病", "急淋白血病", "急单核白血病", "急巨细胞白血病"], "answer": 2}, {"q": "给恋物癖者电击的方法属于", "options": ["冲击疗法", "家庭脱敏", "松弛疗法", "厌恶疗法", "自由联想"], "answer": 3}, {"q": "开办中医医疗机构应当符合国务院卫生行政部门制定的", "options": ["中医医疗机构床位设置标准", "当地区域卫生规划", "中医医疗机构设置标准和当地区域卫生规划", "当地社会发展规划", "定点医疗机构标准"], "answer": 2}, {"q": "积证初、中、末三个阶段的治疗原则分别是", "options": ["理气、活血、补肝肾", "消散、消补兼施、养正除积", "化痰、祛瘀、扶正", "活血、祛瘀、补脾胃", "活血、祛瘀、养血"], "answer": 1}, {"q": "患者，男，50岁，口干唇燥，口渴多饮，尿频量多，浑浊如脂膏，时或烦躁，遗精，舌质红苔少，脉细数，治疗首选方剂是", "options": ["左归丸", "消渴方", "白虎加参汤", "知柏地黄丸", "玉女煎"], "answer": 3}, {"q": "蛛网膜下腔出血最常见的病因是", "options": ["脑动脉硬化", "脑动脉炎", "心脏瓣膜病伴房颤", "高血压性动脉硬化", "脑底囊性动脉瘤"], "answer": 4}, {"q": "伴有血流动力学异常的阵发性室性心动过速，治疗首选的是", "options": ["静注毛花苷", "静注胺碘酮", "同步直流电复律", "静注利多卡因", "超速起搏"], "answer": 2}, {"q": "患者，女性，20 岁，感冒后出现心悸、气短，查体第一心音减弱，心电图检查显示PR 间期0.24 秒，每个P 波后均有 QRS波，其心电图诊断是", "options": ["窦房阻滞", "一度房室传导阻滞", "二度I 型房室传导阻滞", "二度II型房室传导阻滞", "束支阻滞"], "answer": 1}, {"q": "患者，久居潮湿之地，出现关节肌肉疼痛，时轻时重，阴雨天尤甚，舌苔薄白，脉濡滑。治疗应首选的方剂是", "options": ["防风汤", "乌头汤", "薏苡仁汤", "独活寄生汤", "麻黄加术汤"], "answer": 2}, {"q": "患者张某，男，45 岁，被诊断患有“胰腺癌腹腔内广泛转移”，医生将此消息告知患者及其家属时，下列哪项工作不是必须的", "options": ["熟悉该患者所有的病情", "尽快安排与患者及其家属的会面沟通", "邀请两名以上的医师参加", "准备一个舒适的见面环境", "确定与患者及其家属沟通的时间段不被其它琐事打扰"], "answer": 2}, {"q": "疟疾的治疗原则是", "options": ["祛邪截疟", "解毒除瘴", "扶正截疟", "祛瘀化痰软坚", "灭蚊截疟"], "answer": 0}, {"q": "患者，男性，37岁，支气管哮喘病史，突发极度呼吸困难就诊，拟诊为危重哮喘发作，查体示肺部哮鸣音减弱或消失，该病情变化提示发生的临床情况是", "options": ["支气管高度狭窄或痰栓堵塞", "支气管痉挛缓解", "合并肺部感染", "合并气胸", "病情趋于缓解"], "answer": 0}, {"q": "用铁剂治疗缺铁性贫血，疗效表现最早的是", "options": ["血红蛋白增加", "网织红细胞增加", "红细胞体积增大", "红细胞平均血红蛋白量增多", "红细胞计数增多"], "answer": 1}, {"q": "下列各项，不属鼓胀病临床特征的是", "options": ["腹部胀大如鼓", "腹壁青筋显露，脐孔突起", "可有尿少、肢体浮肿", "浮肿都从眼睑开始", "可见黄疸、朱砂掌、面颈胸部红丝赤缕"], "answer": 3}, {"q": "下列关于哮病发作期寒包热哮证各项叙述中，错误的是", "options": ["喉中哮鸣有声，胸膈烦闷，呼吸急促，咳痰不爽，痰黏色黄或黄白相兼", "发热不恶寒，烦躁汗多，身痛，口干欲饮，大便偏干", "证机概要为痰热壅肺，复感风寒，客寒包火，肺失宣降", "治法为解表散寒，清化痰热", "用小青龙加石膏汤治疗"], "answer": 1}, {"q": "动机产生的两个条件是", "options": ["需要和目的", "诱因和目的", "需求和目标", "需要与诱因", "意志与目的"], "answer": 3}, {"q": "患者汗出恶风，周身酸楚，时寒时热，苔薄白，脉缓。其治法是", "options": ["调和营卫", "益气固表", "活血化瘀", "滋阴降火", "补益气血"], "answer": 0}, {"q": "患者症见呼吸浅短难续，咳声低怯，胸满短气，倚息不能平卧，咳嗽，痰白如沫，咳吐不利，心悸，形寒汗出，面色晦暗，舌黯紫，脉沉细无力，本病证的治法是", "options": ["温肺散寒，降逆涤痰", "清肺泄热，降逆平喘", "涤痰祛瘀，泻肺平喘", "补肺纳肾，降气平喘", "温阳化饮，宣肺平喘"], "answer": 3}, {"q": "患者平素心情抑郁，近1 月来反复腹痛胀闷，痛无定处，时作时止，得嗳气则舒，舌淡红，苔薄白，脉弦。其证机概要是", "options": ["湿热内结，气机壅滞，腑气不通", "食滞内停，运化失司，胃肠不和", "肝气郁结，气机不畅，疏泄失司", "寒凝胃脘，阳气被遏，气机阻滞", "肝气郁结，横逆犯胃，胃气阻滞"], "answer": 2}, {"q": "1 型糖尿病患者应选用的治疗方法是", "options": ["单纯饮食控制", "口服降糖药", "饮食治疗+胰岛素", "饮食治疗+胰岛素+口服降糖药", "胰岛素治疗"], "answer": 2}, {"q": "患者，女性，70岁，高血压史三十年，近半月诉左侧肢体麻木，并有发热，针刺感，体检发现左侧肢体、皮肤感觉明显减退，头颅MR 示“腔隙性脑梗塞”，此患者病变范围最有可能是", "options": ["放射冠", "基底节", "丘脑", "脑桥", "延髓"], "answer": 2}, {"q": "医学伦理学规范是在长期医学实践中形成的，它是协调", "options": ["医务人员与医务人员之间关系的行为准则", "医务人员与社会之间的行为准则", "医务人员与病人之间的行为准则", "以上都是"], "answer": 3}, {"q": "列入国家药品标准的药品名称为药品的", "options": ["通用名称", "化学名称", "常用名称", "商品名"], "answer": 0}, {"q": "患者，女，82 岁，表情迟钝，言语不利，善忘，易惊恐，或思维异常，行为古怪，伴肌肤甲错，口干不欲饮，双目晦暗，舌质暗或有瘀点瘀斑，脉细涩。首选的处方是", "options": ["还少丹", "通窍活血汤", "涤痰汤", "七福饮", "肾气丸"], "answer": 1}, {"q": "患者，肢体关节腰背酸痛明显，游走不定，关节屈伸不利，舌苔薄白，脉浮。选用防风汤为主方治疗，还应加用的药物是", "options": ["杜仲、桑寄生、仙灵脾、巴戟天", "独活、牛膝、防己", "羌活、白芷、威灵仙、姜黄", "川乌、草乌", "白花蛇、乌梢蛇"], "answer": 2}, {"q": "下列各项，不属胃痛诱因的是", "options": ["天气变化", "过度劳累", "情志不畅", "进食生冷", "内有痈疮"], "answer": 4}, {"q": "高血压最主要的并发症是", "options": ["高血压脑病", "脑出血", "慢性肾衰竭", "主动脉夹层", "冠心病"], "answer": 1}, {"q": "患者咳嗽1 月，呛咳气急，痰少质黏，时时咯血，血色鲜红，混有泡沫痰涎，午后潮热，骨蒸颧红，五心烦热，盗汗量多，口渴心烦，失眠，性情急躁易怒，形体日益消瘦。舌干而红，苔薄黄而剥，脉细数。本病症的病机是", "options": ["阴虚肺燥，肺失滋润，肺伤络损", "阴伤气耗，肺脾两虚，肺气不清，脾虚不健", "肺肾阴伤，水亏火旺，燥热内灼，络损血溢", "阴伤及阳，精气虚竭，肺、脾、肾俱损", "肺肾阴伤，燥热内灼，肺肾俱损"], "answer": 2}, {"q": "正虚喘脱的证机概要为", "options": ["心气欲竭，脾肾阳衰", "心气欲竭，肺肾气虚", "肾气欲竭，心肺气虚", "肺气欲竭，心肾阳衰", "肺气欲竭，肝肾阴亏"], "answer": 3}, {"q": "治疗胸痹心血瘀阻证，若伴气虚自汗者，可选用的方剂为", "options": ["四君子汤合复方丹参滴丸", "人参养营汤合桃红四物汤", "补中益气汤合失笑散", "生脉散合失笑散", "补中益气汤合当归活血饮"], "answer": 3}, {"q": "中央型肺癌最常见的组织学类型是", "options": ["鳞状上皮细胞癌", "腺鳞癌", "类癌", "腺癌", "大细胞未分化癌"], "answer": 0}, {"q": "甘温除热治法的代表方剂是", "options": ["大建中汤", "小建中汤", "黄芪建中汤", "补中益气汤", "人参养荣汤"], "answer": 3}, {"q": "脑梗死的治疗中，目前尚不作为常规治疗的是", "options": ["应用低分子量肝素抗凝", "应用尿激酶等静脉溶栓治疗", "应用巴曲酶等降纤治疗", "动脉溶栓治疗", "抗血小板聚集治疗"], "answer": 0}, {"q": "治疗肺炎链球菌肺炎，停用抗生素的指征是", "options": ["体温降至正常后3～5天", "痰培养阴性", "血培养阴性", "X线检查炎症吸收", "血常规白细胞恢复正常"], "answer": 0}, {"q": "若痢疾初起，兼见表证，恶寒发热、头痛身重者，首选的方剂是", "options": ["葛根芩连汤", "藿香正气丸", "芍药汤", "《活人》败毒散", "香连丸"], "answer": 3}, {"q": "慢性型特发性血小板减少性紫癜的首选治疗是", "options": ["输浓缩血小板", "脾脏切除术", "糖皮质激素", "输注大量免疫球蛋白", "应用免疫抑制剂"], "answer": 2}, {"q": "超重的 2 型糖尿病患者，适宜的治疗措施是", "options": ["饮食疗法", "饮食疗法+胰岛素", "饮食疗法+磺脲类降糖药", "饮食疗法+双胍类降糖药", "胰岛素治疗"], "answer": 3}, {"q": "患者，男，31 岁，Graves病患者。夜间起床小便时发现双下肢不能动弹，2 天前曾参加马拉松跑步比赛。其诊断是", "options": ["合并重症肌无力", "甲亢急性肌病", "甲亢慢性肌病", "并发周围神经炎", "并发周期麻痹"], "answer": 4}, {"q": "一位 5 岁女孩患肾炎继发肾功能衰竭住院三年，一直做肾透析，等候肾移植。经父母商讨，同意家人进行活体移植。经检查：其母因组织类型不符被排除，其弟年纪小也不适宜，其父中年、组织类型符合。医生与其父商量用为供者，但其父经一番思考决定不做供者，并恳请医生告诉他的家人他不适合作供者，因他怕家人指责他对子女没有感情。有人认为女孩的生命质量已很低，即便移植成功生命质量也难以保障，从效用上未必有价值。再者，其父是中年人，还有抚养另一子女的责任，正是干事业的最佳年龄，他不做供体也是有理由的。此观点基于", "options": ["生命神圣论", "后果论", "义务论", "美德论", "价值论"], "answer": 1}, {"q": "前额及眉棱骨痛，经络归属为", "options": ["少阳经", "阳明经", "少阴经", "厥阴经", "太阳经"], "answer": 1}, {"q": "患者，腹大胀满，形似蛙腹，朝宽暮急，面色苍黄，脘闷纳呆，肢体浮肿，小便短少不利，舌淡胖，苔淡白，脉沉细无力。其治疗首选的方剂是", "options": ["实脾饮", "调营饮", "茵陈术附汤", "柴胡疏肝散合胃苓汤", "附子理苓汤"], "answer": 0}, {"q": "患者，男，78岁。肺癌术后。胸膈痞闷善太息，神疲乏力，纳呆食少，便溏，咳嗽咳痰，痰质稠黏，黄白相兼，舌苔白腻，脉濡缓。治疗宜首选的方剂是", "options": ["十全大补汤", "四君子汤合沙参麦冬汤", "赞育丹合沙参麦冬汤", "六君子汤合二陈汤", "复元活血汤"], "answer": 3}, {"q": "患者颈前肿块，按之较硬，肿块经久未消，胸闷纳差，苔白腻，脉弦。其治法是", "options": ["理气舒郁，化痰消瘿", "理气活血，化痰消瘿", "清肝泄火，消瘿散结", "滋阴降火，宁心柔肝", "健脾燥湿，化痰消瘿"], "answer": 1}, {"q": "对于慢性心身疾病的治疗，叙述正确的是", "options": ["消除心理应激源", "消灭社会应激源", "改变人格特征", "心身同治", "以疾病的预防为主"], "answer": 3}, {"q": "患者有肺结核病史2 年。现症咳嗽日久，咳逆喘息，咳痰色白有沫夹血丝，潮热，自汗盗汗，声嘶，面浮肢肿，肢冷形寒，五更泄泻，大肉尽脱，苔黄而剥，舌质光淡紫，少津，脉微细而数。其证候诊断是", "options": ["肺阴亏损证", "虚火灼肺证", "气阴耗伤证", "阴阳两虚证", "脾肾两虚证"], "answer": 3}, {"q": "慢性肾炎与慢性肾盂肾炎最主要的鉴别点是", "options": ["尿细菌培养阳性", "水肿", "尿蛋白", "低比重尿", "肾功能减退"], "answer": 0}, {"q": "下列关于呃逆的各项叙述中，错误的是", "options": ["病机是胃气上逆冲膈", "主症为喉间呃呃声", "常伴有胸膈痞闷、脘中不适、情绪不安等症状", "主症能自我控制", "多有受凉、饮食不当之诱因"], "answer": 3}, {"q": "某女，35 岁，因反复胸闷憋气四处就医，找不到器质性病因，明尼苏达多项人格调查显示抑郁量表、癔症量表、精神衰弱量表、社会内向量表均为高分，对该结果的解释，恰当的是", "options": ["根据抑郁量表高分，诊断抑郁症", "根据癔症量表高分，诊断癔症", "根据精神衰弱量表高分，诊断精神病", "患者多个维度高分，供临床参考", "患者的高分不止一个，可能回答不真实"], "answer": 3}, {"q": "严重的主动脉瓣关闭不全的主要治疗方法是", "options": ["有效预防风湿热", "仅能药物对症治疗", "经皮球囊介入治疗", "人工瓣膜置换术", "心脏移植"], "answer": 3}, {"q": "患者，女，70 岁。近日拍摄上腹部B 超结肠近肝曲处发现实质占位，考虑恶性肿瘤可能性大。刻下腹胀痛拒按，腹部可扪及包块，里急后重，便下粘液脓血，舌质紫黯有瘀斑，苔薄黄，脉弦或涩。该患者应用何处方最佳", "options": ["香砂六君子汤加减", "白头翁汤合槐角丸加减", "膈下逐瘀汤加减", "理中丸合四神丸加减", "补中益气汤合四物汤加减"], "answer": 2}, {"q": "患者，男性，慢性肺心病病史5 年，受凉后出现咳、痰量较多，伴气喘加重、下肢浮肿，其关键性的治疗措施是", "options": ["控制肺部感染", "解痉平喘", "吸氧", "应用利尿剂", "使用洋地黄"], "answer": 0}, {"q": "下列各项，不属急性白血病完全缓解的指标的是", "options": ["症状体征完全消失", "外周血中仅见少量白血病细胞", "中性粒细胞绝对值≥1.5×10⁹/L", "Hb≥100g/L（男性）", "血小板≥100×10⁹/L"], "answer": 1}, {"q": "缺铁性贫血患者应用铁剂治疗后网织红细胞开始升高的时间是", "options": ["10天内", "2周", "1个月", "2个月", "3个月"], "answer": 0}, {"q": "患者近半年来逐渐出现上肢震颤，伴行走起步困难，见慌张步态，临床诊断最可能的是", "options": ["帕金森病", "阿尔茨海默病", "抑郁症", "脑梗死", "糖尿病神经病变"], "answer": 0}, {"q": "对于长期慢性病人，宜采取的医患关系模式是", "options": ["被动-主动型", "主动-被动型", "共同参与型", "指导-合作型", "合作-指导型"], "answer": 2}, {"q": "患者，男，32 岁。阳事不举，精薄清冷，神疲倦怠，畏寒肢冷，面色白，头晕耳鸣，腰膝酸软，夜尿清长，舌淡胖，苔薄白，脉沉细。其证机概要为", "options": ["肝郁气滞，血行不畅，宗筋所聚无能", "肾精破散，心气逆乱，气血不达宗筋", "心脾两虚，气血乏源，宗筋失养", "命门火衰，精气虚冷，宗筋失养", "湿热下注肝经，宗筋经络失畅"], "answer": 3}, {"q": "患者，女性，54 岁，类风湿关节炎病史5 年，可生活自理，不能参加工作。活动受限，其关节功能障碍的分级是", "options": ["I级", "II级", "III级", "IV级", "V级"], "answer": 2}, {"q": "治疗痫病风痰闭阻证，首选的方剂是", "options": ["半夏厚朴汤", "定痫丸", "清金化痰汤", "二陈汤", "苏合香丸"], "answer": 1}, {"q": "对 1 型与2 型糖尿病的鉴别最有意义的是", "options": ["年龄", "体重", "有无自发性酮症倾向", "有无明显“三多一少”症状", "并发症的多少与严重程度"], "answer": 2}, {"q": "患者，男性，65 岁。既往有慢性肾小球肾炎40 年，高血压 30年。近期复查尿常规提示蛋白质++，红细胞++。肾小球滤过率25ml/(min·1.73m²)。血压维持在 150/95mmHg左右。目前患者不宜使用的药物是", "options": ["氢氯噻嗪", "氯沙坦", "硝苯地平", "双嘧达莫", "美托洛尔"], "answer": 0}, {"q": "患者气喘，咳嗽，痰涎壅盛，咯吐不爽，胸中满闷，呕恶纳呆，舌苔白厚而腻，脉滑，本病的治法是", "options": ["清热化痰，泻肺平喘", "疏风散寒，宣肺平喘", "祛痰降逆，宣肺平喘", "宣肺泻热，降气平喘", "以上均不是"], "answer": 2}, {"q": "患者陈某，男，85 岁，神志清醒，诊断：双下肢静脉血栓，医师建议行右下肢小腿中上段截肢治疗，医师与患者儿女解释病情及治疗建议后，家属签字同意手术治疗方案，手术当天，医务人员准备接患者去手术室，患者不知自己做截肢治疗，表示要重新考虑手术问题。请问，医师的行为", "options": ["无错，医务人员已向家属履行知情告知义务", "无错，家属已代表患者签署手术同意书", "无法判断，不知患者有无委托授权给其儿女", "有错，患者本人的知情权受到损害"], "answer": 3}, {"q": "一位中年男性患有冠心病和高血压已5 年，经心理医生检查，认为他具有 A型行为特征。但他的表现中有一项不符合 A 型行为的特征，请指出是哪一项", "options": ["有时间紧迫感", "待人随和", "有竞争性", "对工作过度提出保证", "为成就努力奋斗"], "answer": 1}, {"q": "下列关于临床决策的表述不正确的是", "options": ["临床决策是指医师根据临床专业理论和经验，经过调查研究和科学思维提出疾病诊治的方案", "临床决策需要根据确定的诊疗目标，拟订多个诊疗方案，然后从中选出达到最佳诊疗效果的方案", "临床决策既是一种思维方式，也是一种诊疗行为", "临床决策既是一个诊治过程，也是一种诊断结果", "临床决策是一种技术行为，但不是一种伦理行为"], "answer": 4}, {"q": "血虚证的治疗中，以益气生血为特点的经典方剂是", "options": ["归脾汤", "四物汤", "当归补血汤", "保元汤", "炙甘草汤"], "answer": 2}, {"q": "一患者诊断为“乙肝后肝硬化失代偿期”，住院期间，感到生活没有希望，少言懒语，不和其他病患交流，也不和医护人员沟通，此患者的行为属于", "options": ["角色行为冲突", "角色行为强化", "角色行为异常", "角色行为缺位", "角色行为减退"], "answer": 2}, {"q": "主要依据授权和医学伦理原则履行对研究项目或相关医疗技术应用进行独立的、称职的和及时的伦理审查批准职责的是", "options": ["卫生管理部门的专家伦理委员会", "卫生管理部门的机构伦理委员会", "伦理审查委员会", "医院伦理委员会", "机构审查委员会"], "answer": 2}, {"q": "主要用于甲状腺毒症病因鉴别的指标是", "options": ["FT3、FT4", "TSH", "TRAb", "甲状腺摄碘131 率", "超声检查"], "answer": 3}, {"q": "下列尤其适用于夜间哮喘及多痰的哮喘患者的药物是", "options": ["二羟丙茶碱", "溴化异丙托品", "东莨菪碱", "特布他林", "氨茶碱"], "answer": 2}, {"q": "提示心律失常严重的临床表现是", "options": ["心悸", "乏力", "头晕", "恶心、呕吐", "阿-斯综合征"], "answer": 4}, {"q": "按痰饮停积的部位分类，饮留胃肠的是", "options": ["痰饮", "支饮", "溢饮", "悬饮", "伏饮"], "answer": 0}, {"q": "患者，女性，20 岁，因疲乏、无力、烦躁、易激动、注意力不集中等就诊，诊断为缺铁性贫血，支持该诊断检查结果是", "options": ["血清铁浓度正常", "总铁结合力降低", "转铁蛋白饱和度升高", "血清铁蛋白降低", "骨髓铁染色弱阳性"], "answer": 3}, {"q": "男性患者，68岁，因严重腹腔内感染引起脓毒症休克，中医诊断为厥脱（阴竭阳脱证）。下列描述符合该诊断的是", "options": ["烦躁不安", "头晕乏力，或昏迷抽搐", "汗出如油，手足逆冷，唇甲青紫", "脉细微弱", "以上均是"], "answer": 4}, {"q": "诊断白血病的主要依据是", "options": ["外周血见大量原始细胞", "外周血全血细胞减少", "细胞化学染色", "细胞遗传学检查", "骨髓象中原始细胞≥30%"], "answer": 4}, {"q": "《医疗机构管理条例》的执业要求中规定，医疗机构执业必须", "options": ["遵守有关法律、法规", "遵守有关法律、法规、规章制度", "遵守有关法律、法规、医疗技术规范", "遵守有关法律、法规、向患者承诺的公约", "遵守有关法律、法规、医疗道德"], "answer": 2}, {"q": "成年人缺铁性贫血最主要的病因是", "options": ["铁摄入不足", "慢性失血", "铁吸收障碍", "需铁量增加", "铁利用障碍"], "answer": 1}, {"q": "患者，急性前间壁心肌梗死并发室性心动过速，为终止室速发作，应首选的抗心律失常药物是", "options": ["苯妥英钠", "美托洛尔", "普罗帕酮", "利多卡因", "维拉帕米"], "answer": 3}, {"q": "患者，癫痫病史1 年，发作时突然意识丧失，停止活动，呼之不应，两眼瞪视不动，持续约5-30秒后恢复，事后不能回忆，此癫痫发作的类型是", "options": ["部分运动性发作", "复杂部分性发作", "失神发作", "强直-阵挛性发作", "婴儿阵挛"], "answer": 2}, {"q": "患者，男性，60 岁，既往有高血压史，发现左心扩大二年，突发心悸，气促，咯吐粉红色泡沫痰。查体血压 200/120mmHg，心率136次/分，治疗首选的药物是", "options": ["西地兰、硝酸甘油、异丙肾上腺素", "硝普钠、西地兰、速尿", "毒毛旋花子甙K、硝普钠、心得安", "胍乙啶、酚妥拉明、西地兰", "硝酸甘油、西地兰、多巴胺"], "answer": 1}, {"q": "关于尊重原则，正确的是", "options": ["尊重原则是指尊重那些值得尊重的人和他们的决定", "尊重原则不包括尊重那些没到法定年龄的人和他们的决定", "尊重原则是指尊重所有的人和他们的决定", "尊重原则与有利原则冲突时，绝对要以尊重原则为主", "尊重原则也包括尊重那些没到法定年龄的人，有时甚至还包括他们的有些决定"], "answer": 4}, {"q": "可出现牙龈肿胀的急性白血病是", "options": ["急红白血病", "急淋白血病", "急单白血病", "急粒白血病", "急巨细胞白血病"], "answer": 2}, {"q": "治疗慢性肾衰竭贫血最有效的药物是", "options": ["琥珀酸亚铁", "叶酸及维生素B12", "EPO（促红细胞生成素）", "雄激素", "强的松"], "answer": 2}, {"q": "患者，女性，35 岁。小便涩滞，余沥不尽，少腹胀满疼痛，常因情志不舒而加重，苔薄白，脉弦。此病证的治法是", "options": ["清热利湿", "理气疏导", "健脾益气", "补虚益肾", "分消泄浊"], "answer": 1}, {"q": "患者，发热多为低热或潮热，热势常随情绪波动而起伏，精神抑郁，胸胁胀痛，烦躁易怒，口干而苦，舌红苔黄，脉弦数，其证候是", "options": ["血瘀发热", "湿郁发热", "气虚发热", "阴虚发热", "气郁发热"], "answer": 4}, {"q": "孙某，男性，25 岁，半年前出现大便脓血，日行 5～6 次，经肠镜检查诊断为溃疡性结肠炎。予 SASP配合中药治疗，症情好转，平素倦怠，饮食减少，大便日行1～2 次，夹有粘液，时有里急后重。1 天前因工作应酬在外就餐，出现症情反复，痢下赤白脓血相杂，日行7～8 次，腥臭，肛门灼热，苔黄腻，脉滑，该患者的治则是", "options": ["清热解毒凉血", "清热化湿解毒", "温中清肠，调气化滞", "健脾调中，淡渗利湿", "泄热通腑，苦辛通降"], "answer": 1}, {"q": "洋地黄中毒引发的室早，首选的治疗措施是", "options": ["休息", "吸氧", "停用排钾利尿剂", "立即停用洋地黄", "静脉注射利多卡因"], "answer": 3}, {"q": "在病史采集结束时，一位医生这样对患者说：“接下来我们要做体格检查，之后我们坐下来讨论你出现症状的可能原因，再共同制定计划。”这位医生采用了病史采集的哪项技能", "options": ["询问就诊原因", "问明患者的全部意向", "核对病史内容", "澄清患者的主诉", "与患者建立伙伴关系"], "answer": 4}, {"q": "患者病起发热，热后突然出现肢体软弱无力，肌肉瘦削，皮肤干燥，心烦口渴，咳呛少痰，咽干不利。治疗应首选的方法是", "options": ["桑杏汤", "六味地黄丸", "虎潜丸", "加味二妙散", "清燥救肺汤"], "answer": 4}, {"q": "《孝经》里说：“身体发肤，受之父母，不敢毁伤，孝之始也。”反映了人体器官移植中（ ）问题", "options": ["人格的完整性", "成功率", "费用高昂", "如何合乎道德获取可供移植器官", "谁优先进行器官移植"], "answer": 0}, {"q": "根据精神分析学说，下列叙述正确的是", "options": ["本我中的基本需求是“生之本能”", "自我服从于快乐原则", "自我是道德化了的超我", "一个完整人格，超我内容是最重要的"], "answer": 0}, {"q": "诊断慢性心力衰竭时首先应明确的诊断内容是", "options": ["心功能分级", "急慢性分类", "发生衰竭的心室部位", "发生衰竭的心肌功能", "器质性心脏病的诊断"], "answer": 4}, {"q": "甲亢时最常见的心律失常类型是", "options": ["室性早搏", "房性心动过速", "交界性早搏", "心房颤动", "房室传导阻滞"], "answer": 3}, {"q": "陈某，女性，35 岁。3 天前感冒伴咽痛，发热，后出现肉眼血尿，应用青霉素类抗生素后血尿消除，24 小时尿蛋白定量4.1g，血清白蛋白28g/L，血清甘油三酯3.1mmol/L。临床诊断是", "options": ["急性肾盂肾炎", "肾病综合征", "高脂血症", "急性肾小球肾炎", "慢性肾盂肾炎"], "answer": 1}, {"q": "治疗噎膈痰气交阻证，首选的方剂是", "options": ["启膈散", "通幽汤", "沙参麦冬汤", "补气运脾汤", "玉枢丹"], "answer": 0}, {"q": "管理人员要发挥哪些表率作用", "options": ["恪尽职守", "勤勉高效", "严格自律", "以上都是", "经验管理"], "answer": 3}, {"q": "有助于明确症状性癫痫病因的检查是", "options": ["脑血流图", "脑脊液检查", "脑MRI", "脑电图", "免疫学检查"], "answer": 2}, {"q": "下列关于溃疡性结肠炎使用免疫抑制剂的指征，错误的是", "options": ["氨基水杨酸制剂治疗无效的轻型患者", "氨基水杨酸制剂治疗无效的中型患者", "重型急性发作期患者", "暴发型患者", "各型经氨基水杨酸治疗已缓解者的巩固治疗"], "answer": 4}, {"q": "治疗急性肺水肿常用的正性肌力药，错误的是", "options": ["毛花苷C", "米力农", "多巴酚丁胺", "多巴胺", "硝普钠"], "answer": 4}, {"q": "某男，70 岁，神呆、痴呆，头摇肢颤，持物不稳，腰膝酸软，失眠心烦，头晕，耳鸣，善忘，舌质红，舌苔薄白，或红绛无苔，脉象细数。治疗首选方剂是", "options": ["龟鹿二仙膏合大定风珠加减", "河车大造丸", "人参养荣汤", "地黄饮子加减", "六味地黄丸"], "answer": 0}, {"q": "医师李某，申请开办儿科诊所，经执业注册后。开展了儿科诊疗活动，同时也以所学知识诊治一些妇科病人，李某的行为是", "options": ["法律允许的行为", "医师执业规定所允许的", "只要不发生差错，法律即允许", "超执业范围的行为", "只要是患者自愿，都是法律允许的"], "answer": 3}, {"q": "在突发公共卫生事件应急处理工作中，有关单位和个人拒绝有关专业技术机构的人员进入突发事件的现场，不配合有关专业技术人员调查、采样、技术分析和检验的，并触犯《中华人民共和国刑法》，对有关责任人给予", "options": ["警告", "吊销执照", "降职或者撤职的纪律处分", "行政处分或者纪律处分", "追究刑事责任"], "answer": 4}, {"q": "青年刘某在筹备婚礼的过程中，连续多日劳累，患化脓性扁桃体炎。医生在诊查中发现他同时患有淋病。该患者住院 4天，扁桃腺炎痊愈出院，医生嘱其充分休息。按照《母婴保健法》的规定，刘某", "options": ["不能结婚", "应当暂缓结婚", "可以结婚，但不能生育", "可以结婚，治愈后可生育", "不影响结婚生育"], "answer": 1}, {"q": "下列各项中，属于癫痫临床特征的是", "options": ["多发生于老年，有家族史", "两目上视，四肢抽搐，口吐涎沫", "典型发作时突然昏仆，半身不遂，口眼歪斜", "突然发作，毫无征兆", "面色苍白，四肢厥冷"], "answer": 1}, {"q": "患者，男性，50岁，突发呼吸困难，两肺满布哮鸣音，心率132次/分，听不清有无杂音，既往史不详。治疗应首选的药物是", "options": ["洋地黄", "异丙肾上腺素", "肾上腺素", "氨茶碱", "洛贝林"], "answer": 3}, {"q": "慢性肾衰竭时尿毒症症状的发病机制是", "options": ["肾小球高滤过", "矫枉失衡学说", "肾小管高代谢", "肾小球基底膜病变", "脂代谢紊乱"], "answer": 1}, {"q": "侵权责任法适用于什么样的医疗机构", "options": ["只适用公立医疗机构", "只适用民营医疗机构", "适用乡镇以上医疗机构", "适用所有医疗机构"], "answer": 3}, {"q": "患者，男，42 岁。头昏胀痛，两侧为重，脾气暴躁，心烦不宁，口苦面红，胁痛，舌红苔黄，脉弦数。其治法是", "options": ["养血滋阴，和络止痛", "疏风清热和络", "祛风胜湿通窍", "平肝潜阳息风", "疏风散寒，通络止痛"], "answer": 3}, {"q": "付某，50 岁，女，近日因家事抑郁，症见腹部结块，或左或右，走窜不定，按之略痛，脘胁胀闷不舒，嗳气频频，便艰纳呆，苔薄，脉弦，证属", "options": ["聚证——肝气郁结", "聚证——食滞痰阻", "积证——气结血瘀", "积证——气郁血阻", "积证——瘀血内结"], "answer": 0}, {"q": "临床用于甲亢治疗疗效判断指标的是", "options": ["基础代谢率", "甲状腺摄碘131 率", "突眼程度", "T3、T4", "甲状腺肿大程度"], "answer": 3}, {"q": "患儿刘某，因发热3 日到县医院就诊，门诊接诊医生张某检查后发现刘某的颊粘膜上有柯氏斑，拟诊断为麻疹。张某便嘱患儿刘某的家长带刘某去市传染病医院就诊。按照《传染病防治法》的规定，张某应当", "options": ["请上级医生会诊，确诊后再转院", "请上级医生会诊，确诊后隔离治疗", "向医院领导报告，确诊后由防疫部门进行转运隔离", "向医院领导报告，确诊后对刘某就地进行隔离", "在规定时间内，向当地防疫机构报告"], "answer": 4}, {"q": "用于诱导缓解急淋白血病的基本治疗方案是", "options": ["VAP方案", "VP方案", "HOAP方案", "DA(3+7)方案", "HA方案"], "answer": 1}, {"q": "某同学甲，从小脾气急躁，遇事易冲动，常因一些小事发火，虽事后也后悔，可总是“秉性难改”，为此感到很苦恼。他的问题从心理上说属于", "options": ["自制力差", "情绪障碍", "道德品质差", "意识狭窄现象"], "answer": 0}, {"q": "采血是采血器材与人体直接发生接触的活动，为保障献血者健康和用血者安全，采血活动中的操作和人员资格应遵守以下规定", "options": ["血站采集血液必须严格遵守有关操作规程和制度，采血必须由具有采血资格的医务人员进行", "血站采集血液应遵守有关操作规程和制度，有条件的血站采血可由具有采血资格的医务人员进行", "血站可执行自定的采集血液的操作规程和制度，采血必须由具有采血资格的医务人员进行", "血站采集血液应遵守有关操作规程和制度，无采血条件的血站可交由具有采血资格的医疗机构的医务人员进行"], "answer": 0}, {"q": "患者，反复咳喘十余年，加重5 天，咳逆喘满不得卧，咯痰白稀，呈泡沫状，胸部膨满，恶寒，舌苔白滑，脉浮紧，其诊断是", "options": ["外寒内饮型肺胀", "风寒闭肺型喘证", "风寒袭肺型肺胀", "肺气虚耗型喘证", "阳虚水泛型肺胀"], "answer": 0}, {"q": "下列各项，不属胁痛肝郁气滞证主症特点的是", "options": ["胁肋胀痛", "嗳气而胀痛稍舒", "痛处拒按", "胁痛部位走窜不定", "胁痛因情志变化而增减"], "answer": 2}, {"q": "某男，70 岁，肢体颤动粗大，程度较重，不能自制，眩晕耳鸣，面赤烦躁，易激动，心情紧张时颤动加重，伴有肢体麻木，口苦而干，语言迟缓不清，流涎，尿赤，大便干。舌质红，苔黄，脉弦。治疗首选方剂是", "options": ["导痰汤合羚角钩藤汤加减", "天麻钩藤饮合镇肝息风汤加减", "人参养荣汤", "地黄饮子加减", "龟鹿二仙膏合大定风珠加减"], "answer": 1}, {"q": "张某，女，49 岁，患者近日自觉腹内有肿块，扪之质软，固定不移，胀痛并存，舌苔薄，脉沉实，其证候是", "options": ["气滞血阻", "血瘀气结", "湿热蕴结", "气滞湿阻", "气机阻滞"], "answer": 0}, {"q": "男性，43 岁，心脏病20 年，房颤 2 年。1 天前突发意识丧失，四肢抽搐3 分钟左右，10 分钟后清醒，左侧上下肢不能活动。神清，血压正常，心房纤颤。右眼无光感，左上下肢肌力0 级，左侧半身感觉丧失，左侧病理征阳性，首先考虑的诊断是", "options": ["脑血栓形成", "脑出血", "蛛网膜下腔出血", "脑栓塞", "脑膜炎"], "answer": 3}, {"q": "需要追究党纪、政纪责任的，由有关纪检监察部门按照党纪政纪案件的调查处理程序办理；需要给予行政处罚的，由有关卫生行政部门依法给予相应处罚；涉嫌犯罪的，移送什么地方依法处理", "options": ["派出所", "司法机关", "公安局", "反贪局", "检察院"], "answer": 1}, {"q": "诊断甲亢最有临床意义的指标是", "options": ["基础代谢率", "甲状腺摄碘131 率", "TRH兴奋试验", "TT3、TT4测定", "FT3、FT4测定"], "answer": 4}, {"q": "慢性肾衰竭尿毒症最常见的死亡原因是", "options": ["消化道大出血", "继发性甲状旁腺功能亢进", "心血管并发症", "尿毒症脑病", "代谢性酸中毒"], "answer": 2}, {"q": "患者，男，76 岁。排尿涩痛，数次出现排尿时突然中断，尿道窘迫疼痛，少腹拘急，一侧腰腹绞痛难忍，牵及外阴，尿中带血，舌红，苔薄黄，脉弦。此证候的证机概要是", "options": ["气机郁结，膀胱气化不利", "脾虚运化无力，升清降浊失职", "三焦气机失宣，膀胱气化不利", "湿热下注膀胱，热甚灼络，迫血妄行", "湿热蕴结下焦，尿液煎熬成石，膀胱气化失司"], "answer": 4}, {"q": "中医临床诊断治疗的“辨证用药”、“对症下药”反应了药品作为特殊性商品的哪项特殊性", "options": ["专属性", "两重性", "均一性", "严格性", "限时性"], "answer": 0}, {"q": "患者男性，29 岁，患类风湿性关节炎3 年，现症见关节肿胀，以四肢小关节为主，僵硬变形，屈伸不利，痛处固定，昼轻夜重，口干不欲饮，舌质紫暗，苔白腻，脉细涩。其证候是", "options": ["风寒湿阻", "风湿热郁", "痰瘀痹阻", "肝肾阴虚", "气血亏虚"], "answer": 2}, {"q": "患者，长期情绪不宁，多思善疑，头晕神疲，心悸胆怯，失眠健忘，纳差，面色不华，舌质淡，苔薄白，脉细。其治法是", "options": ["补肾益气，养心安神", "清热化痰，宁心安神", "活血化瘀，理气通络", "甘润缓急，养心安神", "健脾养心，补益气血"], "answer": 4}, {"q": "常发生于无器质性心脏病的心动过速是", "options": ["自律性房速", "折返性房速", "紊乱性房速", "室速", "房室结折返性心动过速"], "answer": 4}, {"q": "与类风湿关节炎活动性及严重性成正比的指标是", "options": ["血沉", "类风湿因子", "抗核抗体", "抗角蛋白抗体", "C反应蛋白"], "answer": 1}, {"q": "治疗虚体感冒之气虚感冒证，首选的方剂是", "options": ["葱豉桔梗汤", "加减葳蕤汤", "荆防达表汤", "新加香薷饮", "参苏饮"], "answer": 4}, {"q": "某病人，因医生开药少且便宜，便对医生有意见，认为不用心诊疗。医生对病人解释时，下列哪一点不恰当", "options": ["对症下药，合理配伍", "节约费用", "医生权利有限", "遵守医疗报销制度"], "answer": 2}, {"q": "COPD 急性加重期，重要治疗措施是", "options": ["止咳、祛痰", "解痉、平喘", "控制感染", "避免及减少各种诱因", "抗过敏"], "answer": 2}, {"q": "治疗腹痛湿热壅滞证，首选的方剂是", "options": ["大承气汤", "正气天香散", "枳实导滞丸", "小建中汤", "大黄附子汤"], "answer": 0}, {"q": "女性患者，72岁，因饮食不慎，出现腹泻 3 日，每日水样便近10 次，自服杨梅酒未效，为防止加重症状，3 日来主动减少饮食。入院时反应迟钝，头晕，时有黑朦，口渴甚，尿少，四肢厥冷，舌红而干，脉虚大欲散。该厥脱患者的辨证分型是", "options": ["热毒炽盛证", "气阴耗伤证", "阴虚欲脱证", "阴竭阳脱证", "以上均不是"], "answer": 3}, {"q": "在主动-被动型的医患关系中，医生的地位应该是", "options": ["告诉病人做什么", "帮助病人做什么", "指导病人做什么", "为病人做什么"], "answer": 3}, {"q": "下列各项中，不属虚劳逆证表现的是", "options": ["肉脱骨痿，不思饮食", "喘急气促，声哑息微", "有热而治之能解", "形神衰惫，泄泻不止", "脉急促细弦或浮大无根"], "answer": 2}, {"q": "下列属于β2 受体激动剂的是", "options": ["沙丁胺醇", "色甘酸钠", "山莨菪碱", "二丙酸倍氯米松", "酮替芬"], "answer": 0}, {"q": "患者肢体痿软，身体困重，足胫热气上腾，发热，胸痞脘闷，舌苔黄腻，脉滑数。其治法是", "options": ["清热润燥，养肺生津", "清热利湿，通利筋脉", "泻南补北，滋阴清热", "补益肝肾，清热滋阴", "补益脾气，健运升清"], "answer": 1}, {"q": "患者廖 XX，女，29岁，体检中发现甲状腺包块，医生考虑甲状腺腺瘤可能性大，与之沟通。医生：廖女士，我们现在发现您的甲状腺有包块，为进一步明确包块性质，我们建议您做如下检查。廖女士一惊，说到：这根本不可能，我还这么年轻，转而开始哭泣，此时您认为医生最好做什么", "options": ["立即表示甲状腺包块没有什么大不了的，一般都是良性的", "告知廖女士即便是恶性的也没有什么，因为甲状腺腺瘤可以手术切除，预后一般都好", "马上鼓励廖女士接受事实并努力战胜疾病", "告知廖女士，甲状腺的包块有很多种情况，如良性的和恶性的，有很多种疾病可以造成，并仔细讲解这些疾病", "保持安静，暂停一切对话，用肢体语言表示关切和安慰，待廖女士哭泣停止后再询问她的感受"], "answer": 4}, {"q": "患者女性，46 岁。黄疸消退后，脘腹痞闷，肢倦乏力，胁肋隐痛不适，饮食欠香，大便不调，舌苔薄白，脉细弦。其证候诊断是", "options": ["湿热留恋证", "脾虚湿滞证", "寒湿阻遏证", "气滞血瘀证", "肝脾不调证"], "answer": 4}, {"q": "下列各项，不属癌病的基本病理变化的是", "options": ["血瘀", "气郁", "湿阻", "痰浊", "邪热"], "answer": 4}, {"q": "6 分钟步行试验评价心功能的描述，错误的是", "options": ["6分钟步行距离 200m属重度心衰", "6分钟步行距离 400m属中度心衰", "6分钟步行距离 600m属轻度心衰", "将心衰分为轻、中、重三度", "可以评定慢性心衰患者的运动耐力"], "answer": 2}, {"q": "急性白血病患者出现正细胞正色素性贫血的最主要原因是", "options": ["化疗的不良反应", "产生抗红细胞抗体", "脾功能亢进", "严重出血", "红细胞发育受白血病细胞干扰"], "answer": 4}, {"q": "侧重于治疗胃溃疡的药物是", "options": ["质子泵抑制剂", "保护胃黏膜药", "H2受体拮抗剂", "抗胆碱药", "胃动力药"], "answer": 0}, {"q": "患者，男，65 岁。咳喘多年，入冬加重，动则喘甚，呼多吸少，气不得续，形瘦神惫，面青唇紫，舌淡苔白而润滑，脉微细。其证机概要是", "options": ["肺气亏虚，气失所主", "肺病及肾，肺肾俱虚，气失摄纳", "肺气欲绝，心肾阳衰", "肝郁气逆，上冲犯肺，肺气不降", "上盛下虚"], "answer": 1}, {"q": "65 岁，男性，有高血压史，活动后出现剧烈头痛、恶心呕吐、失语，右侧肢体偏瘫，最有可能的诊断是", "options": ["脑栓塞", "脑梗死", "脑出血", "短暂性脑缺血", "动脉硬化性脑病"], "answer": 2}, {"q": "来访者询问：“我该与谁结婚？”治疗师不予明确答复，这属于心理治疗原则中的", "options": ["回避原则", "灵活原则", "耐心原则", "综合原则", "中立原则"], "answer": 4}, {"q": "患者，口渴引饮，多食，便溏，精神不振，四肢乏力，体瘦，舌淡，苔白而干，脉弱，治疗首选方剂是", "options": ["六味地黄丸", "金匮肾气丸", "玉女煎", "消渴方", "七味白术散"], "answer": 4}, {"q": "小刚今年上初一，他特别爱玩电子游戏，常常为完不成作业而发出这样的叹息：“我怎么老管不住自己呢？”这表明他", "options": ["情绪不稳定", "兴趣太广泛", "自制力差", "耐受力差"], "answer": 2}, {"q": "急性白血病最常见的死亡原因是", "options": ["贫血", "出血", "发热", "感染", "淋巴结肿大"], "answer": 3}, {"q": "患者，女，30 岁。10 分钟前进食冰淇淋后，出现呕吐，呕吐沉缓有力，胸膈及胃脘不舒，得热则减，口淡不渴，舌苔白润，脉迟缓。其诊断是", "options": ["呕吐胃寒气逆证", "胃痛脾胃虚寒证", "呕吐胃火上逆证", "呕吐脾胃阳虚证", "呕吐气机郁滞证"], "answer": 0}, {"q": "治疗中风脏腑之阳闭证，首选的方剂是", "options": ["大柴胡汤", "羚羊角汤合用安宫牛黄丸加减", "涤痰汤", "涤痰汤合用苏合香丸加减", "黄连温胆汤"], "answer": 1}, {"q": "患者症见喘逆上气，息粗鼻煽，咯痰粘稠，伴恶寒发热，烦热口渴，有汗，苔薄白黄，脉浮数。治疗首选的方剂是", "options": ["麻杏石甘汤", "小青龙汤", "大青龙汤", "定喘汤", "麻黄汤"], "answer": 0}, {"q": "干咳，或咯少量黏痰，有时痰中带血，胸部隐痛，午后手足心热，皮肤干灼，或有盗汗，舌质红苔薄，脉细数，其辨证为", "options": ["肺阴亏虚", "阴虚火旺", "气阴两虚", "阴阳两虚", "肺肾阴虚"], "answer": 0}, {"q": "下列各项，对肺炎链球菌肺炎诊断价值大的是", "options": ["起病急，寒战、高热、胸痛、咳嗽", "血白细胞总数升高", "并发休克", "肺部局限性湿啰音", "X线检查呈肺叶分布的密度均匀影"], "answer": 4}, {"q": "患者，女，53 岁。胁肋重着疼痛一天，痛有定处，触痛明显，口苦口黏，纳呆恶心，小便黄赤，舌红苔黄腻，脉弦滑数。其治法是", "options": ["消食导滞", "健脾和胃", "清热利湿", "疏肝理气", "祛瘀通络"], "answer": 2}, {"q": "患者高热、胸痛、咳嗽、咳痰，经检查诊断为肺炎链球菌肺炎，其治疗应首选的药物是", "options": ["青霉素", "红霉素", "甲硝唑", "氧氟沙星", "头孢唑啉钠"], "answer": 0}, {"q": "患者于某因发热3 日到县医院就诊，接诊医师林某检查后拟诊为流行性出血热。因县医院不具备隔离治疗条件，林某遂嘱患儿的家长带于某去市传染病医院就诊。按照传染病防治法的规定，林某应当", "options": ["请上级医师会诊，确诊后再转诊", "请上级医师会诊，确诊后隔离治疗", "向医院领导报告，确诊后对于某就地进行隔离", "向当地疾病控制机构报告，并复印病历资料转诊", "向当地疾病控制机构报告，由疾病控制机构转诊"], "answer": 4}, {"q": "糖尿病的基本病理生理改变是", "options": ["生长激素分泌过多", "胰高血糖素分泌减少", "胰高血糖素分泌过多", "胰岛素绝对或相对不足", "血浆胰岛素明显增高"], "answer": 3}, {"q": "关于人体实验的第一个伦理学文献是", "options": ["《赫尔辛基宣言》", "《纽伦堡法典》", "《日内瓦宣言》", "《东京宣言》", "《夏威夷宣言》"], "answer": 1}, {"q": "男性，70 岁，高血压病史 20 年，慢性房颤史 1 年。平时感觉心悸时作，或伴胸闷。查体HR 120 次/分钟，房颤律，两肺（-），BP 138/82mmHg。给予美托洛尔控制心室率，其合适的静息心率控制靶目标是", "options": ["60 ~ 80次/分钟", "60 ~ 100次/分钟", "80 ~ 100次/分钟", "80 ~ 110次/分钟", "90 ~ 110次/分钟"], "answer": 2}, {"q": "肝硬化肝功能减退，雌激素增多的表现是", "options": ["出血倾向", "黄疸", "腹水", "蜘蛛痣、肝掌", "肝臭"], "answer": 3}, {"q": "患者，38岁，女性，洗衣时突发右侧肢体活动不灵，查体意识清，失语，二尖瓣区可闻双期杂音，心律不齐，右侧偏瘫，上肢重于下肢，偏身痛觉减退，首先考虑的诊断是", "options": ["脑血栓形成", "脑栓塞", "脑出血", "蛛网膜下腔出血", "短暂脑缺血发作"], "answer": 1}, {"q": "患者面浮，下肢肿，脘痞腹胀，心悸，喘咳不能平卧，面唇青紫，苔白滑，脉结代，本病证的治法是", "options": ["补肺纳肾，降气平喘", "涤痰祛瘀，泻肺平喘", "温肾健脾，化饮利水", "温肺散寒，降逆涤痰", "峻下逐水，降气平喘"], "answer": 2}, {"q": "患者，63岁，糖尿病病史 10 余年，近2 个月感双足趾端麻木、下肢皮肤针刺样疼痛伴尿失禁、无汗就诊。体检消瘦，营养欠佳，双手骨间肌萎缩，肌力 IV 级，空腹血糖 14.1mmol/L，血酮（-）。下列最可能的诊断是", "options": ["糖尿病并发脑血管意外", "糖尿病神经病变", "糖尿病微血管病变", "糖尿病肾病", "糖尿病并发酮症酸中毒"], "answer": 1}, {"q": "脑出血患者表现为头痛、呕吐、脑膜刺激征及单肢瘫痪，最可能的出血部位是", "options": ["壳核出血", "丘脑出血", "脑桥出血", "小脑出血", "脑叶出血"], "answer": 4}, {"q": "下列关于治疗胃痞胃阴亏虚证的叙述，错误的是", "options": ["以轻清为原则", "不可过于滋腻", "可选用枳壳、厚朴花", "可选用川楝子、青皮", "可选用佛手、竹茹"], "answer": 3}, {"q": "诞生一系列国际性的医学伦理规范", "options": ["中国古代医学伦理", "西方古代医学伦理", "中国近代医学伦理", "西方近代医学伦理", "现代医学伦理"], "answer": 4}, {"q": "血管紧张素转换酶抑制剂治疗慢性心力衰竭的机制是", "options": ["阻断心肌重塑", "减慢心率", "增强心肌收缩力", "增加排尿量", "心肌β受体密度上调"], "answer": 0}, {"q": "下列不属于我国优生措施的是", "options": ["结婚管理", "生育限制", "人工辅助生殖", "生育保健", "产前诊断"], "answer": 2}, {"q": "患者，男，25岁。自觉情绪不宁，急躁易怒，胸胁胀满近 2 月，伴口苦而干，头痛，目赤，耳鸣，嘈杂吞酸，大便秘结，舌质红，苔黄，脉弦数。治疗本病首选的方剂是", "options": ["丹栀逍遥散", "柴胡疏肝散", "五磨饮子", "半夏厚朴汤", "甘麦大枣汤"], "answer": 0}, {"q": "按照希波克拉底对气质的分类，不属于气质类型的是", "options": ["多血质", "黏液质", "胆汁质", "神经质", "抑郁质"], "answer": 3}, {"q": "便秘的基本病机是", "options": ["肝气郁结", "肺失肃降", "肝胃不和", "大肠传导失常", "脾失运化"], "answer": 3}, {"q": "下列医师被取消处方权的情形中不包括", "options": ["被责令暂停执业", "不按照规定开具处方，造成严重后果", "被注销、吊销执业证书", "考核不合格离岗培训期间", "开具的处方超过有效期"], "answer": 4}, {"q": "患者，女，78 岁。反复咳喘 30 余年。胸部膨满，憋闷如塞，咳痰清稀，胸闷心悸，面浮肢肿，腹部胀满有水，脘痞纳差，尿少，怕冷，面唇青紫，舌苔白滑，舌体胖质暗，脉沉细。此病证的证机概要是", "options": ["清肃失司，肺气上逆", "肺气欲绝，心肾阳衰", "痰饮蕴肺，肺气上逆", "心肾阳虚，水饮内停", "肺肾两虚，摄纳失常"], "answer": 3}, {"q": "患者肢体关节疼痛，痛势较剧，部位固定，遇寒则痛甚，得热则痛缓，关节屈伸不利，舌质淡，舌苔薄白，脉弦紧。其证候是", "options": ["痛痹", "行痹", "着痹", "痰瘀痹", "症痹"], "answer": 0}, {"q": "患者颈部肿块，质软，心悸不宁，心烦少寐，易出汗，手指颤动，倦怠乏力，舌质红，少苔，舌体颤动，脉弦细数。其治法是", "options": ["理气舒郁，化痰消瘿", "理气活血，化痰消瘿", "清肝泄火，消瘿散结", "滋阴降火，宁心柔肝", "健脾燥湿，化痰消瘿"], "answer": 3}, {"q": "治疗癫证痰气郁结证，应首选的方剂是", "options": ["逍遥散合顺气导痰汤", "半夏厚朴汤", "养心汤合越鞠丸", "苏合香丸", "控涎丹"], "answer": 0}, {"q": "患者，男，25岁。跌扑后胁肋刺痛1 周，痛有定处，痛处拒按，入夜痛甚，舌质紫暗，脉沉涩。其证机概要是", "options": ["湿热蕴结，肝胆失疏，络脉失和", "肝肾阴亏，精血耗伤，肝络失养", "瘀血停滞，络脉痹阻", "肝失条达，气机郁滞，络脉失和", "瘀结不消，正气渐损，脾运不健"], "answer": 2}, {"q": "男性患者，60 岁。咳嗽反复发作20 余年，每年入冬即咳，近 5年来咳而伴喘。此次咳嗽气喘加重十余日，双下肢浮肿，曾用抗生素及利尿剂治疗症状改善不著。查体温 37.6℃，神清，唇甲轻度紫绀，呼吸急促，张口抬肩，胸廓呈桶状，肋间隙增宽，两肺呼吸音粗糙，可闻及干湿性啰音，心界略向两侧扩大，心律不齐，肝右肋下2cm，剑下5cm，有轻度压痛，肝颈静脉回流征阳性，两下肢浮肿。该患者的西医诊断为", "options": ["冠心病，慢性心功能不全", "慢性阻塞性肺疾病急性加重期，肺心病", "自发性气胸", "大叶性肺炎", "支气管哮喘"], "answer": 1}, {"q": "人工授精的临床意义是", "options": ["解决男子不育症患者的问题", "解决女子不育症患者的问题", "A、B两者均有", "A、B两者均无"], "answer": 2}, {"q": "治疗肝性脑病抑制肠道细菌减少产氨的药物是", "options": ["氨苄西林", "乳果糖", "谷氨酸钠", "左旋多巴", "维生素K"], "answer": 0}, {"q": "颤证的病位是", "options": ["筋膜", "关节", "肌肉", "脑", "心"], "answer": 3}, {"q": "气秘的证机概要是", "options": ["脾肺气虚，传送无力", "肝脾气滞，腑气不通", "阴津不足，肠失濡润", "阳气虚衰，阴寒凝结", "阴寒内盛，凝滞胃肠"], "answer": 1}, {"q": "患者蔡某，女，28 岁，头昏 3 个月，乏力明显，时有牙龈出血，查体贫血貌，浅表淋巴结及肝脾不大，血常规提示全血细胞减少，骨髓增生低下，巨核细胞未见，淋巴细胞相对增多，治疗中错误的是", "options": ["异体骨髓移植最有效", "雄激素可损害肝功能", "避免应用环孢霉素", "脾切除对部分病人可能有效", "反复输血可致铁负荷过量"], "answer": 2}, {"q": "患者，头痛隐隐，头晕，遇劳则甚，神疲乏力，心悸不寐，舌淡苔薄白，脉细弱。其治疗首选的方剂是", "options": ["四君子汤", "补中益气汤", "天王补心丹", "酸枣仁汤", "加味四物汤"], "answer": 1}, {"q": "治疗疟母首选的方剂是", "options": ["八珍汤", "十全大补汤", "膈下逐瘀汤", "玉枢丹", "鳖甲煎丸"], "answer": 4}, {"q": "王某，男性，45 岁。水肿延久不退 10 年，肿势轻重不一，以下肢为主，腰部刺痛，伴血尿，舌紫暗，苔白，脉沉细涩。其治疗应首选的方剂是", "options": ["济生肾气丸合真武汤", "桃红四物汤合五苓散", "实脾饮", "疏凿饮子", "五皮饮合胃苓汤加减"], "answer": 1}, {"q": "张某，胁肋胀痛，走窜不定，疼痛每因情志变化而增减，嗳气则胀痛稍舒，胸闷腹胀，纳少口苦，舌苔薄白，脉弦。其诊断是", "options": ["胁痛瘀血阻络证", "胸痹气滞心胸证", "痰饮病悬饮证", "胁痛肝胆湿热证", "胁痛肝郁气滞证"], "answer": 4}, {"q": "男性患者，56 岁，患有糖尿病，素体肥胖，近一周右下肢红肿伴有发热，自行服用头孢克洛 3 天，未见效。入院时患者面目俱赤，四肢逆冷，神识昏糊，大便3 日未行，近2 日尿量明显减少，尿色深赤，舌红绛，苔黄燥，脉沉、细数。其中医诊断和辨证分型是", "options": ["便秘，气阴耗伤证", "便秘，热毒炽盛证", "厥脱，热毒炽盛证", "厥脱，气阴耗伤证", "癃闭，膀胱湿热证"], "answer": 2}, {"q": "患者女性，25 岁，发现泡沫尿 2 月余，伴双下肢水肿2 周，近1 周出现面颊对称性红斑，脱发明显，偶有四肢关节疼痛。为确诊，应作的检查是", "options": ["抗核抗体、抗ds-DNA抗体", "类风湿因子", "抗SSA抗体", "双手X-RAY", "24h尿蛋白定量"], "answer": 0}, {"q": "不属贫血常见的体征的是", "options": ["皮肤黏膜苍白", "心率增快", "心尖部收缩期杂音", "匙状指", "出血倾向"], "answer": 4}, {"q": "出现对侧中枢性面瘫、舌瘫伴精神障碍及排尿障碍，最可能的诊断是", "options": ["颈内动脉闭塞综合征", "大脑中动脉闭塞", "大脑前动脉闭塞", "大脑后动脉闭塞", "小脑后下动脉闭塞"], "answer": 2}, {"q": "患者，女，68岁。腰部隐隐作痛，酸软无力，缠绵不愈，手足心热，心烦少寐。舌红少苔，脉弦细数，治疗宜首选的方剂是", "options": ["青娥丸", "右归丸", "左归丸", "杜仲丸", "独活寄生汤"], "answer": 2}, {"q": "提示溃疡性结肠炎活动期的重要表现是", "options": ["进行加重的贫血", "持续存在的高热", "持续存在的腹痛", "腹部压痛", "黏液血便"], "answer": 4}, {"q": "患者，男性，20 岁，在参加运动会 800m 赛跑比赛后 5 分钟，出现呼气性呼吸困难发作。查体双肺满布哮鸣音，心率108 次/分，律齐，无杂音；血压正常，最妥当的处理是", "options": ["吸入沙丁胺醇", "吸入溴化异丙托品", "静脉注射肾上腺素", "吸入二丙酸倍氯米松", "静脉注射毛花苷C"], "answer": 0}, {"q": "患者，素有哮喘，近 2 日喘咳加剧，喘急面青，烦躁不安，汗出肢冷，舌淡紫，脉细，本病的治法是", "options": ["益气回阳救逆", "养阴益气救脱", "健脾益气，降气化痰", "补肺纳肾，降气化痰", "温肾平喘，降气化痰"], "answer": 0}, {"q": "患者，男，60岁。咳嗽 2 个月，痰中带血，不发烧，抗感染治疗效果不明显。3 次X 线检查均显示右肺中叶炎症。刻下咳嗽，胸闷气急，胸肋胀痛，痛有定处，唇甲紫黯，大便干结，舌质黯红，舌有瘀斑，苔薄白，脉弦。该患者刻下运用何治法最佳", "options": ["养阴清肺，解毒软坚", "理气化瘀，软坚散结", "益气健脾，肃肺化痰", "益气养阴，清热化痰", "养血柔肝，滋阴补肾"], "answer": 1}, {"q": "医学伦理道德评价的根本标准是", "options": ["促进医学的进步和发展", "有利于病人的利益", "有利于社会的进步", "有利于社会的进步和维护人类的健康"], "answer": 3}, {"q": "个体与社会人和社团组织的精神上的和物质上的联系程度称为", "options": ["人际关系", "社会角色", "社会支持", "应激的内部资源", "社会关系"], "answer": 0}, {"q": "患者男性，62 岁，腰膝酸软，劳累后加重，休息、平卧后稍减，反复发作两年有余，伴手足不温，阳痿，舌淡，脉沉细。应首选的方剂是", "options": ["右归丸", "左归丸", "《济生》肾气丸", "独活寄生汤", "青娥丸"], "answer": 2}, {"q": "急性心肌梗死的先兆表现，最具临床意义的是", "options": ["胸闷", "活动后心悸", "烦躁不安", "不典型胸痛", "新发或原有心绞痛加重"], "answer": 4}, {"q": "患者，男性，48岁，有高血压史，近2~3 个月来多次发生快走或上天桥时胸骨后闷痛，停止行走 5 分钟左右可缓解。静息ECG 正常，冠状动脉CTA 示左前降支中段75%狭窄。其心绞痛类型是", "options": ["稳定型劳力性心绞痛", "继发不稳定型心绞痛", "初发劳力性心绞痛", "变异性心绞痛", "恶化劳力性心绞痛"], "answer": 0}, {"q": "应于餐前半小时服用的降糖药是", "options": ["二甲双胍", "格列本脲", "阿卡波糖", "吡格列酮", "瑞格列奈"], "answer": 1}, {"q": "关于良好医患关系的认识，以下哪一项不包括", "options": ["必须督促患者提高社交能力", "有利于诊断、治疗得到顺利实现", "本身就是一种治疗手段", "提高患者对医务人员的信任度"], "answer": 0}, {"q": "患者，男性，58岁。颜面及双下肢高度浮肿一周，既往有糖尿病10 年，尿常规蛋白（++++），红细胞 5~10/HP，24 小时尿蛋白定量4.6 克。为明确诊断为肾病综合征，需要做的检查是", "options": ["血脂", "泌尿系统CT扫描", "肾活检", "尿红细胞形态检查", "血清白蛋白"], "answer": 2}, {"q": "根据《麻醉药品和精神药品管理条例》规定，医疗机构需要使用麻醉药品和第一类精神药品的，应当经（ ）部门批准，取得《麻醉药品、第一类精神药品购用印鉴卡》", "options": ["省、自治区、直辖市人民政府卫生主管部门", "省、自治区、直辖市人民政府药品监督管理部门", "设区的市人民政府卫生主管部门", "设区的市人民政府药品监督管理部门"], "answer": 2}, {"q": "治疗胃痞痰湿中阻证，应首选的方剂是", "options": ["二陈平胃汤", "保和丸", "枳术丸", "柴平汤", "三仁汤"], "answer": 0}, {"q": "患者喉中哮鸣有声，胸膈烦闷，呼吸急促，喘咳气逆，咳痰不爽，痰粘色黄，烦躁，发热，恶寒，无汗身痛，口干欲饮，大便偏干，舌苔白黄腻，舌边尖红，脉弦紧。其证候诊断是", "options": ["寒包热哮", "风痰哮证", "肺脾气虚哮证", "肺肾两虚哮证", "虚哮证"], "answer": 0}, {"q": "目前所有用于基因组计划研究的细胞和 DNA材料都不公开来源。反映的是人类基因组计划研究引发的", "options": ["基因歧视问题", "基因隐私问题", "基因优生问题", "基因专利权问题", "基因研究成果的不可预测性"], "answer": 1}, {"q": "下列各项，不符合郁证临床表现的是", "options": ["忧郁不畅，情绪不宁，胸胁胀满疼痛", "咽中如有异物梗塞", "大多数有情志内伤的病史", "病情的反复常与情志因素密切相关", "多发于老年男性"], "answer": 4}, {"q": "医生向阑尾炎患者推荐手术治疗，患者要求保守治疗。针对双方对治疗的不同意见，以患者为中心沟通方式为", "options": ["使用医生的权威，要求患者必须接受手术治疗", "批评患者对自己的健康不负责任", "请患者签字，如果出现问题后果自负", "拒绝给患者继续治疗，要求其转院", "一起分析两种治疗的风险与收益"], "answer": 4}, {"q": "患者，女性，29 岁。风湿热病史 7年，现呼吸困难、咳嗽、咳痰、咯血，查体心尖部闻及舒张中晚期杂音，心电图显示左房增大，该患者的诊断是", "options": ["二尖瓣狭窄", "二尖瓣关闭不全", "主动脉瓣狭窄", "主动脉瓣关闭不全", "联合瓣膜病变"], "answer": 0}, {"q": "诊断早期胃癌最重要的手段是", "options": ["癌胚抗原测定", "大便隐血试验", "胃液分析", "X线钡餐检查", "胃镜检查"], "answer": 4}, {"q": "现代医学模式的重要性主要体现在", "options": ["强调以疾病为中心", "强调以治疗手段为中心", "强调把人作为一个整体", "强调以服务为中心", "强调以心理治疗为中心"], "answer": 2}, {"q": "患者因头晕、乏力、食欲减退、低热、失眠等就诊，经检查拟诊为白细胞减少症，支持诊断的检查结果是", "options": ["外周血白细胞持续减少", "红细胞减少", "中性粒细胞严重减少", "血小板减少", "全血细胞减少"], "answer": 0}, {"q": "呕吐总的发病机理是", "options": ["气机不利，升降失职", "胃气阻滞，不通则痛", "胃失和降，膈间气机不利", "胃失和降，胃气上逆", "痰饮内停，中阳不振"], "answer": 3}, {"q": "经过鉴定判断为患者对因不良反应造成患者身体损害的，由（ ）承担责任", "options": ["由国家赔偿", "由药品生产企业赔偿", "由医疗机构赔偿", "由患者自行承担"], "answer": 1}, {"q": "显著胰岛素抵抗的 2型糖尿病应选用的口服降糖药是", "options": ["二甲双胍", "格列本脲", "阿卡波糖", "吡格列酮", "瑞格列奈"], "answer": 3}, {"q": "成年人最多见的急性白血病是", "options": ["急红白血病", "急单核白血病", "急巨细胞白血病", "急粒白血病", "急淋白血病"], "answer": 3}, {"q": "女性，48岁。胸骨后甲状腺肿伴甲亢，拟行手术治疗。术前准备是", "options": ["无须做术前准备", "使用复方碘液", "使用抗甲状腺药", "使用抗甲状腺药及复方碘液", "使用β受体阻滞剂"], "answer": 3}, {"q": "下列各项，不属治疗支原体肺炎常选用的抗生素是", "options": ["阿奇霉素", "红霉素", "青霉素G", "莫西沙星", "罗红霉素"], "answer": 2}, {"q": "治疗咳嗽之风寒袭肺证，应首选的方剂是", "options": ["桑菊饮", "三拗汤合止嗽散", "桑杏汤", "荆防达表汤", "沙参麦冬汤"], "answer": 1}, {"q": "下列各项，不符合颤证临床特征的是", "options": ["头部及肢体颤抖不能自制", "四肢痿软无力", "动作笨拙，活动减少", "隐袭起病，逐渐加重", "多发生于中老年人"], "answer": 1}, {"q": "患者颈前轻度肿大，质软，光滑，伴有烦躁易怒，怕热多汗，手抖舌颤。其辨证是", "options": ["肝郁气滞", "气郁痰阻", "肝火旺盛", "心肝阴虚", "痰结血瘀"], "answer": 2}, {"q": "慢性肺心病早期诊断的主要依据是", "options": ["肺气肿征象", "肺动脉高压征象", "右心衰竭体征", "反复咳嗽、咳痰病史", "心悸、气促症状"], "answer": 1}, {"q": "患者，男，75岁。头摇肢颤 5 年，持物不稳，腰膝酸软，失眠心烦，头晕耳鸣，善忘神呆，舌质红，舌苔薄白，脉细数。其治法是", "options": ["补肾助阳，温煦筋脉", "填精补髓，育阴息风", "补中益气，健脾升清", "益气养血，濡养筋脉", "镇肝息风，舒筋止颤"], "answer": 1}, {"q": "关于生命价值论的理解错误的是", "options": ["生命价值论是指根据生命对自身和他人、社会的效用如何，而采取不同对待的生命伦理观", "根据生命价值主体的不同，生命价值分为正生命价值、负生命价值和零生命价值", "根据生命价值是否已经体现出来，生命价值分为现实的生命价值和潜在的生命价值", "生命价值论为全面认识人的生命存在意义提供了科学依据", "生命价值论为医护人员对于那些濒于死亡的极度痛苦病人做出医疗决策提供伦理依据"], "answer": 1}, {"q": "急性白血病出血的主要原因是", "options": ["血小板减少", "纤维蛋白溶解", "弥散性血管内凝血", "凝血因子减少", "小血管浸润破坏"], "answer": 0}, {"q": "根据违法行为的性质和危害程度的不同，法律责任分为", "options": ["赔偿责任、补偿责任、刑事责任", "经济责任、民事责任、刑事责任", "行政处分、经济补偿、刑事责任", "行政处罚、经济赔偿、刑事责任", "民事责任、行政责任、刑事责任"], "answer": 4}, {"q": "有助于鉴别原发性与继发性肝癌的检查是", "options": ["腹部CT", "腹部B 超", "血AFP检测", "血CEA测定", "肝功能检查"], "answer": 2}, {"q": "患者男性，40 岁，发热、咽痛伴齿龈出血1 月余，浅表淋巴结和脾轻度肿大，全血细胞减少，骨髓有核细胞增生活跃，原始细胞0.20，最可能的诊断是", "options": ["再生障碍性贫血", "脾功能亢进症", "急性白血病", "过敏性紫癜", "骨髓增殖性肿瘤"], "answer": 2}, {"q": "10岁女性，反复发作双目凝视 1 年。发作时突然中止原来的活动或中断谈话，面色变白，双目凝视，手中所持物件失摇跌落，有时眼睑、口角或上肢出现不易觉察的颤动。临床诊断最可能是", "options": ["癫痫典型失神发作", "癫痫肌阵挛发作", "癫痫无肌张力性发作", "癫痫不典型失神发作", "以上都不是"], "answer": 0}, {"q": "左心衰竭急性肺水肿时需鉴别的疾病是", "options": ["支气管哮喘", "肝硬化", "肺气肿", "胃癌", "慢性肾炎"], "answer": 0}, {"q": "男，39 岁，B超和 CT 检查发现右肝 3×5cm占位性病变，性质不明，AFP 阴性。哪项检查对明确诊断最有帮助", "options": ["MRI", "肝动脉造影", "肝动脉造影+CT检查", "动态观察AFP变化", "肝脏穿刺+病理学检查"], "answer": 4}, {"q": "患者，哮喘病史近十年，发作半年，经治略平，但仍感胸闷气短，动则喘甚，吸气不利，腰酸乏力，不耐劳累。烦热颜红，口干，舌红少苔，脉细数，其证候诊断是", "options": ["痰浊阻肺证", "下虚上实证", "肺肾两虚证", "心阳欲脱证", "脾肾两虚证"], "answer": 2}, {"q": "患者，女，28 岁，平素急躁易怒，口苦咽干，今日突然仆倒，不省人事，吼叫，四肢抽搐，口吐白沫，舌红，苔黄腻，脉数，其治法是", "options": ["活血化瘀，息风通络", "涤痰息风，开窍定痫", "平肝潜阳，清火息风", "化痰祛湿，健脾和胃", "清热泻火，化痰开窍"], "answer": 2}, {"q": "患者，男性，36 岁，反复浮肿，高血压4 年，近日气喘明显，深大呼吸，查血红蛋白 60g/L，双肺呼吸音清晰，未闻及啰音，心率92 次/分，节律整齐。患者气喘最可能的原因是", "options": ["心功能不全", "贫血", "代谢性酸中毒", "上呼吸道感染", "水肿"], "answer": 2}, {"q": "经产前检查，医师发现或者怀疑胎儿异常的，应当对孕妇进行", "options": ["终止妊娠", "产前诊断", "结扎", "输血"], "answer": 1}, {"q": "诊断白细胞减少症的标准是", "options": ["周围血白细胞持续低于5×10⁹/L", "周围血白细胞持续低于4.5×10⁹/L", "周围血白细胞持续低于4×10⁹/L", "周围血白细胞持续低于3.5×10⁹/L", "周围血白细胞持续低于3×10⁹/L"], "answer": 2}, {"q": "根据《献血法》的规定，血站对献血者每次采集的血液量为（ ），最多不得超过（ ）", "options": ["100毫升；150毫升", "100毫升；200毫升", "200毫升；300毫升", "200毫升；400毫升", "300毫升；400毫升"], "answer": 3}, {"q": "慢性肾盂肾炎应鉴别的疾病是", "options": ["狼疮肾炎", "急性肾小球肾炎", "肾结核", "急性肾盂肾炎", "糖尿病肾病"], "answer": 2}, {"q": "男性，65 岁，高血压病史 14 年，今晨起床突然发现右侧肢体瘫痪、感觉障碍伴有失语，经检查诊断为动脉血栓性脑梗死，其最可能的梗死部位是", "options": ["左侧大脑中动脉", "右侧大脑中动脉", "左侧大脑前动脉", "右侧大脑前动脉", "椎-基底动脉"], "answer": 0}, {"q": "原发性肝癌最少见的形态学类型是", "options": ["块状型", "巨块型", "小癌型", "弥漫型", "结节型"], "answer": 3}, {"q": "患者恶寒发热，无汗，热势不高，鼻塞流涕，头痛身楚，咳嗽痰白，咳痰无力，平素神疲体倦，乏力，舌质淡，苔薄白，脉浮无力。其证候是", "options": ["风寒感冒", "风热感冒", "气虚感冒", "暑湿感冒", "阴虚感冒"], "answer": 2}, {"q": "洋地黄中毒最重要的反应是", "options": ["恶心、呕吐", "倦怠、乏力", "频发性早搏", "视力模糊、黄视", "腹痛、腹泻"], "answer": 2}, {"q": "患者咳嗽，咳声短促，咯少量血丝痰，胸部隐隐闷痛，午后自觉手足心热，盗汗，口干咽燥。舌苔薄白，舌边尖红，脉细数。其证候是", "options": ["肺阴亏损证", "虚火灼肺证", "气阴耗伤证", "阴阳虚损证", "痰热郁肺证"], "answer": 0}, {"q": "张某，男性，40 岁，母亲乙肝病史。平素未行正规体检。半年前，无明显诱因下出现腹胀，初未重视，后腹胀逐渐加重，甚至腹胀如鼓，遂来院就诊，见患者脘腹撑急，肌肤发黄，小便赤涩，舌边尖红，苔黄腻，脉弦数，最适合该患者的方剂是", "options": ["茵陈五苓散", "中满分消丸", "调营饮", "千金犀角散", "疏凿饮子"], "answer": 1}, {"q": "患者，小便不畅，点滴而下，小腹胀满，多烦善怒，舌红，苔薄黄，脉弦。其治疗宜首选的方剂是", "options": ["沉香散", "知柏地黄汤", "清肺饮", "小柴胡汤", "代抵当丸"], "answer": 0}, {"q": "患者，今晨受凉后出现腹痛拘急，得温痛减，口淡不渴，形寒肢冷，小便清长，大便清稀，舌质淡，苔白腻，脉沉紧。其治法是", "options": ["消食导滞，理气止痛", "散寒温里，理气止痛", "疏肝解郁，理气止痛", "活血化瘀，和络止痛", "温中补虚，缓急止痛"], "answer": 1}, {"q": "男，27 岁，近 6、5 月来腹泻与便秘交替发生，近 3 个月来腹部隐痛，近2 天解鲜血便，腹部触诊和直肠指诊未发现肿块，钡灌肠示降结肠肠壁僵硬，可见充盈缺损。应诊断为", "options": ["乙状结肠癌", "直肠壶腹癌", "肠结核", "溃疡性结肠炎（增殖型）", "降结肠癌"], "answer": 4}, {"q": "患者，反复齿衄，血色鲜红，齿龈红肿疼痛，头痛，口臭，舌红，苔黄，脉洪数。其治疗首选的方剂是", "options": ["加味清胃散合泻心汤", "泻心汤合十灰散", "玉女煎合左金丸", "龙胆泻肝汤合清胃散", "加味清胃散合茜根散"], "answer": 0}, {"q": "《中华人民共和国中医药条例》规定，（ ）依照国家有关规定享受财政补贴、税收减免等优惠政策", "options": ["非营利性中医医疗机构", "中外合资中医医疗机构", "民营中医医疗机构", "中外合作中医医疗机构"], "answer": 0}, {"q": "我国肝硬化的最主要病因是", "options": ["病毒性肝炎", "营养不良", "慢性酒精中毒", "慢性心力衰竭", "慢性细菌性痢疾"], "answer": 0}, {"q": "呃逆病变的关键脏腑是", "options": ["胃", "脾", "肝", "胆", "肾"], "answer": 0}, {"q": "医疗事故是医疗机构及其医务人员在医疗活动中，违反卫生管理法律、行政法规、部门规章和诊疗护理规范、常规，（ ）造成患者人身损害的事故", "options": ["故意", "无过错", "过错", "过失"], "answer": 3}, {"q": "医学心理学是", "options": ["研究心理变量与健康和疾病变量之间的关系", "由德国人洛采首次提出", "是应用心理学分支", "促进医学模式向生物-心理-社会模式的转变", "以上都正确"], "answer": 4}, {"q": "下列各项，属于虚劳与肺痨鉴别要点的是", "options": ["有无咳血盗汗", "有无肺虚见证", "有无五脏虚损证候", "有无传染性", "有无干咳"], "answer": 3}, {"q": "下列各项有关中风的论述中不正确的是", "options": ["中经络以平肝息风，化痰祛瘀通络为主", "中脏腑闭证，治当息风清火，豁痰开窍，通腑泄热", "对内外脱之证，则须醒神开窍与扶正固脱兼用", "脱证急宜救阴回阳固脱", "发作时口吐白沫"], "answer": 4}, {"q": "下列各项，不属心衰气虚血瘀证临床表现的是", "options": ["胸闷气短", "动则诱发加重", "神疲乏力", "口唇发绀", "脉微欲绝"], "answer": 4}, {"q": "患者，男性，55 岁，因胸痛持续时间 30 分钟而急诊，胸痛发作时心电图示V₃～V₅ 导联 ST段水平下移 0.4mV，伴 T 波倒置。被诊断为急性冠脉综合征。查体HR 80次/分钟，律齐，BP110/76mmHg。实验室检查心肌肌钙蛋白I（cTnI）1.0μg/L。以下措施中错误的是", "options": ["急诊留观", "氯吡格雷抗血小板", "美托洛尔", "低分子肝素抗凝", "尿激酶溶栓"], "answer": 4}, {"q": "甲亢患者抗甲状腺药物治疗前必须检查的项目是", "options": ["心电图", "肝功能", "甲状腺大小", "血白细胞数", "肝功能"], "answer": 3}, {"q": "患者，头昏胀痛，心烦易怒，睡眠不宁，面红目赤，口苦，舌红苔薄黄，脉弦数。其治法是", "options": ["化痰降逆", "补养气血", "养阴补肾", "平肝潜阳", "疏风清热"], "answer": 3}, {"q": "肺胀最特征性的主症是", "options": ["发作性痰鸣气喘", "喘促气急", "咳嗽咳痰", "胸部膨满，憋闷如塞", "胸胁饱满，咳唾引痛"], "answer": 3}, {"q": "患者，女，24 岁。曾多次空腹尿糖阳性，空腹血糖 5.2mmol/L，餐后2 小时血糖 6.4mmol/L，其诊断是", "options": ["正常人", "糖耐量减低", "空腹血糖受损", "肾性糖尿", "糖尿病"], "answer": 3}, {"q": "眩晕的病理因素是", "options": ["风、寒、湿、瘀", "风、火、痰、瘀", "风、热、寒、湿", "热、毒、痰、瘀", "风、痰、饮、瘀"], "answer": 1}, {"q": "患者，咳嗽月余，迁延不愈，喉痒，咯痰不畅，仍伴鼻塞，流清涕，治疗首选的方剂是", "options": ["麻黄汤", "杏苏饮", "三拗汤", "止嗽散", "清金化痰汤"], "answer": 3}, {"q": "某单位职工，男性，48 岁，平时和同事相处甚难，某同事想让其就诊心理咨询，但该职工坚决反对，心理医师也不主张这样的人来门诊治疗，是因为心理治疗的性质有", "options": ["学习性", "实效性", "自主性", "应用性", "操作性"], "answer": 2}, {"q": "诊断癫痫最重要的辅助检查是", "options": ["脑血流图", "脑脊液检查", "脑MRI", "脑电图", "免疫学检查"], "answer": 3}, {"q": "最有助于诊断心力衰竭的辅助检查是", "options": ["超声心动图", "放射性核素", "冠状动脉造影", "血浆脑钠肽", "胸部X 线"], "answer": 3}, {"q": "系统性红斑狼疮出现易形成动、静脉血栓的抗体是", "options": ["ANA", "抗核糖体RNP抗体", "抗磷脂抗体", "抗Sm抗体", "抗双链DNA抗体"], "answer": 2}, {"q": "行为学派认为人后天的行为源于", "options": ["本能", "学习", "社会", "情绪", "人格"], "answer": 1}, {"q": "儿童最多见的急性白血病是", "options": ["急红白血病", "急单核白血病", "急巨细胞白血病", "急粒白血病", "急淋白血病"], "answer": 4}, {"q": "患者，女性，35岁，反复低热半年余，伴双手腕关节及掌指关节肿痛，晨起关节有胶黏着样感觉，近日症状加重脚踝部可见大小不一、无压痛的下结节，伴心包炎及肺间质病变，查血白细胞 8.9×10⁹/L，血红蛋白84g/L，血沉 98mm/h，ANA（-），RF(+)，已应用布洛芬、甲氨蝶呤、雷公藤多苷等药物规范治疗，进一步治疗措施是", "options": ["加用糖皮质激素", "加用环磷酰胺", "滑膜切除术", "关节置换术", "增加布洛芬用量"], "answer": 0}, {"q": "治疗汗证阴虚火旺证的首选方剂是", "options": ["青蒿鳖甲汤", "知柏地黄丸", "当归六黄汤", "天王补心丹", "犀角地黄汤"], "answer": 2}, {"q": "患者，头晕，头目胀痛，遇劳怒加重，肢麻震颤，舌红苔黄，脉弦数，治疗首选方剂是", "options": ["龙胆泻肝汤", "天麻钩藤饮", "通窍活血汤", "左归丸", "半夏白术天麻汤"], "answer": 1}, {"q": "主动脉瓣狭窄典型的三联征表现是", "options": ["心绞痛、心律失常、晕厥", "心力衰竭、心绞痛、晕厥", "呼吸困难、心律失常、晕厥", "心力衰竭、心律失常、晕厥", "呼吸困难、心绞痛、晕厥"], "answer": 4}, {"q": "患者，女，35 岁，反复发作气急痰喘 6 年余。5 分钟前受寒复发，喉中哮鸣如水鸡声，呼吸急促，喘憋气逆，胸膈满闷如塞，咳不甚，痰少咯吐不爽，色白而多泡沫，渴喜热饮，形寒怕冷，面色青晦，舌苔白滑，脉浮紧。其治法是", "options": ["清热宣肺，化痰定喘", "宣肺散寒，化痰平喘", "解表散寒，清化痰热", "祛风涤痰，降气平喘", "补肺纳肾，降气化痰"], "answer": 1}, {"q": "68岁，男性，有高血压史，突发眩晕头痛，恶心呕吐，走路不稳，后枕部疼痛，查体发现颈项强直及眼球震颤，CT提示“脑出血”，其出血部位最有可能的是", "options": ["脑干出血", "小脑出血", "脑叶出血", "丘脑出血", "脑室出血"], "answer": 1}, {"q": "治疗急性肾盂肾炎的一般疗程是", "options": ["3天疗法", "7天疗程", "7-14天疗程", "6个月疗程", "半年-1年疗程"], "answer": 2}, {"q": "中风的病理因素是", "options": ["风、火、气、痰", "火、湿、痰、瘀", "风、火、痰、瘀", "痰、气、火、瘀", "风、痰、湿、瘀"], "answer": 2}, {"q": "患者，75岁，智能减退，记忆力、计算力、定向力、判断力明显减退，神情呆钝，词不达意，头晕耳鸣，懒惰思卧，齿枯发焦，腰酸背软，步履艰难，舌瘦色淡，苔薄白，脉沉细弱。其证型是", "options": ["气血两虚证", "瘀血内阻证", "痰浊蒙窍证", "脾肾两虚证", "髓海不足证"], "answer": 4}, {"q": "下列关于噎膈的预防调护叙述中，错误的是", "options": ["多食新鲜蔬菜水果", "戒烟戒酒", "及时治疗食管慢性炎症", "避免食用发霉的食物", "每餐进食后不宜立即喝水"], "answer": 4}, {"q": "引起痛痹最主要的外邪是", "options": ["风邪", "寒邪", "湿邪", "热邪", "燥邪"], "answer": 1}, {"q": "急性心力衰竭典型的痰液性状是", "options": ["铁锈色痰", "白色黏痰", "棕红色痰", "灰白色浆液痰", "粉红色泡沫样痰"], "answer": 4}, {"q": "某检验师发现某病人的检查检验结果达到危急值，但没有及时告知主管医师，导致病人因不能及时救治而死亡。该检验师的行为", "options": ["正确", "没有责任", "责任由主管医师承担", "错误。应及时提示医师注意"], "answer": 3}, {"q": "钱某，男，49 岁。既往 1 年常因工作压力大，胃纳渐差，时觉腹胀，近1 月，自扪腹部有一积块，质软不坚，胀痛不适，舌淡红，苔薄白，脉细弦，治疗此病证应首选的方剂为", "options": ["膈下逐瘀汤合六君子汤", "柴胡疏肝散合失笑散", "六磨汤", "逍遥散合木香顺气散", "八珍汤合化积丸"], "answer": 3}, {"q": "个性心理特征是个体身上表现出来的本质的、稳定的心理特征，主要包括", "options": ["感觉、知觉和记忆", "知、情、意过程", "需要、动机和世界观", "能力、气质和性格"], "answer": 3}, {"q": "疟疾的基本病机是", "options": ["暑湿伏于少阳，出入营卫，邪正交争", "湿毒伏于阳明，出入营卫，邪正交争", "疟邪伏于阳明，出入营卫，邪正交争", "疟邪伏于少阳，出入营卫，邪正交争", "暑湿伏于半表半里，邪正交争"], "answer": 3}, {"q": "大咯血的常见病因是", "options": ["支气管哮喘", "COPD", "支气管扩张症", "原发性肺泡通气不足", "慢性高原病"], "answer": 2}, {"q": "女性，26 岁，支气管哮喘病史 13 年，今晨上班途中因吸入汽车尾气突然发作，以喘憋、呼吸困难为主，伴心悸、乏力，遂急诊，为控制发作应首选的药物", "options": ["沙丁胺醇气雾剂", "溴化异丙托品气雾剂", "泼尼松口服", "色甘酸钠", "茶碱缓释片"], "answer": 0}, {"q": "患者，男，28 岁，鼻衄日久，神疲乏力，头晕目眩，心悸时作，夜寐不安，舌淡苔白，脉细。其治疗首选的方剂是", "options": ["四君子汤", "八珍汤", "四物汤", "归脾汤", "酸枣仁汤"], "answer": 3}, {"q": "患者，2 年前退休后出现精神抑郁，情绪不宁，胸部满闷，胁肋胀痛，痛无定处，脘闷嗳气，不思饮食，大便不调，苔薄腻，脉弦。其证候是", "options": ["肝气郁结证", "气郁化火证", "心脾两虚证", "心神失养证", "阴虚火旺证"], "answer": 0}, {"q": "导致肾性骨病最主要的原因是", "options": ["活性维生素D3缺乏", "继发甲状旁腺功能亢进", "营养不良", "铝中毒", "铁负荷减少"], "answer": 1}, {"q": "瘿病的病位主要在", "options": ["肝、肾", "心、肺", "肝、脾", "心、肝", "脾、肾"], "answer": 0}, {"q": "治疗甲状腺危象迅速抑制甲状腺素的合成应选用的药物是", "options": ["大量抗甲状腺药物", "无机碘溶液", "普萘洛尔", "氢化可的松", "地西泮"], "answer": 0}, {"q": "女，53岁，右中上腹持续性隐痛 3个月，逐渐食欲不振，消瘦乏力，近 1月来解稀便 2～3 次/天，贫血。查体中腹可扪及可移动的肿块，血红蛋白80g/L，大便隐血试验（++）。首先考虑的诊断是", "options": ["肠结核", "胆囊癌", "结肠息肉病", "克隆病", "右半结肠癌"], "answer": 4}, {"q": "下列关于慢性肾衰竭的透析指征，错误的是", "options": ["血尿素氮≥28.6mmol/L", "血钾>6mmol/L", "尿毒症心包炎", "血肌酐≥884μmol/L", "尿毒症脑病"], "answer": 3}, {"q": "下列关于缺铁性贫血的实验室检查，错误的是", "options": ["小细胞低色素性贫血", "骨髓增生活跃、幼红细胞增生", "骨髓铁染色阴性", "血清铁减少", "血清总铁结合力降低"], "answer": 4}, {"q": "下列不属于聚证形成病因的是", "options": ["气滞", "风热", "寒邪", "食积", "痰阻"], "answer": 1}, {"q": "治疗热秘首选的方剂是", "options": ["麻子仁丸", "六磨汤", "黄芪汤", "增液承气汤", "济川煎"], "answer": 0}, {"q": "腹痛治疗不及时，可能出现的变证是", "options": ["痈疽", "水肿", "中风", "胸痹", "厥脱"], "answer": 4}, {"q": "胃癌最早、最常见的转移方式是", "options": ["直接蔓延", "血行转移", "上行转移", "淋巴转移", "种植转移"], "answer": 3}, {"q": "时值盛夏，患者身热，微恶寒，肢体酸重疼痛，头重，无汗，咳嗽痰粘，口中粘腻，渴不多饮，小便短赤，舌苔薄腻，脉濡数，本病证的治法是", "options": ["辛凉解表，宣肺清热", "辛温解表，宣肺散寒", "清暑祛湿解表", "润燥解表", "益气解表"], "answer": 2}, {"q": "母婴保健法规定，国家鼓励和支持母婴保健领域的", "options": ["教育工作", "教育、预防工作", "教育、科研工作", "预防、科研工作", "预防工作"], "answer": 2}, {"q": "下列各项，不属血证治疗原则的是", "options": ["治火", "治气", "治痰", "治血", "治虚"], "answer": 2}, {"q": "患者反复短气自汗、时寒时热、声音低怯、平时易于感冒而致咳嗽，舌淡，脉弱。方选", "options": ["牡蛎散", "补肺汤", "生脉散", "补中益气汤", "黄芪鳖甲散"], "answer": 1}, {"q": "糖尿病的饮食治疗中，糖类占饮食总热量的百分比是", "options": ["30%-40%", "40%-50%", "50%-60%", "60%-70%", "70%-80%"], "answer": 2}, {"q": "女性，24岁，月经量增多，伴反复下肢紫癜1 年，病前无服药史，肝脾未及，血红蛋白 100g/L；血常规白细胞 5.3×10⁹/L，血小板25×10⁹/L，骨髓涂片骨髓增生活跃，巨核细胞200 个，产板巨减少，以下哪项治疗不适宜", "options": ["首选糖皮质激素", "反复输注浓缩血小板", "激素使用6个月无效可行脾切除", "如病人激素无效，也可加用长春新碱", "如病人妊娠，可采用大量免疫球蛋白"], "answer": 1}, {"q": "易发生房室交界区相关的折返性心动过速多见的是", "options": ["冠心病患者", "心肌炎患者", "高血压病患者", "药物中毒患者", "无器质性心脏病者"], "answer": 4}, {"q": "患者，小便不畅，尿如细线，甚则阻塞不通，小腹胀满疼痛，舌紫暗，有瘀点，脉涩。其诊断为", "options": ["关格瘀血内阻证", "劳淋脾肾亏虚证", "癃闭浊瘀阻塞证", "淋证膀胱湿热证", "癃闭脾气不升证"], "answer": 2}, {"q": "患者，男，73 岁。腰部酸痛，缠绵不愈，喜温喜按，遇劳更甚，卧则减轻，肢冷畏寒，舌质淡，脉沉细无力。该病证的治法是", "options": ["培补肝肾，舒筋止痛", "散寒行湿，温经通络", "活血化瘀，通络止痛", "温补肾阳", "益气养血"], "answer": 3}, {"q": "患者，男，32 岁。有糖尿病家族史，空腹血糖6.8mmol/L，为确诊糖尿病，首选的检查是", "options": ["重复测空腹血糖", "测餐后2 小时血糖", "多次测任意血糖", "口服葡萄糖耐量试验", "糖化血红蛋白"], "answer": 3}, {"q": "支气管哮喘发作时禁用的药物是", "options": ["糖皮质激素", "β2受体激动剂", "抗生素", "肾上腺素", "吗啡"], "answer": 4}, {"q": "下列不属于糖尿病周围神经病变临床特点的是", "options": ["呈多发性", "呈对称性", "上肢重于下肢", "早期以感觉异常为主", "后期出现肌肉萎缩"], "answer": 2}, {"q": "癫狂的病理因素主要是", "options": ["气、痰、火、瘀", "风、火、瘀、痰", "风、气、火、瘀", "风、痰、气、瘀", "风、痰、火、气"], "answer": 0}, {"q": "腰痛日久，屡次复发者，治疗时可与活血化瘀药配合的药物是", "options": ["补益肝肾药", "健脾养血药", "搜风通络药", "化痰通络药", "祛风胜湿药"], "answer": 0}, {"q": "公正不仅指形式上的类似，更强调公正的", "options": ["本质", "内容", "基础", "内涵", "意义"], "answer": 1}, {"q": "从事人体器官移植的医务人员不得公开人体器官捐献人、接受人和申请人体器官移植手术的患者的个人资料，这是器官移植的", "options": ["公正原则", "伦理审查原则", "尊重和保护供者原则", "保密原则", "病人健康利益至上原则"], "answer": 3}, {"q": "强直性脊柱炎病人检查腰椎活动度应采用的检查是", "options": ["Schober试验", "4字试验", "浮髌试验", "直腿抬高试验", "测量握力"], "answer": 0}, {"q": "国家鼓励率先献血的部分公民的共同特点是", "options": ["普遍比较年轻，精力旺盛，身体健康", "普遍具有较高的思想觉悟和文化素质，身体条件较好", "普遍具有较高的思想觉悟，有较高的学历和工作能力", "普遍具有良好的身体素质，身体健康，疾病较少"], "answer": 1}, {"q": "患者，男，46 岁。反复胃脘疼痛3 年，胃痛隐隐，绵绵不休，喜温喜按，空腹痛甚，得食则缓，受凉后发作，泛吐清水，神疲纳呆，四肢倦怠，大便溏薄，舌淡苔白，脉迟缓。其证候诊断是", "options": ["饮食伤胃证", "寒邪客胃证", "胃阴亏耗证", "脾胃虚寒证", "瘀血停胃证"], "answer": 3}]
+};
 
-const NDX_FALLBACK = ["AAPL","MSFT","NVDA","AMZN","GOOGL","GOOG","META","AVGO","TSLA","COST","NFLX","AMD","PEP","ADBE","LIN","CSCO","TMUS","INTC","INTU","QCOM","AMGN","TXN","ISRG","CMCSA","AMAT","HON","BKNG","VRTX","ADP","MU","ADI","REGN","PANW","GILD","LRCX","SBUX","MDLZ","KLAC","SNPS","CDNS","PYPL","MAR","CRWD","ABNB","MELI","ORLY","CSX","CTAS","NXPI","PCAR","WDAY","ROP","MRVL","MNST","ADSK","FTNT","DASH","AEP","CPRT","PAYX","KDP","ROST","ODFL","CHTR","FANG","EA","KHC","DDOG","VRSK","EXC","GEHC","FAST","CCEP","CTSH","BKR","XEL","IDXX","TTWO","ON","CSGP","ANSS","DXCM","ZS","BIIB","TEAM","WBD","ILMN","GFS","ENPH","LCID","ARM","SMCI","MRNA","PLTR","HOOD","APP","COIN"];
+const app = document.getElementById("app");
+const LETTERS = "ABCDE";
+const prefersDark = ()=> !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
 
-const SP500_SYMS = "MMM AOS ABT ABBV ACN ADBE AMD AES AFL A APD ABNB AKAM ALB ARE ALGN ALLE LNT ALL GOOGL GOOG MO AMZN AMCR AEE AEP AXP AIG AMT AWK AMP AME AMGN APH ADI ANSS AON APA APO AAPL AMAT APTV ACGL ADM ANET AJG AIZ T ATO ADSK ADP AZO AVB AVY AXON BKR BALL BAC BAX BDX BRK-B BBY TECH BIIB BLK BX BK BA BKNG BSX BMY AVGO BR BRO BF-B BLDR BG BXP CHRW CDNS CZR CPT CPB COF CAH KMX CCL CARR CAT CBOE CBRE CDW CE COR CNC CNP CF CRL SCHW CHTR CVX CMG CB CHD CI CINF CTAS CSCO C CFG CLX CME CMS KO CTSH CL CMCSA CAG COP ED STZ CEG COO CPRT GLW CPAY CTVA CSGP COST CTRA CRWD CCI CSX CMI CVS DHR DRI DVA DAY DECK DE DELL DAL DVN DXCM FANG DLR DFS DG DLTR D DPZ DOV DOW DHI DTE DUK DD EMN ETN EBAY ECL EIX EW EA ELV EMR ENPH ETR EOG EPAM EQT EFX EQIX EQR ERIE ESS EL EG EVRG ES EXC EXPE EXPD EXR XOM FFIV FDS FICO FAST FRT FDX FIS FITB FSLR FE FI FMC F FTNT FTV FOXA FOX BEN FCX GRMN IT GE GEHC GEV GEN GNRC GD GIS GM GPC GILD GPN GL GDDY GS HAL HIG HAS HCA DOC HSIC HSY HES HPE HLT HOLX HD HON HRL HST HWM HPQ HUBB HUM HBAN IBM IEX IDXX ITW INCY IR PODD INTC ICE IFF IP IPG INTU ISRG IVZ INVH IQV IRM JBHT JBL JKHY J JNJ JCI JPM JNPR K KVUE KDP KEY KEYS KMB KIM KMI KKR KLAC KHC KR LHX LH LRCX LW LVS LDOS LEN LII LLY LIN LYV LKQ LMT L LOW LULU LYB MTB MPC MKTX MAR MMC MLM MAS MA MTCH MKC MCD MCK MDT MRK META MET MTD MGM MCHP MU MSFT MAA MRNA MHK MOH TAP MDLZ MPWR MNST MCO MS MOS MSI MSCI NDAQ NTAP NFLX NEM NWSA NWS NEE NKE NI NDSN NSC NTRS NOC NCLH NRG NUE NVDA NVR NXPI ORLY OXY ODFL OMC ON OKE ORCL OTIS PCAR PKG PLTR PANW PARA PH PAYX PYPL PNR PEP PFE PCG PM PSX PNW PNC POOL PPG PPL PFG PG PGR PLD PRU PEG PTC PSA PHM PWR QCOM DGX RL RJF RTX O REG REGN RF RSG RMD RVTY ROK ROL ROP ROST RCL SPGI CRM SBAC SLB STX SRE NOW SHW SPG SWKS SJM SW SNA SOLV SO LUV SWK SBUX STT STLD STE SYK SMCI SYF SNPS SYY TMUS TROW TTWO TPR TRGP TGT TEL TDY TER TSLA TXN TPL TXT TMO TJX TSCO TT TDG TRV TRMB TFC TYL TSN USB UBER UDR ULTA UNP UAL UPS URI UNH UHS VLO VTR VLTO VRSN VRSK VZ VRTX VTRS VICI V VST VMC WAB WBA WMT DIS WBD WM WAT WEC WFC WELL WST WDC WY WMB WTW WDAY GWW XEL XYL YUM ZBRA ZBH ZTS".split(" ");
-const INDEX_SYMBOLS = { sp500: SP500_SYMS, ndx: NDX_FALLBACK };
+let opts = { count:20, shuffleOpts:true, mode:'quiz', theme: prefersDark()?'dark':'light' };
+let session = null;
 
-let MOVERS = {}, lastUpdated = null;
-let state = { idx: "sp500", dir: "up", expanded: false };
-let nextUpdateTs = 0, loading = false;
-// 미 정규장 09:30~16:00 ET = 390분. 지수 구성종목 quote 일괄조회(S&P500 ≈2콜·나스닥 1콜). 6분 간격 → 하루 약 130콜(< 250 한도).
-const REFRESH_MS = 6 * 60 * 1000;
+function applyTheme(){ document.documentElement.setAttribute('data-theme', opts.theme); }
+const shuffle = a => { const r=a.slice();
+  for(let i=r.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[r[i],r[j]]=[r[j],r[i]];} return r; };
 
-function etNow(){
-  const f = new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false});
-  const p={}; f.formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
-  const wk={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
-  let h=parseInt(p.hour,10); if(h===24)h=0;
-  return { dow: wk[p.weekday], min: h*60+parseInt(p.minute,10) };
-}
-function marketOpen(){ const t=etNow(); return t.dow>=1 && t.dow<=5 && t.min>=570 && t.min<960; } // 9:30~16:00 ET
-function msToOpen(){
-  const now=new Date(), t=etNow(); let add;
-  if(t.dow>=1 && t.dow<=5 && t.min<570) add = 570 - t.min;
-  else { let d=1, nd=(t.dow+1)%7; while(nd===0||nd===6){ d++; nd=(t.dow+d)%7; } add = d*1440 - t.min + 570; }
-  return add*60000 - (now.getSeconds()*1000 + now.getMilliseconds());
-}
-function fmtHMS(ms){ if(ms<0)ms=0; const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60,pad=n=>String(n).padStart(2,"0"); return pad(h)+":"+pad(m)+":"+pad(x); }
-
-async function tryFirst(urls){
-  let lastErr;
-  for(const u of urls){
-    try { const r = await fetch(u); if(r.ok){ const j = await r.json(); if(Array.isArray(j)) return j; lastErr=new Error("bad shape"); } else lastErr=new Error("HTTP "+r.status); }
-    catch(e){ lastErr=e; }
-  }
-  throw lastErr || new Error("no data");
-}
-function pickPct(o){
-  let v = o.changesPercentage ?? o.changePercentage ?? o.changesPercent ?? o.changePercent;
-  if(typeof v === "string") v = parseFloat(v.replace('%',''));
-  return v;
-}
-function showStatus(msg, err){
-  document.getElementById("moversBody").innerHTML = '<div class="status'+(err?' err':'')+'">'+msg+'</div>';
-}
-const MEMBER = { sp500: new Set(INDEX_SYMBOLS.sp500), ndx: new Set(INDEX_SYMBOLS.ndx) };
-let RAW = {};          // 미국 시장 전체 등락(지수 무관) — 타이머로만 갱신
-let dataReady = false;
-
-// FMP 호출은 타이머(REFRESH_MS)와 최초 1회에만. 지수/정렬 클릭은 재호출 없이 캐시 재필터만.
-async function fetchRaw(){
-  if(loading) return; loading = true;
-  try {
-    const lists = await Promise.all([
-      tryFirst([`${BASE}/biggest-gainers?apikey=${FMP_KEY}`, `${V3}/stock_market/gainers?apikey=${FMP_KEY}`]).catch(()=>[]),
-      tryFirst([`${BASE}/biggest-losers?apikey=${FMP_KEY}`, `${V3}/stock_market/losers?apikey=${FMP_KEY}`]).catch(()=>[]),
-      tryFirst([`${BASE}/most-actives?apikey=${FMP_KEY}`, `${V3}/stock_market/actives?apikey=${FMP_KEY}`]).catch(()=>[])
-    ]);
-    const fresh = {};
-    lists.flat().forEach(o=>{ if(o && o.symbol){ const pct = pickPct(o); if(typeof pct==="number" && !isNaN(pct)) fresh[o.symbol] = { price:o.price, pct, name:o.name||o.companyName||o.symbol }; } });
-    if(Object.keys(fresh).length){ RAW = fresh; lastUpdated = new Date(); dataReady = true; }
-    else if(!dataReady){ showStatus("지금은 표시할 등락 데이터가 적습니다. 미국 장중에 다시 확인해보세요.", true); }
-    render();
-  } catch(e){
-    if(!dataReady) showStatus("시세를 불러오지 못했습니다 (" + e.message + "). 잠시 후 자동 재시도됩니다.", true);
-  } finally { loading = false; }
-}
-const loadMovers = fetchRaw;
-
-function rows(){
-  const set = MEMBER[state.idx];
-  let arr = Object.entries(RAW).map(([sym,o])=>({sym, ...o}))
-    .filter(o=> set.has(o.sym) && typeof o.pct==="number" && !isNaN(o.pct));
-  // 방향 = 정렬 순서 (필터 아님): 상승순=등락폭 내림차순, 하락순=오름차순
-  arr.sort((a,b)=> state.dir==="up" ? b.pct - a.pct : a.pct - b.pct);
-  return arr;
-}
-function updateAsof(){
-  const el = document.getElementById("moversAsof");
-  if(!el) return;
-  if(!lastUpdated){ el.textContent = "데이터를 불러오는 중…"; return; }
-  const idxName = state.idx==="sp500" ? "S&P 500" : "나스닥 100";
-  const tail = (marketOpen() && nextUpdateTs)
-    ? ("다음 갱신 " + fmtHMS(nextUpdateTs - Date.now()) + " 후")
-    : "장마감 · 다음 장중에 자동 갱신";
-  el.textContent = "마지막 갱신 " + lastUpdated.toLocaleTimeString("ko-KR") + " · " + idxName + " " + rows().length + "개 · " + tail;
-}
-function render(){
-  updateAsof();
-  const body = document.getElementById("moversBody");
-  if(!dataReady) return;
-  const arr = rows();
-  if(arr.length===0){ body.innerHTML='<div class="status">해당 조건에 표시할 종목이 없습니다. (지수·정렬을 바꿔보세요)</div>'; return; }
-  const shown = state.expanded ? arr : arr.slice(0,10);
-  let html = '<div class="mv-wrap"><div class="mv-head"><div class="rk"></div><div>종목</div><div class="num">현재가</div><div class="num">등락폭</div></div>';
-  shown.forEach((o,i)=>{
-    const cls = o.pct>=0 ? "up" : "down";
-    const sign = o.pct>=0 ? "+" : "";
-    const px = (o.price!=null) ? "$"+Number(o.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—";
-    html += '<div class="mv-row"><div class="rk">'+(i+1)+'</div>'+
-      '<div><div class="tk">'+o.sym+'</div><div class="nm">'+(o.name||'')+'</div></div>'+
-      '<div class="px">'+px+'</div>'+
-      '<div class="pct '+cls+'">'+sign+o.pct.toFixed(2)+'%</div></div>';
+function buildSession(sourceIdx){
+  const total = QUIZ.questions.length;
+  let idx = sourceIdx || QUIZ.questions.map((_,i)=>i);
+  if(!sourceIdx && opts.count < total) idx = shuffle(idx).slice(0, opts.count);
+  const list = idx.map(srcIndex=>{
+    const base = QUIZ.questions[srcIndex];
+    let order = base.options.map((_,i)=>i);
+    if(opts.shuffleOpts) order = shuffle(order);
+    return { srcIndex, q: base.q, explain: base.explain||"",
+      options: order.map(i=>base.options[i]), answer: order.indexOf(base.answer) };
   });
-  html += '</div>';
-  if(arr.length>10){
-    html += '<div style="padding:0 22px 18px"><button class="expand" id="expBtn">'+(state.expanded?'접기 ▲':('전체 보기 ('+arr.length+'개) ▼'))+'</button></div>';
-  }
-  body.innerHTML = html;
-  const eb = document.getElementById("expBtn");
-  if(eb) eb.onclick = ()=>{ state.expanded=!state.expanded; render(); };
+  session = { list, pos:0, log:[] };
 }
-document.querySelectorAll('.seg[data-idx]').forEach(b=> b.onclick=()=>{
-  document.querySelectorAll('.seg[data-idx]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); state.idx=b.dataset.idx; state.expanded=false; render();
-});
-document.querySelectorAll('.seg[data-dir]').forEach(b=> b.onclick=()=>{
-  document.querySelectorAll('.seg[data-dir]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); state.dir=b.dataset.dir; state.expanded=false; render();
-});
 
-const REDDIT = [
-  {tk:"MU", nm:"마이크론 테크놀로지", sent:"bull", desc:"멘션 953건·24h +316%, 6/24 실적 분수령", posts:[
-    {ups:4793,t:"HBM 연내 완판·마진 81% 가이드 — 마이크론 풀밸류 베팅"},
-    {ups:2600,t:"6/24 실적이 AI 메모리 트레이드 분수령이다"},
-    {ups:1800,t:"코스피 반도체 급락에도 MU는 다른가? 토론"}]},
-  {tk:"SPCX", nm:"스페이스X", sent:"bear", desc:"멘션 940건·24h +1,416% 폭증, 3일째 폭락", posts:[
-    {ups:5866,t:"스페이스X -16%, 3일간 시총 6,000억 달러 증발"},
-    {ups:3100,t:"200억 달러 채권 발행 소식 — IPO 랠리 끝났나"},
-    {ups:1900,t:"로켓에서 내릴 시간? vs 저가 매수 논쟁"}]},
-  {tk:"MSFT", nm:"마이크로소프트", sent:"neu", desc:"멘션 641건·24h +554%, AI 자본지출 논쟁", posts:[
-    {ups:3190,t:"하이퍼스케일러 캡엑스 우려 — MSFT도 흔들리나"},
-    {ups:1700,t:"애저 AI 매출 가속 — 장기 보유 근거 정리"},
-    {ups:980,t:"조정은 매수 기회? 차익실현 vs 추가매수"}]},
-  {tk:"GOOGL", nm:"알파벳(구글)", sent:"bear", desc:"멘션 194건·24h +9,600% 급증, AI 인재 이탈 우려", posts:[
-    {ups:712,t:"알파벳 -7% — AI 인재 이탈·캡엑스 우려가 핵심"},
-    {ups:520,t:"검색 점유율보다 AI 투자 효율이 문제다"},
-    {ups:410,t:"급락은 과매도? 클라우드 성장 재평가 스레드"}]},
-  {tk:"SNDK", nm:"샌디스크", sent:"bull", desc:"멘션 181건·24h +331%, 메모리 랠리(연초比 +600%)", posts:[
-    {ups:889,t:"NAND 가격 강세 — 샌디스크 연초 대비 +600%"},
-    {ups:520,t:"메모리 밸류 부담 vs 사이클 지속 토론"},
-    {ups:310,t:"마이크론 실적 앞두고 동반 변동성 주의"}]},
-  {tk:"NVDA", nm:"엔비디아", sent:"neu", desc:"멘션 109건·24h +110%, AI 칩 대장주", posts:[
-    {ups:1745,t:"테크 매도장에서 엔비디아 방어력 점검"},
-    {ups:980,t:"데이터센터 수요는 여전 — 조정은 일시적?"},
-    {ups:560,t:"캡엑스 우려가 엔비디아 매출로 부메랑? 반론"}]},
-  {tk:"RKLB", nm:"로켓랩", sent:"bull", desc:"멘션 98건·24h +513%, 스페이스X 대안 우주주", posts:[
-    {ups:315,t:"스페이스X 폭락에 자금이 로켓랩으로 이동?"},
-    {ups:210,t:"뉴트론 발사 일정·수주 잔고 정리"},
-    {ups:140,t:"우주 섹터 변동성 — 단타 주의 스레드"}]},
-  {tk:"AMZN", nm:"아마존", sent:"bear", desc:"멘션 96건·24h +2,300%, 하이퍼스케일러 캡엑스 우려", posts:[
-    {ups:346,t:"아마존 -4.8% — AWS 투자비 부담 재부각"},
-    {ups:230,t:"빅테크 동반 매도에 아마존도 휩쓸림"},
-    {ups:150,t:"리테일+클라우드 — 조정 시 분할매수 의견"}]},
-  {tk:"ASTS", nm:"AST 스페이스모바일", sent:"neu", desc:"멘션 96건·24h +433%, 위성통신 테마", posts:[
-    {ups:314,t:"위성-스마트폰 직접연결 상용화 기대 정리"},
-    {ups:190,t:"우주 테마 동반 변동성 — 현금소진 점검"},
-    {ups:120,t:"ASTS 장기 vs 단타 토론"}]},
-  {tk:"TSLA", nm:"테슬라", sent:"neu", desc:"멘션 88건·24h +878%, 변동성 단골 화제주", posts:[
-    {ups:188,t:"테크 매도장 속 테슬라 방향성 논쟁"},
-    {ups:130,t:"로보택시·인도량 추정 vs 컨센서스"},
-    {ups:90,t:"숏 스퀴즈 가능성 단타 스레드"}]}
-];
-function renderReddit(){
-  const map = {bull:["bull","강세"], bear:["bear","약세"], neu:["neu","중립"]};
-  let html="";
-  REDDIT.forEach((r,i)=>{
-    const s = map[r.sent]||map.neu;
-    const posts = (r.posts||[]).slice(0,3).map(p=>'<div class="rd-post"><div class="ups">▲ '+p.ups.toLocaleString()+'</div><div class="pt">'+p.t+'</div></div>').join("");
-    html += '<div class="rd-item"><div class="rd-top">'+
-      '<div class="rk">'+(i+1)+'</div>'+
-      '<div class="tk">'+r.tk+'</div>'+
-      '<div class="nm">'+r.nm+' · '+r.desc+'</div>'+
-      '<div class="sent '+s[0]+'">'+s[1]+'</div></div>'+
-      (posts ? '<div class="rd-posts">'+posts+'</div>' : '')+'</div>';
+/* ---------- 시작 화면 ---------- */
+function renderStart(){
+  applyTheme();
+  const total = QUIZ.questions.length;
+  const counts=[20,50,100,total], clabels=["20","50","100","전체"];
+  app.innerHTML = `
+    <div class="start">
+      <div class="start-head">
+        <div class="eyebrow">${QUIZ.subtitle}</div>
+        <h1>${QUIZ.title}</h1>
+        <p>총 ${total}문항</p>
+      </div>
+
+      <div class="field">
+        <div class="field-label">테마</div>
+        <div class="seg c2" id="segTheme">
+          <button data-t="light" aria-pressed="${opts.theme==='light'}">라이트</button>
+          <button data-t="dark"  aria-pressed="${opts.theme==='dark'}">다크</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">모드</div>
+        <div class="seg c2" id="segMode">
+          <button data-m="quiz"  aria-pressed="${opts.mode==='quiz'}">문제 풀기</button>
+          <button data-m="study" aria-pressed="${opts.mode==='study'}">정답 같이 보기</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">문항 수</div>
+        <div class="seg c4" id="segCount">
+          ${counts.map((c,i)=>`<button data-c="${c}" aria-pressed="${opts.count===c}">${clabels[i]}</button>`).join("")}
+        </div>
+      </div>
+
+      <div class="field">
+        <button class="toggle${opts.mode==='study'?' disabled':''}" id="tgO"
+                aria-pressed="${opts.shuffleOpts}" aria-disabled="${opts.mode==='study'}">
+          <span><span class="tlabel">보기 순서 섞기</span><div class="tdesc">정답 위치 외우기 방지</div></span>
+          <span class="switch"></span>
+        </button>
+      </div>
+    </div>
+    <div class="footer">
+      <button class="btn" id="start">${opts.mode==='study'?'정답 보기':'시작하기'}</button>
+    </div>`;
+
+  document.querySelectorAll("#segTheme button").forEach(b=>{
+    b.onclick=()=>{ opts.theme=b.dataset.t; applyTheme();
+      document.querySelectorAll("#segTheme button").forEach(x=>x.setAttribute("aria-pressed",x===b)); };
   });
-  document.getElementById("redditBody").innerHTML = html;
-}
-renderReddit();
-
-// 국가 카드 '다음 업데이트'(상하이 기준) — 각 시장 마감 직후 갱신
-const MKT_CLOSE = { cn:{h:15,m:0,days:[1,2,3,4,5]}, kr:{h:14,m:30,days:[1,2,3,4,5]}, us:{h:4,m:0,days:[2,3,4,5,6]} };
-function nextCloseSh(mkt){
-  const c = MKT_CLOSE[mkt];
-  const sh = new Date(Date.now()+8*3600000); // 상하이 벽시계로 이동(중국 DST 없음)
-  for(let i=0;i<14;i++){
-    const cand = new Date(Date.UTC(sh.getUTCFullYear(), sh.getUTCMonth(), sh.getUTCDate()+i, c.h, c.m, 0));
-    const real = new Date(cand.getTime()-8*3600000);
-    if(c.days.includes(cand.getUTCDay()) && real.getTime() > Date.now()+60000) return real;
-  }
-  return null;
-}
-function fmtSh(d){ return d ? new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Shanghai",month:"numeric",day:"numeric",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false}).format(d) : "—"; }
-document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtSh(nextCloseSh(el.dataset.mkt)); });
-
-function tick(){
-  const open = marketOpen();
-  const badge = document.getElementById("mktBadge");
-  const cd = document.getElementById("mktCountdown");
-  if(open){
-    badge.className = "badge open"; badge.textContent = "🟢 미국 장중";
-    if(nextUpdateTs===0) nextUpdateTs = Date.now()+REFRESH_MS;
-    const left = nextUpdateTs - Date.now();
-    if(left<=0 && !loading){ cd.innerHTML = "다음 업데이트까지 <b>갱신 중…</b>"; loadMovers().then(()=>{ nextUpdateTs = Date.now()+REFRESH_MS; }); }
-    else cd.innerHTML = "다음 업데이트까지 <b>"+fmtHMS(left)+"</b>";
-  } else {
-    badge.className = "badge closed"; badge.textContent = "🔴 미국 장마감";
-    nextUpdateTs = 0;
-    cd.innerHTML = "다음 장 시작까지 <b>"+fmtHMS(msToOpen())+"</b> · 데이터는 마지막 종가 기준";
-  }
-  updateAsof();
-}
-setInterval(tick, 1000);
-tick();
-loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; });
-
-// 섹션 접기/펼치기 (상태 기억)
-function setupCollapse(){
-  let saved = {};
-  try { saved = JSON.parse(localStorage.getItem('gmd_collapsed') || '{}'); } catch(e){}
-  function attach(sec, head, key){
-    if(!sec || !head) return;
-    head.classList.add('collapsible');
-    const caret = document.createElement('span');
-    caret.className = 'caret'; caret.textContent = '▾';
-    head.appendChild(caret);
-    if(saved[key]) sec.classList.add('collapsed');
-    head.addEventListener('click', ()=>{
-      sec.classList.toggle('collapsed');
-      saved[key] = sec.classList.contains('collapsed');
-      try { localStorage.setItem('gmd_collapsed', JSON.stringify(saved)); } catch(e){}
-    });
-  }
-  document.querySelectorAll('.country, .live').forEach((sec, i)=>{
-    const head = sec.querySelector('.chead');
-    const t = head ? head.querySelector('h3') : null;
-    attach(sec, head, t ? t.textContent.trim() : ('sec'+i));
+  document.querySelectorAll("#segMode button").forEach(b=>{
+    b.onclick=()=>{                                   // 모드 변경: 다시 그리지 않고 제자리에서만 갱신 → 레이아웃 고정
+      opts.mode=b.dataset.m;
+      document.querySelectorAll("#segMode button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+      const study = opts.mode==='study';
+      const tgEl=document.getElementById("tgO");
+      tgEl.classList.toggle("disabled", study);
+      tgEl.setAttribute("aria-disabled", study);
+      document.getElementById("start").textContent = study ? "정답 보기" : "시작하기";
+    };
   });
-  const sum = document.querySelector('.summary');
-  if(sum) attach(sum, sum.querySelector('h2'), 'summary');
-}
-setupCollapse();
+  document.querySelectorAll("#segCount button").forEach(b=>{
+    b.onclick=()=>{ opts.count=parseInt(b.dataset.c,10);
+      document.querySelectorAll("#segCount button").forEach(x=>x.setAttribute("aria-pressed",x===b)); };
+  });
+  const tg=document.getElementById("tgO");
+  tg.onclick=e=>{ opts.shuffleOpts=!opts.shuffleOpts; e.currentTarget.setAttribute("aria-pressed",opts.shuffleOpts); };
 
-// 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
-(function setupNav(){
-  const nav = document.getElementById('topnav');
-  if(!nav) return;
-  const links = Array.from(nav.querySelectorAll('a'));
-  const spies = Array.from(document.querySelectorAll('.spy'));
-  function onScroll(){
-    if(window.scrollY > 150) nav.classList.add('show'); else nav.classList.remove('show');
-    let cur = '';
-    const line = nav.offsetHeight + 24;
-    spies.forEach(s=>{ if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
-    links.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
-  }
-  window.addEventListener('scroll', onScroll, { passive:true });
-  onScroll();
-  links.forEach(a=> a.addEventListener('click', e=>{
-    e.preventDefault();
-    const el = document.getElementById(a.getAttribute('href').slice(1));
-    if(!el) return;
-    el.classList.remove('collapsed'); // 이동 시 펼쳐서 보여주기
-    const y = el.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }));
-})();
+  document.getElementById("start").onclick=()=>{
+    if(opts.mode==='study') renderStudy();
+    else { buildSession(); renderQuestion(); }
+  };
+}
+
+/* ---------- 정답 같이 보기 ---------- */
+function renderStudy(){
+  applyTheme();
+  const total=QUIZ.questions.length;
+  let idx=QUIZ.questions.map((_,i)=>i);
+  if(opts.count<total) idx=idx.slice(0,opts.count);
+
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back" id="back">← 처음으로</button>
+      <div class="bar"></div>
+      <div class="counter">${idx.length}문항</div>
+    </div>
+    ${idx.map((srcIndex,n)=>{
+      const b=QUIZ.questions[srcIndex];
+      return `<div class="card study-item">
+        <div class="q-eyebrow">문제 ${n+1}</div>
+        <p class="q-text">${escapeHtml(b.q)}</p>
+        <div class="options">
+          ${b.options.map((o,i)=>`
+            <div class="opt ${i===b.answer?'is-correct':''}">
+              <span class="mark">${i===b.answer?'✓':(LETTERS[i]||i+1)}</span>
+              <span class="otext">${escapeHtml(o)}</span>
+            </div>`).join("")}
+        </div>
+        ${b.explain?`<div class="explain show">${escapeHtml(b.explain)}</div>`:``}
+      </div>`;
+    }).join("")}
+    <div class="footer"><button class="btn ghost" id="backBtn">처음으로</button></div>`;
+
+  document.getElementById("back").onclick=renderStart;
+  document.getElementById("backBtn").onclick=renderStart;
+  window.scrollTo(0,0);
+}
+
+/* ---------- 문제 풀기 ---------- */
+function renderQuestion(){
+  const {list,pos}=session, item=list[pos], pct=(pos/list.length)*100;
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back" id="back">← 나가기</button>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="counter"><b>${pos+1}</b> / ${list.length}</div>
+    </div>
+    <div class="card">
+      <div class="q-eyebrow">문제 ${pos+1}</div>
+      <p class="q-text">${escapeHtml(item.q)}</p>
+      <div class="options" id="options">
+        ${item.options.map((o,i)=>`
+          <button class="opt" data-i="${i}">
+            <span class="mark">${LETTERS[i]||i+1}</span>
+            <span class="otext">${escapeHtml(o)}</span>
+          </button>`).join("")}
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div class="explain" id="explain"></div>
+    </div>
+    <div class="footer">
+      <button class="btn" id="next" disabled>${pos+1===list.length?"결과 보기":"다음 문제"}</button>
+    </div>`;
+  requestAnimationFrame(()=>{ const bi=app.querySelector(".bar > i"); if(bi) bi.style.width=pct+"%"; });
+  document.getElementById("back").onclick=renderStart;
+  document.querySelectorAll("#options .opt").forEach(btn=>{ btn.onclick=()=>selectAnswer(parseInt(btn.dataset.i,10)); });
+  document.getElementById("next").onclick=()=>{
+    session.pos++;
+    if(session.pos>=list.length) renderResult(); else renderQuestion();
+  };
+  window.scrollTo(0,0);
+}
+
+function selectAnswer(chosen){
+  const item=session.list[session.pos];
+  const correct = chosen===item.answer;
+  session.log.push({srcIndex:item.srcIndex, chosen, correct});
+  document.querySelectorAll("#options .opt").forEach(btn=>{
+    const i=parseInt(btn.dataset.i,10);
+    btn.classList.add("locked"); btn.disabled=true;
+    if(i===item.answer) btn.classList.add("is-correct");
+    else if(i===chosen) btn.classList.add("is-wrong");
+    else btn.classList.add("dim");
+  });
+  const v=document.getElementById("verdict");
+  v.classList.add("show", correct?"ok":"no");
+  v.textContent = correct?"정답입니다":"오답입니다";
+  if(item.explain){ const ex=document.getElementById("explain"); ex.textContent=item.explain; ex.classList.add("show"); }
+  document.getElementById("next").disabled=false;
+}
+
+function renderResult(){
+  const total=session.log.length, right=session.log.filter(l=>l.correct).length;
+  const pct=Math.round((right/total)*100);
+  const wrong=session.log.filter(l=>!l.correct);
+  let tag="조금 더 연습해요";
+  if(pct===100) tag="만점이에요"; else if(pct>=80) tag="아주 잘했어요"; else if(pct>=60) tag="괜찮아요, 한 걸음 더";
+  const reviewHtml = wrong.length ? `
+    <div class="review-title">틀린 문제 ${wrong.length}개</div>
+    ${wrong.map(l=>{ const b=QUIZ.questions[l.srcIndex];
+      return `<div class="review-item">
+        <div class="review-q">${escapeHtml(b.q)}</div>
+        <div class="review-a">
+          <div><span class="lab yours">내 답</span> · ${escapeHtml(optionTextFor(l))}</div>
+          <div><span class="lab right">정답</span> · ${escapeHtml(b.options[b.answer])}</div>
+        </div></div>`; }).join("")}`
+    : `<div class="review-title">전부 맞혔어요 ✨</div>`;
+  app.innerHTML = `
+    <div class="result">
+      <div class="card score-card">
+        <div class="score-num">${pct}<small>%</small></div>
+        <div class="score-sub">${total}문제 중 ${right}개 정답</div>
+        <div class="score-tag">${tag}</div>
+      </div>
+      ${reviewHtml}
+    </div>
+    <div class="footer">
+      ${wrong.length?`<button class="btn" id="retryWrong">틀린 문제만 다시 풀기</button>`:""}
+      <button class="btn ${wrong.length?"ghost":""}" id="retryAll">새로 풀기</button>
+    </div>`;
+  document.getElementById("retryAll").onclick=renderStart;
+  const rw=document.getElementById("retryWrong");
+  if(rw) rw.onclick=()=>{ const idx=[...new Set(wrong.map(l=>l.srcIndex))]; buildSession(idx); renderQuestion(); };
+  window.scrollTo(0,0);
+}
+
+function optionTextFor(log){ const item=session.list.find(it=>it.srcIndex===log.srcIndex); return item?item.options[log.chosen]:""; }
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+applyTheme();
+renderStart();
 </script>
 </body>
 </html>
