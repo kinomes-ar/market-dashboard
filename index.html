@@ -461,8 +461,8 @@ function rows(){
   const set = MEMBER[state.idx];
   let arr = Object.entries(RAW).map(([sym,o])=>({sym, ...o}))
     .filter(o=> set.has(o.sym) && typeof o.pct==="number" && !isNaN(o.pct));
-  if(state.dir==="up") arr = arr.filter(o=>o.pct>0).sort((a,b)=>b.pct-a.pct);
-  else arr = arr.filter(o=>o.pct<0).sort((a,b)=>a.pct-b.pct);
+  // 방향 = 정렬 순서 (필터 아님): 상승순=등락폭 내림차순, 하락순=오름차순
+  arr.sort((a,b)=> state.dir==="up" ? b.pct - a.pct : a.pct - b.pct);
   return arr;
 }
 function updateAsof(){
