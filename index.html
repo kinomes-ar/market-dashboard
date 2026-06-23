@@ -410,12 +410,12 @@ function etNow(){
 }
 function marketOpen(){ const t=etNow(); return t.dow>=1 && t.dow<=5 && t.min>=570 && t.min<960; } // 9:30~16:00 ET
 function msToOpen(){
-  const t=etNow(); let add;
+  const now=new Date(), t=etNow(); let add;
   if(t.dow>=1 && t.dow<=5 && t.min<570) add = 570 - t.min;
   else { let d=1, nd=(t.dow+1)%7; while(nd===0||nd===6){ d++; nd=(t.dow+d)%7; } add = d*1440 - t.min + 570; }
-  return add*60000;
+  return add*60000 - (now.getSeconds()*1000 + now.getMilliseconds());
 }
-function fmtHMS(ms){ if(ms<0)ms=0; const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60,pad=n=>String(n).padStart(2,"0"); return h>0 ? h+"시간 "+pad(m)+"분" : pad(m)+":"+pad(x); }
+function fmtHMS(ms){ if(ms<0)ms=0; const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60,pad=n=>String(n).padStart(2,"0"); return pad(h)+":"+pad(m)+":"+pad(x); }
 
 async function tryFirst(urls){
   let lastErr;
