@@ -133,12 +133,32 @@ body { overflow-x: hidden; }
 
 /* collapsible sections */
 .collapsible { cursor: pointer; user-select: none; }
-.caret { margin-left: 10px; font-size: 11px; color: #8a8a8a; transition: transform .15s ease; display: inline-block; flex: none; }
+.caret { margin-left: 12px; font-size: 16px; line-height: 1; color: #cfcfcf; transition: transform .18s ease; display: inline-flex; align-items: center; justify-content: center; flex: none; width: 26px; height: 26px; border-radius: 7px; background: #2a2a2a; border: 1px solid #3a3a3a; }
+.collapsible:hover .caret { background: #353535; color: #ffffff; }
 .collapsed .caret { transform: rotate(-90deg); }
 .country.collapsed > :not(.chead), .live.collapsed > :not(.chead) { display: none; }
 .summary.collapsed > p, .summary.collapsed > .flow { display: none; }
 .summary.collapsed h2 { margin-bottom: 0; }
 .chead.collapsible:hover h3, .summary h2.collapsible:hover { color: #ffffff; }
+
+/* top navigation (appears on scroll) */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; gap: 4px; justify-content: center; align-items: center;
+  background: rgba(18,18,18,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid #333; padding: 8px 10px;
+  transform: translateY(-105%); transition: transform .24s ease;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.topnav::-webkit-scrollbar { display: none; }
+.topnav.show { transform: translateY(0); }
+.topnav a {
+  color: #c2c2c2; text-decoration: none; font-size: 13.5px; font-weight: 700;
+  padding: 7px 14px; border-radius: 8px; white-space: nowrap;
+}
+.topnav a:hover { background: #2a2a2a; color: #fafafa; }
+.topnav a.active { background: #2f2f2f; color: #fafafa; }
+.spy { scroll-margin-top: 56px; }
 
 /* ---------- mobile ---------- */
 @media (max-width: 600px) {
@@ -199,6 +219,14 @@ body { overflow-x: hidden; }
 </style>
 </head>
 <body>
+<nav class="topnav" id="topnav">
+  <a href="#sec-summary">요약</a>
+  <a href="#sec-us">미국</a>
+  <a href="#sec-kr">한국</a>
+  <a href="#sec-cn">중국</a>
+  <a href="#sec-live">실시간</a>
+  <a href="#sec-reddit">레딧</a>
+</nav>
 <div class="wrap">
 
   <header class="top">
@@ -212,7 +240,7 @@ body { overflow-x: hidden; }
   </div>
 
   <!-- CROSS-MARKET SUMMARY -->
-  <section class="summary">
+  <section class="summary spy" id="sec-summary">
     <h2>📊 오늘의 시장 흐름 한눈에</h2>
     <p>
       세 시장의 동력이 엇갈리고 있다. <b>미국</b>은 워시(Warsh) 신임 의장의 연준이 연내 금리 <b>인상</b> 가능성을 시사하며 빅테크가 흔들렸고(나스닥 약세), 동시에 <b>미·이란 평화협상 진전</b>으로 유가는 하락했다.
@@ -230,7 +258,7 @@ body { overflow-x: hidden; }
   </section>
 
   <!-- USA -->
-  <section class="country">
+  <section class="country spy" id="sec-us">
     <div class="chead"><span class="flag">🇺🇸</span><h3>미국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="us">6/23 종가</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · 상하이</div></div>
     </div>
@@ -256,7 +284,7 @@ body { overflow-x: hidden; }
   </section>
 
   <!-- KOREA -->
-  <section class="country">
+  <section class="country spy" id="sec-kr">
     <div class="chead"><span class="flag">🇰🇷</span><h3>한국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr">6/23 종가</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · 상하이</div></div>
     </div>
@@ -282,7 +310,7 @@ body { overflow-x: hidden; }
   </section>
 
   <!-- CHINA -->
-  <section class="country">
+  <section class="country spy" id="sec-cn">
     <div class="chead"><span class="flag">🇨🇳</span><h3>중국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn">6/23 종가</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · 상하이</div></div>
     </div>
@@ -308,7 +336,7 @@ body { overflow-x: hidden; }
   </section>
 
   <!-- LIVE MOVERS -->
-  <section class="live">
+  <section class="live spy" id="sec-live">
     <div class="chead">
       <span class="flag">📈</span><h3>실시간 미국 주식 등락</h3>
       <span class="badge closed" id="mktBadge">● 상태 확인 중…</span>
@@ -336,7 +364,7 @@ body { overflow-x: hidden; }
   </section>
 
   <!-- REDDIT -->
-  <section class="live">
+  <section class="live spy" id="sec-reddit">
     <div class="chead">
       <span class="flag">👽</span><h3>레딧 화제 종목 TOP 10</h3>
       <span class="sub" id="redditAsof">매일 아침 8시 갱신</span>
@@ -606,6 +634,31 @@ function setupCollapse(){
   if(sum) attach(sum, sum.querySelector('h2'), 'summary');
 }
 setupCollapse();
+
+// 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
+(function setupNav(){
+  const nav = document.getElementById('topnav');
+  if(!nav) return;
+  const links = Array.from(nav.querySelectorAll('a'));
+  const spies = Array.from(document.querySelectorAll('.spy'));
+  function onScroll(){
+    if(window.scrollY > 150) nav.classList.add('show'); else nav.classList.remove('show');
+    let cur = '';
+    const line = nav.offsetHeight + 24;
+    spies.forEach(s=>{ if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
+    links.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+  links.forEach(a=> a.addEventListener('click', e=>{
+    e.preventDefault();
+    const el = document.getElementById(a.getAttribute('href').slice(1));
+    if(!el) return;
+    el.classList.remove('collapsed'); // 이동 시 펼쳐서 보여주기
+    const y = el.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }));
+})();
 </script>
 </body>
 </html>
