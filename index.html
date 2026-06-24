@@ -79,6 +79,19 @@ h1 { font-size: 26px; font-weight: 800; margin: 4px 0 6px; letter-spacing: -.02e
 .morning-list li { font-size: 14px; color: #d4d4d4; margin-bottom: 5px; }
 .morning-list b { color: #fafafa; }
 
+/* economic calendar */
+.cal-day { margin-bottom: 18px; }
+.cal-day:last-child { margin-bottom: 0; }
+.cal-date { font-size: 14px; font-weight: 800; color: #fafafa; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid #333333; }
+.cal-date .hi { color: #ff6b6b; font-size: 11px; font-weight: 700; margin-left: 6px; }
+.cal-ev { display: flex; gap: 9px; padding: 9px 4px; font-size: 13.5px; color: #d4d4d4; border-bottom: 1px solid #262626; line-height: 1.55; }
+.cal-ev:last-child { border-bottom: 0; }
+.cal-ev .flag { font-size: 16px; flex: none; }
+.cal-ev b { color: #fafafa; }
+html[data-theme="light"] .cal-date { color: #0d0d0f; border-color: #e3e3e8; }
+html[data-theme="light"] .cal-ev { color: #33333a; border-color: #f0f0f3; }
+html[data-theme="light"] .cal-ev b { color: #0d0d0f; }
+
 footer { margin-top: 26px; font-size: 12px; color: #8a8a8a; text-align: center; line-height: 1.8; }
 .src { margin-top: 10px; font-size: 11.5px; color: #6b6b6b; }
 .sched { background: #1e1e1e; border: 1px solid #333333; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #d4d4d4; }
@@ -346,13 +359,16 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <a href="#sec-kr">한국</a>
     <a href="#sec-cn">중국</a>
     <a href="#sec-live">실시간</a>
+    <a href="#sec-rates">시세</a>
   </div>
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
     <div class="menudd" id="menuDD">
-      <button class="ddrow" id="goRates">💰 주요 시세</button>
+      <button class="ddrow" id="goCalendar">📅 경제 캘린더</button>
       <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
+      <div class="ddsep"></div>
       <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
+      <button class="ddrow" id="langToggle"><span class="lgi">🇬🇧</span><span class="lgt">English</span></button>
     </div>
   </div>
 </nav>
@@ -543,7 +559,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   </div><!-- /dashboardView -->
 
   <div id="communityView" style="display:none">
-    <div class="cback"><a href="#" id="backDash">← 대시보드로</a></div>
+    <div class="cback"><a href="#" class="backDash">← 대시보드로</a></div>
     <h1 style="margin: 4px 0 16px">💬 커뮤니티</h1>
   <!-- REDDIT -->
   <section class="live spy" id="sec-reddit">
@@ -556,6 +572,38 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   </section>
 
   </div><!-- /communityView -->
+
+  <div id="calendarView" style="display:none">
+    <div class="cback"><a href="#" class="backDash">← 대시보드로</a></div>
+    <h1 style="margin: 4px 0 16px">📅 경제 캘린더</h1>
+    <section class="country">
+      <div class="chead"><span class="flag">📅</span><h3>이번 주 주요 일정</h3><div class="sub" id="calAsof">현지 시간 기준 · 매일 갱신</div></div>
+      <div class="body" id="calBody" style="padding-top:16px">
+        <div class="cal-day">
+          <div class="cal-date">6/24 (수)</div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div><b>마이크론(MU) FQ3 실적</b> — 미 장 마감 후. 컨센 EPS $19.72·매출 $34.5B(+283%), <b>HBM·마진(81%대)</b>이 관건인 AI 메모리 분수령.</div></div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div>5월 신규주택판매</div></div>
+          <div class="cal-ev"><span class="flag">🇨🇳</span><div><b>톈진 '하계 다보스(WEF)' 개막</b> (~26일) — 신흥경제·정책 시그널 주목</div></div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-date">6/25 (목) <span class="hi">★ 고임팩트</span></div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div><b>5월 PCE 물가</b> — 연준 선호 지표. 코어 y/y ~3.3% 전망(뜨거움), 9월 인상론의 핵심 변수</div></div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div><b>1분기 GDP 확정치</b> (컨센 +1.6%)</div></div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div>5월 내구재주문 (+0.2%) · 주간 실업수당청구 (225K)</div></div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-date">6/26 (금)</div>
+          <div class="cal-ev"><span class="flag">🇺🇸</span><div>6월 미시간대 소비자심리 확정치</div></div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-date">다가오는 일정</div>
+          <div class="cal-ev"><span class="flag">🇰🇷</span><div><b>한국은행 금통위</b> — 7/16 (기준금리 인상 여부 주목)</div></div>
+          <div class="cal-ev"><span class="flag">🇨🇳</span><div>6월 제조업 PMI — 6/30</div></div>
+        </div>
+      </div>
+    </section>
+    <div class="asof-live">일정·시각은 변동될 수 있습니다. 투자 자문이 아닙니다.</div>
+  </div>
 
   <footer>
     데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.
@@ -926,20 +974,51 @@ setupCollapse();
     try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
     syncTheme();
   });
-  const dash = document.getElementById('dashboardView');
-  const comm = document.getElementById('communityView');
-  window.showCommunity = function(){ if(dash) dash.style.display='none'; if(comm) comm.style.display='block'; window.scrollTo(0,0); };
-  window.showDashboard = function(){ if(comm) comm.style.display='none'; if(dash) dash.style.display='block'; };
+  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView') };
+  function showView(name){ for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
+  window.showDashboard = ()=> showView('dash');
+  window.showCommunity = ()=> showView('comm');
+  window.showCalendar  = ()=> showView('cal');
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
-  const goRates = document.getElementById('goRates');
-  if(goRates) goRates.addEventListener('click', ()=>{
-    closeMenu(); showDashboard();
-    const el = document.getElementById('sec-rates'); const nav = document.getElementById('topnav');
-    if(el){ const y = el.getBoundingClientRect().top + window.scrollY - (nav?nav.offsetHeight:0) - 8; window.scrollTo({ top:y, behavior:'smooth' }); }
-  });
-  const backDash = document.getElementById('backDash');
-  if(backDash) backDash.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); window.scrollTo(0,0); });
+  const goCal = document.getElementById('goCalendar');
+  if(goCal) goCal.addEventListener('click', ()=>{ closeMenu(); showCalendar(); });
+  document.querySelectorAll('.backDash').forEach(b=> b.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); }));
+})();
+
+// 한/영 전환 (v1: 인터페이스 라벨. 뉴스 본문은 한국어 유지 — 전체 이중언어는 추후)
+(function lang(){
+  const btn = document.getElementById('langToggle');
+  if(!btn) return;
+  const store = new Map();
+  let isEN = false;
+  try { isEN = localStorage.getItem('gmd_lang') === 'en'; } catch(e){}
+  const SINGLE = [
+    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
+    ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
+    ['.topnav a[href="#sec-live"]','Live'], ['.topnav a[href="#sec-rates"]','Rates'],
+    ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'],
+    ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
+    ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
+    ['#sec-reddit .chead h3','Reddit Trending Top 10']
+  ];
+  const MULTI = [
+    ['.ctab[data-tab="issue"]','Key Issues'], ['.ctab[data-tab="morning"]','Morning'],
+    ['.t-label','Takeaway'], ['.seg[data-dir="up"]','Gainers ▲'], ['.seg[data-dir="down"]','Losers ▼']
+  ];
+  function swap(el, en){ if(!el) return; if(!store.has(el)) store.set(el, el.textContent); el.textContent = isEN ? en : store.get(el); }
+  function apply(){
+    SINGLE.forEach(([s,en])=> swap(document.querySelector(s), en));
+    MULTI.forEach(([s,en])=> document.querySelectorAll(s).forEach(el=> swap(el, en)));
+    const labs = document.querySelectorAll('.controls .segbox .lab');
+    ['Index','Sort'].forEach((en,i)=> swap(labs[i], en));
+    const lgt = btn.querySelector('.lgt'), lgi = btn.querySelector('.lgi');
+    if(lgt) lgt.textContent = isEN ? '한국어' : 'English';
+    if(lgi) lgi.textContent = isEN ? '🇰🇷' : '🇬🇧';
+    document.documentElement.lang = isEN ? 'en' : 'ko';
+  }
+  if(isEN) apply();
+  btn.addEventListener('click', ()=>{ isEN = !isEN; try{ localStorage.setItem('gmd_lang', isEN?'en':'ko'); }catch(e){} apply(); });
 })();
 </script>
 </body>
