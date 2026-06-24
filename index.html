@@ -30,8 +30,8 @@ html[data-theme="light"]{
 [data-ui-lang="en"] [data-lang="ko"]{display:none!important;}
 [data-ui-lang="ko"] [data-lang="en"]{display:none!important;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--font); background:var(--bg); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
-.wrap{max-width:1000px; margin:0 auto; padding:30px 24px 80px;}
+body{font-family:var(--font); background:var(--bg); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-top:46px;}
+.wrap{max-width:1000px; margin:0 auto; padding:18px 24px 80px;}
 
 header.top{margin:14px 0 6px;}
 .kicker{font-size:11px; font-weight:600; letter-spacing:.2em; color:var(--sec); text-transform:uppercase;}
@@ -181,15 +181,16 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .summary.collapsed h2{margin-bottom:0;}
 .chead.collapsible:hover h3, .summary h2.collapsible:hover{color:var(--ink);}
 
-.topnav{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; gap:8px; align-items:center; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--hair); padding:9px 16px; transform:translateY(-105%); transition:transform .24s ease;}
+.topnav{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; gap:8px; align-items:center; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--hair); padding:9px 16px; transform:translateY(0); transition:transform .24s ease;}
+.topnav.hide{transform:translateY(-105%);}
 .topnav .brand{flex:none; width:26px; height:26px; border-radius:6px; cursor:pointer; display:block;}
-.topnav .links{flex:1; min-width:0; display:flex; justify-content:center; gap:2px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+.topnav .links{flex:0 1 auto; min-width:0; display:flex; justify-content:flex-start; gap:2px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
 .topnav .links::-webkit-scrollbar{display:none;}
 .topnav.show{transform:translateY(0);}
 .navmenu{flex:none; position:relative;}
 .menubtn{width:30px; height:30px; border-radius:7px; border:1px solid var(--hair2); background:transparent; color:var(--ink); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .menubtn:hover{background:var(--surf);}
-.menudd{position:absolute; top:calc(100% + 9px); right:0; min-width:190px; background:var(--bg); border:1px solid var(--hair2); border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.35); padding:6px; display:none; flex-direction:column; gap:2px; z-index:70;}
+.menudd{position:absolute; top:calc(100% + 9px); left:0; min-width:190px; background:var(--bg); border:1px solid var(--hair2); border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.35); padding:6px; display:none; flex-direction:column; gap:2px; z-index:70;}
 .menudd.open{display:flex;}
 .menudd .ddrow{display:flex; align-items:center; gap:8px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:13.5px; font-weight:400; padding:10px 11px; border-radius:8px; cursor:pointer; text-decoration:none; white-space:nowrap;}
 .menudd .ddrow:hover{background:var(--surf);}
@@ -200,7 +201,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .cback a:hover{color:var(--ink);}
 .topnav a{color:var(--sec); text-decoration:none; font-size:13px; font-weight:400; padding:6px 12px; border-radius:6px; white-space:nowrap;}
 .topnav a:hover{color:var(--ink);}
-.topnav a.active{color:var(--ink);}
+.topnav a.active{color:var(--ink); background:var(--surf); border-radius:13px;}
 .spy{scroll-margin-top:60px;}
 .theme-toggle{position:fixed; top:10px; right:12px; z-index:60; width:38px; height:38px; border-radius:50%; border:1px solid var(--hair2); background:var(--bg); color:var(--ink); font-size:17px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .theme-toggle:hover{background:var(--surf);}
@@ -237,18 +238,12 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   .rd-post{grid-template-columns:46px 1fr; gap:7px; font-size:12px;}
 }
 #sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
+.topnav .wordmark{margin-left:auto; font-size:13px; font-weight:600; letter-spacing:.16em; color:var(--ink); white-space:nowrap; padding-left:8px;}
+@media (max-width:600px){ .topnav .wordmark{display:none;} body{padding-top:44px;} }
 </style>
 </head>
 <body>
 <nav class="topnav" id="topnav">
-  <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="대시보드로">
-  <div class="links">
-    <a href="#sec-summary">요약</a>
-    <a href="#sec-us">미국</a>
-    <a href="#sec-kr">한국</a>
-    <a href="#sec-cn">중국</a>
-    <a href="#sec-live">실시간</a>
-  </div>
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
     <div class="menudd" id="menuDD">
@@ -261,6 +256,16 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
       <button class="ddrow" id="langToggle"><span class="lgi">🇬🇧</span><span class="lgt">English</span></button>
     </div>
   </div>
+  <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="대시보드로">
+  <div class="links">
+    <a href="#sec-summary">요약</a>
+    <a href="#sec-us">미국</a>
+    <a href="#sec-kr">한국</a>
+    <a href="#sec-cn">중국</a>
+    <a href="#sec-live">실시간</a>
+  </div>
+  
+  <span class="wordmark">MARKET DAILY</span>
 </nav>
 <div class="wrap">
 
@@ -927,7 +932,7 @@ setupCollapse();
   const links = Array.from(nav.querySelectorAll('a'));
   const spies = Array.from(document.querySelectorAll('.spy'));
   function onScroll(){
-    if(window.scrollY > 150) nav.classList.add('show'); else nav.classList.remove('show');
+    if(window.scrollY > 40) nav.classList.add('hide'); else nav.classList.remove('hide');
     let cur = '';
     const line = nav.offsetHeight + 24;
     spies.forEach(s=>{ if(s.offsetParent===null) return; if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
