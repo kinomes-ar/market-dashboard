@@ -342,7 +342,6 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="대시보드로">
   <div class="links">
     <a href="#sec-summary">요약</a>
-    <a href="#sec-rates">시세</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
     <a href="#sec-cn">중국</a>
@@ -351,6 +350,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
     <div class="menudd" id="menuDD">
+      <button class="ddrow" id="goRates">💰 주요 시세</button>
       <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
       <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
     </div>
@@ -386,20 +386,6 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <span class="tag">🇨🇳 PBOC 완충 · A주 첫 조정</span>
       <span class="tag">🛢️ WTI 3개월 최저 (이란 라이선스)</span>
       <span class="tag">📅 6/24 마이크론 실적 분수령</span>
-    </div>
-  </section>
-
-  <!-- RATES -->
-  <section class="country spy" id="sec-rates">
-    <div class="chead"><span class="flag">💰</span><h3>주요 시세</h3>
-      <div class="sub"><div>코인 실시간 · 금·환율 1일 1회</div><div>금·환율 업데이트 <b class="upd" data-mkt="rates" data-iso="">—</b></div></div>
-    </div>
-    <div class="tiles">
-      <div class="tile"><div class="label">비트코인 BTC</div><div class="val" id="btcPrice">—</div><div class="chg flat" id="btcChg">실시간</div></div>
-      <div class="tile"><div class="label">이더리움 ETH</div><div class="val" id="ethPrice">—</div><div class="chg flat" id="ethChg">실시간</div></div>
-      <div class="tile"><div class="label">금 Gold (USD/oz)</div><div class="val" id="goldPrice">—</div><div class="chg flat">1일 1회</div></div>
-      <div class="tile"><div class="label">원/달러 USD·KRW</div><div class="val" id="krwPrice">—</div><div class="chg flat">1일 1회</div></div>
-      <div class="tile"><div class="label">위안/달러 USD·CNY</div><div class="val" id="cnyPrice">—</div><div class="chg flat">1일 1회</div></div>
     </div>
   </section>
 
@@ -537,6 +523,20 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="asof-live" id="moversAsof">데이터를 불러오는 중…</div>
     <div id="moversBody">
       <div class="status" id="moversStatus">⏳ 실시간 시세를 불러오는 중입니다…</div>
+    </div>
+  </section>
+
+  <!-- RATES (맨 아래) -->
+  <section class="country spy" id="sec-rates">
+    <div class="chead"><span class="flag">💰</span><h3>주요 시세</h3>
+      <div class="sub"><div>코인 실시간 · 금·환율 1일 1회</div><div>금·환율 업데이트 <b class="upd" data-mkt="rates" data-iso="">—</b></div></div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="label">비트코인 BTC</div><div class="val" id="btcPrice">—</div><div class="chg flat" id="btcChg">실시간</div></div>
+      <div class="tile"><div class="label">이더리움 ETH</div><div class="val" id="ethPrice">—</div><div class="chg flat" id="ethChg">실시간</div></div>
+      <div class="tile"><div class="label">금 Gold (USD/oz)</div><div class="val" id="goldPrice">—</div><div class="chg flat">1일 1회</div></div>
+      <div class="tile"><div class="label">원/달러 USD·KRW</div><div class="val" id="krwPrice">—</div><div class="chg flat">1일 1회</div></div>
+      <div class="tile"><div class="label">위안/달러 USD·CNY</div><div class="val" id="cnyPrice">—</div><div class="chg flat">1일 1회</div></div>
     </div>
   </section>
 
@@ -932,6 +932,12 @@ setupCollapse();
   window.showDashboard = function(){ if(comm) comm.style.display='none'; if(dash) dash.style.display='block'; };
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
+  const goRates = document.getElementById('goRates');
+  if(goRates) goRates.addEventListener('click', ()=>{
+    closeMenu(); showDashboard();
+    const el = document.getElementById('sec-rates'); const nav = document.getElementById('topnav');
+    if(el){ const y = el.getBoundingClientRect().top + window.scrollY - (nav?nav.offsetHeight:0) - 8; window.scrollTo({ top:y, behavior:'smooth' }); }
+  });
   const backDash = document.getElementById('backDash');
   if(backDash) backDash.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); window.scrollTo(0,0); });
 })();
