@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-ui-lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,9 @@
 <meta name="theme-color" content="#141414">
 <style>
 :root { color-scheme: dark; }
+/* 이중언어: 활성 언어만 표시 */
+[data-ui-lang="en"] [data-lang="ko"] { display: none !important; }
+[data-ui-lang="ko"] [data-lang="en"] { display: none !important; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -387,13 +390,18 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
 
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
-    <h2>📊 오늘의 시장 흐름 한눈에</h2>
-    <p>
+    <h2><span data-lang="ko">📊 오늘의 시장 흐름 한눈에</span><span data-lang="en">📊 Today's Market at a Glance</span></h2>
+    <p data-lang="ko">
       <b>'반도체 단독 매도'가 아시아를 강타하고 미국에서 진정됐다.</b> 진앙은 <b>BofA의 매파 보고서</b> — 2026년 연준 <b>3회 인상(9·10·12월·총 75bp)</b> 전망에 고밸류 반도체가 직격탄을 맞았다. <b>한국</b>이 가장 크게 흔들려 <b>코스피 -9.99% '검은 화요일'</b>(서킷브레이커), SK하이닉스·삼성전자 12%대 동반 급락 — 시총 1위 등극 직후의 쏠림이 역풍으로.
       <b>중국</b>은 PBOC 완충(단기금리 개편·위안화 기대)으로 상대적 안정 속 강세장 첫 조정(상하이종합 -1.37%).
       <b>미국</b>은 장중 패닉(엔비디아 -7%대)을 종가엔 절반 이상 되돌려 <b>엔비디아 -3.2%·브로드컴 -3.3%</b>, S&P -1.32%·나스닥 -2.10%로 마감. 단 <b>11개 업종 중 7개 상승·러셀2000 +0.83%·다우 -0.58%</b>로 '광범위 붕괴'가 아닌 금리發 멀티플 조정에 가까웠다. 미·이란 60일 원유 라이선스로 WTI는 3개월 최저($72.81). <b>6/24 마감 후 마이크론 실적</b>이 AI 메모리 트레이드의 다음 분수령.
     </p>
-    <div class="flow">
+    <p data-lang="en">
+      <b>A semiconductor-only sell-off hit Asia and calmed in the US.</b> The epicenter was <b>BofA's hawkish note</b> — a call for <b>three Fed hikes in 2026 (Sep/Oct/Dec, 75bp total)</b> slammed high-valuation chips. <b>Korea</b> was hit hardest — <b>KOSPI -9.99% "Black Tuesday"</b> (circuit breaker), as SK Hynix and Samsung both crashed ~12% and the post-#1-market-cap concentration turned into a headwind.
+      <b>China</b> stayed relatively stable on PBOC cushioning (short-rate reform, yuan hopes), posting its first bull-market pullback (Shanghai Composite -1.37%).
+      <b>The US</b> pared an intraday panic (Nvidia -7%) by more than half into the close — <b>Nvidia -3.2%, Broadcom -3.3%</b>, S&P -1.32%, Nasdaq -2.10%. But with <b>7 of 11 sectors up, Russell 2000 +0.83%, Dow -0.58%</b>, it looked like a rate-driven multiple reset rather than a broad collapse. A US–Iran 60-day oil license pushed WTI to a 3-month low ($72.81). <b>Micron earnings after the 6/24 close</b> is the next inflection for the AI-memory trade.
+    </p>
+    <div class="flow" data-lang="ko">
       <span class="tag">🔑 BofA "연준 3회 인상" 방아쇠</span>
       <span class="tag">🇰🇷 코스피 -10% 검은 화요일</span>
       <span class="tag">🇺🇸 나스닥 -2.1% (테크 단독)</span>
@@ -402,6 +410,16 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <span class="tag">🇨🇳 PBOC 완충 · A주 첫 조정</span>
       <span class="tag">🛢️ WTI 3개월 최저 (이란 라이선스)</span>
       <span class="tag">📅 6/24 마이크론 실적 분수령</span>
+    </div>
+    <div class="flow" data-lang="en">
+      <span class="tag">🔑 BofA "3 Fed hikes" trigger</span>
+      <span class="tag">🇰🇷 KOSPI -10% Black Tuesday</span>
+      <span class="tag">🇺🇸 Nasdaq -2.1% (tech-only)</span>
+      <span class="tag">🟢 US: 7 sectors up · Russell +0.83%</span>
+      <span class="tag">📉 Nvidia -3.2% · Broadcom -3.3%</span>
+      <span class="tag">🇨🇳 PBOC cushion · A-shares' first dip</span>
+      <span class="tag">🛢️ WTI 3-month low (Iran license)</span>
+      <span class="tag">📅 6/24 Micron earnings in focus</span>
     </div>
   </section>
 
@@ -1020,6 +1038,7 @@ setupCollapse();
     if(lgt) lgt.textContent = isEN ? '한국어' : 'English';
     if(lgi) lgi.textContent = isEN ? '🇰🇷' : '🇬🇧';
     document.documentElement.lang = isEN ? 'en' : 'ko';
+    document.documentElement.setAttribute('data-ui-lang', isEN ? 'en' : 'ko');
   }
   if(isEN) apply();
   btn.addEventListener('click', ()=>{ isEN = !isEN; try{ localStorage.setItem('gmd_lang', isEN?'en':'ko'); }catch(e){} apply(); });
