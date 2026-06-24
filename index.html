@@ -69,6 +69,16 @@ h1 { font-size: 26px; font-weight: 800; margin: 4px 0 6px; letter-spacing: -.02e
 .takeaway .t-label { font-size: 11px; font-weight: 800; color: #8a8a8a; letter-spacing: .04em; }
 .takeaway p { font-size: 13.5px; color: #c2c2c2; margin: 3px 0 0; }
 
+/* country card tabs (주요 이슈 / 오전 동향) */
+.ctabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.ctab { font-size: 12.5px; font-weight: 700; padding: 6px 13px; border-radius: 8px; border: 1px solid #333333; background: #141414; color: #9a9a9a; cursor: pointer; }
+.ctab.active { background: #2f2f2f; color: #fafafa; border-color: #3a3a3a; }
+.morning-meta { font-size: 11px; color: #8a8a8a; font-weight: 600; margin-bottom: 10px; }
+.morning-meta b { color: #cfcfcf; }
+.morning-list { margin: 0 0 8px 2px; padding-left: 18px; }
+.morning-list li { font-size: 14px; color: #d4d4d4; margin-bottom: 5px; }
+.morning-list b { color: #fafafa; }
+
 footer { margin-top: 26px; font-size: 12px; color: #8a8a8a; text-align: center; line-height: 1.8; }
 .src { margin-top: 10px; font-size: 11.5px; color: #6b6b6b; }
 .sched { background: #1e1e1e; border: 1px solid #333333; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #d4d4d4; }
@@ -277,6 +287,12 @@ html[data-theme="light"] .body b { color: #0d0d0f; }
 html[data-theme="light"] .takeaway { background: #f3f4f6; border-left-color: #c9c9d0; }
 html[data-theme="light"] .takeaway .t-label { color: #7a7a82; }
 html[data-theme="light"] .takeaway p { color: #4a4a52; }
+html[data-theme="light"] .ctab { background:#f3f4f6; color:#7a7a82; border-color:#e3e3e8; }
+html[data-theme="light"] .ctab.active { background:#ffffff; color:#0d0d0f; border-color:#d8d8e0; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+html[data-theme="light"] .morning-meta { color:#7a7a82; }
+html[data-theme="light"] .morning-meta b { color:#33333a; }
+html[data-theme="light"] .morning-list li { color:#33333a; }
+html[data-theme="light"] .morning-list b { color:#0d0d0f; }
 html[data-theme="light"] footer { color: #7a7a82; }
 html[data-theme="light"] .src { color: #9a9aa2; }
 html[data-theme="light"] .sched { background: #eef0f4; border-color: #dfe2ea; color: #3a3a44; }
@@ -387,6 +403,8 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="tile"><div class="label">WTI 유가</div><div class="val">$72.81</div><div class="chg down">▼ 3개월 최저</div></div>
     </div>
     <div class="body">
+      <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
+      <div class="pane issue">
       <h4>핵심 이슈 <span class="signal s-neg">반도체 집중 매도 · 순환</span></h4>
       <ul>
         <li><b>'테크 단독 급락'으로 마감.</b> 장중 패닉(엔비디아 -7%대)에서 종가엔 낙폭을 절반 이상 줄여 <b>엔비디아 -3.2%($201.97)·브로드컴 -3.3%($380.10)</b>로 끝났다. S&P -1.32%·나스닥 -2.10%지만 <b>S&P 11개 업종 중 7개는 상승</b>, 기술업종만 -4.13%로 '광범위 위험회피'가 아닌 반도체 집중 매도 성격.</li>
@@ -397,6 +415,11 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="takeaway">
         <div class="t-label">읽는 법</div>
         <p>장중 '전방위 패닉'으로 보였지만 <b>종가는 반도체에 한정된 매도</b>로 정리된 게 핵심 — 7개 업종 상승·러셀 +0.83%·다우 -0.58%가 그 증거다. 즉 'AI 거품 붕괴'가 아니라 <b>BofA 매파 전망(3회 인상)</b>이 고밸류 성장주의 멀티플을 누른 금리發 조정에 가깝다. 단 2년물 상승·9월 인상 확률 급등은 추세적 부담이라, 6/24 마이크론 가이던스(HBM 2026년 완판·마진 81%)가 메모리 트레이드를 되살릴지가 단기 분수령. 아시아(한국 -10%) 투매의 추가 전이 여부도 함께 봐야 한다.</p>
+      </div>
+      </div>
+      <div class="pane morning" style="display:none">
+        <div class="morning-meta">오전 동향 업데이트 <b class="mupd" data-mkt="us" data-iso="">아직 갱신 전</b> · <span class="tzname">현지</span></div>
+        <ul class="morning-list"><li>미국 오전(현지 정오 기준) 시장 동향은 아직 갱신되지 않았습니다.</li></ul>
       </div>
     </div>
   </section>
@@ -415,6 +438,8 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="tile"><div class="label">한은 기준금리</div><div class="val">2.50%</div><div class="chg flat">7/16 금통위</div></div>
     </div>
     <div class="body">
+      <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
+      <div class="pane issue">
       <h4>핵심 이슈 <span class="signal s-neg">패닉 셀 · 서킷브레이커</span></h4>
       <ul>
         <li><b>코스피 9.99% 폭락 '검은 화요일'.</b> 910.71p 내린 8,203.84로 마감 — <b>역대 최대 포인트 낙폭</b>이자 금융위기 이후 최악의 하루. 장중 8% 넘게 빠지며 올해 네 번째 <b>서킷브레이커</b> 발동, 시총 약 743조 원 증발. 코스닥도 -7.94%(891.55).</li>
@@ -425,6 +450,11 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="takeaway">
         <div class="t-label">읽는 법</div>
         <p>반도체 단일 테마 쏠림이 만든 급등이 하루 만에 급락으로 되돌려진 전형적 변동성 폭발. 외국인·기관이 동시에 던지고 개인이 역대급으로 받아낸 구도라 단기 추가 변동성이 크다. 마이크론 실적·연준 발언·환율(1,540선)이 반등 여부의 분기점 — 패닉 국면에선 수급(외국인 순매수 전환)이 지수보다 먼저 신호를 준다.</p>
+      </div>
+      </div>
+      <div class="pane morning" style="display:none">
+        <div class="morning-meta">오전 동향 업데이트 <b class="mupd" data-mkt="kr" data-iso="">아직 갱신 전</b> · <span class="tzname">현지</span></div>
+        <ul class="morning-list"><li>한국 오전(현지 정오 기준) 시장 동향은 아직 갱신되지 않았습니다.</li></ul>
       </div>
     </div>
   </section>
@@ -441,6 +471,8 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="tile"><div class="label">USD/CNY 고시</div><div class="val">6.8171</div><div class="chg flat">위안 절하 고시</div></div>
     </div>
     <div class="body">
+      <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
+      <div class="pane issue">
       <h4>핵심 이슈 <span class="signal s-neg">차익실현 조정</span></h4>
       <ul>
         <li><b>A주 급락, 강세장 뒤 첫 큰 조정.</b> 상하이종합 -1.37%(4,106.25), 선전성분 -3.17%, 성장주 중심 <b>촹예반(ChiNext) -3.84%(4,192.19)</b>, 커촹(STAR) -1.31%. 10년래 고점까지 오른 뒤 차익실현 출회. 양 시장 거래대금 3.44조 위안으로 전일 대비 2,964억 위안 감소.</li>
@@ -451,6 +483,11 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <div class="takeaway">
         <div class="t-label">읽는 법</div>
         <p>강세장 후 첫 의미 있는 조정으로, 성장주(촹예반·선전) 낙폭이 커 <b>고밸류 차익실현</b> 성격이 짙다. 거래대금이 줄며 관망세도 확대. PBOC의 위안 절하 용인은 수출 방어 신호일 수 있으나 환율·자본흐름 변동성을 키울 수 있어 주의. 업종 순환매(제약·로봇 ↔ 비철금속)와 거래대금 회복 여부가 단기 방향의 가늠자.</p>
+      </div>
+      </div>
+      <div class="pane morning" style="display:none">
+        <div class="morning-meta">오전 동향 업데이트 <b class="mupd" data-mkt="cn" data-iso="">아직 갱신 전</b> · <span class="tzname">현지</span></div>
+        <ul class="morning-list"><li>중국 오전(현지 정오 기준) 시장 동향은 아직 갱신되지 않았습니다.</li></ul>
       </div>
     </div>
   </section>
@@ -706,6 +743,18 @@ function fmtLocal(d){ return d ? new Intl.DateTimeFormat("ko-KR",{month:"numeric
 document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLocal(nextCloseSh(el.dataset.mkt)); });
 // '업데이트' 시각 = 접속자 현지 시간으로 표시 (data-iso는 UTC 기준)
 document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
+document.querySelectorAll('.mupd[data-iso]').forEach(el=>{ if(el.dataset.iso){ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); } });
+// 국가 카드 탭 전환 (주요 이슈 / 오전 동향)
+document.querySelectorAll('.country .ctabs').forEach(tabs=>{
+  const card = tabs.closest('.country');
+  tabs.querySelectorAll('.ctab').forEach(btn=> btn.addEventListener('click', ()=>{
+    tabs.querySelectorAll('.ctab').forEach(b=> b.classList.toggle('active', b===btn));
+    const t = btn.dataset.tab;
+    const pi = card.querySelector('.pane.issue'), pm = card.querySelector('.pane.morning');
+    if(pi) pi.style.display = (t==='issue') ? '' : 'none';
+    if(pm) pm.style.display = (t==='morning') ? '' : 'none';
+  }));
+});
 // 접속자 국가/지역 라벨 (시간대 기반)
 function tzCountryLabel(){
   const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || "";
