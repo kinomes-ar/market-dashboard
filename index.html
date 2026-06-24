@@ -16,9 +16,9 @@
 <style>
 :root{
   color-scheme: dark;
-  --bg:#16161A; --ink:#EDEDEA; --ink2:#C5C5BE; --sec:#85857E; --ter:#75756E;
-  --hair:#29292E; --hair2:#34343A; --surf:#1C1C20;
-  --up:#E0735C; --down:#5FA0BC; --flat:#85857E;
+  --bg:#171717; --ink:#ECECEC; --ink2:#C4C4C4; --sec:#8A8A8A; --ter:#767676;
+  --hair:#2A2A2A; --hair2:#353535; --surf:#1F1F1F;
+  --up:#E0735C; --down:#5FA0BC; --flat:#8A8A8A;
   --font:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 }
 html[data-theme="light"]{
@@ -47,7 +47,7 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 .country{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; overflow:visible; }
 .chead{ padding:0; border:0; display:flex; align-items:center; gap:10px; }
 .flag{font-size:20px;}
-.chead h3{font-size:28px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
+.chead h3{font-size:13px; font-weight:600; letter-spacing:.08em; color:var(--sec);}
 .chead .sub{font-size:11px; color:var(--sec); margin-left:auto; font-weight:400; text-align:right; line-height:1.55;}
 .chead .sub b{color:var(--ink2); font-weight:500;}
 
@@ -115,7 +115,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
 .live{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; overflow:visible; }
 .live .chead{ padding:0; border:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.live .chead h3{font-size:28px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
+.live .chead h3{font-size:13px; font-weight:600; letter-spacing:.08em; color:var(--sec);}
 .badge{font-size:11.5px; font-weight:400; padding:3px 11px; border-radius:999px; white-space:nowrap; border:1px solid var(--hair2); background:transparent; color:var(--sec);}
 .badge.open{color:var(--ink);}
 .badge.closed{color:var(--sec);}
@@ -175,7 +175,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .collapsible{cursor:pointer; user-select:none;}
 .caret{margin-left:14px; font-size:18px; line-height:1; color:var(--sec); transition:transform .18s ease; display:inline-flex; align-items:center; justify-content:center; flex:none; width:24px; height:24px;}
 .collapsible:hover .caret{color:var(--ink);}
-.collapsed .caret{transform:rotate(-90deg);}
+.collapsed .caret{transform:none;}
 .country.collapsed > :not(.chead), .live.collapsed > :not(.chead){display:none;}
 .summary.collapsed > p, .summary.collapsed > .flow{display:none;}
 .summary.collapsed h2{margin-bottom:0;}
@@ -236,6 +236,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   .rd-posts{margin:8px 0 0 30px;}
   .rd-post{grid-template-columns:46px 1fr; gap:7px; font-size:12px;}
 }
+#sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
 </style>
 </head>
 <body>
@@ -251,10 +252,10 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
     <div class="menudd" id="menuDD">
-      <button class="ddrow" id="goRates">💰 주요 시세</button>
-      <button class="ddrow" id="goCalendar">📅 경제 캘린더</button>
-      <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
-      <button class="ddrow" id="goInstall">📲 홈 화면에 추가</button>
+      <button class="ddrow" id="goRates">주요 시세</button>
+      <button class="ddrow" id="goCalendar">경제 캘린더</button>
+      <button class="ddrow" id="goCommunity">커뮤니티</button>
+      <button class="ddrow" id="goInstall">홈 화면에 추가</button>
       <div class="ddsep"></div>
       <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
       <button class="ddrow" id="langToggle"><span class="lgi">🇬🇧</span><span class="lgt">English</span></button>
@@ -270,12 +271,12 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   </header>
 
   <div class="sched">
-    <span data-lang="ko">🔔 <b>장마감 기준 자동 업데이트</b> — 각 시장 카드는 해당 장이 끝난 뒤 자동 갱신됩니다.<br>주간 종합 분석은 미국 금요일 장 마감 후 추가됩니다.</span><span data-lang="en">🔔 <b>Auto-updates at each market close</b> — each card refreshes after its own market closes.<br>A weekly wrap-up is added after the US Friday close.</span>
+    <span data-lang="ko"><b>장마감 기준 자동 업데이트</b> — 각 시장 카드는 해당 장이 끝난 뒤 자동 갱신됩니다.<br>주간 종합 분석은 미국 금요일 장 마감 후 추가됩니다.</span><span data-lang="en"><b>Auto-updates at each market close</b> — each card refreshes after its own market closes.<br>A weekly wrap-up is added after the US Friday close.</span>
   </div>
 
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
-    <h2><span data-lang="ko">📊 오늘의 시장 흐름 한눈에</span><span data-lang="en">📊 Today's Market at a Glance</span></h2>
+    <h2><span data-lang="ko">오늘의 시장 흐름 한눈에</span><span data-lang="en">Today's Market at a Glance</span></h2>
     <p data-lang="ko">
       <b>'반도체 단독 매도'가 아시아를 강타하고 미국에서 진정됐다.</b> 진앙은 <b>BofA의 매파 보고서</b> — 2026년 연준 <b>3회 인상(9·10·12월·총 75bp)</b> 전망에 고밸류 반도체가 직격탄을 맞았다. <b>한국</b>이 가장 크게 흔들려 <b>코스피 -9.99% '검은 화요일'</b>(서킷브레이커), SK하이닉스·삼성전자 12%대 동반 급락 — 시총 1위 등극 직후의 쏠림이 역풍으로.
       <b>중국</b>은 PBOC 완충(단기금리 개편·위안화 기대)으로 상대적 안정 속 강세장 첫 조정(상하이종합 -1.37%).
@@ -287,30 +288,30 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
       <b>The US</b> pared an intraday panic (Nvidia -7%) by more than half into the close — <b>Nvidia -3.2%, Broadcom -3.3%</b>, S&P -1.32%, Nasdaq -2.10%. But with <b>7 of 11 sectors up, Russell 2000 +0.83%, Dow -0.58%</b>, it looked like a rate-driven multiple reset rather than a broad collapse. A US–Iran 60-day oil license pushed WTI to a 3-month low ($72.81). <b>Micron earnings after the 6/24 close</b> is the next inflection for the AI-memory trade.
     </p>
     <div class="flow" data-lang="ko">
-      <span class="tag">🔑 BofA "연준 3회 인상" 방아쇠</span>
-      <span class="tag">🇰🇷 코스피 -10% 검은 화요일</span>
-      <span class="tag">🇺🇸 나스닥 -2.1% (테크 단독)</span>
-      <span class="tag">🟢 美 7개 업종↑ · 러셀 +0.83%</span>
-      <span class="tag">📉 엔비디아 -3.2% · 브로드컴 -3.3%</span>
-      <span class="tag">🇨🇳 PBOC 완충 · A주 첫 조정</span>
+      <span class="tag">BofA "연준 3회 인상" 방아쇠</span>
+      <span class="tag">코스피 -10% 검은 화요일</span>
+      <span class="tag">나스닥 -2.1% (테크 단독)</span>
+      <span class="tag">美 7개 업종↑ · 러셀 +0.83%</span>
+      <span class="tag">엔비디아 -3.2% · 브로드컴 -3.3%</span>
+      <span class="tag">PBOC 완충 · A주 첫 조정</span>
       <span class="tag">🛢️ WTI 3개월 최저 (이란 라이선스)</span>
-      <span class="tag">📅 6/24 마이크론 실적 분수령</span>
+      <span class="tag">6/24 마이크론 실적 분수령</span>
     </div>
     <div class="flow" data-lang="en">
-      <span class="tag">🔑 BofA "3 Fed hikes" trigger</span>
-      <span class="tag">🇰🇷 KOSPI -10% Black Tuesday</span>
-      <span class="tag">🇺🇸 Nasdaq -2.1% (tech-only)</span>
-      <span class="tag">🟢 US: 7 sectors up · Russell +0.83%</span>
-      <span class="tag">📉 Nvidia -3.2% · Broadcom -3.3%</span>
-      <span class="tag">🇨🇳 PBOC cushion · A-shares' first dip</span>
+      <span class="tag">BofA "3 Fed hikes" trigger</span>
+      <span class="tag">KOSPI -10% Black Tuesday</span>
+      <span class="tag">Nasdaq -2.1% (tech-only)</span>
+      <span class="tag">US: 7 sectors up · Russell +0.83%</span>
+      <span class="tag">Nvidia -3.2% · Broadcom -3.3%</span>
+      <span class="tag">PBOC cushion · A-shares' first dip</span>
       <span class="tag">🛢️ WTI 3-month low (Iran license)</span>
-      <span class="tag">📅 6/24 Micron earnings in focus</span>
+      <span class="tag">6/24 Micron earnings in focus</span>
     </div>
   </section>
 
   <!-- USA -->
   <section class="country spy" id="sec-us">
-    <div class="chead"><span class="flag">🇺🇸</span><h3>미국</h3>
+    <div class="chead"><h3>미국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-23T21:34:00Z">6/24 05:34</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
@@ -355,7 +356,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <!-- KOREA -->
   <section class="country spy" id="sec-kr">
-    <div class="chead"><span class="flag">🇰🇷</span><h3>한국</h3>
+    <div class="chead"><h3>한국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-24T07:01:36Z">6/24 15:30</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
@@ -399,7 +400,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <!-- CHINA -->
   <section class="country spy" id="sec-cn">
-    <div class="chead"><span class="flag">🇨🇳</span><h3>중국</h3>
+    <div class="chead"><h3>중국</h3>
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-24T07:22:23Z">6/24 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
@@ -452,7 +453,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   <!-- LIVE MOVERS -->
   <section class="live spy" id="sec-live">
     <div class="chead">
-      <span class="flag">📈</span><h3>실시간 미국 주식 등락</h3>
+      <h3>실시간 미국 주식 등락</h3>
       <span class="badge closed" id="mktBadge">● 상태 확인 중…</span>
       <span class="sub"><span data-lang="ko">FMP · 자동 갱신</span><span data-lang="en">FMP · auto-refresh</span></span>
     </div>
@@ -479,7 +480,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <!-- RATES (맨 아래) -->
   <section class="country spy" id="sec-rates">
-    <div class="chead"><span class="flag">💰</span><h3>주요 시세</h3>
+    <div class="chead"><h3>주요 시세</h3>
       <div class="sub"><div><span data-lang="ko">코인 실시간 · 금·환율 1일 1회</span><span data-lang="en">Crypto live · gold/FX once daily</span></div><div><span data-lang="ko">금·환율 업데이트</span><span data-lang="en">Gold/FX updated</span> <b class="upd" data-mkt="rates" data-iso="2026-06-24T06:53:00Z">—</b></div></div>
     </div>
     <div class="tiles">
@@ -499,11 +500,11 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <div id="communityView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
-    <h1 style="margin: 4px 0 16px"><span data-lang="ko">💬 커뮤니티</span><span data-lang="en">💬 Community</span></h1>
+    <h1 style="margin: 4px 0 16px"><span data-lang="ko">커뮤니티</span><span data-lang="en">Community</span></h1>
   <!-- REDDIT -->
   <section class="live spy" id="sec-reddit">
     <div class="chead">
-      <span class="flag">👽</span><h3>레딧 화제 종목 TOP 10</h3>
+      <h3>레딧 화제 종목 TOP 10</h3>
       <span class="sub" id="redditAsof"><span data-lang="ko">매일 1회 갱신</span><span data-lang="en">Updated once daily</span></span>
     </div>
     <div class="mv-wrap" id="redditBody"></div>
@@ -514,30 +515,30 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <div id="calendarView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
-    <h1 style="margin: 4px 0 16px"><span data-lang="ko">📅 경제 캘린더</span><span data-lang="en">📅 Economic Calendar</span></h1>
+    <h1 style="margin: 4px 0 16px"><span data-lang="ko">경제 캘린더</span><span data-lang="en">Economic Calendar</span></h1>
     <section class="country">
-      <div class="chead"><span class="flag">📅</span><h3><span data-lang="ko">이번 주 주요 일정</span><span data-lang="en">This Week's Key Events</span></h3><div class="sub" id="calAsof"><span data-lang="ko">현지 시간 기준 · 매일 갱신</span><span data-lang="en">Local time · updated daily</span></div></div>
+      <div class="chead"><h3><span data-lang="ko">이번 주 주요 일정</span><span data-lang="en">This Week's Key Events</span></h3><div class="sub" id="calAsof"><span data-lang="ko">현지 시간 기준 · 매일 갱신</span><span data-lang="en">Local time · updated daily</span></div></div>
       <div class="body" id="calBody" style="padding-top:16px">
         <div class="cal-day">
           <div class="cal-date"><span data-lang="ko">6/24 (수)</span><span data-lang="en">Wed, 6/24</span></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko"><b>마이크론(MU) FQ3 실적</b> — 미 장 마감 후. 컨센 EPS $19.72·매출 $34.5B(+283%), <b>HBM·마진(81%대)</b>이 관건인 AI 메모리 분수령.</span><span data-lang="en"><b>Micron (MU) FQ3 earnings</b> — after the US close. Consensus EPS $19.72, revenue $34.5B (+283%); <b>HBM and margins (~81%)</b> are the key inflection for the AI-memory trade.</span></div></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko">5월 신규주택판매</span><span data-lang="en">May new home sales</span></div></div>
-          <div class="cal-ev"><span class="flag">🇨🇳</span><div><span data-lang="ko"><b>톈진 '하계 다보스(WEF)' 개막</b> (~26일) — 신흥경제·정책 시그널 주목</span><span data-lang="en"><b>Tianjin 'Summer Davos' (WEF) opens</b> (through 26th) — watch for emerging-economy and policy signals</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko"><b>마이크론(MU) FQ3 실적</b> — 미 장 마감 후. 컨센 EPS $19.72·매출 $34.5B(+283%), <b>HBM·마진(81%대)</b>이 관건인 AI 메모리 분수령.</span><span data-lang="en"><b>Micron (MU) FQ3 earnings</b> — after the US close. Consensus EPS $19.72, revenue $34.5B (+283%); <b>HBM and margins (~81%)</b> are the key inflection for the AI-memory trade.</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko">5월 신규주택판매</span><span data-lang="en">May new home sales</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko"><b>톈진 '하계 다보스(WEF)' 개막</b> (~26일) — 신흥경제·정책 시그널 주목</span><span data-lang="en"><b>Tianjin 'Summer Davos' (WEF) opens</b> (through 26th) — watch for emerging-economy and policy signals</span></div></div>
         </div>
         <div class="cal-day">
           <div class="cal-date"><span data-lang="ko">6/25 (목)</span><span data-lang="en">Thu, 6/25</span> <span class="hi"><span data-lang="ko">★ 고임팩트</span><span data-lang="en">★ High impact</span></span></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko"><b>5월 PCE 물가</b> — 연준 선호 지표. 코어 y/y ~3.3% 전망(뜨거움), 9월 인상론의 핵심 변수</span><span data-lang="en"><b>May PCE inflation</b> — the Fed's preferred gauge. Core y/y ~3.3% expected (hot), a key input for the September hike debate</span></div></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko"><b>1분기 GDP 확정치</b> (컨센 +1.6%)</span><span data-lang="en"><b>Q1 GDP final</b> (consensus +1.6%)</span></div></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko">5월 내구재주문 (+0.2%) · 주간 실업수당청구 (225K)</span><span data-lang="en">May durable goods (+0.2%) · weekly jobless claims (225K)</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko"><b>5월 PCE 물가</b> — 연준 선호 지표. 코어 y/y ~3.3% 전망(뜨거움), 9월 인상론의 핵심 변수</span><span data-lang="en"><b>May PCE inflation</b> — the Fed's preferred gauge. Core y/y ~3.3% expected (hot), a key input for the September hike debate</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko"><b>1분기 GDP 확정치</b> (컨센 +1.6%)</span><span data-lang="en"><b>Q1 GDP final</b> (consensus +1.6%)</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko">5월 내구재주문 (+0.2%) · 주간 실업수당청구 (225K)</span><span data-lang="en">May durable goods (+0.2%) · weekly jobless claims (225K)</span></div></div>
         </div>
         <div class="cal-day">
           <div class="cal-date"><span data-lang="ko">6/26 (금)</span><span data-lang="en">Fri, 6/26</span></div>
-          <div class="cal-ev"><span class="flag">🇺🇸</span><div><span data-lang="ko">6월 미시간대 소비자심리 확정치</span><span data-lang="en">June U. Michigan consumer sentiment, final</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko">6월 미시간대 소비자심리 확정치</span><span data-lang="en">June U. Michigan consumer sentiment, final</span></div></div>
         </div>
         <div class="cal-day">
           <div class="cal-date"><span data-lang="ko">다가오는 일정</span><span data-lang="en">Upcoming</span></div>
-          <div class="cal-ev"><span class="flag">🇰🇷</span><div><span data-lang="ko"><b>한국은행 금통위</b> — 7/16 (기준금리 인상 여부 주목)</span><span data-lang="en"><b>Bank of Korea rate decision</b> — Jul 16 (watch for a possible hike)</span></div></div>
-          <div class="cal-ev"><span class="flag">🇨🇳</span><div><span data-lang="ko">6월 제조업 PMI — 6/30</span><span data-lang="en">June manufacturing PMI — Jun 30</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko"><b>한국은행 금통위</b> — 7/16 (기준금리 인상 여부 주목)</span><span data-lang="en"><b>Bank of Korea rate decision</b> — Jul 16 (watch for a possible hike)</span></div></div>
+          <div class="cal-ev"><div><span data-lang="ko">6월 제조업 PMI — 6/30</span><span data-lang="en">June manufacturing PMI — Jun 30</span></div></div>
         </div>
       </div>
     </section>
@@ -554,7 +555,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   <div class="installov" id="installOv" style="display:none">
     <div class="installbox">
       <button class="installx" id="installClose" aria-label="close">&times;</button>
-      <div class="installt"><span data-lang="ko">📲 홈 화면에 추가</span><span data-lang="en">📲 Add to Home Screen</span></div>
+      <div class="installt"><span data-lang="ko">홈 화면에 추가</span><span data-lang="en">Add to Home Screen</span></div>
       <div id="installIos">
         <div data-lang="ko"><b>아이폰 / 아이패드 (Safari)</b>
           <ol><li>화면 하단의 <b>공유</b> 버튼 <b>⬆️</b> 을 누르세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li><li><b>추가</b> 를 누르면 완료!</li></ol>
@@ -874,13 +875,13 @@ function tick(){
   const badge = document.getElementById("mktBadge");
   const cd = document.getElementById("mktCountdown");
   if(open){
-    badge.className = "badge open"; badge.textContent = L("🟢 미국 장중","🟢 US market open");
+    badge.className = "badge open"; badge.textContent = L("미국 장중","US market open");
     if(nextUpdateTs===0) nextUpdateTs = Date.now()+REFRESH_MS;
     const left = nextUpdateTs - Date.now();
     if(left<=0 && !loading){ cd.innerHTML = L("다음 업데이트까지 <b>갱신 중…</b>","Next update <b>refreshing…</b>"); loadMovers().then(()=>{ nextUpdateTs = Date.now()+REFRESH_MS; }); }
     else cd.innerHTML = L("다음 업데이트까지 <b>"+fmtHMS(left)+"</b>","Next update <b>"+fmtHMS(left)+"</b>");
   } else {
-    badge.className = "badge closed"; badge.textContent = L("🔴 미국 장마감","🔴 US market closed");
+    badge.className = "badge closed"; badge.textContent = L("미국 장마감","US market closed");
     nextUpdateTs = 0;
     cd.innerHTML = L("다음 장 시작까지 <b>"+fmtHMS(msToOpen())+"</b> · 데이터는 마지막 종가 기준","Opens in <b>"+fmtHMS(msToOpen())+"</b> · data at last close");
   }
@@ -898,11 +899,13 @@ function setupCollapse(){
     if(!sec || !head) return;
     head.classList.add('collapsible');
     const caret = document.createElement('span');
-    caret.className = 'caret'; caret.textContent = '▾';
+    caret.className = 'caret';
     head.appendChild(caret);
     if(saved[key]) sec.classList.add('collapsed');
+    caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
     head.addEventListener('click', ()=>{
       sec.classList.toggle('collapsed');
+      caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
       saved[key] = sec.classList.contains('collapsed');
       try { localStorage.setItem('gmd_collapsed', JSON.stringify(saved)); } catch(e){}
     });
@@ -1012,7 +1015,7 @@ setupCollapse();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
     ['.topnav a[href="#sec-live"]','Live'],
-    ['#goRates','💰 Rates'], ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'], ['#goInstall','📲 Add to Home Screen'],
+    ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
