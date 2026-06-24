@@ -242,7 +242,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   .rd-post{grid-template-columns:46px 1fr; gap:7px; font-size:12px;}
 }
 #sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
-.topnav .brandlogo{margin-left:auto; display:flex; align-items:center; padding-left:8px;}
+.topnav .brandlogo{margin-left:auto; display:flex; align-items:center; padding-left:8px; cursor:pointer;}
 .topnav .brandlogo img{display:none; width:auto;}
 .topnav .brandlogo .logo-wide{height:30px;}
 .topnav .brandlogo .logo-mark{height:26px;}
@@ -284,7 +284,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <a href="#sec-live">실시간</a>
   </div>
   
-  <span class="brandlogo" aria-label="Market Daily">
+  <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="새로고침" aria-label="Market Daily — 새로고침">
     <img class="logo-wide logo-l" src="logo-horizontal-light.png?v=6" alt="Market Daily">
     <img class="logo-wide logo-d" src="logo-horizontal-dark.png?v=6" alt="" aria-hidden="true">
     <img class="logo-mark logo-l" src="header-mark-light.png?v=6" srcset="header-mark-light.png?v=6 1x, header-mark-light-2x.png?v=6 2x" alt="" aria-hidden="true">
@@ -578,7 +578,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.2</div>
+    <div class="ver">V1.11</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -899,6 +899,12 @@ document.querySelectorAll('.tzname').forEach(el=> el.textContent = tzCountryLabe
 // 네비 브랜드 아이콘 클릭 → 대시보드 맨 위로
 const navBrand = document.getElementById('navBrand');
 if(navBrand) navBrand.addEventListener('click', ()=>{ if(window.showDashboard) showDashboard(); window.scrollTo({ top:0, behavior:'smooth' }); });
+const brandLogo = document.getElementById('brandLogo');
+if(brandLogo){
+  const reloadPage = ()=> location.reload();
+  brandLogo.addEventListener('click', reloadPage);
+  brandLogo.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); reloadPage(); } });
+}
 
 function tick(){
   const open = marketOpen();
