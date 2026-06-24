@@ -440,6 +440,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
+      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="us">—</b> · <span class="tzname">현지</span></div>
       <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-neg"><span data-lang="ko">반도체 집중 매도 · 순환</span><span data-lang="en">Chip-focused selloff · rotation</span></span></h4>
       <ul data-lang="ko">
         <li><b>'테크 단독 급락'으로 마감.</b> 장중 패닉(엔비디아 -7%대)에서 종가엔 낙폭을 절반 이상 줄여 <b>엔비디아 -3.2%($201.97)·브로드컴 -3.3%($380.10)</b>로 끝났다. S&P -1.32%·나스닥 -2.10%지만 <b>S&P 11개 업종 중 7개는 상승</b>, 기술업종만 -4.13%로 '광범위 위험회피'가 아닌 반도체 집중 매도 성격.</li>
@@ -483,6 +484,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
+      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="kr">—</b> · <span class="tzname">현지</span></div>
       <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">기술적 V자 반등</span><span data-lang="en">Technical V-rebound</span></span></h4>
       <ul data-lang="ko">
         <li><b>코스피 +3.37% 급반등, 8,480선 회복.</b> '검은 화요일'(-9.99%) 하루 만에 276p 오른 8,480.21로 마감. 다만 장중 변동성이 극심해 <b>고점 8,577 → 저점 8,087</b>(전일 종가 -1.4%)까지 약 490p를 오르내린 끝의 반등이었다. 개장 직후 +4%대로 치솟았다 한때 상승폭을 거의 반납하기도. 코스닥도 +2%대 반등하며 <b>900선 회복(910.4)</b>. 전일 폭락이 미 반도체 약세를 '선반영'했다는 인식이 저가 매수를 유발.</li>
@@ -524,6 +526,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
+      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="cn">—</b> · <span class="tzname">현지</span></div>
       <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">본토 반등 · 홍콩 약세</span><span data-lang="en">Mainland up · HK down</span></span></h4>
       <ul data-lang="ko">
         <li><b>본토와 홍콩 디커플링.</b> 상하이종합 -0.43%(4,090)로 소폭 조정했으나, <b>선전성분 +0.94%(16,030)로 한 달 최고치</b> 회복. 반면 <b>항셍은 -1.8%(23,336)</b>로 약세 — '지정학 완화'보다 <b>글로벌 금리 상방 우려</b>가 홍콩 증시를 눌렀다. 다만 개별 기술주는 버텨 SMIC +3.2%·텐센트 +1.0%·샤오미 +1.7%. 본토는 기술주 선호로 강했고 홍콩은 뉴욕 테크 약세를 추종.</li>
@@ -671,6 +674,13 @@ const V3 = "https://financialmodelingprep.com/api/v3";
 // 현재 UI 언어(한/영) — JS로 그려지는 동적 텍스트에 사용
 function isEnLang(){ return document.documentElement.getAttribute('data-ui-lang')==='en'; }
 function L(ko,en){ return isEnLang() ? en : ko; }
+// '주요 이슈' 탭의 업데이트 시각 = 해당 카드 헤더의 마감 갱신 시각(.upd)을 그대로 표시
+function fillIssueMeta(){
+  document.querySelectorAll('.iupd[data-mkt]').forEach(el=>{
+    const src = document.querySelector('.upd[data-mkt="'+el.dataset.mkt+'"]');
+    if(src && src.dataset.iso){ const t=new Date(src.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); }
+  });
+}
 // 한/영 전환 시 동적 영역 다시 그리기 (lang apply()에서 호출)
 function relocalizeDynamic(){
   try {
@@ -681,6 +691,7 @@ function relocalizeDynamic(){
     document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLocal(nextCloseSh(el.dataset.mkt)); });
     document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t=new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
     document.querySelectorAll('.mupd[data-iso]').forEach(el=>{ if(el.dataset.iso){ const t=new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); } });
+    fillIssueMeta();
     document.querySelectorAll('.tzname').forEach(el=> el.textContent = tzCountryLabel());
   } catch(e){}
 }
@@ -880,6 +891,7 @@ document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLo
 // '업데이트' 시각 = 접속자 현지 시간으로 표시 (data-iso는 UTC 기준)
 document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
 document.querySelectorAll('.mupd[data-iso]').forEach(el=>{ if(el.dataset.iso){ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); } });
+fillIssueMeta();
 // 국가 카드 탭 전환 (주요 이슈 / 오전 동향)
 document.querySelectorAll('.country .ctabs').forEach(tabs=>{
   const card = tabs.closest('.country');
