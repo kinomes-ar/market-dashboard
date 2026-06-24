@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-ui-lang="ko">
+<html lang="ko" data-ui-lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -188,7 +188,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .topnav .links::-webkit-scrollbar{display:none;}
 .topnav.show{transform:translateY(0);}
 .navmenu{flex:none; position:relative;}
-.menubtn{width:30px; height:30px; border-radius:7px; border:1px solid var(--hair2); background:transparent; color:var(--ink); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+.menubtn{width:32px; height:32px; border-radius:50%; border:1px solid var(--hair2); background:var(--surf); color:var(--ink); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .menubtn:hover{background:var(--surf);}
 .menudd{position:absolute; top:calc(100% + 9px); left:0; min-width:190px; background:var(--bg); border:1px solid var(--hair2); border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.35); padding:6px; display:none; flex-direction:column; gap:2px; z-index:70;}
 .menudd.open{display:flex;}
@@ -199,9 +199,9 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .cback{margin:4px 0 20px;}
 .cback a{color:var(--sec); text-decoration:none; font-size:14px; font-weight:400;}
 .cback a:hover{color:var(--ink);}
-.topnav a{color:var(--sec); text-decoration:none; font-size:13px; font-weight:400; padding:6px 12px; border-radius:6px; white-space:nowrap;}
-.topnav a:hover{color:var(--ink);}
-.topnav a.active{color:var(--ink); background:var(--surf); border-radius:13px;}
+.topnav a{color:var(--ink2); text-decoration:none; font-size:13px; font-weight:400; padding:6px 13px; border-radius:8px; white-space:nowrap; background:var(--surf);}
+.topnav a:hover{color:var(--ink); background:var(--hair2);}
+.topnav a.active{color:var(--ink); background:var(--hair2); border-radius:8px;}
 .spy{scroll-margin-top:60px;}
 .theme-toggle{position:fixed; top:10px; right:12px; z-index:60; width:38px; height:38px; border-radius:50%; border:1px solid var(--hair2); background:var(--bg); color:var(--ink); font-size:17px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .theme-toggle:hover{background:var(--surf);}
@@ -240,6 +240,11 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 #sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
 .topnav .wordmark{margin-left:auto; font-size:13px; font-weight:600; letter-spacing:.16em; color:var(--ink); white-space:nowrap; padding-left:8px;}
 @media (max-width:600px){ .topnav .wordmark{display:none;} body{padding-top:44px;} }
+.cidx{display:none; align-items:baseline; gap:10px; margin-left:auto;}
+.collapsed > .chead .cidx{display:flex;}
+.collapsed > .chead .sub{display:none;}
+.cidx .cidx-v{font-size:18px; color:var(--ink); letter-spacing:-.01em;}
+.cidx .cidx-c{font-size:13px;}
 </style>
 </head>
 <body>
@@ -924,6 +929,19 @@ function setupCollapse(){
   if(sum) attach(sum, sum.querySelector('h2'), 'summary');
 }
 setupCollapse();
+(function inlineIndex(){
+  ['sec-us','sec-kr','sec-cn'].forEach(function(id){
+    var sec=document.getElementById(id); if(!sec) return;
+    var head=sec.querySelector('.chead'), tile=sec.querySelector('.tile'); if(!head||!tile) return;
+    var val=tile.querySelector('.val'), chg=tile.querySelector('.chg');
+    var idx=document.createElement('span'); idx.className='cidx';
+    var v=document.createElement('span'); v.className='cidx-v'; v.textContent=val?val.textContent.trim():'';
+    var cls=chg?chg.className.split(' ').filter(function(x){return x&&x!=='chg';}).join(' '):'';
+    var c=document.createElement('span'); c.className='cidx-c '+cls; c.textContent=chg?chg.textContent.trim():'';
+    idx.appendChild(v); idx.appendChild(c);
+    var sub=head.querySelector('.sub'); head.insertBefore(idx, sub);
+  });
+})();
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
@@ -965,7 +983,7 @@ setupCollapse();
 (function ui(){
   const root = document.documentElement;
   const tgBtn = document.getElementById('themeToggle');
-  try { if(localStorage.getItem('gmd_theme') === 'light') root.setAttribute('data-theme','light'); } catch(e){}
+  try { if(localStorage.getItem('gmd_theme') === 'dark') root.removeAttribute('data-theme'); else root.setAttribute('data-theme','light'); } catch(e){}
   function syncTheme(){
     const light = root.getAttribute('data-theme')==='light';
     const ic = tgBtn && tgBtn.querySelector('.tgi');
