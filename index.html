@@ -154,14 +154,35 @@ body { overflow-x: hidden; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; gap: 8px; justify-content: flex-start; align-items: center;
   background: rgba(18,18,18,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #333; padding: 7px 52px 7px 12px;
+  border-bottom: 1px solid #333; padding: 7px 12px;
   transform: translateY(-105%); transition: transform .24s ease;
-  overflow: hidden;
+  overflow: visible;
 }
 .topnav .brand { flex: none; width: 26px; height: 26px; border-radius: 7px; cursor: pointer; display: block; }
 .topnav .links { flex: 1; min-width: 0; display: flex; justify-content: center; gap: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .topnav .links::-webkit-scrollbar { display: none; }
 .topnav.show { transform: translateY(0); }
+.navmenu { flex: none; position: relative; }
+.menubtn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid #333333; background: #1e1e1e; color: #ededed; font-size: 15px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.menubtn:hover { background: #262626; }
+.menudd { position: absolute; top: calc(100% + 9px); right: 0; min-width: 180px; background: #1e1e1e; border: 1px solid #333333; border-radius: 12px; box-shadow: 0 10px 28px rgba(0,0,0,.45); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 70; }
+.menudd.open { display: flex; }
+.menudd .ddrow { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: transparent; border: 0; color: #ededed; font-size: 13.5px; font-weight: 700; padding: 10px 11px; border-radius: 8px; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.menudd .ddrow:hover { background: #262626; }
+.menudd .ddsep { height: 1px; background: #333333; margin: 5px 4px; }
+.menudd .ddlabel { font-size: 11px; font-weight: 700; color: #8a8a8a; padding: 6px 11px 3px; letter-spacing: .03em; }
+.cback { margin: 4px 0 18px; }
+.cback a { color: #9a9a9a; text-decoration: none; font-size: 14px; font-weight: 700; }
+.cback a:hover { color: #ededed; }
+html[data-theme="light"] .menubtn { background:#ffffff; color:#1c1c1e; border-color:#e3e3e8; }
+html[data-theme="light"] .menubtn:hover { background:#f0f0f3; }
+html[data-theme="light"] .menudd { background:#ffffff; border-color:#e3e3e8; box-shadow:0 10px 28px rgba(0,0,0,.16); }
+html[data-theme="light"] .menudd .ddrow { color:#1c1c1e; }
+html[data-theme="light"] .menudd .ddrow:hover { background:#f0f0f3; }
+html[data-theme="light"] .menudd .ddsep { background:#e3e3e8; }
+html[data-theme="light"] .menudd .ddlabel { color:#7a7a82; }
+html[data-theme="light"] .cback a { color:#6a6a72; }
+html[data-theme="light"] .cback a:hover { color:#1c1c1e; }
 .topnav a {
   color: #c2c2c2; text-decoration: none; font-size: 13.5px; font-weight: 700;
   padding: 7px 14px; border-radius: 8px; white-space: nowrap;
@@ -302,19 +323,25 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
 </head>
 <body>
 <nav class="topnav" id="topnav">
-  <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="맨 위로">
+  <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="대시보드로">
   <div class="links">
     <a href="#sec-summary">요약</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
     <a href="#sec-cn">중국</a>
     <a href="#sec-live">실시간</a>
-    <a href="#sec-reddit">레딧</a>
+  </div>
+  <div class="navmenu">
+    <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
+    <div class="menudd" id="menuDD">
+      <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
+      <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
+    </div>
   </div>
 </nav>
-<button id="themeToggle" class="theme-toggle" title="다크/라이트 전환" aria-label="테마 전환">🌙</button>
 <div class="wrap">
 
+  <div id="dashboardView">
   <header class="top">
     <div class="kicker">Global Market Daily</div>
     <h1>글로벌 마켓 데일리 — 미국 · 한국 · 중국</h1>
@@ -348,7 +375,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   <!-- USA -->
   <section class="country spy" id="sec-us">
     <div class="chead"><span class="flag">🇺🇸</span><h3>미국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-23T21:34:00Z">6/24 05:34</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · 현지</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-23T21:34:00Z">6/24 05:34</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">S&P 500</div><div class="val">7,372.91</div><div class="chg down">▼ -1.32%</div></div>
@@ -377,7 +404,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   <!-- KOREA -->
   <section class="country spy" id="sec-kr">
     <div class="chead"><span class="flag">🇰🇷</span><h3>한국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-23T12:06:00Z">6/23 20:06</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · 현지</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-23T12:06:00Z">6/23 20:06</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">코스피</div><div class="val">8,203.84</div><div class="chg down">▼ -9.99%</div></div>
@@ -405,7 +432,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
   <!-- CHINA -->
   <section class="country spy" id="sec-cn">
     <div class="chead"><span class="flag">🇨🇳</span><h3>중국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-23T07:00:00Z">6/23 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · 현지</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-23T07:00:00Z">6/23 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">상하이종합</div><div class="val">4,106.25</div><div class="chg down">▼ -1.37%</div></div>
@@ -456,6 +483,11 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     </div>
   </section>
 
+  </div><!-- /dashboardView -->
+
+  <div id="communityView" style="display:none">
+    <div class="cback"><a href="#" id="backDash">← 대시보드로</a></div>
+    <h1 style="margin: 4px 0 16px">💬 커뮤니티</h1>
   <!-- REDDIT -->
   <section class="live spy" id="sec-reddit">
     <div class="chead">
@@ -465,6 +497,8 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="mv-wrap" id="redditBody"></div>
     <div class="asof-live">출처: r/wallstreetbets · r/stocks 등 레딧 투자 커뮤니티 멘션·심리·인기글 (AltIndex·ApeWisdom 집계, 매일 1회 갱신). 인기는 수익을 보장하지 않습니다.</div>
   </section>
+
+  </div><!-- /communityView -->
 
   <footer>
     데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.
@@ -672,9 +706,19 @@ function fmtLocal(d){ return d ? new Intl.DateTimeFormat("ko-KR",{month:"numeric
 document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLocal(nextCloseSh(el.dataset.mkt)); });
 // '업데이트' 시각 = 접속자 현지 시간으로 표시 (data-iso는 UTC 기준)
 document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
-// 네비 브랜드 아이콘 클릭 → 맨 위로
+// 접속자 국가/지역 라벨 (시간대 기반)
+function tzCountryLabel(){
+  const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || "";
+  const map = {"Asia/Seoul":"한국","Asia/Pyongyang":"북한","Asia/Shanghai":"중국","Asia/Chongqing":"중국","Asia/Urumqi":"중국","Asia/Hong_Kong":"홍콩","Asia/Macau":"마카오","Asia/Taipei":"대만","Asia/Tokyo":"일본","Asia/Singapore":"싱가포르","Asia/Bangkok":"태국","Asia/Ho_Chi_Minh":"베트남","Asia/Jakarta":"인도네시아","Asia/Manila":"필리핀","Asia/Kuala_Lumpur":"말레이시아","Asia/Kolkata":"인도","Asia/Dubai":"UAE","America/New_York":"미국 동부","America/Detroit":"미국 동부","America/Toronto":"캐나다","America/Chicago":"미국 중부","America/Denver":"미국 산악","America/Phoenix":"미국 산악","America/Los_Angeles":"미국 서부","America/Vancouver":"캐나다","America/Sao_Paulo":"브라질","America/Mexico_City":"멕시코","Europe/London":"영국","Europe/Paris":"프랑스","Europe/Berlin":"독일","Europe/Madrid":"스페인","Europe/Rome":"이탈리아","Europe/Amsterdam":"네덜란드","Europe/Zurich":"스위스","Europe/Moscow":"러시아","Australia/Sydney":"호주","Pacific/Auckland":"뉴질랜드"};
+  if(map[tz]) return map[tz];
+  const city = tz.split("/").pop().replace(/_/g," ");
+  return city || "현지";
+}
+document.querySelectorAll('.tzname').forEach(el=> el.textContent = tzCountryLabel());
+
+// 네비 브랜드 아이콘 클릭 → 대시보드 맨 위로
 const navBrand = document.getElementById('navBrand');
-if(navBrand) navBrand.addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
+if(navBrand) navBrand.addEventListener('click', ()=>{ if(window.showDashboard) showDashboard(); window.scrollTo({ top:0, behavior:'smooth' }); });
 
 function tick(){
   const open = marketOpen();
@@ -734,7 +778,7 @@ setupCollapse();
     if(window.scrollY > 150) nav.classList.add('show'); else nav.classList.remove('show');
     let cur = '';
     const line = nav.offsetHeight + 24;
-    spies.forEach(s=>{ if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
+    spies.forEach(s=>{ if(s.offsetParent===null) return; if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
     links.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
   }
   window.addEventListener('scroll', onScroll, { passive:true });
@@ -743,6 +787,7 @@ setupCollapse();
     e.preventDefault();
     const el = document.getElementById(a.getAttribute('href').slice(1));
     if(!el) return;
+    if(window.showDashboard) showDashboard(); // 커뮤니티 뷰였다면 대시보드로 복귀
     el.classList.remove('collapsed'); // 이동 시 펼쳐서 보여주기
     const y = el.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
     window.scrollTo({ top: y, behavior: 'smooth' });
@@ -759,19 +804,40 @@ setupCollapse();
   });
 })();
 
-// 다크/라이트 모드 토글 (상태 기억)
-(function theme(){
+// 테마 토글 + 메뉴 드롭다운 + 뷰 전환(대시보드 ↔ 커뮤니티)
+(function ui(){
   const root = document.documentElement;
-  const btn = document.getElementById('themeToggle');
+  const tgBtn = document.getElementById('themeToggle');
   try { if(localStorage.getItem('gmd_theme') === 'light') root.setAttribute('data-theme','light'); } catch(e){}
-  function sync(){ if(btn) btn.textContent = (root.getAttribute('data-theme')==='light') ? '☀️' : '🌙'; }
-  sync();
-  if(btn) btn.addEventListener('click', ()=>{
+  function syncTheme(){
+    const light = root.getAttribute('data-theme')==='light';
+    const ic = tgBtn && tgBtn.querySelector('.tgi');
+    const tx = tgBtn && tgBtn.querySelector('.tgt');
+    if(ic) ic.textContent = light ? '🌙' : '☀️';
+    if(tx) tx.textContent = light ? '다크 모드' : '라이트 모드';
+  }
+  syncTheme();
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDD = document.getElementById('menuDD');
+  function closeMenu(){ if(menuDD) menuDD.classList.remove('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','false'); }
+  if(menuBtn && menuDD){
+    menuBtn.addEventListener('click', e=>{ e.stopPropagation(); const open = menuDD.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', open?'true':'false'); });
+    document.addEventListener('click', e=>{ if(!menuDD.contains(e.target) && e.target!==menuBtn) closeMenu(); });
+  }
+  if(tgBtn) tgBtn.addEventListener('click', ()=>{
     const isLight = root.getAttribute('data-theme')==='light';
     if(isLight){ root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme','light'); }
-    try { localStorage.setItem('gmd_theme', isLight ? 'dark' : 'light'); } catch(e){}
-    sync();
+    try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
+    syncTheme();
   });
+  const dash = document.getElementById('dashboardView');
+  const comm = document.getElementById('communityView');
+  window.showCommunity = function(){ if(dash) dash.style.display='none'; if(comm) comm.style.display='block'; window.scrollTo(0,0); };
+  window.showDashboard = function(){ if(comm) comm.style.display='none'; if(dash) dash.style.display='block'; };
+  const goComm = document.getElementById('goCommunity');
+  if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
+  const backDash = document.getElementById('backDash');
+  if(backDash) backDash.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); window.scrollTo(0,0); });
 })();
 </script>
 </body>
