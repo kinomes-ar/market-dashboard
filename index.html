@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>글로벌 마켓 데일리 — 미국·한국·중국</title>
 <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="마켓 데일리">
+<meta name="theme-color" content="#141414">
 <style>
 :root { color-scheme: dark; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -657,6 +662,16 @@ setupCollapse();
     const y = el.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }));
+})();
+
+// 자동 새로고침 — 오래된 캐시(어제 열어둔 탭 등) 방지. 보고 있을 때만 갱신.
+(function autoReload(){
+  const LOADED = Date.now();
+  const stale = min => Date.now() - LOADED > min*60000;
+  setInterval(()=>{ if(document.visibilityState === 'visible' && stale(30)) location.reload(); }, 60000);
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible' && stale(5)) location.reload();
+  });
 })();
 </script>
 </body>
