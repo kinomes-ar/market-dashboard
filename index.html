@@ -99,6 +99,16 @@ html[data-theme="light"] .cal-ev b { color: #0d0d0f; }
 footer { margin-top: 26px; font-size: 12px; color: #8a8a8a; text-align: center; line-height: 1.8; }
 .src { margin-top: 10px; font-size: 11.5px; color: #6b6b6b; }
 .credit { margin-top: 12px; font-size: 12px; font-weight: 700; letter-spacing: .3px; color: #9a9a9a; }
+.installov { position: fixed; inset: 0; background: rgba(0,0,0,.62); display: flex; align-items: center; justify-content: center; z-index: 300; padding: 20px; }
+.installbox { position: relative; max-width: 370px; width: 100%; background: #1e1e1e; border: 1px solid #333333; border-radius: 16px; padding: 22px 20px; color: #eaeaea; font-size: 15px; line-height: 1.7; text-align: left; }
+.installx { position: absolute; top: 8px; right: 12px; background: none; border: none; color: #9a9a9a; font-size: 24px; cursor: pointer; line-height: 1; }
+.installt { font-size: 17px; font-weight: 800; margin-bottom: 12px; }
+.installbox ol { margin: 6px 0 0; padding-left: 20px; }
+.installbox li { margin: 5px 0; }
+.installbox .note { margin-top: 10px; color: #9a9a9a; font-size: 13px; }
+html[data-theme="light"] .installbox { background: #ffffff; border-color: #e3e3e8; color: #2a2a32; }
+html[data-theme="light"] .installx { color: #8a8a92; }
+html[data-theme="light"] .installbox .note { color: #8a8a92; }
 .sched { background: #1e1e1e; border: 1px solid #333333; border-radius: 12px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: #d4d4d4; }
 .sched b { font-weight: 800; color: #fafafa; }
 
@@ -372,6 +382,7 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
       <button class="ddrow" id="goRates">💰 주요 시세</button>
       <button class="ddrow" id="goCalendar">📅 경제 캘린더</button>
       <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
+      <button class="ddrow" id="goInstall">📲 홈 화면에 추가</button>
       <div class="ddsep"></div>
       <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
       <button class="ddrow" id="langToggle"><span class="lgi">🇬🇧</span><span class="lgt">English</span></button>
@@ -667,6 +678,32 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
   </footer>
+
+  <!-- ADD TO HOME SCREEN GUIDE -->
+  <div class="installov" id="installOv" style="display:none">
+    <div class="installbox">
+      <button class="installx" id="installClose" aria-label="close">&times;</button>
+      <div class="installt"><span data-lang="ko">📲 홈 화면에 추가</span><span data-lang="en">📲 Add to Home Screen</span></div>
+      <div id="installIos">
+        <div data-lang="ko"><b>아이폰 / 아이패드 (Safari)</b>
+          <ol><li>화면 하단의 <b>공유</b> 버튼 <b>⬆️</b> 을 누르세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li><li><b>추가</b> 를 누르면 완료!</li></ol>
+          <div class="note">※ Safari에서만 됩니다 (크롬·카카오톡 등 인앱 브라우저는 불가)</div>
+        </div>
+        <div data-lang="en"><b>iPhone / iPad (Safari)</b>
+          <ol><li>Tap the <b>Share</b> button <b>⬆️</b> at the bottom</li><li>Choose <b>'Add to Home Screen'</b></li><li>Tap <b>Add</b> — done!</li></ol>
+          <div class="note">※ Works in Safari only (not in Chrome or in-app browsers)</div>
+        </div>
+      </div>
+      <div id="installGen" style="display:none">
+        <div data-lang="ko"><b>안드로이드 / 데스크톱</b>
+          <ol><li>브라우저 메뉴 <b>⋮</b> 를 여세요</li><li><b>'홈 화면에 추가'</b> 또는 <b>'앱 설치'</b> 를 선택</li></ol>
+        </div>
+        <div data-lang="en"><b>Android / Desktop</b>
+          <ol><li>Open the browser menu <b>⋮</b></li><li>Choose <b>'Add to Home screen'</b> or <b>'Install app'</b></li></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -1093,7 +1130,7 @@ setupCollapse();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
     ['.topnav a[href="#sec-live"]','Live'],
-    ['#goRates','💰 Rates'], ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'],
+    ['#goRates','💰 Rates'], ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'], ['#goInstall','📲 Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
@@ -1118,6 +1155,38 @@ setupCollapse();
   }
   if(isEN) apply();
   btn.addEventListener('click', ()=>{ isEN = !isEN; try{ localStorage.setItem('gmd_lang', isEN?'en':'ko'); }catch(e){} apply(); });
+})();
+
+// 홈 화면에 추가 (PWA 설치 안내)
+(function install(){
+  let deferred = null;
+  const btn = document.getElementById('goInstall');
+  const ov = document.getElementById('installOv');
+  const closeB = document.getElementById('installClose');
+  const iosBlock = document.getElementById('installIos');
+  const genBlock = document.getElementById('installGen');
+  const dd = document.getElementById('menuDD');
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  // 이미 설치(홈화면에서 실행)된 경우 메뉴 항목 숨김
+  if(standalone){ if(btn) btn.style.display='none'; return; }
+  // 안드로이드/크롬: 네이티브 설치 프롬프트 가로채기
+  window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferred = e; });
+  // 설치 완료 시 항목 숨김
+  window.addEventListener('appinstalled', ()=>{ if(btn) btn.style.display='none'; });
+  function showGuide(){
+    if(iosBlock) iosBlock.style.display = isIos ? '' : 'none';
+    if(genBlock) genBlock.style.display = isIos ? 'none' : '';
+    if(ov) ov.style.display='flex';
+  }
+  function hideGuide(){ if(ov) ov.style.display='none'; }
+  if(btn) btn.addEventListener('click', async ()=>{
+    if(dd) dd.classList.remove('open');
+    if(deferred){ deferred.prompt(); try{ await deferred.userChoice; }catch(e){} deferred=null; return; }
+    showGuide();
+  });
+  if(closeB) closeB.addEventListener('click', hideGuide);
+  if(ov) ov.addEventListener('click', e=>{ if(e.target===ov) hideGuide(); });
 })();
 </script>
 </body>
