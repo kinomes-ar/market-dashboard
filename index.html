@@ -578,7 +578,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.11</div>
+    <div class="ver">V1.21</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -621,9 +621,9 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 </div>
 
 <script>
-const FMP_KEY = "7X3tfOyp1apwDoclCQSe0Xm3NczkEOaB";
-const BASE = "https://financialmodelingprep.com/stable";
-const V3 = "https://financialmodelingprep.com/api/v3";
+// 실시간 미국 주식(movers)은 Cloudflare Worker 프록시를 통해 가져온다.
+// Worker가 FMP를 6분에 한 번만 호출·캐시하므로 방문자 수와 무관하게 한도에 안 걸리고, FMP 키도 노출되지 않는다.
+const MOVERS_PROXY = "https://fmp-movers.kinomeartemis.workers.dev/movers";
 
 // 현재 UI 언어(한/영) — JS로 그려지는 동적 텍스트에 사용
 function isEnLang(){ return document.documentElement.getAttribute('data-ui-lang')==='en'; }
@@ -701,15 +701,13 @@ let dataReady = false;
 async function fetchRaw(){
   if(loading) return; loading = true;
   try {
-    const lists = await Promise.all([
-      tryFirst([`${BASE}/biggest-gainers?apikey=${FMP_KEY}`, `${V3}/stock_market/gainers?apikey=${FMP_KEY}`]).catch(()=>[]),
-      tryFirst([`${BASE}/biggest-losers?apikey=${FMP_KEY}`, `${V3}/stock_market/losers?apikey=${FMP_KEY}`]).catch(()=>[]),
-      tryFirst([`${BASE}/most-actives?apikey=${FMP_KEY}`, `${V3}/stock_market/actives?apikey=${FMP_KEY}`]).catch(()=>[])
-    ]);
+    let data = {};
+    try { const res = await fetch(MOVERS_PROXY, { cache: "no-store" }); if(res.ok) data = await res.json(); } catch(e){}
+    const lists = [ data.gainers||[], data.losers||[], data.actives||[] ];
     const fresh = {};
     lists.flat().forEach(o=>{ if(o && o.symbol){ const pct = pickPct(o); if(typeof pct==="number" && !isNaN(pct)) fresh[o.symbol] = { price:o.price, pct, name:o.name||o.companyName||o.symbol }; } });
     if(Object.keys(fresh).length){ RAW = fresh; lastUpdated = new Date(); dataReady = true; }
-    else if(!dataReady){ showStatus(L("지금은 표시할 등락 데이터가 적습니다. 미국 장중에 다시 확인해보세요.","Little movers data right now. Check again during US trading hours."), true); }
+    else if(!dataReady){ showStatus(L("실시간 시세를 잠시 불러오지 못했습니다. 곧 자동으로 다시 시도합니다.","Couldn't load live quotes right now. Retrying automatically shortly."), true); }
     render();
   } catch(e){
     if(!dataReady) showStatus(L("시세를 불러오지 못했습니다 (","Couldn't load quotes (") + e.message + L("). 잠시 후 자동 재시도됩니다.","). Will retry automatically."), true);
@@ -906,8 +904,24 @@ if(brandLogo){
   brandLogo.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); reloadPage(); } });
 }
 
+// 장중이면 '실시간 미국 주식'을 미국 카드 바로 위로(개요 아래), 장마감이면 맨 밑(주요 시세 아래)으로.
+// 위치가 이미 맞으면 아무것도 하지 않음(매 tick 호출해도 안전).
+function applyLiveOrder(open){
+  const live = document.getElementById('sec-live');
+  const us = document.getElementById('sec-us');
+  const rates = document.getElementById('sec-rates');
+  if(!live || !us) return;
+  const parent = live.parentNode;
+  if(open){
+    if(live.nextElementSibling !== us) parent.insertBefore(live, us);
+  } else if(rates){
+    if(live.previousElementSibling !== rates) parent.insertBefore(live, rates.nextElementSibling);
+  }
+}
+
 function tick(){
   const open = marketOpen();
+  applyLiveOrder(open);
   const badge = document.getElementById("mktBadge");
   const cd = document.getElementById("mktCountdown");
   if(open){
