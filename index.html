@@ -41,7 +41,7 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 .asof{font-size:13px; color:var(--sec);}
 
 .summary{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:24px 0; margin:24px 0 0; }
-.summary h2{font-size:13px; font-weight:600; letter-spacing:.08em; color:var(--sec); margin-bottom:14px; display:flex; align-items:center; gap:8px; position:relative; padding-right:30px;}
+.summary h2{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:8px; position:relative; padding-right:30px;}
 .summary p{font-size:17px; line-height:1.75; color:var(--ink2);}
 .summary .flow{margin-top:16px; display:flex; flex-wrap:wrap; gap:7px;}
 .tag{font-size:12px; font-weight:400; padding:4px 11px; border-radius:999px; background:transparent; border:1px solid var(--hair2); color:var(--ink2);}
@@ -49,7 +49,7 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 .country{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; overflow:visible; }
 .chead{ padding:0 30px 0 0; border:0; display:flex; align-items:center; gap:10px; position:relative; }
 .flag{font-size:20px;}
-.chead h3{font-size:13px; font-weight:600; letter-spacing:.08em; color:var(--sec);}
+.chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
 .chead .sub{font-size:11px; color:var(--sec); margin-left:auto; font-weight:400; text-align:right; line-height:1.55;}
 .chead .sub b{color:var(--ink2); font-weight:500;}
 
@@ -94,7 +94,8 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 
 footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font-size:12px; color:var(--sec); text-align:center; line-height:1.8;}
 .src{margin-top:10px; font-size:11.5px; color:var(--ter);}
-.credit{margin-top:12px; font-size:12.5px; font-weight:500; letter-spacing:.1em; color:var(--sec); text-transform:uppercase;}
+.credit{margin-top:10px; font-size:11.5px; color:var(--ter);}
+.ver{margin-top:8px; font-size:11.5px; color:var(--ter); letter-spacing:.04em;}
 
 .installov{position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:300; padding:20px;}
 .installbox{position:relative; max-width:370px; width:100%; background:var(--bg); border:1px solid var(--hair2); border-radius:14px; padding:22px 20px; color:var(--ink); font-size:15px; line-height:1.7; text-align:left;}
@@ -117,9 +118,9 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
 .live{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; overflow:visible; }
 .live .chead{ padding:0 30px 0 0; border:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; position:relative; }
-.live .chead h3{font-size:13px; font-weight:600; letter-spacing:.08em; color:var(--sec);}
+.live .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
 .badge{font-size:11.5px; font-weight:400; padding:3px 11px; border-radius:999px; white-space:nowrap; border:1px solid var(--hair2); background:transparent; color:var(--sec);}
-.badge.open{color:var(--ink);}
+.badge.open{color:#D93B2B; border-color:#D93B2B;}
 .badge.closed{color:var(--sec);}
 .live .chead .sub{font-size:12px; color:var(--sec); margin-left:auto; font-weight:400;}
 .controls{display:flex; gap:22px; flex-wrap:wrap; padding:16px 0 0;}
@@ -196,6 +197,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .menudd.open{display:flex;}
 .menudd .ddrow{display:flex; align-items:center; gap:8px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:13.5px; font-weight:400; padding:10px 11px; border-radius:8px; cursor:pointer; text-decoration:none; white-space:nowrap;}
 .menudd .ddrow:hover{background:var(--surf);}
+.menudd .ddrow .tgi, .menudd .ddrow .lgi{margin-left:auto;}
 .menudd .ddsep{height:1px; background:var(--hair2); margin:5px 4px;}
 .menudd .ddlabel{font-size:11px; font-weight:400; color:var(--sec); padding:6px 11px 3px;}
 .cback{margin:4px 0 20px;}
@@ -213,7 +215,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   .kicker{font-size:10.5px;}
   h1{font-size:29px;}
   .summary{padding:20px 0;}
-  .summary h2, .chead h3, .live .chead h3{font-size:17px;}
+  /* 섹션 제목은 27px로 통일 (기본 규칙 사용, 모바일 축소 없음) */
   .summary p{font-size:15px;}
   .tag{font-size:11px; padding:4px 9px;}
   .chead .sub{font-size:10px; line-height:1.45;}
@@ -270,8 +272,8 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
       <button class="ddrow" id="goCommunity">커뮤니티</button>
       <button class="ddrow" id="goInstall">홈 화면에 추가</button>
       <div class="ddsep"></div>
-      <button class="ddrow" id="themeToggle"><span class="tgi">🌙</span><span class="tgt">라이트 모드</span></button>
-      <button class="ddrow" id="langToggle"><span class="lgi">🇬🇧</span><span class="lgt">English</span></button>
+      <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi">🌙</span></button>
+      <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi">🇬🇧</span></button>
     </div>
   </div>
   <div class="links">
@@ -480,7 +482,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <!-- LIVE MOVERS -->
   <section class="live spy" id="sec-live">
     <div class="chead">
-      <h3>실시간 미국 주식 등락</h3>
+      <h3>실시간 미국 주식</h3>
       <span class="badge closed" id="mktBadge">● 상태 확인 중…</span>
       <span class="sub"><span data-lang="ko">FMP · 자동 갱신</span><span data-lang="en">FMP · auto-refresh</span></span>
     </div>
@@ -576,6 +578,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
+    <div class="ver">V1.0</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
