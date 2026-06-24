@@ -286,7 +286,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
-    <h2><span data-lang="ko">오늘의 시장 흐름 한눈에</span><span data-lang="en">Today's Market at a Glance</span></h2>
+    <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span></h2>
     <p data-lang="ko">
       <b>'반도체 단독 매도'가 아시아를 강타하고 미국에서 진정됐다.</b> 진앙은 <b>BofA의 매파 보고서</b> — 2026년 연준 <b>3회 인상(9·10·12월·총 75bp)</b> 전망에 고밸류 반도체가 직격탄을 맞았다. <b>한국</b>이 가장 크게 흔들려 <b>코스피 -9.99% '검은 화요일'</b>(서킷브레이커), SK하이닉스·삼성전자 12%대 동반 급락 — 시총 1위 등극 직후의 쏠림이 역풍으로.
       <b>중국</b>은 PBOC 완충(단기금리 개편·위안화 기대)으로 상대적 안정 속 강세장 첫 조정(상하이종합 -1.37%).
@@ -950,7 +950,11 @@ setupCollapse();
   const links = Array.from(nav.querySelectorAll('a'));
   const spies = Array.from(document.querySelectorAll('.spy'));
   function onScroll(){
-    if(window.scrollY > 40) nav.classList.add('hide'); else nav.classList.remove('hide');
+    var _y=window.scrollY, _l=(window.__lastNavY==null?_y:window.__lastNavY);
+    if(_y<=40) nav.classList.remove('hide');
+    else if(_y>_l+4) nav.classList.add('hide');
+    else if(_y<_l-4) nav.classList.remove('hide');
+    window.__lastNavY=_y;
     let cur = '';
     const line = nav.offsetHeight + 24;
     spies.forEach(s=>{ if(s.offsetParent===null) return; if(s.getBoundingClientRect().top - line <= 0) cur = s.id; });
