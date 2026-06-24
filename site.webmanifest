@@ -1,0 +1,12 @@
+{
+  "name": "글로벌 마켓 데일리 — 미국·한국·중국",
+  "short_name": "마켓 데일리",
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "theme_color": "#141414",
+  "background_color": "#141414",
+  "display": "standalone",
+  "start_url": "./"
+}
