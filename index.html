@@ -365,11 +365,11 @@ html[data-theme="light"] .rd-post .ups { color: #d1342f; }
     <a href="#sec-kr">한국</a>
     <a href="#sec-cn">중국</a>
     <a href="#sec-live">실시간</a>
-    <a href="#sec-rates">시세</a>
   </div>
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false">☰</button>
     <div class="menudd" id="menuDD">
+      <button class="ddrow" id="goRates">💰 주요 시세</button>
       <button class="ddrow" id="goCalendar">📅 경제 캘린더</button>
       <button class="ddrow" id="goCommunity">💬 커뮤니티</button>
       <div class="ddsep"></div>
@@ -1069,6 +1069,16 @@ setupCollapse();
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
   const goCal = document.getElementById('goCalendar');
   if(goCal) goCal.addEventListener('click', ()=>{ closeMenu(); showCalendar(); });
+  const goRates = document.getElementById('goRates');
+  if(goRates) goRates.addEventListener('click', ()=>{
+    closeMenu(); showDashboard();
+    const el = document.getElementById('sec-rates');
+    if(!el) return;
+    el.classList.remove('collapsed');
+    const nav = document.getElementById('topnav');
+    const off = (nav ? nav.offsetHeight : 0) + 8;
+    requestAnimationFrame(()=>{ const y = el.getBoundingClientRect().top + window.scrollY - off; window.scrollTo({ top:y, behavior:'smooth' }); });
+  });
   document.querySelectorAll('.backDash').forEach(b=> b.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); }));
 })();
 
@@ -1082,8 +1092,8 @@ setupCollapse();
   const SINGLE = [
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
-    ['.topnav a[href="#sec-live"]','Live'], ['.topnav a[href="#sec-rates"]','Rates'],
-    ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'],
+    ['.topnav a[href="#sec-live"]','Live'],
+    ['#goRates','💰 Rates'], ['#goCalendar','📅 Economic Calendar'], ['#goCommunity','💬 Community'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
