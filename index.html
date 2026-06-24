@@ -20,7 +20,7 @@ body {
   background: #141414; color: #ededed; line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 22px 60px; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 22px 60px; zoom: 1.09; }
 header.top { margin-bottom: 22px; }
 .kicker { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #9a9a9a; text-transform: uppercase; }
 h1 { font-size: 26px; font-weight: 800; margin: 4px 0 6px; letter-spacing: -.02em; color: #fafafa; }
@@ -152,13 +152,15 @@ body { overflow-x: hidden; }
 /* top navigation (appears on scroll) */
 .topnav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; gap: 4px; justify-content: center; align-items: center;
+  display: flex; gap: 8px; justify-content: flex-start; align-items: center;
   background: rgba(18,18,18,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #333; padding: 8px 10px;
+  border-bottom: 1px solid #333; padding: 7px 12px;
   transform: translateY(-105%); transition: transform .24s ease;
-  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  overflow: hidden;
 }
-.topnav::-webkit-scrollbar { display: none; }
+.topnav .brand { flex: none; width: 26px; height: 26px; border-radius: 7px; cursor: pointer; display: block; }
+.topnav .links { flex: 1; min-width: 0; display: flex; justify-content: center; gap: 4px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.topnav .links::-webkit-scrollbar { display: none; }
 .topnav.show { transform: translateY(0); }
 .topnav a {
   color: #c2c2c2; text-decoration: none; font-size: 13.5px; font-weight: 700;
@@ -228,12 +230,15 @@ body { overflow-x: hidden; }
 </head>
 <body>
 <nav class="topnav" id="topnav">
-  <a href="#sec-summary">요약</a>
-  <a href="#sec-us">미국</a>
-  <a href="#sec-kr">한국</a>
-  <a href="#sec-cn">중국</a>
-  <a href="#sec-live">실시간</a>
-  <a href="#sec-reddit">레딧</a>
+  <img class="brand" id="navBrand" src="apple-touch-icon.png?v=2" alt="홈" title="맨 위로">
+  <div class="links">
+    <a href="#sec-summary">요약</a>
+    <a href="#sec-us">미국</a>
+    <a href="#sec-kr">한국</a>
+    <a href="#sec-cn">중국</a>
+    <a href="#sec-live">실시간</a>
+    <a href="#sec-reddit">레딧</a>
+  </div>
 </nav>
 <div class="wrap">
 
@@ -270,7 +275,7 @@ body { overflow-x: hidden; }
   <!-- USA -->
   <section class="country spy" id="sec-us">
     <div class="chead"><span class="flag">🇺🇸</span><h3>미국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us">6/24 05:34</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · 상하이</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-23T21:34:00Z">6/24 05:34</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · 현지</div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">S&P 500</div><div class="val">7,372.91</div><div class="chg down">▼ -1.32%</div></div>
@@ -299,7 +304,7 @@ body { overflow-x: hidden; }
   <!-- KOREA -->
   <section class="country spy" id="sec-kr">
     <div class="chead"><span class="flag">🇰🇷</span><h3>한국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr">6/23 20:06</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · 상하이</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-23T12:06:00Z">6/23 20:06</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · 현지</div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">코스피</div><div class="val">8,203.84</div><div class="chg down">▼ -9.99%</div></div>
@@ -327,7 +332,7 @@ body { overflow-x: hidden; }
   <!-- CHINA -->
   <section class="country spy" id="sec-cn">
     <div class="chead"><span class="flag">🇨🇳</span><h3>중국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn">6/23 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · 상하이</div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-23T07:00:00Z">6/23 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · 현지</div></div>
     </div>
     <div class="tiles">
       <div class="tile"><div class="label">상하이종합</div><div class="val">4,106.25</div><div class="chg down">▼ -1.37%</div></div>
@@ -590,8 +595,13 @@ function nextCloseSh(mkt){
   }
   return null;
 }
-function fmtSh(d){ return d ? new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Shanghai",month:"numeric",day:"numeric",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false}).format(d) : "—"; }
-document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtSh(nextCloseSh(el.dataset.mkt)); });
+function fmtLocal(d){ return d ? new Intl.DateTimeFormat("ko-KR",{month:"numeric",day:"numeric",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false}).format(d) : "—"; }
+document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLocal(nextCloseSh(el.dataset.mkt)); });
+// '업데이트' 시각 = 접속자 현지 시간으로 표시 (data-iso는 UTC 기준)
+document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
+// 네비 브랜드 아이콘 클릭 → 맨 위로
+const navBrand = document.getElementById('navBrand');
+if(navBrand) navBrand.addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
 
 function tick(){
   const open = marketOpen();
