@@ -154,7 +154,7 @@ body { overflow-x: hidden; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; gap: 8px; justify-content: flex-start; align-items: center;
   background: rgba(18,18,18,0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid #333; padding: 7px 12px;
+  border-bottom: 1px solid #333; padding: 7px 52px 7px 12px;
   transform: translateY(-105%); transition: transform .24s ease;
   overflow: hidden;
 }
@@ -226,6 +226,78 @@ body { overflow-x: hidden; }
   .rd-posts { margin: 8px 0 0 26px; }
   .rd-post { grid-template-columns: 46px 1fr; gap: 7px; font-size: 12px; }
 }
+
+/* theme toggle button */
+.theme-toggle { position: fixed; top: 10px; right: 12px; z-index: 60; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #333333; background: #1e1e1e; color: #ededed; font-size: 17px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+.theme-toggle:hover { background: #262626; }
+
+/* ===== LIGHT THEME ===== */
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="light"] body { background: #f3f4f6; color: #1c1c1e; }
+html[data-theme="light"] h1 { color: #0d0d0f; }
+html[data-theme="light"] .kicker, html[data-theme="light"] .asof { color: #6a6a72; }
+html[data-theme="light"] .summary { background: linear-gradient(135deg,#ffffff 0%,#eef0f4 100%); border-color: #e3e3e8; color: #1c1c1e; }
+html[data-theme="light"] .summary h2 { color: #4a4a52; }
+html[data-theme="light"] .summary p { color: #33333a; }
+html[data-theme="light"] .tag { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); color: #33333a; }
+html[data-theme="light"] .country, html[data-theme="light"] .live { background: #ffffff; border-color: #e3e3e8; }
+html[data-theme="light"] .chead { border-color: #ececef; }
+html[data-theme="light"] .chead h3, html[data-theme="light"] .live .chead h3 { color: #0d0d0f; }
+html[data-theme="light"] .chead .sub { color: #7a7a82; }
+html[data-theme="light"] .chead .sub b { color: #33333a; }
+html[data-theme="light"] .tiles { background: #e8e8ec; }
+html[data-theme="light"] .tile { background: #ffffff; }
+html[data-theme="light"] .tile .label { color: #7a7a82; }
+html[data-theme="light"] .tile .val { color: #0d0d0f; }
+html[data-theme="light"] .flat { color: #7a7a82; }
+html[data-theme="light"] .body h4 { color: #4a4a52; }
+html[data-theme="light"] .body p, html[data-theme="light"] .body li { color: #33333a; }
+html[data-theme="light"] .body b { color: #0d0d0f; }
+html[data-theme="light"] .takeaway { background: #f3f4f6; border-left-color: #c9c9d0; }
+html[data-theme="light"] .takeaway .t-label { color: #7a7a82; }
+html[data-theme="light"] .takeaway p { color: #4a4a52; }
+html[data-theme="light"] footer { color: #7a7a82; }
+html[data-theme="light"] .src { color: #9a9aa2; }
+html[data-theme="light"] .sched { background: #eef0f4; border-color: #dfe2ea; color: #3a3a44; }
+html[data-theme="light"] .sched b { color: #0d0d0f; }
+html[data-theme="light"] .segbox { background: #f0f0f3; border-color: #e3e3e8; }
+html[data-theme="light"] .segbox .lab { color: #7a7a82; }
+html[data-theme="light"] .seg { color: #4a4a52; }
+html[data-theme="light"] .seg.active { background: #ffffff; color: #0d0d0f; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+html[data-theme="light"] .mv-head { color: #7a7a82; border-color: #ececef; }
+html[data-theme="light"] .mv-row { border-color: #f0f0f3; }
+html[data-theme="light"] .mv-row .tk { color: #0d0d0f; }
+html[data-theme="light"] .mv-row .nm { color: #8a8a92; }
+html[data-theme="light"] .mv-row .px { color: #1c1c1e; }
+html[data-theme="light"] .mv-row .rk { color: #9a9aa2; }
+html[data-theme="light"] .expand { background: #f3f4f6; border-color: #e3e3e8; color: #4a4a52; }
+html[data-theme="light"] .expand:hover { background: #ececef; }
+html[data-theme="light"] .status { color: #7a7a82; }
+html[data-theme="light"] .asof-live { color: #9a9aa2; }
+html[data-theme="light"] .mkt .cd { color: #6a6a72; }
+html[data-theme="light"] .mkt .cd b { color: #1c1c1e; }
+html[data-theme="light"] .rd-item { border-color: #f0f0f3; }
+html[data-theme="light"] .rd-top .tk { color: #0d0d0f; }
+html[data-theme="light"] .rd-top .nm { color: #7a7a82; }
+html[data-theme="light"] .rd-post .pt { color: #3a3a44; }
+html[data-theme="light"] .caret { background: #ececef; border-color: #dcdce2; color: #4a4a52; }
+html[data-theme="light"] .chead.collapsible:hover h3, html[data-theme="light"] .summary h2.collapsible:hover { color: #000000; }
+html[data-theme="light"] .topnav { background: rgba(255,255,255,.92); border-color: #e3e3e8; }
+html[data-theme="light"] .topnav a { color: #4a4a52; }
+html[data-theme="light"] .topnav a:hover, html[data-theme="light"] .topnav a.active { background: #ececef; color: #0d0d0f; }
+html[data-theme="light"] .theme-toggle { background: #ffffff; color: #1c1c1e; border-color: #e3e3e8; box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+html[data-theme="light"] .theme-toggle:hover { background: #f0f0f3; }
+html[data-theme="light"] .up { color: #d1342f; }
+html[data-theme="light"] .down { color: #1463cc; }
+html[data-theme="light"] .badge.open { background: #dff3e6; color: #1a7f43; border-color: #aee0c0; }
+html[data-theme="light"] .badge.closed { background: #fde7e6; color: #c0392b; border-color: #f3c0bc; }
+html[data-theme="light"] .s-watch { background: #fdf3d6; color: #8a6d0a; }
+html[data-theme="light"] .s-pos { background: #fde7e6; color: #b3261e; }
+html[data-theme="light"] .s-neg { background: #e0ecfb; color: #1463cc; }
+html[data-theme="light"] .sent.bull { background: #fde7e6; color: #b3261e; }
+html[data-theme="light"] .sent.bear { background: #e0ecfb; color: #1463cc; }
+html[data-theme="light"] .sent.neu { background: #eceef2; color: #4a4a52; }
+html[data-theme="light"] .rd-post .ups { color: #d1342f; }
 </style>
 </head>
 <body>
@@ -240,6 +312,7 @@ body { overflow-x: hidden; }
     <a href="#sec-reddit">레딧</a>
   </div>
 </nav>
+<button id="themeToggle" class="theme-toggle" title="다크/라이트 전환" aria-label="테마 전환">🌙</button>
 <div class="wrap">
 
   <header class="top">
@@ -683,6 +756,21 @@ setupCollapse();
   setInterval(()=>{ if(document.visibilityState === 'visible' && stale(30)) location.reload(); }, 60000);
   document.addEventListener('visibilitychange', ()=>{
     if(document.visibilityState === 'visible' && stale(5)) location.reload();
+  });
+})();
+
+// 다크/라이트 모드 토글 (상태 기억)
+(function theme(){
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  try { if(localStorage.getItem('gmd_theme') === 'light') root.setAttribute('data-theme','light'); } catch(e){}
+  function sync(){ if(btn) btn.textContent = (root.getAttribute('data-theme')==='light') ? '☀️' : '🌙'; }
+  sync();
+  if(btn) btn.addEventListener('click', ()=>{
+    const isLight = root.getAttribute('data-theme')==='light';
+    if(isLight){ root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme','light'); }
+    try { localStorage.setItem('gmd_theme', isLight ? 'dark' : 'light'); } catch(e){}
+    sync();
   });
 })();
 </script>
