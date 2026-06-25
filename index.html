@@ -260,6 +260,21 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .cidx .cidx-v{font-size:18px; color:var(--ink); letter-spacing:-.01em;}
 .cidx .cidx-c{font-size:13px;}
 .idxname{font-size:14px; color:var(--ter); font-weight:400; letter-spacing:0;}
+.surge-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:14px;}
+.surge-col{min-width:0;}
+.surge-h{font-size:13px; font-weight:600; letter-spacing:.04em; padding:0 0 8px; border-bottom:1px solid var(--hair2); margin-bottom:2px;}
+.surge-h.up{color:var(--up);}
+.surge-h.down{color:var(--down);}
+.surge-row{display:grid; grid-template-columns:22px 1fr auto auto; gap:8px; align-items:center; padding:9px 0; border-bottom:1px solid var(--hair); font-size:14px;}
+.surge-row:last-child{border-bottom:0;}
+.surge-row .rk{color:var(--ter);}
+.surge-row .nm{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.surge-row .nm .tk{font-weight:500; color:var(--ink);}
+.surge-row .nm .sub2{color:var(--ter); font-size:12px; margin-left:6px;}
+.surge-row .px{color:var(--ink2); font-variant-numeric:tabular-nums; text-align:right;}
+.surge-row .pct{font-weight:500; font-variant-numeric:tabular-nums; text-align:right; min-width:60px;}
+.surge-note{font-size:12.5px; color:var(--ter); padding:12px 0;}
+@media (max-width:600px){ .surge-grid{grid-template-columns:1fr; gap:16px;} }
 </style>
 </head>
 <body>
@@ -267,6 +282,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
     <div class="menudd" id="menuDD">
+      <button class="ddrow" id="goSurge">급상승</button>
       <button class="ddrow" id="goRates">주요 시세</button>
       <button class="ddrow" id="goCalendar">경제 캘린더</button>
       <button class="ddrow" id="goCommunity">커뮤니티</button>
@@ -572,11 +588,31 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div class="asof-live"><span data-lang="ko">일정·시각은 변동될 수 있습니다. 투자 자문이 아닙니다.</span><span data-lang="en">Dates and times may change. Not investment advice.</span></div>
   </div>
 
+  <div id="surgeView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
+    <section class="live spy">
+      <div class="chead"><h3>한국 · Korea</h3></div>
+      <div class="surge-grid">
+        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="krUp"></div></div>
+        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="krDown"></div></div>
+      </div>
+    </section>
+    <section class="live spy">
+      <div class="chead"><h3>미국 · USA</h3></div>
+      <div class="surge-grid">
+        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="usUp"></div></div>
+        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="usDown"></div></div>
+      </div>
+    </section>
+    <div class="asof-live"><span data-lang="ko">미국은 실시간(FMP), 한국은 워커 한국 라우트 배포 후 표시. 장 외 시간엔 마지막 장중 데이터.</span><span data-lang="en">US live (FMP); Korea shows after the KR worker route is deployed. Last session data outside market hours.</span></div>
+  </div>
+
   <footer>
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.22</div>
+    <div class="ver">V1.30</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -773,6 +809,60 @@ document.querySelectorAll('.seg[data-dir]').forEach(b=> b.onclick=()=>{
   document.querySelectorAll('.seg[data-dir]').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); state.dir=b.dataset.dir; state.expanded=false; render();
 });
+
+// ===== 급상승/급하락 페이지 =====
+const KR_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/kr");
+function surgeFmtUS(o){ return o.price!=null ? "$"+Number(o.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
+function surgeFmtKR(o){ return o.price!=null ? "₩"+Number(o.price).toLocaleString("en-US") : "—"; }
+function renderSurgeList(elId, items, fmtPx, tkField, subField){
+  const el=document.getElementById(elId); if(!el) return;
+  if(!items || !items.length){ el.innerHTML='<div class="surge-note">'+L("데이터 없음 (장 외 시간일 수 있어요)","No data (market may be closed)")+'</div>'; return; }
+  let h="";
+  items.slice(0,10).forEach((o,i)=>{
+    const pct=(typeof o.pct==="number")?o.pct:0;
+    const cls=pct>=0?"up":"down"; const sign=pct>=0?"+":"";
+    const tk=o[tkField]||""; const sub=o[subField]||"";
+    h+='<div class="surge-row"><div class="rk">'+(i+1)+'</div>'+
+       '<div class="nm"><span class="tk">'+tk+'</span>'+(sub?'<span class="sub2">'+sub+'</span>':'')+'</div>'+
+       '<div class="px">'+fmtPx(o)+'</div>'+
+       '<div class="pct '+cls+'">'+sign+pct.toFixed(2)+'%</div></div>';
+  });
+  el.innerHTML=h;
+}
+async function loadSurge(){
+  // 미국: Worker /movers 재사용
+  try {
+    let data={};
+    try { const r=await fetch(MOVERS_PROXY,{cache:"no-store"}); if(r.ok) data=await r.json(); } catch(e){}
+    let g=(data.gainers||[]).map(o=>({sym:o.symbol,name:o.name||o.companyName||"",price:o.price,pct:pickPct(o)})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct));
+    let l=(data.losers||[]).map(o=>({sym:o.symbol,name:o.name||o.companyName||"",price:o.price,pct:pickPct(o)})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct));
+    g.sort((a,b)=>b.pct-a.pct); l.sort((a,b)=>a.pct-b.pct);
+    if((!g.length||!l.length) && RAW && Object.keys(RAW).length){
+      const all=Object.entries(RAW).map(([sym,o])=>({sym,name:o.name,price:o.price,pct:o.pct})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct)).sort((a,b)=>b.pct-a.pct);
+      if(!g.length) g=all.slice(0,10);
+      if(!l.length) l=all.slice().reverse().slice(0,10);
+    }
+    renderSurgeList("usUp", g, surgeFmtUS, "sym","name");
+    renderSurgeList("usDown", l, surgeFmtUS, "sym","name");
+  } catch(e){}
+  // 한국: Worker /kr (라우트 배포 후 동작)
+  const krUp=document.getElementById("krUp"), krDown=document.getElementById("krDown");
+  const pend=L("한국 데이터 준비 중 (워커 한국 라우트 배포 후 표시)","Korea data pending (after KR worker route is deployed)");
+  try {
+    const r=await fetch(KR_PROXY,{cache:"no-store"});
+    if(!r.ok) throw 0;
+    const d=await r.json();
+    const g=(d.gainers||[]).filter(o=>typeof o.pct==="number");
+    const l=(d.losers||[]).filter(o=>typeof o.pct==="number");
+    if(g.length||l.length){
+      renderSurgeList("krUp", g, surgeFmtKR, "name","code");
+      renderSurgeList("krDown", l, surgeFmtKR, "name","code");
+    } else { if(krUp) krUp.innerHTML='<div class="surge-note">'+pend+'</div>'; if(krDown) krDown.innerHTML=""; }
+  } catch(e){
+    if(krUp) krUp.innerHTML='<div class="surge-note">'+pend+'</div>'; if(krDown) krDown.innerHTML="";
+  }
+}
+window.loadSurge = loadSurge;
 
 const REDDIT = [
   {tk:"MU", nm:"마이크론 테크놀로지", nmEn:"Micron Technology", sent:"bull", desc:"멘션 1,167건·24h +21%, 실적 폭발로 WSB 1위", descEn:"1,167 mentions·+21% 24h, #1 on WSB after the blowout", posts:[
@@ -1057,11 +1147,12 @@ setupCollapse();
     try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
     syncTheme();
   });
-  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView') };
+  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView') };
   function showView(name){ for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
+  window.showSurge     = ()=> showView('surge');
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
   const goCal = document.getElementById('goCalendar');
@@ -1076,6 +1167,8 @@ setupCollapse();
     const off = (nav ? nav.offsetHeight : 0) + 8;
     requestAnimationFrame(()=>{ const y = el.getBoundingClientRect().top + window.scrollY - off; window.scrollTo({ top:y, behavior:'smooth' }); });
   });
+  const goSurge = document.getElementById('goSurge');
+  if(goSurge) goSurge.addEventListener('click', ()=>{ closeMenu(); showSurge(); if(window.loadSurge) loadSurge(); });
   document.querySelectorAll('.backDash').forEach(b=> b.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); }));
 })();
 
@@ -1090,7 +1183,7 @@ setupCollapse();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
     ['.topnav a[href="#sec-live"]','Live'],
-    ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
+    ['#goSurge','Top Movers'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
