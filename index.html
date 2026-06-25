@@ -310,6 +310,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
+    <a href="#brief" data-brief="1">브리핑</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
         <a href="#surge" data-surge="1">급상승</a>
@@ -634,11 +635,17 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div class="asof-live"><span data-lang="ko">미국은 실시간(FMP), 한국은 워커 한국 라우트 배포 후 표시. 장 외 시간엔 마지막 장중 데이터.</span><span data-lang="en">US live (FMP); Korea shows after the KR worker route is deployed. Last session data outside market hours.</span></div>
   </div>
 
+  <div id="briefingView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <h1 style="margin:4px 0 16px"><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h1>
+    <section class="country"><div class="body" id="briefBody"></div></section>
+  </div>
+
   <footer>
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.42</div>
+    <div class="ver">V1.50</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -997,22 +1004,41 @@ if(brandLogo){
 
 // 장중이면 '실시간 미국 주식'을 미국 카드 바로 위로(개요 아래), 장마감이면 맨 밑(주요 시세 아래)으로.
 // 위치가 이미 맞으면 아무것도 하지 않음(매 tick 호출해도 안전).
-function applyLiveOrder(open){
-  const live = document.getElementById('sec-live');
-  const us = document.getElementById('sec-us');
-  const rates = document.getElementById('sec-rates');
-  if(!live || !us) return;
-  const parent = live.parentNode;
-  if(open){
-    if(live.nextElementSibling !== us) parent.insertBefore(live, us);
-  } else if(rates){
-    if(live.previousElementSibling !== rates) parent.insertBefore(live, rates.nextElementSibling);
-  }
+function tzMinDow(tz){
+  const f=new Intl.DateTimeFormat("en-US",{timeZone:tz,weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false});
+  const p={}; f.formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
+  const wk={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  let h=parseInt(p.hour,10); if(h===24)h=0;
+  return {dow:wk[p.weekday], min:h*60+parseInt(p.minute,10)};
+}
+function krOpen(){ const t=tzMinDow("Asia/Seoul");    return t.dow>=1&&t.dow<=5 && t.min>=540 && t.min<930; } // 09:00~15:30
+function cnOpen(){ const t=tzMinDow("Asia/Shanghai"); return t.dow>=1&&t.dow<=5 && t.min>=570 && t.min<900; } // 09:30~15:00
+// 메인 섹션 시간대별 재배치 + 국가카드 거래중 먼저
+function layoutMain(){
+  const dash=document.getElementById('dashboardView'); if(!dash) return;
+  const summary=document.getElementById('sec-summary'), usnews=document.getElementById('sec-usnews'),
+        us=document.getElementById('sec-us'), kr=document.getElementById('sec-kr'), cn=document.getElementById('sec-cn'),
+        live=document.getElementById('sec-live'), rates=document.getElementById('sec-rates');
+  if(!summary||!us||!kr||!cn||!live||!rates) return;
+  const usO=marketOpen();
+  // 국가카드: 거래중 먼저(기본순 미·한·중 유지, 안정 정렬)
+  const cards=[{n:us,o:usO},{n:kr,o:krOpen()},{n:cn,o:cnOpen()}];
+  cards.sort((a,b)=>(b.o?1:0)-(a.o?1:0));
+  const order=cards.map(c=>c.n);
+  const h=new Date().getHours();
+  const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
+  let seq;
+  if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat([summary],order,[rates,live]); }
+  else { if(usnews) usnews.style.display='none';
+    seq = (mode==='usopen') ? [summary,live].concat(order,[rates]) : [summary].concat(order,[rates,live]); }
+  const cur=Array.from(dash.children).filter(c=>seq.indexOf(c)>=0);
+  const same = cur.length===seq.length && cur.every((c,i)=>c===seq[i]);
+  if(!same) seq.forEach(n=> dash.appendChild(n));
 }
 
 function tick(){
   const open = marketOpen();
-  applyLiveOrder(open);
+  layoutMain();
   const badge = document.getElementById("mktBadge");
   const cd = document.getElementById("mktCountdown");
   if(open){
@@ -1097,6 +1123,7 @@ setupCollapse();
   links.forEach(a=> a.addEventListener('click', e=>{
     e.preventDefault();
     if(a.dataset.surge){ if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); return; }
+    if(a.dataset.brief){ if(window.showBriefing) showBriefing(); return; }
     const el = document.getElementById(a.getAttribute('href').slice(1));
     if(!el) return;
     if(window.showDashboard) showDashboard(); // 다른 뷰였다면 대시보드로 복귀
@@ -1142,12 +1169,13 @@ setupCollapse();
     try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
     syncTheme();
   });
-  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView') };
+  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
   function showView(name){ for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
   window.showSurge     = ()=> showView('surge');
+  window.showBriefing  = ()=>{ const b=document.getElementById('briefBody'), s=document.querySelector('#sec-usnews .body'); if(b&&s) b.innerHTML=s.innerHTML; showView('brief'); };
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
   const goCal = document.getElementById('goCalendar');
@@ -1173,7 +1201,7 @@ setupCollapse();
   let isEN = false;
   try { isEN = localStorage.getItem('gmd_lang') === 'en'; } catch(e){}
   const SINGLE = [
-    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
+    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[data-brief]','Briefing'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
     ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
