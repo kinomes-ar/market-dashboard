@@ -87,6 +87,7 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .ctab{font-size:13.5px; font-weight:400; padding:0 0 8px; border:0; background:transparent; color:var(--sec); cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px;}
 .ctab.active{color:var(--ink); border-bottom-color:var(--ink);}
 .ctab[data-new]::after{content:"N"; display:inline-block; margin-left:5px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
+.chead[data-cardnew] h3::after{content:"N"; display:inline-block; margin-left:7px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:6px;}
 .morning-meta{font-size:11px; color:var(--sec); font-weight:400; margin:16px 0 10px;}
 .morning-meta b{color:var(--ink2);}
 .morning-list{margin:0 0 10px 2px; padding-left:18px;}
@@ -646,7 +647,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.56</div>
+    <div class="ver">V1.57</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -943,24 +944,32 @@ document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLo
 document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
 document.querySelectorAll('.mupd[data-iso]').forEach(el=>{ if(el.dataset.iso){ const t = new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); } });
 fillIssueMeta();
-// 국가 카드 탭: 최근 갱신된 탭을 기본으로, 미확인 업데이트는 N 배지
+// 국가 카드 탭: 최근 갱신 탭 기본 표시 + 미확인 업데이트 N 배지(탭 + 카드헤더)
 function initCardTabs(){
   document.querySelectorAll('.country').forEach(card=>{
     const tabs=card.querySelector('.ctabs'); const updEl=card.querySelector('.upd[data-mkt]');
     if(!tabs||!updEl) return;
+    const head=card.querySelector('.chead');
     const mkt=updEl.dataset.mkt, mEl=card.querySelector('.mupd[data-mkt]');
     const iso={issue:updEl.dataset.iso||'', morning:(mEl&&mEl.dataset.iso)||''};
     const key=t=>'gmd_seen_'+mkt+'_'+t;
     const getSeen=t=>{ try{return localStorage.getItem(key(t))||'';}catch(e){return '';} };
-    function badges(){ tabs.querySelectorAll('.ctab').forEach(btn=>{ const t=btn.dataset.tab; if(iso[t] && iso[t]>getSeen(t)) btn.setAttribute('data-new','1'); else btn.removeAttribute('data-new'); }); }
+    const isNew=t=> !!(iso[t] && iso[t]>getSeen(t));
+    function badges(){
+      tabs.querySelectorAll('.ctab').forEach(btn=>{ btn.toggleAttribute? btn.toggleAttribute('data-new', isNew(btn.dataset.tab)) : (isNew(btn.dataset.tab)?btn.setAttribute('data-new','1'):btn.removeAttribute('data-new')); });
+      if(head){ if(isNew('issue')||isNew('morning')) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew'); }
+    }
     function show(t){ tabs.querySelectorAll('.ctab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t)); const pi=card.querySelector('.pane.issue'),pm=card.querySelector('.pane.morning'); if(pi)pi.style.display=(t==='issue')?'':'none'; if(pm)pm.style.display=(t==='morning')?'':'none'; }
     function markSeen(t){ try{ if(iso[t]) localStorage.setItem(key(t),iso[t]); }catch(e){} badges(); }
     const def=(iso.morning && (!iso.issue || iso.morning>iso.issue))?'morning':'issue';
-    show(def); badges(); markSeen(def); // 기본으로 보이는 탭은 본 것으로 처리
+    show(def); badges();
+    // 펼쳐져 있을 때만 기본 탭을 '본 것'으로 처리(접혀 있으면 펼칠 때까지 N 유지)
+    if(!card.classList.contains('collapsed')) markSeen(def);
     tabs.querySelectorAll('.ctab').forEach(btn=> btn.addEventListener('click', ()=>{ const t=btn.dataset.tab; show(t); markSeen(t); }));
+    // 카드를 펼치면 현재 활성 탭을 본 것으로 처리(접기 핸들러가 먼저 클래스 토글)
+    if(head) head.addEventListener('click', ()=>{ if(!card.classList.contains('collapsed')){ const act=tabs.querySelector('.ctab.active'); markSeen(act?act.dataset.tab:def); } });
   });
 }
-initCardTabs();
 
 // 비트코인·이더리움 실시간 (Binance → CoinGecko 폴백). 실패 시 스케줄러 일일 스냅샷 유지(중국 등 차단 대비)
 function setCoin(k, price, chg){
@@ -1119,6 +1128,7 @@ setupCollapse();
     var sub=head.querySelector('.sub'); head.insertBefore(idx, sub);
   });
 })();
+initCardTabs(); // 접힘 상태 확정 후 탭 기본/배지 초기화
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
