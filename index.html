@@ -687,7 +687,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.03</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.04</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1082,7 +1082,7 @@ if(brandLogo){
   let startY=0, dy=0, pulling=false;
   addEventListener('touchstart', e=>{ if(window.scrollY<=0){ startY=e.touches[0].clientY; pulling=true; dy=0; } else pulling=false; }, {passive:true});
   addEventListener('touchmove', e=>{ if(!pulling) return; dy=e.touches[0].clientY-startY; if(dy>0 && window.scrollY<=0){ e.preventDefault(); ind.style.opacity=Math.min(dy/70,1); ind.style.transform='translateX(-50%) translateY('+(Math.min(dy,100)-60)+'px)'; } else { pulling=false; } }, {passive:false});
-  addEventListener('touchend', ()=>{ if(pulling && dy>70){ ind.classList.add('spinning'); ind.style.opacity='1'; ind.style.transform='translateX(-50%) translateY(18px)'; setTimeout(()=>location.reload(), 400); } else { ind.style.opacity='0'; ind.style.transform='translateX(-50%) translateY(-60px)'; } pulling=false; dy=0; });
+  addEventListener('touchend', ()=>{ if(pulling && dy>70){ ind.classList.add('spinning'); ind.style.opacity='1'; ind.style.transform='translateX(-50%) translateY(18px)'; setTimeout(()=>{ try{ sessionStorage.setItem("gmd_view", window.__view||"dash"); }catch(e){} location.reload(); }, 400); } else { ind.style.opacity='0'; ind.style.transform='translateX(-50%) translateY(-60px)'; } pulling=false; dy=0; });
 })();
 
 // 장중이면 '실시간 미국 주식'을 미국 카드 바로 위로(개요 아래), 장마감이면 맨 밑(주요 시세 아래)으로.
@@ -1375,7 +1375,7 @@ initSurgeFlags();
     syncTheme();
   });
   const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
-  function showView(name){ for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
+  function showView(name){ window.__view = name; for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
@@ -1396,6 +1396,12 @@ initSurgeFlags();
     if(window.updateMenuFlags) updateMenuFlags();
     showView('brief');
   };
+  try{ const _v=sessionStorage.getItem('gmd_view'); if(_v){ sessionStorage.removeItem('gmd_view');
+    if(_v==='comm' && window.showCommunity) showCommunity();
+    else if(_v==='cal' && window.showCalendar) showCalendar();
+    else if(_v==='surge' && window.showSurge){ showSurge(); if(window.loadSurge) loadSurge(); }
+    else if(_v==='brief' && window.showBriefing) showBriefing();
+  } }catch(e){}
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
   const goHome = document.getElementById('goHome');
