@@ -225,6 +225,8 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .menudd{position:absolute; top:calc(100% + 9px); left:0; min-width:190px; background:var(--bg); border:1px solid var(--hair2); border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.35); padding:6px; display:none; flex-direction:column; gap:2px; z-index:70;}
 .menudd.open{display:flex;}
 .menudd .ddrow{display:flex; align-items:center; gap:8px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:13.5px; font-weight:400; padding:10px 11px; border-radius:8px; cursor:pointer; text-decoration:none; white-space:nowrap;}
+#gmdToast{position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; box-shadow:0 6px 20px rgba(0,0,0,.2);}
+#gmdToast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 .menudd .ddrow:hover{background:var(--surf);}
 .menudd .ddrow .tgi, .menudd .ddrow .lgi{margin-left:auto;}
 .menudd .ddsep{height:1px; background:var(--hair2); margin:5px 4px;}
@@ -328,6 +330,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
       <button class="ddrow" id="goCalendar">경제 캘린더</button>
       <button class="ddrow" id="goCommunity">커뮤니티</button>
       <button class="ddrow" id="goInstall">홈 화면에 추가</button>
+      <button class="ddrow" id="goShare">공유하기</button>
       <div class="ddsep"></div>
       <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi">🌙</span></button>
       <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi">🇬🇧</span></button>
@@ -665,7 +668,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.87</div>
+    <div class="ver">V1.88</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1379,6 +1382,16 @@ initSurgeFlags();
     const off = (nav ? nav.offsetHeight : 0) + 8;
     requestAnimationFrame(()=>{ const y = el.getBoundingClientRect().top + window.scrollY - off; window.scrollTo({ top:y, behavior:'smooth' }); });
   });
+  const goShare = document.getElementById('goShare');
+  if(goShare) goShare.addEventListener('click', async ()=>{
+    closeMenu();
+    const url = location.origin + location.pathname;
+    const title = (typeof L==='function') ? L('글로벌 마켓 데일리','Market Daily') : 'Market Daily';
+    try { if(navigator.share){ await navigator.share({title, url}); return; } } catch(e){ if(e && e.name==='AbortError') return; }
+    try { await navigator.clipboard.writeText(url); gmdToast((typeof L==='function')?L('링크가 복사됐어요','Link copied'):'Link copied'); }
+    catch(e){ gmdToast(url); }
+  });
+  function gmdToast(msg){ let el=document.getElementById('gmdToast'); if(!el){ el=document.createElement('div'); el.id='gmdToast'; document.body.appendChild(el);} el.textContent=msg; el.classList.add('show'); clearTimeout(window.__gt); window.__gt=setTimeout(()=>el.classList.remove('show'),1800); }
   document.querySelectorAll('.backDash').forEach(b=> b.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); }));
 })();
 
@@ -1393,7 +1406,7 @@ initSurgeFlags();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
-    ['#goBriefing','Morning Briefing'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
+    ['#goBriefing','Morning Briefing'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'], ['#goShare','Share'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
