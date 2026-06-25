@@ -601,8 +601,8 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <section class="live spy">
       <div class="chead"><h3>미국 · USA</h3></div>
       <div class="surge-grid">
-        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="usUp"></div></div>
-        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="usDown"></div></div>
+        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="usUp"><!--USUP--><div class="surge-note"><span data-lang="ko">장중·마감 2회 갱신 예정</span><span data-lang="en">Updates twice per session</span></div><!--/USUP--></div></div>
+        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="usDown"><!--USDOWN--><!--/USDOWN--></div></div>
       </div>
     </section>
     <div class="asof-live"><span data-lang="ko">미국은 실시간(FMP), 한국은 워커 한국 라우트 배포 후 표시. 장 외 시간엔 마지막 장중 데이터.</span><span data-lang="en">US live (FMP); Korea shows after the KR worker route is deployed. Last session data outside market hours.</span></div>
@@ -829,24 +829,7 @@ function renderSurgeList(elId, items, fmtPx, tkField, subField){
   });
   el.innerHTML=h;
 }
-async function loadSurge(){
-  // 미국: Worker /movers 재사용
-  try {
-    let data={};
-    try { const r=await fetch(MOVERS_PROXY,{cache:"no-store"}); if(r.ok) data=await r.json(); } catch(e){}
-    let g=(data.gainers||[]).map(o=>({sym:o.symbol,name:o.name||o.companyName||"",price:o.price,pct:pickPct(o)})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct));
-    let l=(data.losers||[]).map(o=>({sym:o.symbol,name:o.name||o.companyName||"",price:o.price,pct:pickPct(o)})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct));
-    g.sort((a,b)=>b.pct-a.pct); l.sort((a,b)=>a.pct-b.pct);
-    if((!g.length||!l.length) && RAW && Object.keys(RAW).length){
-      const all=Object.entries(RAW).map(([sym,o])=>({sym,name:o.name,price:o.price,pct:o.pct})).filter(o=>typeof o.pct==="number"&&!isNaN(o.pct)).sort((a,b)=>b.pct-a.pct);
-      if(!g.length) g=all.slice(0,10);
-      if(!l.length) l=all.slice().reverse().slice(0,10);
-    }
-    renderSurgeList("usUp", g, surgeFmtUS, "sym","name");
-    renderSurgeList("usDown", l, surgeFmtUS, "sym","name");
-  } catch(e){}
-  // 한국: 스케줄러가 #krUp / #krDown 에 정적으로 채움(오전·오후). 여기선 건드리지 않음.
-}
+function loadSurge(){ /* 급상승 페이지: 한국·미국 모두 스케줄러가 정적으로 채움(하루 2회). 클라이언트는 fetch 안 함 */ }
 window.loadSurge = loadSurge;
 
 const REDDIT = [
