@@ -227,7 +227,11 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .menupanel{position:absolute; top:0; bottom:0; left:0; width:min(440px,90vw); background:var(--bg); box-shadow:0 0 50px rgba(0,0,0,.3); display:flex; flex-direction:column; padding:24px 36px 30px; overflow-y:auto;}
 .menuhd{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
 .menulabel{font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--sec); font-weight:500;}
-.menuclose{display:inline-flex; align-items:center; gap:6px; background:var(--surf); border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--ink); cursor:pointer;}
+.menulogo{cursor:pointer; display:inline-flex; align-items:center;}
+.menulogo img{display:none; height:26px; width:auto;}
+html[data-theme="light"] .menulogo .logo-l{display:block;}
+html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
+.menuclosebar{display:inline-flex; align-items:center; gap:7px; align-self:flex-start; margin-top:22px; background:var(--surf); border:1px solid var(--hair2); border-radius:999px; padding:11px 22px; font-size:16px; font-weight:500; color:var(--ink); cursor:pointer;}
 .menulist{display:flex; flex-direction:column; border-top:1px solid var(--hair);}
 .menulist .ddrow{display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--hair); color:var(--ink); font-size:30px; font-weight:600; letter-spacing:-.025em; line-height:1.15; padding:16px 2px; cursor:pointer;}
 .menulist .ddrow:hover .ddt{opacity:.5;}
@@ -348,7 +352,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><button class="menuclose" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span> <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div><nav class="menulist"><button class="ddrow" id="goBriefing"><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goRates"><span class="ddt">주요 시세</span></button><button class="ddrow" id="goCalendar"><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goInstall"><span class="ddt">홈 화면에 추가</span></button><button class="ddrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button></nav><div class="menuutil"><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div></div></div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddt">급등락</span></button></nav><div class="menuutil"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddt">홈 화면에 추가</span></button><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span> <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
@@ -678,7 +682,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.00</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.01</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1381,6 +1385,13 @@ initSurgeFlags();
   };
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
+  const goHome = document.getElementById('goHome');
+  function goHomeFn(){ closeMenu(); if(window.showDashboard) showDashboard(); window.scrollTo({top:0,behavior:'smooth'}); }
+  if(goHome) goHome.addEventListener('click', goHomeFn);
+  const menuLogo = document.getElementById('menuLogo');
+  if(menuLogo) menuLogo.addEventListener('click', goHomeFn);
+  const goSurge = document.getElementById('goSurge');
+  if(goSurge) goSurge.addEventListener('click', ()=>{ closeMenu(); if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); });
   const goBrief = document.getElementById('goBriefing');
   if(goBrief) goBrief.addEventListener('click', ()=>{ closeMenu(); if(window.showBriefing) showBriefing(); });
   const goCal = document.getElementById('goCalendar');
@@ -1421,7 +1432,7 @@ initSurgeFlags();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
-    ['#goBriefing .ddt','Morning Briefing'], ['#goRates .ddt','Rates'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
+    ['#goHome .ddt','Home'], ['#goBriefing .ddt','Morning Briefing'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goSurge .ddt','Top Movers'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
