@@ -41,6 +41,12 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 .asof{font-size:13px; color:var(--sec);}
 
 .summary{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:24px 0; margin:24px 0 0; }
+ul.sflow{margin:0 0 2px; padding-left:20px;}
+ul.sflow li{font-size:17px; line-height:1.7; color:var(--ink2); margin-bottom:9px;}
+ul.sflow li:last-child{margin-bottom:0;}
+ul.sflow b{color:var(--ink); font-weight:600;}
+ul.sflow .up{color:var(--up); font-weight:600;}
+ul.sflow .down{color:var(--down); font-weight:600;}
 .summary-upd{font-size:11.5px; color:var(--sec); margin:-6px 0 16px;}
 .summary-upd b{color:var(--ink2); font-weight:600;}
 .summary h2{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:8px; position:relative; padding-right:30px;}
@@ -297,8 +303,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <a href="#sec-summary">요약</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
-    <a href="#sec-cn">중국</a>
-    <a href="#surge" data-surge="1">급상승</a>
+        <a href="#surge" data-surge="1">급상승</a>
   </div>
   
   <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="새로고침" aria-label="Market Daily — 새로고침">
@@ -324,16 +329,20 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <section class="summary spy" id="sec-summary">
     <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span></h2>
     <div class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-24T21:34:43Z">—</b> · <span class="tzname">현지</span></div>
-    <p data-lang="ko">
-      <b>'마이크론 쇼크'가 공포를 뒤집었다.</b> 화요일 반도체 폭락(코스피 -10%·나스닥 -2.1%)으로 'AI 거품' 공포가 정점을 찍은 뒤, 시장은 이틀에 걸쳐 진정됐다. <b>한국</b>은 하루 만에 <b>코스피 +3.37% V자 반등</b>(삼성 자사주 기대), <b>중국</b>은 본토(선전 +0.94%) 강세·홍콩 약세로 디커플링.
-      <b>미국</b>은 6/24 <b>약보합 마감</b>(S&P -0.10%·나스닥 -0.43%·다우 +0.35%)으로 폭락을 멈췄고, 결정타는 마감 후였다 — <b>마이크론이 매출 약 $41.5B·EPS $25.11</b>로 컨센($20.6)을 압도하고 <b>Q4 매출 $50B 가이드</b>를 제시하며 시간외 한때 +16%까지 치솟았다. 'HBM 슈퍼사이클은 끝났다'던 BofA발 공포를 실적으로 정면 반박.
-      유가는 <b>美·이란 전쟁 초 이후 최저</b>로 밀려 인플레엔 우호적이나, <b>9월 인상 확률 ~70%</b>의 매파 연준은 여전한 천장. <b>6/25 PCE(근원 4.1% 전망)</b>가 '실적 장세 vs 금리 장세'의 분수령이며, 마이크론發 훈풍이 6/25 아시아 반도체로 번질지가 관전 포인트.
-    </p>
-    <p data-lang="en">
-      <b>A "Micron shock" flipped the fear.</b> After Tuesday's chip crash (KOSPI -10%, Nasdaq -2.1%) marked the peak of "AI-bubble" fear, markets calmed over two sessions. <b>Korea</b> staged a <b>+3.37% V-rebound in KOSPI</b> a day later (Samsung buyback hopes); <b>China</b> decoupled — mainland up (Shenzhen +0.94%), Hong Kong down.
-      <b>The US</b> halted the rout with a <b>narrowly mixed 6/24 close</b> (S&P -0.10%, Nasdaq -0.43%, Dow +0.35%), and the knockout came after the bell — <b>Micron posted ~$41.5B revenue and $25.11 EPS</b>, crushing the ~$20.6 consensus, and guided <b>Q4 revenue to $50B</b>, sending shares up as much as +16% after hours. The blowout directly rebutted the BofA-driven "HBM supercycle is over" fear.
-      Oil slid to its <b>lowest since the start of the US–Iran war</b> — friendly for inflation — but a hawkish Fed with <b>~70% Sep-hike odds</b> remains the ceiling. <b>Thursday's PCE (core seen at 4.1%)</b> is the swing between an "earnings tape" and a "rates tape," and whether Micron's tailwind spreads to 6/25 Asian chips is the key watch.
-    </p>
+    <ul class="sflow" data-lang="ko">
+      <li><b>'마이크론 쇼크'가 공포를 뒤집었다.</b> 화요일 반도체 폭락(코스피 <span class="down">-10%</span>·나스닥 <span class="down">-2.1%</span>)으로 'AI 거품' 공포가 정점을 찍은 뒤 이틀에 걸쳐 진정.</li>
+      <li><b>한국</b> — 하루 만에 코스피 <span class="up">+3.37%</span> V자 반등(삼성 자사주 매입 기대).</li>
+      <li><b>중국</b> — 본토(선전 <span class="up">+0.94%</span>) 강세 · 홍콩 약세로 디커플링.</li>
+      <li><b>미국</b> — 6/24 약보합 마감(S&amp;P <span class="down">-0.10%</span>·나스닥 <span class="down">-0.43%</span>·다우 <span class="up">+0.35%</span>). 마감 후 <b>마이크론</b>이 매출 ~$41.5B·EPS $25.11로 컨센($20.6) 압도 + Q4 $50B 가이드 → 시간외 한때 <span class="up">+16%</span>. 'HBM 사이클 끝'이라던 BofA 공포를 실적으로 정면 반박.</li>
+      <li><b>관전</b> — 유가는 美·이란전 이후 최저(인플레 우호), 다만 9월 인상 확률 ~70% 매파 연준이 천장. 6/25 PCE(근원 4.1% 전망)가 '실적 장세 vs 금리 장세'의 분수령.</li>
+    </ul>
+    <ul class="sflow" data-lang="en">
+      <li><b>A "Micron shock" flipped the fear.</b> After Tuesday's chip crash (KOSPI <span class="down">-10%</span>, Nasdaq <span class="down">-2.1%</span>) peaked the "AI-bubble" fear, markets calmed over two sessions.</li>
+      <li><b>Korea</b> — KOSPI staged a <span class="up">+3.37%</span> V-rebound a day later (Samsung buyback hopes).</li>
+      <li><b>China</b> — decoupled: mainland up (Shenzhen <span class="up">+0.94%</span>), Hong Kong down.</li>
+      <li><b>US</b> — narrowly mixed 6/24 close (S&amp;P <span class="down">-0.10%</span>, Nasdaq <span class="down">-0.43%</span>, Dow <span class="up">+0.35%</span>). After the bell, <b>Micron</b> posted ~$41.5B rev & $25.11 EPS (vs ~$20.6) and guided Q4 to $50B → shares <span class="up">+16%</span> after hours, rebutting BofA's "HBM cycle is over" fear.</li>
+      <li><b>Watch</b> — oil at its lowest since the US–Iran war (friendly for inflation), but a hawkish Fed (~70% Sep-hike odds) caps the upside. Thursday's PCE (core ~4.1%) is the swing between an earnings tape and a rates tape.</li>
+    </ul>
     <div class="flow" data-lang="ko">
       <span class="tag">마이크론 실적 폭발 (Q4 $50B 가이드)</span>
       <span class="tag">MU 시간외 한때 +16%</span>
@@ -614,7 +623,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.32</div>
+    <div class="ver">V1.33</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1150,7 +1159,7 @@ setupCollapse();
   try { isEN = localStorage.getItem('gmd_lang') === 'en'; } catch(e){}
   const SINGLE = [
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
-    ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
+    ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
     ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
