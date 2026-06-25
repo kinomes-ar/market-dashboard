@@ -228,7 +228,8 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 #gmdToast{position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; box-shadow:0 6px 20px rgba(0,0,0,.2);}
 #gmdToast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 .menudd .ddrow:hover{background:var(--surf);}
-.menudd .ddrow .tgi, .menudd .ddrow .lgi{margin-left:auto; display:inline-flex; align-items:center; color:var(--ink2);}
+.menudd .ddrow .ddi, .menudd .ddrow .tgi, .menudd .ddrow .lgi{flex:none; width:18px; display:inline-flex; align-items:center; justify-content:center; color:var(--ink2);}
+.menudd .ddrow .tgi, .menudd .ddrow .lgi{order:-1;}
 .backDash{display:inline-flex; align-items:center; gap:6px;}
 .bicon{flex:none;}
 .iguide-ic{vertical-align:-2px; margin:0 1px;}
@@ -330,12 +331,12 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
     <div class="menudd" id="menuDD">
-      <button class="ddrow" id="goBriefing">모닝 브리핑</button>
-      <button class="ddrow" id="goRates">주요 시세</button>
-      <button class="ddrow" id="goCalendar">경제 캘린더</button>
-      <button class="ddrow" id="goCommunity">커뮤니티</button>
-      <button class="ddrow" id="goInstall">홈 화면에 추가</button>
-      <button class="ddrow" id="goShare">공유하기</button>
+      <button class="ddrow" id="goBriefing"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5"/><path d="M5 6h6M5 8.5h6M5 11h3.5"/></svg></span><span class="ddt">모닝 브리핑</span></button>
+      <button class="ddrow" id="goRates"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11 6 7.5l2.5 2.5L13.5 5"/><path d="M13.5 5h-3M13.5 5v3"/></svg></span><span class="ddt">주요 시세</span></button>
+      <button class="ddrow" id="goCalendar"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3" width="11" height="10.5" rx="1.5"/><path d="M2.5 6.2h11M5.5 1.8v2.4M10.5 1.8v2.4"/></svg></span><span class="ddt">경제 캘린더</span></button>
+      <button class="ddrow" id="goCommunity"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.1"/><path d="M2.6 13c0-2 1.5-3.3 3.4-3.3S9.4 11 9.4 13"/><circle cx="11.2" cy="5.6" r="1.6"/><path d="M10.7 9.7c1.7.1 2.8 1.3 2.8 3.3"/></svg></span><span class="ddt">커뮤니티</span></button>
+      <button class="ddrow" id="goInstall"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="2" width="9" height="12" rx="1.5"/><path d="M8 5.5v4M6 7.5h4"/></svg></span><span class="ddt">홈 화면에 추가</span></button>
+      <button class="ddrow" id="goShare"><span class="ddi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="4" cy="8" r="1.5"/><circle cx="12" cy="4" r="1.5"/><circle cx="12" cy="12" r="1.5"/><path d="M5.3 7.3 10.7 4.6M5.3 8.7l5.4 2.7"/></svg></span><span class="ddt">공유하기</span></button>
       <div class="ddsep"></div>
       <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 9.3A5.2 5.2 0 1 1 6.7 2.8 4.2 4.2 0 0 0 13.2 9.3Z"/></svg></span></button>
       <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.1"/><path d="M2 8h12M8 1.9c2 2 2 10.2 0 12.2M8 1.9c-2 2-2 10.2 0 12.2"/></svg></span></button>
@@ -669,7 +670,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.95</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.96</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1407,7 +1408,7 @@ initSurgeFlags();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
-    ['#goBriefing','Morning Briefing'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'], ['#goShare','Share'],
+    ['#goBriefing .ddt','Morning Briefing'], ['#goRates .ddt','Rates'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
