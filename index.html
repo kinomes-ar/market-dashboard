@@ -158,6 +158,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .mv-row .nm{font-size:12.5px; color:var(--ter); margin-top:1px;}
 .mv-row .px{text-align:right; font-weight:400; color:var(--ink);}
 .mv-row .pct{text-align:right; font-weight:500;}
+.mv-row .pct .ah{font-size:11px; font-weight:400; margin-top:3px;}
 .mv-row .rk{color:var(--ter); font-weight:400;}
 .expand{width:100%; margin-top:12px; padding:11px; background:transparent; border:1px solid var(--hair2); border-radius:8px; color:var(--ink2); font-weight:400; font-size:13px; cursor:pointer;}
 .expand:hover{background:var(--surf);}
@@ -653,7 +654,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.67</div>
+    <div class="ver">V1.68</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -798,6 +799,25 @@ async function fetchRaw(){
   } finally { loading = false; }
 }
 const loadMovers = fetchRaw;
+// ===== 시간외(after-hours): 포스트마켓 ET 16:00~20:00 30분 갱신, 정규 종가 대비 등락 표시 =====
+const AFTER_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/after");
+let AFTER = {}, loadingAfter = false;
+try { const a = JSON.parse(localStorage.getItem("gmd_after")||"null"); if(a && a.map) AFTER = a.map; } catch(e){}
+function afterHoursActive(){ const t=etNow(); return t.dow>=1 && t.dow<=5 && t.min>=960 && t.min<1200; }
+function afterTag(sym){ const a=AFTER[sym]; if(!a || typeof a.pct!=="number" || marketOpen()) return ""; const c=a.pct>=0?"up":"down"; const s=a.pct>=0?"+":""; return '<div class="ah '+c+'">'+L("시간외 ","AH ")+s+a.pct.toFixed(2)+"%</div>"; }
+async function loadAfter(){
+  if(loadingAfter || !dataReady) return;
+  const syms = rows().slice(0,12).map(o=>o.sym);
+  if(!syms.length) return;
+  loadingAfter = true;
+  try {
+    const res = await fetch(AFTER_PROXY+"?symbols="+encodeURIComponent(syms.join(",")), { cache:"no-store" });
+    if(res.ok){ const j = await res.json(); const m={};
+      (j.quotes||[]).forEach(q=>{ if(q && q.price!=null){ const r=RAW[q.symbol]; if(r && r.price){ m[q.symbol]={price:q.price, pct:(q.price-r.price)/r.price*100}; } } });
+      if(Object.keys(m).length){ AFTER=m; try{ localStorage.setItem("gmd_after", JSON.stringify({map:m, ts:Date.now()})); }catch(e){} render(); }
+    }
+  } catch(e){} finally { loadingAfter=false; }
+}
 
 function rows(){
   const set = MEMBER[state.idx];
@@ -832,7 +852,7 @@ function render(){
     html += '<div class="mv-row"><div class="rk">'+(i+1)+'</div>'+
       '<div><div class="tk">'+o.sym+'</div><div class="nm">'+(o.name||'')+'</div></div>'+
       '<div class="px">'+px+'</div>'+
-      '<div class="pct '+cls+'">'+sign+o.pct.toFixed(2)+'%</div></div>';
+      '<div class="pct '+cls+'">'+sign+o.pct.toFixed(2)+'%'+afterTag(o.sym)+'</div></div>';
   });
   html += '</div>';
   if(arr.length>10){
@@ -1093,7 +1113,8 @@ function tick(){
 }
 setInterval(tick, 1000);
 tick();
-loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; });
+loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
+setInterval(()=>{ if(afterHoursActive()) loadAfter(); }, 30*60*1000);
 
 // 섹션 접기/펼치기 (상태 기억)
 function setupCollapse(){
