@@ -222,18 +222,35 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .navmenu{flex:none; position:relative;}
 .menubtn{width:32px; height:32px; border-radius:50%; border:1px solid var(--hair2); background:var(--surf); color:var(--ink); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .menubtn:hover{background:var(--surf);}
-.menudd{position:absolute; top:calc(100% + 9px); left:0; min-width:190px; background:var(--bg); border:1px solid var(--hair2); border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.35); padding:6px; display:none; flex-direction:column; gap:2px; z-index:70;}
-.menudd.open{display:flex;}
-.menudd .ddrow{display:flex; align-items:center; gap:8px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:13.5px; font-weight:400; padding:10px 11px; border-radius:8px; cursor:pointer; text-decoration:none; white-space:nowrap;}
+.menudd{position:fixed; inset:0; z-index:200; display:none;}
+.menudd::before{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--ink) 42%, transparent);}
+.menupanel{position:absolute; top:0; bottom:0; left:0; width:min(440px,90vw); background:var(--bg); box-shadow:0 0 50px rgba(0,0,0,.3); display:flex; flex-direction:column; padding:24px 36px 30px; overflow-y:auto;}
+.menuhd{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
+.menulabel{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--sec);}
+.menuclose{display:inline-flex; align-items:center; gap:6px; background:var(--surf); border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--ink); cursor:pointer;}
+.menulist{display:flex; flex-direction:column; border-top:1px solid var(--hair);}
+.menulist .ddrow{display:flex; align-items:baseline; gap:14px; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--hair); color:var(--ink); font-size:30px; font-weight:600; letter-spacing:-.025em; line-height:1.15; padding:16px 2px; cursor:pointer;}
+.menulist .ddrow:hover .ddt{opacity:.5;}
+.menulist .ddnum{font-size:11px; font-weight:500; color:var(--ter); align-self:flex-start; margin-top:8px; min-width:18px;}
+.menulist .ddrow[data-new]::after{content:"N"; margin-left:auto; align-self:center; background:#e5484d; color:#fff; font-size:10px; font-weight:700; line-height:1; padding:3px 6px; border-radius:6px;}
+.menuutil{margin-top:auto; padding-top:26px;}
+.menuutil .utilrow{display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:15px; font-weight:400; padding:12px 2px; cursor:pointer;}
+.menuutil .utilrow:hover{opacity:.6;}
+.menuutil .utilsplit{display:flex; gap:16px; border-top:1px solid var(--hair); margin-top:6px;}
+.menuutil .utilsplit .half{width:50%;}
+.menuutil .ddi, .menuutil .tgi, .menuutil .lgi{flex:none; width:18px; display:inline-flex; align-items:center; justify-content:center;}
+@media (max-width:600px){ .menudd::before{display:none;} .menupanel{width:100%; right:0; padding:18px 22px 26px;} .menulist .ddrow{font-size:26px; padding:15px 2px;} }
+.menudd.open{display:block;}
+
 #gmdToast{position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; box-shadow:0 6px 20px rgba(0,0,0,.2);}
 #gmdToast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-.menudd .ddrow:hover{background:var(--surf);}
-.menudd .ddrow .ddi, .menudd .ddrow .tgi, .menudd .ddrow .lgi{flex:none; width:18px; display:inline-flex; align-items:center; justify-content:center; color:var(--ink2);}
-.menudd .ddrow .tgi, .menudd .ddrow .lgi{order:-1;}
+
+
+
 .backDash{display:inline-flex; align-items:center; gap:6px;}
 .bicon{flex:none;}
 .iguide-ic{vertical-align:-2px; margin:0 1px;}
-.menudd .ddsep{height:1px; background:var(--hair2); margin:5px 4px;}
+
 .menudd .ddlabel{font-size:11px; font-weight:400; color:var(--sec); padding:6px 11px 3px;}
 .cback{margin:4px 0 20px;}
 .cback a{color:var(--sec); text-decoration:none; font-size:14px; font-weight:400;}
@@ -330,17 +347,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD">
-      <button class="ddrow" id="goBriefing"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2.3" width="10" height="11.4" rx="2" fill="#E0883C"/><rect x="5" y="5" width="6" height="1.2" rx=".6" fill="#fff" opacity=".92"/><rect x="5" y="7.4" width="6" height="1.2" rx=".6" fill="#fff" opacity=".92"/><rect x="5" y="9.8" width="3.6" height="1.2" rx=".6" fill="#fff" opacity=".92"/></svg></span><span class="ddt">모닝 브리핑</span></button>
-      <button class="ddrow" id="goRates"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.4" y="9" width="2.5" height="4.6" rx=".8" fill="#3FA66B"/><rect x="6.75" y="5.8" width="2.5" height="7.8" rx=".8" fill="#3FA66B"/><rect x="11.1" y="2.8" width="2.5" height="10.8" rx=".8" fill="#3FA66B"/></svg></span><span class="ddt">주요 시세</span></button>
-      <button class="ddrow" id="goCalendar"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3" width="11" height="10.6" rx="2" fill="#D9694F"/><path d="M2.5 5.2c0-1.2 1-2.2 2.2-2.2h6.6c1.2 0 2.2 1 2.2 2.2v1H2.5z" fill="#B14C39"/><rect x="4.9" y="1.6" width="1.4" height="3" rx=".7" fill="#B14C39"/><rect x="9.7" y="1.6" width="1.4" height="3" rx=".7" fill="#B14C39"/><circle cx="5.6" cy="9.2" r="1" fill="#fff"/><circle cx="8" cy="9.2" r="1" fill="#fff"/><circle cx="10.4" cy="9.2" r="1" fill="#fff"/></svg></span><span class="ddt">경제 캘린더</span></button>
-      <button class="ddrow" id="goCommunity"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="5.8" cy="5.1" r="2.3" fill="#7B6FCB"/><path d="M1.8 13.2a4 4 0 0 1 8 0z" fill="#7B6FCB"/><circle cx="11.4" cy="5.8" r="1.7" fill="#7B6FCB" opacity=".6"/><path d="M9.3 12.9a3.1 3.1 0 0 1 5.9-1.3l.0 1.3z" fill="#7B6FCB" opacity=".6"/></svg></span><span class="ddt">커뮤니티</span></button>
-      <button class="ddrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button>
-      <button class="ddrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button>
-      <div class="ddsep"></div>
-      <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span></button>
-      <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span></button>
-    </div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><button class="menuclose" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span> <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div><nav class="menulist"><button class="ddrow" id="goBriefing"><span class="ddnum">01</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goRates"><span class="ddnum">02</span><span class="ddt">주요 시세</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goInstall"><span class="ddnum">05</span><span class="ddt">홈 화면에 추가</span></button></nav><div class="menuutil"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div></div></div>
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
@@ -670,7 +677,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.97</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.98</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1333,10 +1340,14 @@ initSurgeFlags();
   syncTheme();
   const menuBtn = document.getElementById('menuBtn');
   const menuDD = document.getElementById('menuDD');
-  function closeMenu(){ if(menuDD) menuDD.classList.remove('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','false'); }
+  const menuClose = document.getElementById('menuClose');
+  function closeMenu(){ if(menuDD) menuDD.classList.remove('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+  function openMenu(){ if(menuDD) menuDD.classList.add('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
   if(menuBtn && menuDD){
-    menuBtn.addEventListener('click', e=>{ e.stopPropagation(); const open = menuDD.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', open?'true':'false'); });
-    document.addEventListener('click', e=>{ if(!menuDD.contains(e.target) && e.target!==menuBtn) closeMenu(); });
+    menuBtn.addEventListener('click', e=>{ e.stopPropagation(); menuDD.classList.contains('open') ? closeMenu() : openMenu(); });
+    menuDD.addEventListener('click', e=>{ if(e.target===menuDD) closeMenu(); });
+    if(menuClose) menuClose.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMenu(); });
   }
   if(tgBtn) tgBtn.addEventListener('click', ()=>{
     const isLight = root.getAttribute('data-theme')==='light';
