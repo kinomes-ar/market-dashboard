@@ -153,6 +153,8 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .seg{font-size:13px; font-weight:400; padding:4px 0 1px; margin-right:16px; border:0; background:transparent; color:var(--sec); cursor:pointer; border-bottom:1.5px solid transparent;}
 .seg.active{color:var(--ink); border-bottom-color:var(--ink);}
 .mv-wrap{padding:14px 0 6px;}
+#moversBody{min-height:560px;}
+.status{min-height:520px; display:flex; align-items:center; justify-content:center;}
 .mv-head,.mv-row{display:grid; grid-template-columns:30px 1fr 110px 90px; align-items:center; gap:8px; padding:11px 0;}
 .mv-head{font-size:11.5px; color:var(--sec); font-weight:400; border-bottom:1px solid var(--hair2);}
 .mv-head .num,.mv-row .num{text-align:right;}
@@ -166,7 +168,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
 .mv-row .rk{color:var(--ter); font-weight:400;}
 .expand{width:100%; margin-top:12px; padding:11px; background:transparent; border:1px solid var(--hair2); border-radius:8px; color:var(--ink2); font-weight:400; font-size:13px; cursor:pointer;}
 .expand:hover{background:var(--surf);}
-.status{padding:22px; font-size:14px; color:var(--sec); text-align:center;}
+.status{padding:22px; font-size:14px; color:var(--sec); text-align:center; min-height:520px; display:flex; align-items:center; justify-content:center;}
 .status.err{color:var(--up);}
 .asof-live{font-size:11.5px; color:var(--ter); padding:0 0 8px;}
 
@@ -255,6 +257,7 @@ footer{margin-top:30px; padding-top:22px; border-top:1px solid var(--hair); font
   .seg{margin-right:12px; font-size:12px;}
   .mkt .cd{font-size:11px;}
   .mv-head,.mv-row{grid-template-columns:24px 1fr 80px 64px; gap:6px;}
+  #moversBody{min-height:470px;} .status{min-height:440px;}
   .mv-head{font-size:10.5px;}
   .mv-row{font-size:13px;}
   .mv-row .tk{font-size:13px;}
@@ -658,7 +661,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.77</div>
+    <div class="ver">V1.78</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
