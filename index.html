@@ -578,7 +578,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.21</div>
+    <div class="ver">V1.22</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -706,8 +706,17 @@ async function fetchRaw(){
     const lists = [ data.gainers||[], data.losers||[], data.actives||[] ];
     const fresh = {};
     lists.flat().forEach(o=>{ if(o && o.symbol){ const pct = pickPct(o); if(typeof pct==="number" && !isNaN(pct)) fresh[o.symbol] = { price:o.price, pct, name:o.name||o.companyName||o.symbol }; } });
-    if(Object.keys(fresh).length){ RAW = fresh; lastUpdated = new Date(); dataReady = true; }
-    else if(!dataReady){ showStatus(L("실시간 시세를 잠시 불러오지 못했습니다. 곧 자동으로 다시 시도합니다.","Couldn't load live quotes right now. Retrying automatically shortly."), true); }
+    if(Object.keys(fresh).length){
+      RAW = fresh; lastUpdated = new Date(); dataReady = true;
+      // 장중에 받은 마지막 데이터를 저장 — 장마감/오류 때 폴백으로 사용
+      try { localStorage.setItem('gmd_movers_last', JSON.stringify({ raw: fresh, ts: lastUpdated.getTime() })); } catch(e){}
+    } else if(!dataReady){
+      // 새 데이터가 없으면(장마감·일시 오류·한도초과) 마지막으로 받았던 장중 데이터를 보여준다
+      let cached = null;
+      try { cached = JSON.parse(localStorage.getItem('gmd_movers_last') || 'null'); } catch(e){}
+      if(cached && cached.raw && Object.keys(cached.raw).length){ RAW = cached.raw; lastUpdated = new Date(cached.ts); dataReady = true; }
+      else { showStatus(L("실시간 시세를 잠시 불러오지 못했습니다. 곧 자동으로 다시 시도합니다.","Couldn't load live quotes right now. Retrying automatically shortly."), true); }
+    }
     render();
   } catch(e){
     if(!dataReady) showStatus(L("시세를 불러오지 못했습니다 (","Couldn't load quotes (") + e.message + L("). 잠시 후 자동 재시도됩니다.","). Will retry automatically."), true);
