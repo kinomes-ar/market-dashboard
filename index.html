@@ -288,6 +288,8 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 @media (max-width:600px){ body{padding-top:44px;} }
 @media (max-width:600px){ .country > .chead .idxname{display:none;} }
 #mktHeadCd{display:none !important;}
+.live .chead[data-live] h3::after{content:"LIVE"; display:inline-block; margin-left:9px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:3px 5px; border-radius:6px; vertical-align:middle; letter-spacing:.04em; animation:livePulse 1.6s ease-in-out infinite;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.45;}}
 .cidx{display:none; align-items:baseline; gap:10px; margin-left:auto;}
 .collapsed > .chead .cidx{display:flex;}
 .collapsed > .chead .sub{display:none;}
@@ -668,7 +670,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.89</div>
+    <div class="ver">V1.90</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1116,6 +1118,7 @@ function tick(){
   const open = marketOpen();
   layoutMain();
   if(typeof updateMarketStatus==='function') updateMarketStatus();
+  { const lh=document.querySelector('#sec-live .chead'); if(lh){ open ? lh.setAttribute('data-live','1') : lh.removeAttribute('data-live'); } }
   { const sv=document.getElementById("surgeView"); if(sv && sv.style.display!=="none" && typeof layoutSurge==="function") layoutSurge(); }
   const badge = document.getElementById("mktBadge");
   const headcd = document.getElementById("mktHeadCd");
