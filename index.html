@@ -677,7 +677,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.98</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.99</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1340,6 +1340,7 @@ initSurgeFlags();
   syncTheme();
   const menuBtn = document.getElementById('menuBtn');
   const menuDD = document.getElementById('menuDD');
+  if(menuDD && menuDD.parentElement !== document.body) document.body.appendChild(menuDD);
   const menuClose = document.getElementById('menuClose');
   function closeMenu(){ if(menuDD) menuDD.classList.remove('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
   function openMenu(){ if(menuDD) menuDD.classList.add('open'); if(menuBtn) menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
