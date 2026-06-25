@@ -223,7 +223,7 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .menubtn{width:32px; height:32px; border-radius:50%; border:1px solid var(--hair2); background:var(--surf); color:var(--ink); font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;}
 .menubtn:hover{background:var(--surf);}
 .menudd{position:fixed; inset:0; z-index:200; display:none;}
-.menudd::before{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--ink) 42%, transparent);}
+.menudd::before{content:""; position:absolute; inset:0; background:rgba(0,0,0,.55);}
 .menupanel{position:absolute; top:0; bottom:0; left:0; width:min(440px,90vw); background:var(--bg); box-shadow:0 0 50px rgba(0,0,0,.3); display:flex; flex-direction:column; padding:24px 36px 30px; overflow-y:auto;}
 .menuhd{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
 .menulabel{font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--sec); font-weight:500;}
@@ -231,7 +231,12 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .menulogo img{display:none; height:26px; width:auto;}
 html[data-theme="light"] .menulogo .logo-l{display:block;}
 html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
-.menuclosebar{display:inline-flex; align-items:center; gap:7px; align-self:flex-start; margin-top:22px; background:var(--surf); border:1px solid var(--hair2); border-radius:999px; padding:11px 22px; font-size:16px; font-weight:500; color:var(--ink); cursor:pointer;}
+.menuclosebar{display:inline-flex; align-items:center; align-self:flex-start; margin-top:16px; background:none; border:0; padding:8px 2px; color:var(--ink2); cursor:pointer;}
+#ptr{position:fixed; top:8px; left:50%; transform:translateX(-50%) translateY(-60px); z-index:300; width:36px; height:36px; border-radius:50%; background:var(--surf); border:1px solid var(--hair2); box-shadow:0 4px 14px rgba(0,0,0,.18); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .15s ease;}
+#ptr .ptr-spin{width:16px; height:16px; border-radius:50%; border:2px solid var(--hair2); border-top-color:var(--ink);}
+#ptr.spinning .ptr-spin{animation:ptrspin .6s linear infinite;}
+@keyframes ptrspin{to{transform:rotate(360deg);}}
+@media (display-mode: standalone){ body{overscroll-behavior-y:contain;} }
 .menulist{display:flex; flex-direction:column; border-top:1px solid var(--hair);}
 .menulist .ddrow{display:flex; align-items:baseline; gap:14px; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--hair); color:var(--ink); font-size:30px; font-weight:600; letter-spacing:-.025em; line-height:1.15; padding:16px 2px; cursor:pointer;}
 .menulist .ddrow:hover .ddt{opacity:.5;}
@@ -352,7 +357,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">02</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button></nav><div class="menuutil"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddt">홈 화면에 추가</span></button><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span></button></div></div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">02</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button></nav><div class="menuutil"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
@@ -361,7 +366,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
         <a href="#surge" data-surge="1">급상승</a>
   </div>
   
-  <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="새로고침" aria-label="Market Daily — 새로고침">
+  <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="홈" aria-label="Market Daily — 홈">
     <img class="logo-wide logo-l" src="logo-horizontal-light.png?v=6" alt="Market Daily">
     <img class="logo-wide logo-d" src="logo-horizontal-dark.png?v=6" alt="" aria-hidden="true">
     <img class="logo-mark logo-l" src="header-mark-light.png?v=6" srcset="header-mark-light.png?v=6 1x, header-mark-light-2x.png?v=6 2x" alt="" aria-hidden="true">
@@ -682,7 +687,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.02</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.03</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1067,10 +1072,18 @@ const navBrand = document.getElementById('navBrand');
 if(navBrand) navBrand.addEventListener('click', ()=>{ if(window.showDashboard) showDashboard(); window.scrollTo({ top:0, behavior:'smooth' }); });
 const brandLogo = document.getElementById('brandLogo');
 if(brandLogo){
-  const reloadPage = ()=> location.reload();
-  brandLogo.addEventListener('click', reloadPage);
-  brandLogo.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); reloadPage(); } });
+  brandLogo.addEventListener('click', ()=>{ if(window.showDashboard) showDashboard(); window.scrollTo({top:0,behavior:'smooth'}); });
 }
+// 홈 화면(스탠드얼론) 당겨서 새로고침
+(function ptr(){
+  const standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
+  if(!standalone) return;
+  const ind=document.createElement('div'); ind.id='ptr'; ind.innerHTML='<div class="ptr-spin"></div>'; document.body.appendChild(ind);
+  let startY=0, dy=0, pulling=false;
+  addEventListener('touchstart', e=>{ if(window.scrollY<=0){ startY=e.touches[0].clientY; pulling=true; dy=0; } else pulling=false; }, {passive:true});
+  addEventListener('touchmove', e=>{ if(!pulling) return; dy=e.touches[0].clientY-startY; if(dy>0 && window.scrollY<=0){ e.preventDefault(); ind.style.opacity=Math.min(dy/70,1); ind.style.transform='translateX(-50%) translateY('+(Math.min(dy,100)-60)+'px)'; } else { pulling=false; } }, {passive:false});
+  addEventListener('touchend', ()=>{ if(pulling && dy>70){ ind.classList.add('spinning'); ind.style.opacity='1'; ind.style.transform='translateX(-50%) translateY(18px)'; setTimeout(()=>location.reload(), 400); } else { ind.style.opacity='0'; ind.style.transform='translateX(-50%) translateY(-60px)'; } pulling=false; dy=0; });
+})();
 
 // 장중이면 '실시간 미국 주식'을 미국 카드 바로 위로(개요 아래), 장마감이면 맨 밑(주요 시세 아래)으로.
 // 위치가 이미 맞으면 아무것도 하지 않음(매 tick 호출해도 안전).
