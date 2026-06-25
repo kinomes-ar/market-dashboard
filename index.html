@@ -645,7 +645,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.53</div>
+    <div class="ver">V1.54</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1013,6 +1013,14 @@ function tzMinDow(tz){
 }
 function krOpen(){ const t=tzMinDow("Asia/Seoul");    return t.dow>=1&&t.dow<=5 && t.min>=540 && t.min<930; } // 09:00~15:30
 function cnOpen(){ const t=tzMinDow("Asia/Shanghai"); return t.dow>=1&&t.dow<=5 && t.min>=570 && t.min<900; } // 09:30~15:00
+// 마지막 장마감 이후 경과(분). 작을수록 최근 마감. 마감은 평일 closeMin(현지) 기준.
+function minsSinceClose(tz, closeMin){
+  const t=tzMinDow(tz); const d=(t.dow+6)%7; const nowWk=d*1440+t.min; // 월=0..일=6
+  let best=-Infinity;
+  for(let wd=0; wd<5; wd++){ const c=wd*1440+closeMin; if(c<=nowWk && c>best) best=c; }
+  if(best===-Infinity) best=4*1440+closeMin-7*1440; // 직전 금요일 마감
+  return nowWk-best;
+}
 // 메인 섹션 시간대별 재배치 + 국가카드 거래중 먼저
 function layoutMain(){
   const dash=document.getElementById('dashboardView'); if(!dash) return;
@@ -1021,9 +1029,12 @@ function layoutMain(){
         live=document.getElementById('sec-live'), rates=document.getElementById('sec-rates');
   if(!summary||!us||!kr||!cn||!live||!rates) return;
   const usO=marketOpen();
-  // 국가카드: 거래중 먼저, 동시 장중이면 한국>중국>미국 고정
-  const cards=[{n:us,o:usO,p:2},{n:kr,o:krOpen(),p:0},{n:cn,o:cnOpen(),p:1}];
-  cards.sort((a,b)=>((b.o?1:0)-(a.o?1:0)) || (a.p-b.p));
+  // 국가카드: 거래중 먼저 / 동시 장중=한국>중국>미국 / 모두 마감=최근 마감 먼저
+  const cards=[
+    {n:us,o:usO,      p:2, sc:minsSinceClose("America/New_York",960)},
+    {n:kr,o:krOpen(), p:0, sc:minsSinceClose("Asia/Seoul",930)},
+    {n:cn,o:cnOpen(), p:1, sc:minsSinceClose("Asia/Shanghai",900)} ];
+  cards.sort((a,b)=> ((b.o?1:0)-(a.o?1:0)) || (a.o ? (a.p-b.p) : (a.sc-b.sc)) );
   const order=cards.map(c=>c.n);
   const h=new Date().getHours();
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
