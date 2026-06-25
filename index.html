@@ -283,7 +283,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   html:not([data-theme="light"]) .topnav .brandlogo .logo-mark.logo-d{display:block;}
 }
 @media (max-width:600px){ body{padding-top:44px;} }
-@media (max-width:600px){ .country > .chead .idxname{display:none;} .hidesm{display:none;} }
+@media (max-width:600px){ .country > .chead .idxname{display:none;} }
 @media (max-width:600px){ .live .chead{flex-wrap:wrap;} .live .chead .livecd{flex-basis:100%; margin-left:0; text-align:right; padding-right:30px; margin-top:2px;} }
 .cidx{display:none; align-items:baseline; gap:10px; margin-left:auto;}
 .collapsed > .chead .cidx{display:flex;}
@@ -664,7 +664,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.83</div>
+    <div class="ver">V1.84</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1123,7 +1123,7 @@ function tick(){
     else if(headcd) headcd.innerHTML = L("다음 갱신 <b>"+fmtHMS(left)+"</b>","Next <b>"+fmtHMS(left)+"</b>");
   } else {
     badge.className = "badge closed"; badge.textContent = L("장마감","Closed");
-    if(headcd) headcd.innerHTML = L('<span class="hidesm">장 </span>시작까지 <b>'+fmtHMS(msToOpen())+'</b>',"Opens in <b>"+fmtHMS(msToOpen())+"</b>");
+    if(headcd) headcd.innerHTML = L("장 시작까지 <b>"+fmtHMS(msToOpen())+"</b>","Opens in <b>"+fmtHMS(msToOpen())+"</b>");
     nextUpdateTs = 0;
   }
   updateAsof();
