@@ -299,6 +299,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
     <div class="menudd" id="menuDD">
+      <button class="ddrow" id="goBriefing">모닝 브리핑</button>
       <button class="ddrow" id="goRates">주요 시세</button>
       <button class="ddrow" id="goCalendar">경제 캘린더</button>
       <button class="ddrow" id="goCommunity">커뮤니티</button>
@@ -310,7 +311,6 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
-    <a href="#brief" data-brief="1">브리핑</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
         <a href="#surge" data-surge="1">급상승</a>
@@ -645,7 +645,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.50</div>
+    <div class="ver">V1.51</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1178,6 +1178,8 @@ setupCollapse();
   window.showBriefing  = ()=>{ const b=document.getElementById('briefBody'), s=document.querySelector('#sec-usnews .body'); if(b&&s) b.innerHTML=s.innerHTML; showView('brief'); };
   const goComm = document.getElementById('goCommunity');
   if(goComm) goComm.addEventListener('click', ()=>{ closeMenu(); showCommunity(); });
+  const goBrief = document.getElementById('goBriefing');
+  if(goBrief) goBrief.addEventListener('click', ()=>{ closeMenu(); if(window.showBriefing) showBriefing(); });
   const goCal = document.getElementById('goCalendar');
   if(goCal) goCal.addEventListener('click', ()=>{ closeMenu(); showCalendar(); });
   const goRates = document.getElementById('goRates');
@@ -1201,10 +1203,10 @@ setupCollapse();
   let isEN = false;
   try { isEN = localStorage.getItem('gmd_lang') === 'en'; } catch(e){}
   const SINGLE = [
-    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[data-brief]','Briefing'], ['.topnav a[href="#sec-us"]','US'],
+    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
-    ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
+    ['#goBriefing','Morning Briefing'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
