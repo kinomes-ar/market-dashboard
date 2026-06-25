@@ -645,7 +645,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.52</div>
+    <div class="ver">V1.53</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1021,9 +1021,9 @@ function layoutMain(){
         live=document.getElementById('sec-live'), rates=document.getElementById('sec-rates');
   if(!summary||!us||!kr||!cn||!live||!rates) return;
   const usO=marketOpen();
-  // 국가카드: 거래중 먼저(기본순 미·한·중 유지, 안정 정렬)
-  const cards=[{n:us,o:usO},{n:kr,o:krOpen()},{n:cn,o:cnOpen()}];
-  cards.sort((a,b)=>(b.o?1:0)-(a.o?1:0));
+  // 국가카드: 거래중 먼저, 동시 장중이면 한국>중국>미국 고정
+  const cards=[{n:us,o:usO,p:2},{n:kr,o:krOpen(),p:0},{n:cn,o:cnOpen(),p:1}];
+  cards.sort((a,b)=>((b.o?1:0)-(a.o?1:0)) || (a.p-b.p));
   const order=cards.map(c=>c.n);
   const h=new Date().getHours();
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
