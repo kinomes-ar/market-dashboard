@@ -594,8 +594,8 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <section class="live spy">
       <div class="chead"><h3>한국 · Korea</h3></div>
       <div class="surge-grid">
-        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="krUp"></div></div>
-        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="krDown"></div></div>
+        <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="krUp"><!--KRUP--><div class="surge-note"><span data-lang="ko">오전·오후 갱신 예정</span><span data-lang="en">Updates twice daily</span></div><!--/KRUP--></div></div>
+        <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="krDown"><!--KRDOWN--><!--/KRDOWN--></div></div>
       </div>
     </section>
     <section class="live spy">
@@ -845,22 +845,7 @@ async function loadSurge(){
     renderSurgeList("usUp", g, surgeFmtUS, "sym","name");
     renderSurgeList("usDown", l, surgeFmtUS, "sym","name");
   } catch(e){}
-  // 한국: Worker /kr (라우트 배포 후 동작)
-  const krUp=document.getElementById("krUp"), krDown=document.getElementById("krDown");
-  const pend=L("한국 데이터 준비 중 (워커 한국 라우트 배포 후 표시)","Korea data pending (after KR worker route is deployed)");
-  try {
-    const r=await fetch(KR_PROXY,{cache:"no-store"});
-    if(!r.ok) throw 0;
-    const d=await r.json();
-    const g=(d.gainers||[]).filter(o=>typeof o.pct==="number");
-    const l=(d.losers||[]).filter(o=>typeof o.pct==="number");
-    if(g.length||l.length){
-      renderSurgeList("krUp", g, surgeFmtKR, "name","code");
-      renderSurgeList("krDown", l, surgeFmtKR, "name","code");
-    } else { if(krUp) krUp.innerHTML='<div class="surge-note">'+pend+'</div>'; if(krDown) krDown.innerHTML=""; }
-  } catch(e){
-    if(krUp) krUp.innerHTML='<div class="surge-note">'+pend+'</div>'; if(krDown) krDown.innerHTML="";
-  }
+  // 한국: 스케줄러가 #krUp / #krDown 에 정적으로 채움(오전·오후). 여기선 건드리지 않음.
 }
 window.loadSurge = loadSurge;
 
