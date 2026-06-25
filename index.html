@@ -90,6 +90,11 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .chead[data-cardnew] h3::after{content:"N"; display:inline-block; margin-left:7px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:6px;}
 .sflow li[data-new]::after{content:"N"; display:inline-block; margin-left:6px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
 .secnew{display:inline-block; margin-left:8px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:5px;}
+.mstat{font-size:10.5px; font-weight:400; padding:2px 9px; border-radius:999px; white-space:nowrap; border:1px solid var(--hair2); background:transparent; color:var(--sec); margin-left:6px; flex:none;}
+.mstat.open{color:#D93B2B; border-color:#D93B2B;}
+.menubtn{position:relative;}
+.menubtn[data-new]::after{content:""; position:absolute; top:-1px; right:-1px; width:8px; height:8px; border-radius:50%; background:#e5484d; border:1.5px solid var(--bg);}
+.ddrow[data-new]::after{content:"N"; margin-left:auto; align-self:center; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 5px; border-radius:6px;}
 .morning-meta{font-size:11px; color:var(--sec); font-weight:400; margin:16px 0 10px;}
 .morning-meta b{color:var(--ink2);}
 .morning-list{margin:0 0 10px 2px; padding-left:18px;}
@@ -649,7 +654,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.59</div>
+    <div class="ver">V1.60</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1069,6 +1074,7 @@ function layoutMain(){
 function tick(){
   const open = marketOpen();
   layoutMain();
+  if(typeof updateMarketStatus==='function') updateMarketStatus();
   const badge = document.getElementById("mktBadge");
   const cd = document.getElementById("mktCountdown");
   if(open){
@@ -1165,13 +1171,34 @@ function initSectionFlags(secId, mkt){
   let seen=null; try{ seen=localStorage.getItem(key); }catch(e){}
   const firstTime = (seen===null || seen==='');
   if(!firstTime && iso>seen) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew');
-  const save=()=>{ try{ localStorage.setItem(key, iso); }catch(e){} };
-  if(firstTime) save();                                  // 최초: 조용히 기준만
-  else if(!sec.classList.contains('collapsed')) save();  // 펼쳐 보이는 중 → 다음 방문엔 사라짐
+  const save=()=>{ try{ localStorage.setItem(key, iso); }catch(e){} if(window.updateMenuFlags) updateMenuFlags(); };
+  const visible = sec.offsetParent!==null;                 // day 모드에서 숨김(모닝브리핑)이면 본 것으로 처리하지 않음
+  if(firstTime) save();
+  else if(visible && !sec.classList.contains('collapsed')) save();
   head.addEventListener('click', ()=>{ if(!sec.classList.contains('collapsed')) save(); });
 }
 initSectionFlags('sec-usnews','usnews');
 initSectionFlags('sec-rates','rates');
+// 국가 카드 장중/장마감 배지
+function marketStatusOpen(mkt){ return mkt==='us'?marketOpen():(mkt==='kr'?krOpen():(mkt==='cn'?cnOpen():false)); }
+function updateMarketStatus(){
+  [['sec-us','us'],['sec-kr','kr'],['sec-cn','cn']].forEach(function(p){
+    const sec=document.getElementById(p[0]); if(!sec) return; const head=sec.querySelector('.chead'); if(!head) return;
+    let b=head.querySelector('.mstat');
+    if(!b){ b=document.createElement('span'); b.className='mstat'; const nm=head.querySelector('.idxname'); const ref=nm?nm.nextSibling:(head.querySelector('.cidx')||head.querySelector('.sub')); head.insertBefore(b, ref); }
+    const open=marketStatusOpen(p[1]); b.classList.toggle('open', open); b.textContent = open?L('장중','Open'):L('장마감','Closed');
+  });
+}
+// ☰ 메뉴 N: 모닝브리핑·주요시세 미확인 시 해당 행 + 햄버거 버튼에 표시
+function updateMenuFlags(){
+  function unseen(mkt){ const el=document.querySelector('.upd[data-mkt="'+mkt+'"]'); if(!el||!el.dataset.iso) return false; let s=null; try{s=localStorage.getItem('gmd_seen_sec_'+mkt);}catch(e){} return s!==null && s!=='' && el.dataset.iso>s; }
+  const nb=unseen('usnews'), nr=unseen('rates');
+  const gb=document.getElementById('goBriefing'), gr=document.getElementById('goRates'), mb=document.getElementById('menuBtn');
+  if(gb){ nb?gb.setAttribute('data-new','1'):gb.removeAttribute('data-new'); }
+  if(gr){ nr?gr.setAttribute('data-new','1'):gr.removeAttribute('data-new'); }
+  if(mb){ (nb||nr)?mb.setAttribute('data-new','1'):mb.removeAttribute('data-new'); }
+}
+updateMarketStatus(); updateMenuFlags();
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
@@ -1259,6 +1286,8 @@ initSectionFlags('sec-rates','rates');
         if(head){ head.style.cursor='pointer'; head.addEventListener('click', ()=>{ clone.classList.toggle('collapsed'); const c=clone.querySelector('.caret'); if(c) c.textContent=clone.classList.contains('collapsed')?'+':'−'; }); }
       }
     }
+    try{ const u=src&&src.querySelector('.upd[data-mkt="usnews"]'); if(u&&u.dataset.iso) localStorage.setItem('gmd_seen_sec_usnews', u.dataset.iso); }catch(e){}
+    if(window.updateMenuFlags) updateMenuFlags();
     showView('brief');
   };
   const goComm = document.getElementById('goCommunity');
@@ -1273,6 +1302,8 @@ initSectionFlags('sec-rates','rates');
     const el = document.getElementById('sec-rates');
     if(!el) return;
     el.classList.remove('collapsed');
+    try{ const u=el.querySelector('.upd[data-mkt="rates"]'); if(u&&u.dataset.iso) localStorage.setItem('gmd_seen_sec_rates', u.dataset.iso); }catch(e){}
+    if(window.updateMenuFlags) updateMenuFlags();
     const nav = document.getElementById('topnav');
     const off = (nav ? nav.offsetHeight : 0) + 8;
     requestAnimationFrame(()=>{ const y = el.getBoundingClientRect().top + window.scrollY - off; window.scrollTo({ top:y, behavior:'smooth' }); });
