@@ -88,6 +88,8 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .ctab.active{color:var(--ink); border-bottom-color:var(--ink);}
 .ctab[data-new]::after{content:"N"; display:inline-block; margin-left:5px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
 .chead[data-cardnew] h3::after{content:"N"; display:inline-block; margin-left:7px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:6px;}
+.sflow li[data-new]::after{content:"N"; display:inline-block; margin-left:6px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
+.secnew{display:inline-block; margin-left:8px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:5px;}
 .morning-meta{font-size:11px; color:var(--sec); font-weight:400; margin:16px 0 10px;}
 .morning-meta b{color:var(--ink2);}
 .morning-list{margin:0 0 10px 2px; padding-left:18px;}
@@ -647,7 +649,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.57</div>
+    <div class="ver">V1.58</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1129,6 +1131,30 @@ setupCollapse();
   });
 })();
 initCardTabs(); // 접힘 상태 확정 후 탭 기본/배지 초기화
+// '오늘의 시장 흐름' 요약: 줄 내용이 바뀌면 해당 항목+섹션에 N, 펼쳐 본 뒤(다음 방문) 사라짐
+function initSummaryFlags(){
+  const sum=document.querySelector('.summary'); if(!sum) return;
+  const h2=sum.querySelector('h2'); const koUl=sum.querySelector('.sflow[data-lang="ko"]'), enUl=sum.querySelector('.sflow[data-lang="en"]');
+  if(!h2||!koUl) return;
+  const koLis=Array.from(koUl.children), enLis=enUl?Array.from(enUl.children):[];
+  const cur=koLis.map(li=>li.innerHTML.trim());
+  let prev=null; try{ prev=JSON.parse(localStorage.getItem('gmd_seen_summary')||'null'); }catch(e){}
+  const firstTime = !Array.isArray(prev) || prev.length===0;
+  let anyNew=false;
+  koLis.forEach((li,i)=>{
+    const changed = !firstTime && (prev[i]===undefined || prev[i]!==cur[i]);
+    if(changed){ li.setAttribute('data-new','1'); if(enLis[i]) enLis[i].setAttribute('data-new','1'); anyNew=true; }
+    else { li.removeAttribute('data-new'); if(enLis[i]) enLis[i].removeAttribute('data-new'); }
+  });
+  let badge=h2.querySelector('.secnew');
+  if(!badge){ badge=document.createElement('span'); badge.className='secnew'; badge.textContent='N'; const up=h2.querySelector('.summary-upd'); h2.insertBefore(badge, up||null); }
+  badge.style.display = anyNew ? '' : 'none';
+  const save=()=>{ try{ localStorage.setItem('gmd_seen_summary', JSON.stringify(cur)); }catch(e){} };
+  if(firstTime) save();                                   // 최초: 조용히 스냅샷(배지 없음)
+  else if(!sum.classList.contains('collapsed')) save();   // 이미 펼쳐 보이는 중 → 다음 방문엔 사라짐
+  h2.addEventListener('click', ()=>{ if(!sum.classList.contains('collapsed')) save(); }); // 펼쳐 보면 다음 방문에 사라짐
+}
+initSummaryFlags();
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
