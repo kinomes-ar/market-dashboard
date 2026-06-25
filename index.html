@@ -226,20 +226,21 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .menudd::before{content:""; position:absolute; inset:0; background:color-mix(in srgb, var(--ink) 42%, transparent);}
 .menupanel{position:absolute; top:0; bottom:0; left:0; width:min(440px,90vw); background:var(--bg); box-shadow:0 0 50px rgba(0,0,0,.3); display:flex; flex-direction:column; padding:24px 36px 30px; overflow-y:auto;}
 .menuhd{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
-.menulabel{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--sec);}
+.menulabel{font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--sec); font-weight:500;}
 .menuclose{display:inline-flex; align-items:center; gap:6px; background:var(--surf); border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--ink); cursor:pointer;}
 .menulist{display:flex; flex-direction:column; border-top:1px solid var(--hair);}
-.menulist .ddrow{display:flex; align-items:baseline; gap:14px; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--hair); color:var(--ink); font-size:30px; font-weight:600; letter-spacing:-.025em; line-height:1.15; padding:16px 2px; cursor:pointer;}
+.menulist .ddrow{display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--hair); color:var(--ink); font-size:30px; font-weight:600; letter-spacing:-.025em; line-height:1.15; padding:16px 2px; cursor:pointer;}
 .menulist .ddrow:hover .ddt{opacity:.5;}
 .menulist .ddnum{font-size:11px; font-weight:500; color:var(--ter); align-self:flex-start; margin-top:8px; min-width:18px;}
 .menulist .ddrow[data-new]::after{content:"N"; margin-left:auto; align-self:center; background:#e5484d; color:#fff; font-size:10px; font-weight:700; line-height:1; padding:3px 6px; border-radius:6px;}
-.menuutil{margin-top:auto; padding-top:26px;}
-.menuutil .utilrow{display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:15px; font-weight:400; padding:12px 2px; cursor:pointer;}
+.menuutil{padding-top:14px;}
+.menuutil .utilrow{display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink); font-size:26px; font-weight:600; letter-spacing:-.02em; padding:13px 2px; cursor:pointer;}
 .menuutil .utilrow:hover{opacity:.6;}
 .menuutil .utilsplit{display:flex; gap:16px; border-top:1px solid var(--hair); margin-top:6px;}
 .menuutil .utilsplit .half{width:50%;}
-.menuutil .ddi, .menuutil .tgi, .menuutil .lgi{flex:none; width:18px; display:inline-flex; align-items:center; justify-content:center;}
-@media (max-width:600px){ .menudd::before{display:none;} .menupanel{width:100%; right:0; padding:18px 22px 26px;} .menulist .ddrow{font-size:26px; padding:15px 2px;} }
+.menudd .ddi, .menudd .tgi, .menudd .lgi{flex:none; width:26px; display:inline-flex; align-items:center; justify-content:center;}
+.menudd .ddi svg, .menudd .tgi svg, .menudd .lgi svg{width:22px;height:22px;}
+@media (max-width:600px){ .menupanel{width:100%; right:0; bottom:auto; height:auto; max-height:100vh; padding:14px 20px 22px;} .menuhd{margin-bottom:18px;} .menulist .ddrow{font-size:23px; padding:13px 2px;} .menuutil .utilrow{font-size:23px; padding:12px 2px;} .menudd .ddi svg, .menudd .tgi svg, .menudd .lgi svg{width:20px;height:20px;} }
 .menudd.open{display:block;}
 
 #gmdToast{position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; box-shadow:0 6px 20px rgba(0,0,0,.2);}
@@ -347,7 +348,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><button class="menuclose" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span> <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div><nav class="menulist"><button class="ddrow" id="goBriefing"><span class="ddnum">01</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goRates"><span class="ddnum">02</span><span class="ddt">주요 시세</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goInstall"><span class="ddnum">05</span><span class="ddt">홈 화면에 추가</span></button></nav><div class="menuutil"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div></div></div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><button class="menuclose" id="menuClose" aria-label="닫기"><span data-lang="ko">닫기</span><span data-lang="en">Close</span> <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div><nav class="menulist"><button class="ddrow" id="goBriefing"><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goRates"><span class="ddt">주요 시세</span></button><button class="ddrow" id="goCalendar"><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goInstall"><span class="ddt">홈 화면에 추가</span></button><button class="ddrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button></nav><div class="menuutil"><div class="utilsplit"><button class="utilrow half" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow half" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div></div></div>
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
@@ -677,7 +678,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.99</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.00</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
