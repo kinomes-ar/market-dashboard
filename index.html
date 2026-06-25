@@ -60,7 +60,7 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .country{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; overflow:visible; }
 .chead{ padding:0 30px 0 0; border:0; display:flex; align-items:center; gap:10px; position:relative; }
 .flag{font-size:20px;}
-.chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
+.chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); flex:none; white-space:nowrap;}
 .chead .sub{font-size:11px; color:var(--sec); margin-left:auto; font-weight:400; text-align:right; line-height:1.55;}
 .chead .sub b{color:var(--ink2); font-weight:500;}
 
@@ -89,7 +89,7 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .ctab{font-size:13.5px; font-weight:400; padding:0 0 8px; border:0; background:transparent; color:var(--sec); cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px;}
 .ctab.active{color:var(--ink); border-bottom-color:var(--ink);}
 .ctab[data-new]::after{content:"N"; display:inline-block; margin-left:5px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
-.chead[data-cardnew] h3::after{content:"N"; display:inline-block; margin-left:7px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:6px;}
+.chead[data-cardnew] h3::after{content:"N"; display:inline-block; margin-left:6px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:middle;}
 .sflow li[data-new]::after{content:"N"; display:inline-block; margin-left:6px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:2px;}
 .secnew{display:inline-block; margin-left:8px; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 4px; border-radius:6px; vertical-align:5px;}
 .mstat{font-size:10.5px; font-weight:400; padding:2px 9px; border-radius:999px; white-space:nowrap; border:1px solid var(--hair2); background:transparent; color:var(--sec); margin-left:6px; flex:none;}
@@ -282,12 +282,13 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   html:not([data-theme="light"]) .topnav .brandlogo .logo-mark.logo-d{display:block;}
 }
 @media (max-width:600px){ body{padding-top:44px;} }
+@media (max-width:600px){ .country.collapsed > .chead .idxname{display:none;} }
 .cidx{display:none; align-items:baseline; gap:10px; margin-left:auto;}
 .collapsed > .chead .cidx{display:flex;}
 .collapsed > .chead .sub{display:none;}
 .cidx .cidx-v{font-size:18px; color:var(--ink); letter-spacing:-.01em;}
 .cidx .cidx-c{font-size:13px;}
-.idxname{font-size:14px; color:var(--ter); font-weight:400; letter-spacing:0;}
+.idxname{font-size:14px; color:var(--ter); font-weight:400; letter-spacing:0; white-space:nowrap;}
 .newslist{margin:0; padding-left:24px;}
 .newslist li{font-size:15px; line-height:1.6; color:var(--ink2); margin-bottom:11px; padding-left:2px;}
 .newslist li:last-child{margin-bottom:0;}
@@ -661,7 +662,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.78</div>
+    <div class="ver">V1.79</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
