@@ -337,6 +337,10 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .newslist .down{color:var(--down); font-weight:600;}
 .news-note{list-style:none; margin-left:-24px; color:var(--ter); font-size:13px;}
 .surge-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:14px;}
+.surgetabs{display:inline-flex; border:1px solid var(--hair2); border-radius:999px; padding:3px; margin:0 0 6px;}
+.surgetab{background:transparent; border:0; border-radius:999px; padding:7px 16px; font-size:13px; font-weight:400; color:var(--sec); cursor:pointer;}
+.surgetab.active{background:var(--ink); color:var(--bg);}
+.surge-empty{font-size:13px; color:var(--sec); padding:10px 2px;}
 .surge-col{min-width:0;}
 .surge-h{font-size:13px; font-weight:600; letter-spacing:.04em; padding:0 0 8px; border-bottom:1px solid var(--hair2); margin-bottom:2px;}
 .surge-h.up{color:var(--up);}
@@ -665,6 +669,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div id="surgeView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
+    <div class="surgetabs"><button class="surgetab" data-mode="major"><span data-lang="ko">주요주</span><span data-lang="en">Key</span></button><button class="surgetab" data-mode="large"><span data-lang="ko">대형주</span><span data-lang="en">Large cap</span></button></div>
     <section class="live spy" id="sec-krsurge">
       <div class="chead"><h3>한국 · Korea</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="krsurge" data-iso="2026-06-25T06:47:54Z">—</b> · <span class="tzname">현지</span></span></div>
       <div class="surge-grid">
@@ -687,7 +692,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.04</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.05</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -922,7 +927,30 @@ function renderSurgeList(elId, items, fmtPx, tkField, subField){
   });
   el.innerHTML=h;
 }
-function loadSurge(){ /* 급상승 페이지: 한국·미국 모두 스케줄러가 정적으로 채움(하루 2회). 클라이언트는 fetch 안 함 */ }
+function loadSurge(){ /* 스케줄러가 후보 베이크, 클라이언트는 필터만 */ }
+var US_LARGE = (typeof INDEX_SYMBOLS!=='undefined') ? new Set([].concat(INDEX_SYMBOLS.sp500||[], INDEX_SYMBOLS.ndx||[])) : new Set();
+function surgeMode(){ try{ return localStorage.getItem('gmd_surgemode')||'major'; }catch(e){ return 'major'; } }
+function applySurgeFilter(){
+  var mode=surgeMode();
+  [['usUp','us'],['usDown','us'],['krUp','kr'],['krDown','kr']].forEach(function(p){
+    var box=document.getElementById(p[0]); if(!box) return;
+    var rows=Array.prototype.slice.call(box.querySelectorAll('.surge-row')); var shown=0;
+    rows.forEach(function(r){
+      var tk=((r.querySelector('.tk')||{}).textContent||'').trim();
+      var price=parseFloat((((r.querySelector('.px')||{}).textContent)||'').replace(/[^0-9.]/g,''))||0;
+      var ok;
+      if(mode==='large'){ ok = (p[1]==='us') ? US_LARGE.has(tk) : (price>=50000); }
+      else { ok = (p[1]==='us') ? (price>=5) : (price>=1000); }
+      if(ok && shown<10){ r.style.display=''; shown++; var rk=r.querySelector('.rk'); if(rk) rk.textContent=shown; }
+      else { r.style.display='none'; }
+    });
+    var note=box.querySelector('.surge-empty');
+    if(shown===0){ if(!note){ note=document.createElement('div'); note.className='surge-empty'; box.appendChild(note);} note.textContent=(document.documentElement.getAttribute('data-ui-lang')==='en')?'No matching stocks':'이 조건에 맞는 종목이 없어요'; note.style.display=''; }
+    else if(note){ note.style.display='none'; }
+  });
+  var tabs=document.querySelectorAll('.surgetab'); for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('active', tabs[i].dataset.mode===mode); }
+}
+document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ try{ localStorage.setItem('gmd_surgemode', b.dataset.mode); }catch(err){} applySurgeFilter(); } });
 window.loadSurge = loadSurge;
 
 const REDDIT = [
@@ -1379,7 +1407,7 @@ initSurgeFlags();
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
-  window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); showView('surge'); };
+  window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); if(typeof applySurgeFilter==='function') applySurgeFilter(); showView('surge'); };
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
