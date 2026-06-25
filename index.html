@@ -649,7 +649,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.58</div>
+    <div class="ver">V1.59</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1155,6 +1155,23 @@ function initSummaryFlags(){
   h2.addEventListener('click', ()=>{ if(!sum.classList.contains('collapsed')) save(); }); // 펼쳐 보면 다음 방문에 사라짐
 }
 initSummaryFlags();
+// 타임스탬프 기반 섹션 N(모닝 브리핑·주요 시세) — 데이터 갱신시 N, 펼쳐 본 뒤 사라짐. 실시간 미국 주식은 제외.
+function initSectionFlags(secId, mkt){
+  const sec=document.getElementById(secId); if(!sec) return;
+  const head=sec.querySelector('.chead'), updEl=sec.querySelector('.upd[data-mkt="'+mkt+'"]');
+  if(!head||!updEl) return;
+  const iso=updEl.dataset.iso||''; if(!iso) return;
+  const key='gmd_seen_sec_'+mkt;
+  let seen=null; try{ seen=localStorage.getItem(key); }catch(e){}
+  const firstTime = (seen===null || seen==='');
+  if(!firstTime && iso>seen) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew');
+  const save=()=>{ try{ localStorage.setItem(key, iso); }catch(e){} };
+  if(firstTime) save();                                  // 최초: 조용히 기준만
+  else if(!sec.classList.contains('collapsed')) save();  // 펼쳐 보이는 중 → 다음 방문엔 사라짐
+  head.addEventListener('click', ()=>{ if(!sec.classList.contains('collapsed')) save(); });
+}
+initSectionFlags('sec-usnews','usnews');
+initSectionFlags('sec-rates','rates');
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
