@@ -228,7 +228,10 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 #gmdToast{position:fixed; left:50%; bottom:34px; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); font-size:13px; font-weight:500; padding:10px 18px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; box-shadow:0 6px 20px rgba(0,0,0,.2);}
 #gmdToast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 .menudd .ddrow:hover{background:var(--surf);}
-.menudd .ddrow .tgi, .menudd .ddrow .lgi{margin-left:auto;}
+.menudd .ddrow .tgi, .menudd .ddrow .lgi{margin-left:auto; display:inline-flex; align-items:center; color:var(--ink2);}
+.backDash{display:inline-flex; align-items:center; gap:6px;}
+.bicon{flex:none;}
+.iguide-ic{vertical-align:-2px; margin:0 1px;}
 .menudd .ddsep{height:1px; background:var(--hair2); margin:5px 4px;}
 .menudd .ddlabel{font-size:11px; font-weight:400; color:var(--sec); padding:6px 11px 3px;}
 .cback{margin:4px 0 20px;}
@@ -334,8 +337,8 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
       <button class="ddrow" id="goInstall">홈 화면에 추가</button>
       <button class="ddrow" id="goShare">공유하기</button>
       <div class="ddsep"></div>
-      <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi">🌙</span></button>
-      <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi">🇬🇧</span></button>
+      <button class="ddrow" id="themeToggle"><span class="tgt">라이트 모드</span><span class="tgi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 9.3A5.2 5.2 0 1 1 6.7 2.8 4.2 4.2 0 0 0 13.2 9.3Z"/></svg></span></button>
+      <button class="ddrow" id="langToggle"><span class="lgt">English</span><span class="lgi"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6.1"/><path d="M2 8h12M8 1.9c2 2 2 10.2 0 12.2M8 1.9c-2 2-2 10.2 0 12.2"/></svg></span></button>
     </div>
   </div>
   <div class="links">
@@ -572,7 +575,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     </div>
     <div class="asof-live" id="moversAsof"><span data-lang="ko">데이터를 불러오는 중…</span><span data-lang="en">Loading data…</span></div>
     <div id="moversBody">
-      <div class="status" id="moversStatus"><span data-lang="ko">⏳ 실시간 시세를 불러오는 중입니다…</span><span data-lang="en">⏳ Loading live quotes…</span></div>
+      <div class="status" id="moversStatus"><span data-lang="ko">실시간 시세를 불러오는 중입니다…</span><span data-lang="en">Loading live quotes…</span></div>
     </div>
   </section>
 
@@ -597,7 +600,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div><!-- /dashboardView -->
 
   <div id="communityView" style="display:none">
-    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin: 4px 0 16px"><span data-lang="ko">커뮤니티</span><span data-lang="en">Community</span></h1>
   <!-- REDDIT -->
   <section class="live spy" id="sec-reddit">
@@ -612,7 +615,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div><!-- /communityView -->
 
   <div id="calendarView" style="display:none">
-    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin: 4px 0 16px"><span data-lang="ko">경제 캘린더</span><span data-lang="en">Economic Calendar</span></h1>
     <section class="country">
       <div class="chead"><h3><span data-lang="ko">이번 주 주요 일정</span><span data-lang="en">This Week's Key Events</span></h3><div class="sub" id="calAsof"><span data-lang="ko">현지 시간 기준 · 갱신 6/25</span><span data-lang="en">Local time · updated 6/25</span></div></div>
@@ -642,7 +645,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div>
 
   <div id="surgeView" style="display:none">
-    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
     <section class="live spy" id="sec-krsurge">
       <div class="chead"><h3>한국 · Korea</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="krsurge" data-iso="2026-06-25T06:47:54Z">—</b> · <span class="tzname">현지</span></span></div>
@@ -662,11 +665,11 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   </div>
 
   <div id="briefingView" style="display:none">
-    <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.93</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V1.94</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -675,20 +678,20 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
       <div class="installt"><span data-lang="ko">홈 화면에 추가</span><span data-lang="en">Add to Home Screen</span></div>
       <div id="installIos">
         <div data-lang="ko"><b>아이폰 / 아이패드 (Safari)</b>
-          <ol><li>화면 하단의 <b>공유</b> 버튼 <b>⬆️</b> 을 누르세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li><li><b>추가</b> 를 누르면 완료!</li></ol>
+          <ol><li>화면 하단의 <b>공유</b> 버튼 <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2.6M5.4 5.2 8 2.6l2.6 2.6M4 8.4v4.6h8V8.4"/></svg> 을 누르세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li><li><b>추가</b> 를 누르면 완료!</li></ol>
           <div class="note">※ Safari에서만 됩니다 (크롬·카카오톡 등 인앱 브라우저는 불가)</div>
         </div>
         <div data-lang="en"><b>iPhone / iPad (Safari)</b>
-          <ol><li>Tap the <b>Share</b> button <b>⬆️</b> at the bottom</li><li>Choose <b>'Add to Home Screen'</b></li><li>Tap <b>Add</b> — done!</li></ol>
+          <ol><li>Tap the <b>Share</b> button <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2.6M5.4 5.2 8 2.6l2.6 2.6M4 8.4v4.6h8V8.4"/></svg> at the bottom</li><li>Choose <b>'Add to Home Screen'</b></li><li>Tap <b>Add</b> — done!</li></ol>
           <div class="note">※ Works in Safari only (not in Chrome or in-app browsers)</div>
         </div>
       </div>
       <div id="installGen" style="display:none">
         <div data-lang="ko"><b>안드로이드 / 데스크톱</b>
-          <ol><li>브라우저 메뉴 <b>⋮</b> 를 여세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li></ol>
+          <ol><li>브라우저 메뉴 <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.2" r="1.25"/><circle cx="8" cy="8" r="1.25"/><circle cx="8" cy="12.8" r="1.25"/></svg> 를 여세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li></ol>
         </div>
         <div data-lang="en"><b>Android / Desktop</b>
-          <ol><li>Open the browser menu <b>⋮</b></li><li>Choose <b>'Add to Home screen'</b></li></ol>
+          <ol><li>Open the browser menu <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.2" r="1.25"/><circle cx="8" cy="8" r="1.25"/><circle cx="8" cy="12.8" r="1.25"/></svg></li><li>Choose <b>'Add to Home screen'</b></li></ol>
         </div>
       </div>
     </div>
@@ -1323,7 +1326,7 @@ initSurgeFlags();
     const light = root.getAttribute('data-theme')==='light';
     const ic = tgBtn && tgBtn.querySelector('.tgi');
     const tx = tgBtn && tgBtn.querySelector('.tgt');
-    if(ic) ic.textContent = light ? '🌙' : '☀️';
+    if(ic) ic.innerHTML = light ? "<svg width=\"15\" height=\"15\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M13.2 9.3A5.2 5.2 0 1 1 6.7 2.8 4.2 4.2 0 0 0 13.2 9.3Z\"/></svg>" : "<svg width=\"15\" height=\"15\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"3\"/><path d=\"M8 1.4v1.4M8 13.2v1.4M1.4 8h1.4M13.2 8h1.4M3.3 3.3l1 1M11.7 11.7l1 1M12.7 3.3l-1 1M4.3 11.7l-1 1\"/></svg>";
     if(tx) tx.textContent = light ? '다크 모드' : '라이트 모드';
   }
   syncTheme();
@@ -1422,7 +1425,7 @@ initSurgeFlags();
     ['Index','Sort'].forEach((en,i)=> swap(labs[i], en));
     const lgt = btn.querySelector('.lgt'), lgi = btn.querySelector('.lgi');
     if(lgt) lgt.textContent = isEN ? '한국어' : 'English';
-    if(lgi) lgi.textContent = isEN ? '🇰🇷' : '🇬🇧';
+    if(lgi) lgi.innerHTML = "<svg width=\"15\" height=\"15\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.1\"/><path d=\"M2 8h12M8 1.9c2 2 2 10.2 0 12.2M8 1.9c-2 2-2 10.2 0 12.2\"/></svg>";
     document.documentElement.lang = isEN ? 'en' : 'ko';
     document.documentElement.setAttribute('data-ui-lang', isEN ? 'en' : 'ko');
     if(typeof relocalizeDynamic==='function') relocalizeDynamic();
