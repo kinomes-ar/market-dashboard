@@ -282,7 +282,6 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
     <div class="menudd" id="menuDD">
-      <button class="ddrow" id="goSurge">급상승</button>
       <button class="ddrow" id="goRates">주요 시세</button>
       <button class="ddrow" id="goCalendar">경제 캘린더</button>
       <button class="ddrow" id="goCommunity">커뮤니티</button>
@@ -297,7 +296,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
     <a href="#sec-cn">중국</a>
-    <a href="#sec-live">실시간</a>
+    <a href="#surge" data-surge="1">급상승</a>
   </div>
   
   <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="새로고침" aria-label="Market Daily — 새로고침">
@@ -612,7 +611,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.30</div>
+    <div class="ver">V1.31</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1070,9 +1069,10 @@ setupCollapse();
   onScroll();
   links.forEach(a=> a.addEventListener('click', e=>{
     e.preventDefault();
+    if(a.dataset.surge){ if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); return; }
     const el = document.getElementById(a.getAttribute('href').slice(1));
     if(!el) return;
-    if(window.showDashboard) showDashboard(); // 커뮤니티 뷰였다면 대시보드로 복귀
+    if(window.showDashboard) showDashboard(); // 다른 뷰였다면 대시보드로 복귀
     el.classList.remove('collapsed'); // 이동 시 펼쳐서 보여주기
     const y = el.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
     window.scrollTo({ top: y, behavior: 'smooth' });
@@ -1135,8 +1135,6 @@ setupCollapse();
     const off = (nav ? nav.offsetHeight : 0) + 8;
     requestAnimationFrame(()=>{ const y = el.getBoundingClientRect().top + window.scrollY - off; window.scrollTo({ top:y, behavior:'smooth' }); });
   });
-  const goSurge = document.getElementById('goSurge');
-  if(goSurge) goSurge.addEventListener('click', ()=>{ closeMenu(); showSurge(); if(window.loadSurge) loadSurge(); });
   document.querySelectorAll('.backDash').forEach(b=> b.addEventListener('click', e=>{ e.preventDefault(); showDashboard(); }));
 })();
 
@@ -1150,8 +1148,8 @@ setupCollapse();
   const SINGLE = [
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'], ['.topnav a[href="#sec-cn"]','China'],
-    ['.topnav a[href="#sec-live"]','Live'],
-    ['#goSurge','Top Movers'], ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
+    ['.topnav a[data-surge]','Top Movers'],
+    ['#goRates','Rates'], ['#goCalendar','Economic Calendar'], ['#goCommunity','Community'], ['#goInstall','Add to Home Screen'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
