@@ -94,6 +94,7 @@ ul.sflow .down{color:var(--down); font-weight:600;}
 .mstat.open{color:#D93B2B; border-color:#D93B2B;}
 .menubtn{position:relative;}
 .menubtn[data-new]::after{content:""; position:absolute; top:-1px; right:-1px; width:8px; height:8px; border-radius:50%; background:#e5484d; border:1.5px solid var(--bg);}
+.topnav a[data-new]::after{content:"N"; font-size:8px; line-height:1; color:#fff; background:#e5484d; border-radius:5px; padding:1px 3px; margin-left:3px; vertical-align:super; font-weight:700;}
 .ddrow[data-new]::after{content:"N"; margin-left:auto; align-self:center; background:#e5484d; color:#fff; font-size:9px; font-weight:700; line-height:1; padding:2px 5px; border-radius:6px;}
 .morning-meta{font-size:11px; color:var(--sec); font-weight:400; margin:16px 0 10px;}
 .morning-meta b{color:var(--ink2);}
@@ -629,14 +630,14 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <div id="surgeView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><span data-lang="ko">← 대시보드로</span><span data-lang="en">← Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
-    <section class="live spy">
+    <section class="live spy" id="sec-krsurge">
       <div class="chead"><h3>한국 · Korea</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="krsurge" data-iso="2026-06-25T06:47:54Z">—</b> · <span class="tzname">현지</span></span></div>
       <div class="surge-grid">
         <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="krUp"><!--KRUP--><div class="surge-row"><div class="rk">1</div><div class="nm"><span class="tk">금호전기</span><span class="sub2">001210</span></div><div class="px">₩650</div><div class="pct up">+30.00%</div></div><div class="surge-row"><div class="rk">2</div><div class="nm"><span class="tk">앱튼</span><span class="sub2">270520</span></div><div class="px">₩988</div><div class="pct up">+30.00%</div></div><div class="surge-row"><div class="rk">3</div><div class="nm"><span class="tk">삼기에너지솔루션즈</span><span class="sub2">419050</span></div><div class="px">₩1,887</div><div class="pct up">+29.96%</div></div><div class="surge-row"><div class="rk">4</div><div class="nm"><span class="tk">오에스피</span><span class="sub2">368970</span></div><div class="px">₩2,200</div><div class="pct up">+29.95%</div></div><div class="surge-row"><div class="rk">5</div><div class="nm"><span class="tk">파루</span><span class="sub2">043200</span></div><div class="px">₩842</div><div class="pct up">+29.94%</div></div><div class="surge-row"><div class="rk">6</div><div class="nm"><span class="tk">SK이터닉스</span><span class="sub2">475150</span></div><div class="px">₩49,050</div><div class="pct up">+29.93%</div></div><div class="surge-row"><div class="rk">7</div><div class="nm"><span class="tk">삼기</span><span class="sub2">122350</span></div><div class="px">₩1,411</div><div class="pct up">+29.93%</div></div><div class="surge-row"><div class="rk">8</div><div class="nm"><span class="tk">뉴인텍</span><span class="sub2">012340</span></div><div class="px">₩1,116</div><div class="pct up">+29.92%</div></div><div class="surge-row"><div class="rk">9</div><div class="nm"><span class="tk">다스코</span><span class="sub2">058730</span></div><div class="px">₩4,105</div><div class="pct up">+29.91%</div></div><div class="surge-row"><div class="rk">10</div><div class="nm"><span class="tk">세미티에스</span><span class="sub2">0017J0</span></div><div class="px">₩4,890</div><div class="pct up">+29.88%</div></div><!--/KRUP--></div></div>
         <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="krDown"><!--KRDOWN--><div class="surge-row"><div class="rk">1</div><div class="nm"><span class="tk">보해양조</span><span class="sub2">000890</span></div><div class="px">₩2,765</div><div class="pct down">-30.00%</div></div><div class="surge-row"><div class="rk">2</div><div class="nm"><span class="tk">썸에이지</span><span class="sub2">208640</span></div><div class="px">₩854</div><div class="pct down">-30.00%</div></div><div class="surge-row"><div class="rk">3</div><div class="nm"><span class="tk">샤페론</span><span class="sub2">378800</span></div><div class="px">₩759</div><div class="pct down">-29.98%</div></div><div class="surge-row"><div class="rk">4</div><div class="nm"><span class="tk">지니틱스</span><span class="sub2">303030</span></div><div class="px">₩1,259</div><div class="pct down">-29.98%</div></div><div class="surge-row"><div class="rk">5</div><div class="nm"><span class="tk">서산</span><span class="sub2">079650</span></div><div class="px">₩5,690</div><div class="pct down">-29.93%</div></div><div class="surge-row"><div class="rk">6</div><div class="nm"><span class="tk">비비안</span><span class="sub2">002070</span></div><div class="px">₩7,800</div><div class="pct down">-29.92%</div></div><div class="surge-row"><div class="rk">7</div><div class="nm"><span class="tk">진흥기업우B</span><span class="sub2">002785</span></div><div class="px">₩2,450</div><div class="pct down">-29.90%</div></div><div class="surge-row"><div class="rk">8</div><div class="nm"><span class="tk">아이티아이즈</span><span class="sub2">372800</span></div><div class="px">₩1,980</div><div class="pct down">-29.66%</div></div><div class="surge-row"><div class="rk">9</div><div class="nm"><span class="tk">강동씨앤엘</span><span class="sub2">198440</span></div><div class="px">₩1,535</div><div class="pct down">-29.10%</div></div><div class="surge-row"><div class="rk">10</div><div class="nm"><span class="tk">SHD</span><span class="sub2">001770</span></div><div class="px">₩6,050</div><div class="pct down">-28.74%</div></div><!--/KRDOWN--></div></div>
       </div>
     </section>
-    <section class="live spy">
+    <section class="live spy" id="sec-ussurge">
       <div class="chead"><h3>미국 · USA</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="ussurge" data-iso="">—</b> · <span class="tzname">현지</span></span></div>
       <div class="surge-grid">
         <div class="surge-col"><div class="surge-h up"><span data-lang="ko">급상승 TOP 10</span><span data-lang="en">Top Gainers</span></div><div id="usUp"><!--USUP--><div class="surge-note"><span data-lang="ko">장중·마감 2회 갱신 예정</span><span data-lang="en">Updates twice per session</span></div><!--/USUP--></div></div>
@@ -655,7 +656,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.70</div>
+    <div class="ver">V1.71</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1097,6 +1098,7 @@ function tick(){
   const open = marketOpen();
   layoutMain();
   if(typeof updateMarketStatus==='function') updateMarketStatus();
+  { const sv=document.getElementById("surgeView"); if(sv && sv.style.display!=="none" && typeof layoutSurge==="function") layoutSurge(); }
   const badge = document.getElementById("mktBadge");
   const headcd = document.getElementById("mktHeadCd");
   if(open){
@@ -1222,6 +1224,37 @@ function updateMenuFlags(){
   if(mb){ (nb||nr)?mb.setAttribute('data-new','1'):mb.removeAttribute('data-new'); }
 }
 updateMarketStatus(); updateMenuFlags();
+// ===== 급상승 페이지: 장중 시장 위로 + 변경 시 N =====
+function layoutSurge(){
+  const v=document.getElementById('surgeView'); if(!v) return;
+  const kr=document.getElementById('sec-krsurge'), us=document.getElementById('sec-ussurge'); if(!kr||!us) return;
+  const cards=[{n:kr,o:krOpen(),sc:minsSinceClose("Asia/Seoul",930)},{n:us,o:marketOpen(),sc:minsSinceClose("America/New_York",960)}];
+  cards.sort((a,b)=> ((b.o?1:0)-(a.o?1:0)) || (a.sc-b.sc));
+  const order=cards.map(c=>c.n), asof=v.querySelector('.asof-live');
+  if(order[0].nextElementSibling===order[1]) return;
+  order.forEach(n=> v.insertBefore(n, asof));
+}
+function surgeIso(mkt){ const el=document.querySelector('.upd[data-mkt="'+mkt+'"]'); return (el && el.dataset.iso) || ''; }
+function surgeSeen(mkt){ try{ return localStorage.getItem('gmd_seen_sec_'+mkt)||''; }catch(e){ return ''; } }
+function surgeUnseen(mkt){ const iso=surgeIso(mkt), s=surgeSeen(mkt); return !!(iso && s && iso>s); }
+function updateSurgeFlags(){
+  [['sec-krsurge','krsurge'],['sec-ussurge','ussurge']].forEach(function(p){
+    const sec=document.getElementById(p[0]); if(!sec) return; const head=sec.querySelector('.chead'); if(!head) return;
+    surgeUnseen(p[1]) ? head.setAttribute('data-cardnew','1') : head.removeAttribute('data-cardnew');
+  });
+  const nav=document.querySelector('.topnav a[data-surge]');
+  if(nav){ (surgeUnseen('krsurge')||surgeUnseen('ussurge')) ? nav.setAttribute('data-new','1') : nav.removeAttribute('data-new'); }
+}
+function markSurgeSeen(mkt){ const iso=surgeIso(mkt); if(iso){ try{ localStorage.setItem('gmd_seen_sec_'+mkt, iso); }catch(e){} } updateSurgeFlags(); }
+function initSurgeFlags(){
+  ['krsurge','ussurge'].forEach(function(mkt){ if(!surgeSeen(mkt)){ const iso=surgeIso(mkt); if(iso){ try{ localStorage.setItem('gmd_seen_sec_'+mkt, iso); }catch(e){} } } });
+  [['sec-krsurge','krsurge'],['sec-ussurge','ussurge']].forEach(function(p){
+    const sec=document.getElementById(p[0]); const head=sec&&sec.querySelector('.chead');
+    if(head) head.addEventListener('click', function(){ if(!sec.classList.contains('collapsed')) markSurgeSeen(p[1]); });
+  });
+  updateSurgeFlags();
+}
+initSurgeFlags();
 
 // 상단 네비게이션 — 스크롤 내릴 때만 표시 + 부드러운 이동 + 현재 위치 강조
 (function setupNav(){
@@ -1296,7 +1329,7 @@ updateMarketStatus(); updateMenuFlags();
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
-  window.showSurge     = ()=> showView('surge');
+  window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); showView('surge'); };
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
