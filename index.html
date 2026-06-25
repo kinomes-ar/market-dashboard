@@ -654,7 +654,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.60</div>
+    <div class="ver">V1.61</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1078,13 +1078,13 @@ function tick(){
   const badge = document.getElementById("mktBadge");
   const cd = document.getElementById("mktCountdown");
   if(open){
-    badge.className = "badge open"; badge.textContent = L("미국 장중","US market open");
+    badge.className = "badge open"; badge.textContent = L("장중","Open");
     if(nextUpdateTs===0) nextUpdateTs = Date.now()+REFRESH_MS;
     const left = nextUpdateTs - Date.now();
     if(left<=0 && !loading){ cd.innerHTML = L("다음 업데이트까지 <b>갱신 중…</b>","Next update <b>refreshing…</b>"); loadMovers().then(()=>{ nextUpdateTs = Date.now()+REFRESH_MS; }); }
     else cd.innerHTML = L("다음 업데이트까지 <b>"+fmtHMS(left)+"</b>","Next update <b>"+fmtHMS(left)+"</b>");
   } else {
-    badge.className = "badge closed"; badge.textContent = L("미국 장마감","US market closed");
+    badge.className = "badge closed"; badge.textContent = L("장마감","Closed");
     nextUpdateTs = 0;
     cd.innerHTML = L("다음 장 시작까지 <b>"+fmtHMS(msToOpen())+"</b> · 데이터는 마지막 종가 기준","Opens in <b>"+fmtHMS(msToOpen())+"</b> · data at last close");
   }
