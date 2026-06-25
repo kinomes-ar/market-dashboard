@@ -41,6 +41,8 @@ h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; col
 .asof{font-size:13px; color:var(--sec);}
 
 .summary{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:24px 0; margin:24px 0 0; }
+.summary-upd{font-size:11.5px; color:var(--sec); margin:-6px 0 16px;}
+.summary-upd b{color:var(--ink2); font-weight:600;}
 .summary h2{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:8px; position:relative; padding-right:30px;}
 .summary p{font-size:17px; line-height:1.75; color:var(--ink2);}
 .summary .flow{margin-top:16px; display:flex; flex-wrap:wrap; gap:7px;}
@@ -321,6 +323,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
     <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span></h2>
+    <div class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-24T21:34:43Z">—</b> · <span class="tzname">현지</span></div>
     <p data-lang="ko">
       <b>'마이크론 쇼크'가 공포를 뒤집었다.</b> 화요일 반도체 폭락(코스피 -10%·나스닥 -2.1%)으로 'AI 거품' 공포가 정점을 찍은 뒤, 시장은 이틀에 걸쳐 진정됐다. <b>한국</b>은 하루 만에 <b>코스피 +3.37% V자 반등</b>(삼성 자사주 기대), <b>중국</b>은 본토(선전 +0.94%) 강세·홍콩 약세로 디커플링.
       <b>미국</b>은 6/24 <b>약보합 마감</b>(S&P -0.10%·나스닥 -0.43%·다우 +0.35%)으로 폭락을 멈췄고, 결정타는 마감 후였다 — <b>마이크론이 매출 약 $41.5B·EPS $25.11</b>로 컨센($20.6)을 압도하고 <b>Q4 매출 $50B 가이드</b>를 제시하며 시간외 한때 +16%까지 치솟았다. 'HBM 슈퍼사이클은 끝났다'던 BofA발 공포를 실적으로 정면 반박.
@@ -611,7 +614,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.31</div>
+    <div class="ver">V1.32</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
