@@ -654,7 +654,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.63</div>
+    <div class="ver">V1.64</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
@@ -1060,12 +1060,14 @@ function layoutMain(){
     {n:cn,o:cnOpen(), p:1, sc:minsSinceClose("Asia/Shanghai",900)} ];
   cards.sort((a,b)=> ((b.o?1:0)-(a.o?1:0)) || (a.o ? (a.p-b.p) : (a.sc-b.sc)) );
   const order=cards.map(c=>c.n);
-  const h=new Date().getHours();
+  const d=new Date(); const h=d.getHours(); const wknd=(d.getDay()===0||d.getDay()===6);
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
+  if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
+  const sumArr = wknd ? [] : [summary];
   let seq;
-  if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat([summary],order,[rates,live]); }
+  if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); }
   else { if(usnews) usnews.style.display='none';
-    seq = (mode==='usopen') ? [summary,live].concat(order,[rates]) : [summary].concat(order,[rates,live]); }
+    seq = (mode==='usopen') ? sumArr.concat([live],order,[rates]) : sumArr.concat(order,[rates,live]); }
   const cur=Array.from(dash.children).filter(c=>seq.indexOf(c)>=0);
   const same = cur.length===seq.length && cur.every((c,i)=>c===seq[i]);
   if(!same) seq.forEach(n=> dash.appendChild(n));
