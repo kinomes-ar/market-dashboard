@@ -47,7 +47,8 @@ ul.sflow li:last-child{margin-bottom:0;}
 ul.sflow b{color:var(--ink); font-weight:600;}
 ul.sflow .up{color:var(--up); font-weight:600;}
 ul.sflow .down{color:var(--down); font-weight:600;}
-.summary-upd{font-size:11.5px; color:var(--sec); margin:-6px 0 16px;}
+.summary-upd{font-size:11.5px; color:var(--sec); font-weight:400; margin-left:auto; white-space:nowrap;}
+.summary.collapsed .summary-upd{display:none;}
 .summary-upd b{color:var(--ink2); font-weight:600;}
 .summary h2{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); margin-bottom:14px; display:flex; align-items:center; gap:8px; position:relative; padding-right:30px;}
 .summary p{font-size:17px; line-height:1.75; color:var(--ink2);}
@@ -327,8 +328,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
-    <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span></h2>
-    <div class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-24T21:34:43Z">—</b> · <span class="tzname">현지</span></div>
+    <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span><span class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-24T21:34:43Z">—</b> · <span class="tzname">현지</span></span></h2>
     <ul class="sflow" data-lang="ko">
       <li><b>'마이크론 쇼크'가 공포를 뒤집었다.</b> 화요일 반도체 폭락(코스피 <span class="down">-10%</span>·나스닥 <span class="down">-2.1%</span>)으로 'AI 거품' 공포가 정점을 찍은 뒤 이틀에 걸쳐 진정.</li>
       <li><b>한국</b> — 하루 만에 코스피 <span class="up">+3.37%</span> V자 반등(삼성 자사주 매입 기대).</li>
@@ -623,7 +623,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <span data-lang="ko">데이터는 직전 거래일 종가 및 공개 뉴스 기준이며 투자 자문이 아닙니다. 투자 판단과 책임은 본인에게 있습니다.</span><span data-lang="en">Data reflects the prior session close and public news; this is not investment advice. You are responsible for your own decisions.</span>
     <div class="src"><span data-lang="ko">출처: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · 하나은행 · 삼일PwC · Trading Economics · FMP</span><span data-lang="en">Sources: TheStreet · CNBC · Yahoo Finance · Bloomberg · SCMP · Investing.com · BusinessKorea · Hana Bank · Samil PwC · Trading Economics · FMP</span></div>
     <div class="credit">Curated by Lim &amp; Kim</div>
-    <div class="ver">V1.33</div>
+    <div class="ver">V1.34</div>
   </footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
