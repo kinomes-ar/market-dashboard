@@ -342,6 +342,12 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .surgetab.active{background:var(--ink); color:var(--bg);}
 .surge-empty{font-size:13px; color:var(--sec); padding:10px 2px;}
 .surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 16px;}
+.briefbar{display:flex; justify-content:flex-end; margin:0 0 10px;}
+.ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
+.ttsbtn:hover{border-color:var(--ink2);}
+.ttsbtn.on{border-color:var(--ink); color:var(--ink);}
+.ttsbtn .ic-stop{display:none;} .ttsbtn.on .ic-play{display:none;} .ttsbtn.on .ic-stop{display:inline;}
+.ttsbtn .tlbl-stop{display:none;} .ttsbtn.on .tlbl-play{display:none;} .ttsbtn.on .tlbl-stop{display:inline;}
 .surge-set[data-set="large"]{display:none;}
 .surge-col{min-width:0;}
 .surge-h{font-size:13px; font-weight:600; letter-spacing:.04em; padding:0 0 8px; border-bottom:1px solid var(--hair2); margin-bottom:2px;}
@@ -434,6 +440,11 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <section class="country spy" id="sec-usnews">
     <div class="chead"><h3><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="usnews" data-iso="2026-06-25T22:41:14Z">—</b> · <span class="tzname">현지</span></span></div>
     <div class="body">
+      <div class="briefbar"><button class="ttsbtn" id="briefTTS" type="button" aria-label="듣기">
+        <svg class="ic-play" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3.2 12 8l-7.5 4.8z" fill="currentColor"/></svg>
+        <svg class="ic-stop" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="4" width="8" height="8" rx="1.4" fill="currentColor"/></svg>
+        <span class="tlbl-play"><span data-lang="ko">듣기</span><span data-lang="en">Listen</span></span><span class="tlbl-stop"><span data-lang="ko">정지</span><span data-lang="en">Stop</span></span>
+      </button></div>
       <ol class="newslist"><!--USNEWS--><li><span data-lang="ko">마이크론 <span class="up">+17%</span> 폭등: 3분기 매출 <b>415억$</b>·EPS <b>$25.11</b>로 전망 대폭 상회, 4분기 가이던스 <b>500억$</b> 제시—AI·HBM 메모리 수요로 반도체 강세.</span><span data-lang="en"><b>Micron</b> soars <span class="up">+17%</span> on a blowout Q3 (rev <b>$41.5B</b>, EPS <b>$25.11</b>) and a <b>~$50B</b> Q4 guide on AI/HBM memory demand.</span><span class="nsrc">CNBC</span></li><li><span data-lang="ko">25일 증시 혼조 마감: <b>S&amp;P</b> <span class="down">-0.01%</span>(7,357), <b>나스닥</b> <span class="down">-0.46%</span>(25,359), <b>다우</b> <span class="up">+0.14%</span>(51,921)—매그니피센트7 약세 지속.</span><span data-lang="en">Stocks close mixed Jun 25: <b>S&amp;P</b> <span class="down">-0.01%</span> (7,357), <b>Nasdaq</b> <span class="down">-0.46%</span> (25,359), <b>Dow</b> <span class="up">+0.14%</span> (51,921); Magnificent 7 stay weak.</span><span class="nsrc">TheStreet</span></li><li><span data-lang="ko">5월 <b>PCE</b> 물가 <b>4.1%</b>(2023년 4월 이후 최고)·근원 <b>3.4%</b>(2023년 10월 이후 최고)로 가속—인플레 재점화 확인.</span><span data-lang="en">May <b>PCE</b> runs hot: headline <b>4.1%</b> YoY (highest since Apr 2023), core <b>3.4%</b> (since Oct 2023)—inflation reaccelerating.</span><span class="nsrc">CNBC</span></li><li><span data-lang="ko">연준 매파 신호: 굴스비 "근원 인플레 너무 높고 방향 잘못"…다수 위원이 연내 인상 선호로 시장 긴장.</span><span data-lang="en">Fed turns hawkish: Goolsbee calls core inflation "too high"; a majority of officials now favor a hike later this year.</span><span class="nsrc">CNBC</span></li><li><span data-lang="ko"><b>애플·MS</b>, 메모리값 상승에 아이폰·엑스박스 가격 인상 발표—원가 부담 우려로 빅테크 압박.</span><span data-lang="en"><b>Apple</b> and <b>Microsoft</b> raise iPhone/Xbox prices on higher memory costs, pressuring Big Tech.</span><span class="nsrc">TheStreet</span></li><li><span data-lang="ko">유가 반등: 이란 혁명수비대의 <b>호르무즈 해협</b> 싱가포르 선박 공격 보도에 <b>WTI</b> <span class="up">+2%</span>, 배럴당 $70 회복.</span><span data-lang="en">Oil rebounds: <b>WTI</b> <span class="up">+2%</span> back above $70 after Iran's IRGC reportedly struck a vessel in the <b>Strait of Hormuz</b>.</span><span class="nsrc">CNBC</span></li><li><span data-lang="ko">국채금리: <b>10년물</b>이 <b>4.39%</b>로 5월 중순 이후 최저—물가 발표 속 단기 안도.</span><span data-lang="en">Yields: the <b>10Y</b> eased to <b>4.39%</b>, its lowest since mid-May, after the inflation data.</span><span class="nsrc">CNBC</span></li><li><span data-lang="ko"><b>비트코인</b> 6만$ 붕괴(약 $59,300)—ETF 자금 이탈·AI주로의 순환매에 약세장 지속.</span><span data-lang="en"><b>Bitcoin</b> breaks below $60K (~$59,300) amid ETF outflows and rotation into AI stocks.</span><span class="nsrc">Yahoo Finance</span></li><li><span data-lang="ko"><b>테슬라</b> <span class="down">-5.79%</span>(24일): NHTSA가 자율보조주행 모델3 사망 사고 특별조사 착수, 규제 리스크 부각.</span><span data-lang="en"><b>Tesla</b> <span class="down">-5.79%</span> (Jun 24): NHTSA opens a special probe into a fatal Model 3 driver-assist crash.</span><span class="nsrc">TradingKey</span></li><li><span data-lang="ko">다음 일정: <b>6월 고용보고서</b> 등 향후 2주 지표 집중—연준 인상 우려 속 시장 방향성 좌우.</span><span data-lang="en">Ahead: a data-heavy two weeks led by the <b>June jobs report</b> will steer the rate debate.</span><span class="nsrc">Kraken</span></li><!--/USNEWS--></ol>
     </div>
   </section>
@@ -689,7 +700,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.10</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.11</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -957,6 +968,39 @@ function applySurgeFilter(){
 }
 document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ try{ localStorage.setItem('gmd_surgemode', b.dataset.mode); }catch(err){} applySurgeFilter(); } });
 window.loadSurge = loadSurge;
+
+// 모닝브리핑 읽어주기(브라우저 내장 TTS)
+(function(){
+  function briefData(){
+    var en = document.documentElement.getAttribute('data-ui-lang')==='en';
+    var sel = en ? '[data-lang="en"]' : '[data-lang="ko"]';
+    var lis = document.querySelectorAll('#sec-usnews .newslist > li');
+    var parts=[];
+    Array.prototype.forEach.call(lis, function(li){ var s=li.querySelector(sel); if(s){ var x=s.textContent.replace(/\s+/g,' ').trim(); if(x) parts.push(x); } });
+    return { lang: en?'en-US':'ko-KR', text: parts.join('. ') };
+  }
+  function setOn(on){ var b=document.getElementById('briefTTS'); if(b) b.classList.toggle('on', on); }
+  function stopTTS(){ try{ window.speechSynthesis.cancel(); }catch(e){} setOn(false); }
+  function speakBrief(){
+    if(!('speechSynthesis' in window)){ if(window.gmdToast) gmdToast('이 브라우저는 음성 읽기를 지원하지 않아요'); return; }
+    if(window.speechSynthesis.speaking || window.speechSynthesis.pending){ stopTTS(); return; }
+    var d=briefData(); if(!d.text){ return; }
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    var u=new SpeechSynthesisUtterance(d.text); u.lang=d.lang; u.rate=1.0; u.pitch=1.0;
+    var vs=(window.speechSynthesis.getVoices()||[]);
+    var v=vs.filter(function(x){return x.lang===d.lang;})[0] || vs.filter(function(x){return (x.lang||'').slice(0,2)===d.lang.slice(0,2);})[0];
+    if(v) u.voice=v;
+    u.onstart=function(){ setOn(true); };
+    u.onend=function(){ setOn(false); };
+    u.onerror=function(){ setOn(false); };
+    window.speechSynthesis.speak(u);
+  }
+  document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('#briefTTS'):null; if(b){ e.preventDefault(); speakBrief(); } });
+  // 음성 목록 늦게 로드되는 브라우저 대비
+  if('speechSynthesis' in window){ try{ window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged=function(){}; }catch(e){} }
+  // 페이지 이동/언어 전환 시 읽기 중단
+  document.addEventListener('click', function(e){ var n=e.target.closest?e.target.closest('#langToggle, .ddrow, #menuLogo, #goHome'):null; if(n) stopTTS(); });
+})();
 
 const REDDIT = [
   {tk:"MU", nm:"마이크론 테크놀로지", nmEn:"Micron Technology", sent:"bull", desc:"멘션 1,167건·24h +21%, 실적 폭발로 WSB 1위", descEn:"1,167 mentions·+21% 24h, #1 on WSB after the blowout", posts:[
