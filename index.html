@@ -341,6 +341,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .surgetab{background:transparent; border:0; border-radius:999px; padding:7px 16px; font-size:13px; font-weight:400; color:var(--sec); cursor:pointer;}
 .surgetab.active{background:var(--ink); color:var(--bg);}
 .surge-empty{font-size:13px; color:var(--sec); padding:10px 2px;}
+.surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 16px;}
 .surge-set[data-set="large"]{display:none;}
 .surge-col{min-width:0;}
 .surge-h{font-size:13px; font-weight:600; letter-spacing:.04em; padding:0 0 8px; border-bottom:1px solid var(--hair2); margin-bottom:2px;}
@@ -665,6 +666,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
     <div class="surgetabs"><button class="surgetab" data-mode="major"><span data-lang="ko">주요주</span><span data-lang="en">Key</span></button><button class="surgetab" data-mode="large"><span data-lang="ko">대형주</span><span data-lang="en">Large cap</span></button></div>
+    <div class="surge-cadence"><span data-lang="ko">갱신 · 한국 평일 2회(11:40·15:40 KST) · 미국 2회(12:55·15:55 ET)</span><span data-lang="en">Updates · KR 2×/day (11:40·15:40 KST) · US 2×/session (12:55·15:55 ET)</span></div>
     <section class="live spy" id="sec-krsurge">
       <div class="chead"><h3>한국 · Korea</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="krsurge" data-iso="2026-06-25T06:47:54Z">—</b> · <span class="tzname">현지</span></span></div>
       <div class="surge-grid">
@@ -679,7 +681,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
         <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="usDown"><!--USDOWN--><div class="surge-row"><div class="rk">1</div><div class="nm"><span class="tk">ATLN</span><span class="sub2">Atlantic International Corp.</span></div><div class="px">$0.78</div><div class="pct down">-41.35%</div></div><div class="surge-row"><div class="rk">2</div><div class="nm"><span class="tk">HTZ</span><span class="sub2">Hertz Global Holdings, Inc.</span></div><div class="px">$3.00</div><div class="pct down">-40.71%</div></div><div class="surge-row"><div class="rk">3</div><div class="nm"><span class="tk">TOYO</span><span class="sub2">TOYO Co., Ltd.</span></div><div class="px">$7.91</div><div class="pct down">-38.82%</div></div><div class="surge-row"><div class="rk">4</div><div class="nm"><span class="tk">CGTX</span><span class="sub2">Cognition Therapeutics, Inc.</span></div><div class="px">$1.02</div><div class="pct down">-38.18%</div></div><div class="surge-row"><div class="rk">5</div><div class="nm"><span class="tk">JLHL</span><span class="sub2">Julong Holding Limited Class A Ordinary Shares</span></div><div class="px">$13.25</div><div class="pct down">-32.05%</div></div><div class="surge-row"><div class="rk">6</div><div class="nm"><span class="tk">NUWE</span><span class="sub2">Nuwellis, Inc.</span></div><div class="px">$0.09</div><div class="pct down">-30.47%</div></div><div class="surge-row"><div class="rk">7</div><div class="nm"><span class="tk">FRTT</span><span class="sub2">Fort Technology Inc. Common Shares</span></div><div class="px">$1.27</div><div class="pct down">-28.25%</div></div><div class="surge-row"><div class="rk">8</div><div class="nm"><span class="tk">SDOT</span><span class="sub2">Sadot Group Inc.</span></div><div class="px">$7.25</div><div class="pct down">-28.18%</div></div><div class="surge-row"><div class="rk">9</div><div class="nm"><span class="tk">BGL</span><span class="sub2">Blue Gold Limited</span></div><div class="px">$0.28</div><div class="pct down">-27.94%</div></div><div class="surge-row"><div class="rk">10</div><div class="nm"><span class="tk">VMAR</span><span class="sub2">Vision Marine Technologies Inc.</span></div><div class="px">$1.96</div><div class="pct down">-27.94%</div></div><!--/USDOWN--></div></div>
       </div>
     </section>
-    <div class="asof-live"><span data-lang="ko">미국은 실시간(FMP), 한국은 워커 한국 라우트 배포 후 표시. 장 외 시간엔 마지막 장중 데이터.</span><span data-lang="en">US live (FMP); Korea shows after the KR worker route is deployed. Last session data outside market hours.</span></div>
+    <div class="asof-live"><span data-lang="ko">한국 평일 오전·오후 2회, 미국 장중·마감 직전 2회 갱신. 장 외 시간엔 마지막 갱신 데이터 기준.</span><span data-lang="en">Korea updates twice on weekdays; US twice per session (intraday & near close). Last data shown outside hours.</span></div>
   </div>
 
   <div id="briefingView" style="display:none">
@@ -687,7 +689,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.08</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.09</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
