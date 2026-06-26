@@ -698,7 +698,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.12</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.13</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1343,11 +1343,11 @@ function updateMarketStatus(){
 // ☰ 메뉴 N: 모닝브리핑·주요시세 미확인 시 해당 행 + 햄버거 버튼에 표시
 function updateMenuFlags(){
   function unseen(mkt){ const el=document.querySelector('.upd[data-mkt="'+mkt+'"]'); if(!el||!el.dataset.iso) return false; let s=null; try{s=localStorage.getItem('gmd_seen_sec_'+mkt);}catch(e){} return s!==null && s!=='' && el.dataset.iso>s; }
-  const nb=unseen('usnews'), nr=unseen('rates');
-  const gb=document.getElementById('goBriefing'), gr=document.getElementById('goRates'), mb=document.getElementById('menuBtn');
+  // 햄버거 점/메뉴 N은 메뉴로 갈 수 있는 항목만 반영(주요시세는 메뉴에 없어 제외 — 홈 카드 N으로 표시)
+  const nb=unseen('usnews');
+  const gb=document.getElementById('goBriefing'), mb=document.getElementById('menuBtn');
   if(gb){ nb?gb.setAttribute('data-new','1'):gb.removeAttribute('data-new'); }
-  if(gr){ nr?gr.setAttribute('data-new','1'):gr.removeAttribute('data-new'); }
-  if(mb){ (nb||nr)?mb.setAttribute('data-new','1'):mb.removeAttribute('data-new'); }
+  if(mb){ nb?mb.setAttribute('data-new','1'):mb.removeAttribute('data-new'); }
 }
 updateMarketStatus(); updateMenuFlags();
 // ===== 급상승 페이지: 장중 시장 위로 + 변경 시 N =====
