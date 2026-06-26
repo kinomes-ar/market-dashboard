@@ -699,7 +699,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.17</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.18</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -946,7 +946,7 @@ function applySurgeFilter(){
   ['krUp','krDown'].forEach(function(id){
     var box=document.getElementById(id); if(!box) return;
     var sets=box.querySelectorAll('.surge-set'); if(!sets.length) return;
-    var vis=null; for(var i=0;i<sets.length;i++){ var on=(sets[i].dataset.set===setName); sets[i].style.display=on?'':'none'; if(on) vis=sets[i]; }
+    var vis=null; for(var i=0;i<sets.length;i++){ var on=(sets[i].dataset.set===setName); sets[i].style.display=on?'block':'none'; if(on) vis=sets[i]; // ''는 CSS display:none로 되돌아가 대형주 안보임 → 'block' 명시 }
     if(vis){ var rows=Array.prototype.slice.call(vis.querySelectorAll('.surge-row')); var shown=0;
       rows.forEach(function(r){ var price=parseFloat(((r.querySelector('.px')||{}).textContent||'').replace(/[^0-9.]/g,''))||0; var pc=pctOf(r);
         var ok=(setName==='major')?(price>=1000&&pc>=10):true; // 대형주: 문턱 없이 TOP10(A안)
