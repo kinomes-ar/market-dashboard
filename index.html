@@ -342,7 +342,9 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .surgetab{background:transparent; border:0; border-radius:999px; padding:7px 16px; font-size:13px; font-weight:400; color:var(--sec); cursor:pointer;}
 .surgetab.active{background:var(--ink); color:var(--bg);}
 .surge-empty{font-size:13px; color:var(--sec); padding:10px 2px;}
-.surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 16px;}
+.surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 6px;}
+.surge-criteria{font-size:12px; color:var(--sec); line-height:1.65; margin:0 0 16px;}
+.surge-criteria b{color:var(--ink2); font-weight:600;}
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
 .ttsbtn.on{border-color:var(--ink); color:var(--ink);}
@@ -677,6 +679,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <h1 style="margin:4px 0 16px"><span data-lang="ko">급상승 · 급하락</span><span data-lang="en">Top Movers</span></h1>
     <div class="surgetabs"><button class="surgetab" data-mode="major"><span data-lang="ko">주요주</span><span data-lang="en">Key</span></button><button class="surgetab" data-mode="large"><span data-lang="ko">대형주</span><span data-lang="en">Large cap</span></button></div>
     <div class="surge-cadence"><span data-lang="ko">갱신 · 한국 평일 2회(11:40·15:40 KST) · 미국 2회(12:55·15:55 ET)</span><span data-lang="en">Updates · KR 2×/day (11:40·15:40 KST) · US 2×/session (12:55·15:55 ET)</span></div>
+    <div class="surge-criteria"><div><span data-lang="ko"><b>주요주</b> · 페니주 제외(한국 1,000원·미국 $5 이상) + 등락률 ±10% 이상에서 상위 10종목</span><span data-lang="en"><b>Key</b> · ex-penny (KR ₩1,000 / US $5+) with a ±10%+ move, top 10</span></div><div><span data-lang="ko"><b>대형주</b> · 시총 상위(한국 코스피·코스닥 / 미국 S&P500·나스닥100) 중 그날 가장 많이 오르내린 상위 10종목(문턱 없음)</span><span data-lang="en"><b>Large cap</b> · biggest movers among large caps (KR KOSPI·KOSDAQ / US S&P500·Nasdaq100), top 10 (no threshold)</span></div></div>
     <section class="live spy" id="sec-krsurge">
       <div class="chead"><h3>한국 · Korea</h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="krsurge" data-iso="2026-06-26T06:56:02Z">—</b> · <span class="tzname">현지</span></span></div>
       <div class="surge-grid">
@@ -699,7 +702,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.172</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.173</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1457,7 +1460,7 @@ initSurgeFlags();
     syncTheme();
   });
   const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
-  function showView(name){ window.__view = name; for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
+  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
@@ -1478,7 +1481,7 @@ initSurgeFlags();
     if(window.updateMenuFlags) updateMenuFlags();
     showView('brief');
   };
-  try{ const _v=sessionStorage.getItem('gmd_view'); if(_v){ sessionStorage.removeItem('gmd_view');
+  try{ const _v=sessionStorage.getItem('gmd_view'); if(_v){
     if(_v==='comm' && window.showCommunity) showCommunity();
     else if(_v==='cal' && window.showCalendar) showCalendar();
     else if(_v==='surge' && window.showSurge){ showSurge(); if(window.loadSurge) loadSurge(); }
