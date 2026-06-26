@@ -689,7 +689,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.09</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.10</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -929,26 +929,29 @@ var US_LARGE = (typeof INDEX_SYMBOLS!=='undefined') ? new Set([].concat(INDEX_SY
 function surgeMode(){ try{ return localStorage.getItem('gmd_surgemode')||'major'; }catch(e){ return 'major'; } }
 function applySurgeFilter(){
   var mode=surgeMode(); var setName=(mode==='large')?'large':'major';
-  // 한국: 세트(주요주=전체 / 대형주=시총상위) 전환
+  function pctOf(r){ return Math.abs(parseFloat(((r.querySelector('.pct')||{}).textContent||'').replace(/[^0-9.\-]/g,''))||0); }
+  function emptyNote(box,shown){ var note=box.querySelector('.surge-empty');
+    if(shown===0){ if(!note){ note=document.createElement('div'); note.className='surge-empty'; box.appendChild(note);} note.textContent=(document.documentElement.getAttribute('data-ui-lang')==='en')?'No matching stocks':'이 조건에 맞는 종목이 없어요'; note.style.display=''; } else if(note){ note.style.display='none'; } }
+  // 한국: 세트(주요주=동전주 제외·±10%↑ / 대형주=시총상위·±5%↑) 전환
   ['krUp','krDown'].forEach(function(id){
     var box=document.getElementById(id); if(!box) return;
     var sets=box.querySelectorAll('.surge-set'); if(!sets.length) return;
     var vis=null; for(var i=0;i<sets.length;i++){ var on=(sets[i].dataset.set===setName); sets[i].style.display=on?'':'none'; if(on) vis=sets[i]; }
     if(vis){ var rows=Array.prototype.slice.call(vis.querySelectorAll('.surge-row')); var shown=0;
-      rows.forEach(function(r){ var price=parseFloat(((r.querySelector('.px')||{}).textContent||'').replace(/[^0-9.]/g,''))||0;
-        var ok=(setName==='major')?(price>=1000):true;
-        if(ok&&shown<10){ r.style.display=''; shown++; var rk=r.querySelector('.rk'); if(rk) rk.textContent=shown; } else { r.style.display='none'; } }); }
+      rows.forEach(function(r){ var price=parseFloat(((r.querySelector('.px')||{}).textContent||'').replace(/[^0-9.]/g,''))||0; var pc=pctOf(r);
+        var ok=(setName==='major')?(price>=1000&&pc>=10):(pc>=5);
+        if(ok&&shown<10){ r.style.display=''; shown++; var rk=r.querySelector('.rk'); if(rk) rk.textContent=shown; } else { r.style.display='none'; } });
+      emptyNote(vis,shown); }
   });
-  // 미국: 단일 세트 행 필터(주요주=$5↑ / 대형주=S&P500·나스닥100)
+  // 미국: 단일 세트 행 필터(주요주=$5↑·±10%↑ / 대형주=S&P500·나스닥100·±5%↑)
   [['usUp'],['usDown']].forEach(function(p){
     var box=document.getElementById(p[0]); if(!box) return;
     var rows=Array.prototype.slice.call(box.querySelectorAll('.surge-row')); var shown=0;
     rows.forEach(function(r){ var tk=((r.querySelector('.tk')||{}).textContent||'').trim();
-      var price=parseFloat(((r.querySelector('.px')||{}).textContent||'').replace(/[^0-9.]/g,''))||0;
-      var ok=(mode==='large')?US_LARGE.has(tk):(price>=5);
+      var price=parseFloat(((r.querySelector('.px')||{}).textContent||'').replace(/[^0-9.]/g,''))||0; var pc=pctOf(r);
+      var ok=(mode==='large')?(US_LARGE.has(tk)&&pc>=5):(price>=5&&pc>=10);
       if(ok&&shown<10){ r.style.display=''; shown++; var rk=r.querySelector('.rk'); if(rk) rk.textContent=shown; } else { r.style.display='none'; } });
-    var note=box.querySelector('.surge-empty');
-    if(shown===0){ if(!note){ note=document.createElement('div'); note.className='surge-empty'; box.appendChild(note);} note.textContent=(document.documentElement.getAttribute('data-ui-lang')==='en')?'No matching stocks':'이 조건에 맞는 종목이 없어요'; note.style.display=''; } else if(note){ note.style.display='none'; }
+    emptyNote(box,shown);
   });
   var tabs=document.querySelectorAll('.surgetab'); for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('active', tabs[i].dataset.mode===mode); }
 }
