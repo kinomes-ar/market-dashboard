@@ -714,7 +714,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.20</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.21</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1225,9 +1225,14 @@ function layoutMain(){
   const d=new Date(); const h=d.getHours(); const wknd=(d.getDay()===0||d.getDay()===6);
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
   if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
+  if(usnews){ var _h3=usnews.querySelector('.chead h3'); if(_h3){ var _ko=_h3.querySelector('[data-lang="ko"]'), _en=_h3.querySelector('[data-lang="en"]'); if(_ko) _ko.textContent=wknd?'주말 브리핑':'모닝 브리핑'; if(_en) _en.textContent=wknd?'Weekend Briefing':'Morning Briefing'; } }
   const sumArr = wknd ? [] : [summary];
   let seq;
-  if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); }
+  if(wknd){
+    if(usnews) usnews.style.display='';
+    seq=(usnews?[usnews]:[]).concat(order,[rates,live]);
+  }
+  else if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); }
   else { if(usnews) usnews.style.display='none';
     seq = (mode==='usopen') ? sumArr.concat([live],order,[rates]) : sumArr.concat(order,[rates,live]); }
   const cur=Array.from(dash.children).filter(c=>seq.indexOf(c)>=0);
