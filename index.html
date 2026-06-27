@@ -345,6 +345,14 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 6px;}
 .brief-extra{margin-top:10px;}
 .brief-mk{font-size:12px; font-weight:600; color:var(--sec); margin:14px 0 6px;}
+.briefbar{display:flex; margin:2px 0 12px;}
+.idx-preview{display:none; gap:8px; overflow-x:auto; padding:8px 0 2px; -webkit-overflow-scrolling:touch;}
+.brief-extra.collapsed > .idx-preview{display:flex!important;}
+.idxp{flex:0 0 auto; min-width:104px; border:1px solid var(--hair); border-radius:10px; padding:8px 11px; background:var(--surf);}
+.idxp-l{font-size:11px; color:var(--sec); white-space:nowrap; margin-bottom:5px;}
+.idxp-v{font-size:15px; font-weight:600; color:var(--ink); white-space:nowrap;}
+.idxp-c{font-size:12px; font-weight:600; margin-top:3px; white-space:nowrap;}
+.idxp-c.up{color:var(--up);} .idxp-c.down{color:var(--down);} .idxp-c.flat{color:var(--sec);}
 .brief-extra .chead{margin-bottom:4px;}
 .surge-criteria{font-size:12px; color:var(--sec); line-height:1.65; margin:0 0 16px;}
 .surge-criteria b{color:var(--ink2); font-weight:600;}
@@ -443,12 +451,13 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 
   <!-- USA -->
     <section class="country spy" id="sec-usnews">
-    <div class="chead"><h3><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h3><button class="ttsbtn" id="briefTTS" type="button" aria-label="듣기">
+    <div class="chead"><h3><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="usnews" data-iso="2026-06-27T11:31:33Z">—</b> · <span class="tzname">현지</span></span></div>
+    <div class="body">
+      <div class="briefbar"><button class="ttsbtn" id="briefTTS" type="button" aria-label="듣기">
         <svg class="ic-play" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3.2 12 8l-7.5 4.8z" fill="currentColor"/></svg>
         <svg class="ic-stop" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="4" width="8" height="8" rx="1.4" fill="currentColor"/></svg>
         <span class="tlbl-play"><span data-lang="ko">듣기</span><span data-lang="en">Listen</span></span><span class="tlbl-stop"><span data-lang="ko">정지</span><span data-lang="en">Stop</span></span>
-      </button><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="usnews" data-iso="2026-06-27T11:31:33Z">—</b> · <span class="tzname">현지</span></span></div>
-    <div class="body">
+      </button></div>
       <ol class="newslist"><!--USNEWS--><li><span data-lang="ko"><b>미국</b> — 26일 증시 보합권 약세: <b>나스닥</b> <span class="down">-0.24%</span>, <b>S&amp;P</b> <span class="down">-0.05%</span>, <b>다우</b> <span class="down">-0.09%</span>—AI 데이터센터 비용 우려에 반도체 주도 글로벌 기술주 매도.</span><span data-lang="en"><b>US</b> — Stocks edge lower Jun 26: <b>Nasdaq</b> <span class="down">-0.24%</span>, <b>S&amp;P</b> <span class="down">-0.05%</span>, <b>Dow</b> <span class="down">-0.09%</span> as a global tech sell-off on AI datacenter costs hits chips.</span><span class="nsrc">TheStreet</span></li><li><span data-lang="ko"><b>미국</b> — 5월 <b>근원 PCE</b> 물가 월 <b>+0.3%</b>로 예상 하회, 인플레 둔화 신호—금값 <span class="up">+1.1%</span>(약 $4,092) 상승.</span><span data-lang="en"><b>US</b> — May <b>core PCE</b> rose <b>+0.3%</b> m/m, cooler than feared; gold up <span class="up">+1.1%</span> to ~$4,092.</span><span class="nsrc">Yahoo Finance</span></li><li><span data-lang="ko"><b>미국</b> — <b>호르무즈 해협</b> 유조선 운항 정상화로 중동 공급 우려 완화, 유가 하락—연준 다중 인상 우려 진정.</span><span data-lang="en"><b>US</b> — Oil falls as tankers keep crossing the <b>Strait of Hormuz</b>, easing Mideast supply and multi-hike fears.</span><span class="nsrc">Schwab</span></li><li><span data-lang="ko"><b>미국</b> — <b>오픈AI</b>, 기업공개(IPO)를 내년으로 미루는 쪽으로 가닥—보도.</span><span data-lang="en"><b>US</b> — <b>OpenAI</b> reportedly leaning toward delaying its IPO to next year.</span><span class="nsrc">TheStreet</span></li><li><span data-lang="ko"><b>한국</b> — <b>코스피</b> 차익실현에 <span class="down">-1.6%</span>(8,788)로 사흘 만에 8,800선 반납 — 전일 반등분 되돌림·외국인 순매도 지속, 오늘밤 美 PCE 경계.</span><span data-lang="en"><b>Korea</b> — <b>KOSPI</b> fell <span class="down">-1.6%</span> (8,788), giving back 8,800 in three sessions on profit-taking; foreign selling persists ahead of US PCE.</span><span class="nsrc">연합뉴스</span></li><li><span data-lang="ko"><b>한국</b> — 반도체 동반 약세: <b>삼성전자</b> <span class="down">-2.4%</span>·<b>SK하이닉스</b> <span class="down">-3.0%</span> — AI 메모리 차익매물에 <b>코스닥</b>도 <span class="down">-2.5%</span>(865.7) 동반 하락.</span><span data-lang="en"><b>Korea</b> — Chips fell together: <b>Samsung</b> <span class="down">-2.4%</span>, <b>SK Hynix</b> <span class="down">-3.0%</span>; <b>KOSDAQ</b> also <span class="down">-2.5%</span> (865.7) on memory profit-taking.</span><span class="nsrc">MBC</span></li><li><span data-lang="ko"><b>한국</b> — 달러-원 환율 <b>1,555원</b>까지 상승(원화 약세) — 위험회피 속 외국인 매도·환율 부담 지속.</span><span data-lang="en"><b>Korea</b> — USD/KRW rose to <b>~1,555</b> (won weaker) amid risk-off; foreign selling and FX pressure persist.</span><span class="nsrc">Investing.com</span></li><li><span data-lang="ko"><b>중국</b> — <b>상하이종합</b>이 최근 <span class="down">-0.54%</span> 약세, 4,098선—내수·부동산 부진과 견조한 산업활동이 엇갈려 혼조.</span><span data-lang="en"><b>China</b> — <b>Shanghai Composite</b> recently <span class="down">-0.54%</span> near 4,098 as weak demand/property offset resilient industry.</span><span class="nsrc">Trading Economics</span></li><li><span data-lang="ko"><b>중국</b> — <b>인민은행(PBOC)</b>, 6/29~30 익일물 역레포 도입 등 통화정책 틀 개편—7일물 금리 <b>1.4%</b> 기준 유지.</span><span data-lang="en"><b>China</b> — <b>PBOC</b> to start overnight reverse repos Jun 29-30 in a framework reform; 7-day rate stays <b>1.4%</b>.</span><span class="nsrc">Trading Economics</span></li><li><span data-lang="ko"><b>중국</b> — 판궁성 PBOC 총재, 단기금리 회랑 축소·위안화 역외 사용 확대 등 금융개혁 조치 예고.</span><span data-lang="en"><b>China</b> — PBOC Gov. Pan flagged a narrower rate corridor and wider offshore renminbi use.</span><span class="nsrc">Trading Economics</span></li><!--/USNEWS--></ol>
     </div>
   </section>
@@ -705,7 +714,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.19</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.20</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -984,7 +993,7 @@ window.loadSurge = loadSurge;
     Array.prototype.forEach.call(lis, function(li){ var s=li.querySelector(sel); if(s){ var x=s.textContent.replace(/\s+/g,' ').trim(); if(x) parts.push(x); } });
     return { lang: en?'en-US':'ko-KR', text: parts.join('. ') };
   }
-  function setOn(on){ var b=document.getElementById('briefTTS'); if(b) b.classList.toggle('on', on); }
+  function setOn(on){ var bs=document.querySelectorAll('.ttsbtn'); for(var i=0;i<bs.length;i++) bs[i].classList.toggle('on', on); }
   function stopTTS(){ try{ window.speechSynthesis.cancel(); }catch(e){} setOn(false); }
   function speakBrief(){
     if(!('speechSynthesis' in window)){ if(window.gmdToast) gmdToast('이 브라우저는 음성 읽기를 지원하지 않아요'); return; }
@@ -1330,7 +1339,7 @@ function initSectionFlags(secId, mkt){
   let seen=null; try{ seen=localStorage.getItem(key); }catch(e){}
   const firstTime = (seen===null || seen==='');
   if(!firstTime && iso>seen) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew');
-  const save=()=>{ try{ localStorage.setItem(key, iso); }catch(e){} if(window.updateMenuFlags) updateMenuFlags(); };
+  const save=()=>{ try{ localStorage.setItem(key, iso); }catch(e){} if(head) head.removeAttribute('data-cardnew'); if(window.updateMenuFlags) updateMenuFlags(); };
   const visible = sec.offsetParent!==null;                 // day 모드에서 숨김(모닝브리핑)이면 본 것으로 처리하지 않음
   if(firstTime) save();
   else if(visible && !sec.classList.contains('collapsed')) save();
@@ -1472,10 +1481,13 @@ initSurgeFlags();
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
+      function _mini(tl, arr){ if(!tl) return ''; var ts=tl.querySelectorAll('.tile'); var h=''; arr.forEach(function(i){ var x=ts[i]; if(!x) return; var l=x.querySelector('.label'), v=x.querySelector('.val'), c=x.querySelector('.chg'); h+='<div class="idxp"><div class="idxp-l">'+(l?l.innerHTML:'')+'</div><div class="idxp-v">'+(v?v.textContent:'')+'</div><div class="'+(c?c.className.replace('chg','idxp-c'):'idxp-c')+'">'+(c?c.innerHTML:'')+'</div></div>'; }); return h; }
       var _extra='';
       var _usT=document.querySelector('#sec-us .tiles'), _krT=document.querySelector('#sec-kr .tiles');
       if(_usT||_krT){
+        var _prev=_mini(_usT,[0,1,2])+_mini(_krT,[0,1]);
         _extra+='<section class="country brief-extra"><div class="chead"><h3><span data-lang="ko">주요 지표</span><span data-lang="en">Key Indicators</span></h3></div>';
+        if(_prev){ _extra+='<div class="idx-preview">'+_prev+'</div>'; }
         if(_usT){ _extra+='<div class="brief-mk"><span data-lang="ko">미국</span><span data-lang="en">US</span></div>'+_usT.outerHTML; }
         if(_krT){ _extra+='<div class="brief-mk"><span data-lang="ko">한국</span><span data-lang="en">Korea</span></div>'+_krT.outerHTML; }
         _extra+='</section>';
@@ -1485,14 +1497,18 @@ initSurgeFlags();
       _extra=_extra.replace(/\sid="[^"]*"/g,'');
       bb.innerHTML=src.outerHTML+_extra;
       Array.prototype.forEach.call(bb.children, function(sec){
-        sec.removeAttribute('id'); sec.classList.remove('collapsed'); sec.style.display='';
+        sec.removeAttribute('id'); sec.style.display='';
         var head=sec.querySelector('.chead'); if(!head) return;
+        head.removeAttribute('data-cardnew');
         var car=sec.querySelector('.caret');
         if(!car){ car=document.createElement('span'); car.className='caret'; head.appendChild(car); }
-        car.textContent='−';
+        var _col = !!sec.querySelector('.idx-preview');
+        if(_col){ sec.classList.add('collapsed'); } else { sec.classList.remove('collapsed'); }
+        car.textContent=(sec.classList.contains('collapsed')?'+':'−');
         head.classList.add('collapsible'); head.style.cursor='pointer';
         head.addEventListener('click', function(e){ if(e.target.closest&&e.target.closest('.ttsbtn')) return; sec.classList.toggle('collapsed'); car.textContent=(sec.classList.contains('collapsed')?'+':'−'); });
       });
+      var _oh=src.querySelector('.chead'); if(_oh) _oh.removeAttribute('data-cardnew');
     }
     try{ const u=src&&src.querySelector('.upd[data-mkt="usnews"]'); if(u&&u.dataset.iso) localStorage.setItem('gmd_seen_sec_usnews', u.dataset.iso); }catch(e){}
     if(window.updateMenuFlags) updateMenuFlags();
