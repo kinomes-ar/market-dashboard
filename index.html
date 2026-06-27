@@ -811,7 +811,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.39</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.391</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1299,7 +1299,7 @@ function exOvBody(info, q){
   h+='<div class="ex-note">'+L('시세 출처: '+(krc?'네이버(KRX)':'야후 파이낸스')+'. 약 5분 캐시.', 'Quote: '+(krc?'Naver (KRX)':'Yahoo Finance')+', ~5-min cache.')+'</div>';
   return h;
 }
-function exFmtWhen(n){ if(n.ts){ try{ return new Date(n.ts).toLocaleDateString(); }catch(e){} } if(n.when) return String(n.when).replace('T',' ').slice(0,16); return ''; }
+function exFmtWhen(n){ if(n.ts){ try{ return new Date(n.ts).toLocaleDateString(); }catch(e){} } if(n.when){ var w=String(n.when); var m=w.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3]+' '+m[4]+':'+m[5]; return w.replace('T',' ').slice(0,16); } return ''; }
 function exNewsBody(items){
   if(items===null) return '<div class="cns-none">'+L('뉴스 불러오는 중…','Loading news…')+'</div>';
   if(!items.length) return '<div class="cns-none">'+L('관련 뉴스를 찾지 못했어요','No related news found')+'</div>';
