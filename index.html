@@ -343,6 +343,9 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
 .surgetab.active{background:var(--ink); color:var(--bg);}
 .surge-empty{font-size:13px; color:var(--sec); padding:10px 2px;}
 .surge-cadence{font-size:12px; color:var(--sec); margin:2px 0 6px;}
+.brief-extra{margin-top:10px;}
+.brief-mk{font-size:12px; font-weight:600; color:var(--sec); margin:14px 0 6px;}
+.brief-extra .chead{margin-bottom:4px;}
 .surge-criteria{font-size:12px; color:var(--sec); line-height:1.65; margin:0 0 16px;}
 .surge-criteria b{color:var(--ink2); font-weight:600;}
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
@@ -702,7 +705,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.174</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.18</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1468,7 +1471,18 @@ initSurgeFlags();
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
-      bb.innerHTML=src.outerHTML;
+      var _extra='';
+      var _usT=document.querySelector('#sec-us .tiles'), _krT=document.querySelector('#sec-kr .tiles');
+      if(_usT||_krT){
+        _extra+='<section class="country brief-extra"><div class="chead"><h3><span data-lang="ko">주요 지표</span><span data-lang="en">Key Indicators</span></h3></div>';
+        if(_usT){ _extra+='<div class="brief-mk"><span data-lang="ko">미국</span><span data-lang="en">US</span></div>'+_usT.outerHTML; }
+        if(_krT){ _extra+='<div class="brief-mk"><span data-lang="ko">한국</span><span data-lang="en">Korea</span></div>'+_krT.outerHTML; }
+        _extra+='</section>';
+      }
+      var _rates=document.getElementById('sec-rates');
+      if(_rates){ var _rh=_rates.outerHTML.replace(' collapsed','').replace(/<span class="caret"[^>]*>[^<]*<\/span>/,'').replace('collapsible',''); _extra+=_rh; }
+      _extra=_extra.replace(/\sid="[^"]*"/g,'');
+      bb.innerHTML=src.outerHTML+_extra;
       const clone=bb.firstElementChild;
       if(clone){
         clone.removeAttribute('id'); clone.classList.remove('collapsed'); clone.style.display='';
