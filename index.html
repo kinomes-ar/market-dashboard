@@ -715,7 +715,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.251</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.26</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1007,6 +1007,29 @@ async function loadUSSurge(){
   }catch(e){}
 }
 window.loadUSSurge=loadUSSurge;
+const YSCREEN_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/yscreen");
+async function loadUSMajor(){
+  try{
+    var bucket=Math.floor(Date.now()/300000);
+    var r=await fetch(YSCREEN_PROXY+'?ids=day_gainers,day_losers&count=50&cb='+bucket);
+    if(!r.ok) return; var j=await r.json();
+    function pick(arr,up){ return (arr||[]).filter(function(q){
+        if(q.quoteType && q.quoteType!=='EQUITY') return false;
+        var nm=q.name||''; if(/2X|3X|Bull|Bear|UltraPro|UltraShort|ProShares|Direxion|GraniteShares|Leverage Shares|Defiance|ETF|Trust/i.test(nm)) return false;
+        var p=q.price||0, pc=q.changePct; if(pc==null) return false;
+        return p>=5 && (up? pc>=10 : pc<=-10);
+      }).sort(function(a,b){return up?(b.changePct-a.changePct):(a.changePct-b.changePct);}).slice(0,10); }
+    var ups=pick(j.day_gainers,true), downs=pick(j.day_losers,false);
+    function rows(list){ return list.map(function(d,i){ var up=d.changePct>=0; var cls=up?'up':'down'; var sign=up?'+':'';
+      return '<div class="surge-row"><div class="rk">'+(i+1)+'</div><div class="nm"><span class="tk">'+d.symbol+'</span><span class="sub2">'+(d.name||'')+'</span></div><div class="px">$'+Number(d.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div><div class="pct '+cls+'">'+sign+d.changePct.toFixed(2)+'%</div></div>'; }).join(''); }
+    var upSet=document.querySelector('#usUp .surge-set[data-set="major"]');
+    var dnSet=document.querySelector('#usDown .surge-set[data-set="major"]');
+    if(upSet) upSet.innerHTML='<!--USUP-->'+rows(ups)+'<!--/USUP-->';
+    if(dnSet) dnSet.innerHTML='<!--USDOWN-->'+rows(downs)+'<!--/USDOWN-->';
+    if(typeof applySurgeFilter==='function') applySurgeFilter();
+  }catch(e){}
+}
+window.loadUSMajor=loadUSMajor;
 function surgeFmtUS(o){ return o.price!=null ? "$"+Number(o.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
 function surgeFmtKR(o){ return o.price!=null ? "₩"+Number(o.price).toLocaleString("en-US") : "—"; }
 function renderSurgeList(elId, items, fmtPx, tkField, subField){
@@ -1024,7 +1047,7 @@ function renderSurgeList(elId, items, fmtPx, tkField, subField){
   });
   el.innerHTML=h;
 }
-function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadUSSurge==='function') loadUSSurge(); }
+function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadUSSurge==='function') loadUSSurge(); if(typeof loadUSMajor==='function') loadUSMajor(); }
 var US_LARGE = (typeof INDEX_SYMBOLS!=='undefined') ? new Set([].concat(INDEX_SYMBOLS.sp500||[], INDEX_SYMBOLS.ndx||[])) : new Set();
 function surgeMode(){ try{ return localStorage.getItem('gmd_surgemode')||'major'; }catch(e){ return 'major'; } }
 function applySurgeFilter(){
