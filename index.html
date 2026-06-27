@@ -380,8 +380,8 @@ html.is-android .briefbar{display:flex;}
 .ex-spread.s-agree{background:rgba(47,163,155,.16); color:#2FA39B;}
 .ex-spread.s-mid{background:var(--hair2); color:var(--sec);}
 .ex-spread.s-wide{background:rgba(224,138,43,.18); color:#E08A2B;}
-.ex-rng{margin:30px 0 4px;}
-.ex-rng-track{position:relative; height:6px; border-radius:999px; background:linear-gradient(90deg,var(--down2),var(--hair2),var(--up2)); margin:0 0 10px;}
+.ex-rng{margin:34px 0 6px;}
+.ex-rng-track{position:relative; height:6px; border-radius:999px; background:linear-gradient(90deg,var(--down2),var(--hair2),var(--up2)); margin:0 0 14px;}
 .ex-rng-mean{position:absolute; top:50%; width:13px; height:13px; border-radius:50%; background:var(--ink); transform:translate(-50%,-50%); box-shadow:0 0 0 3px var(--surf); z-index:2;}
 .ex-rng-mean-l{position:absolute; top:-21px; transform:translateX(-50%); font-size:10px; font-weight:600; color:var(--ink2); white-space:nowrap;}
 .ex-rng-cur{position:absolute; top:-6px; bottom:-6px; width:2px; background:var(--ink2); transform:translateX(-50%); z-index:1;}
@@ -811,7 +811,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.391</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.392</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1273,7 +1273,7 @@ function exCnsBody(d, info, curPrice){
     var span=d.targetHigh-d.targetLow;
     var mp=Math.min(100,Math.max(0,(d.targetMean-d.targetLow)/span*100));
     var curHtml='';
-    if(curPrice!=null){ var cp=(curPrice-d.targetLow)/span*100; var oob=(cp<0||cp>100); var cc=Math.min(100,Math.max(0,cp)); curHtml='<div class="ex-rng-cur" style="left:'+cc+'%" data-l="'+L('현재가','Now')+(oob?(cp>100?' ▲':' ▼'):'')+'"></div>'; }
+    if(curPrice!=null){ var cp=(curPrice-d.targetLow)/span*100; if(cp>8 && cp<92){ curHtml='<div class="ex-rng-cur" style="left:'+cp+'%" data-l="'+L('현재','Now')+'"></div>'; } }
     h+='<div class="ex-rng"><div class="ex-rng-track"><div class="ex-rng-mean-l" style="left:'+mp+'%">'+L('평균','Avg')+' '+px(d.targetMean)+'</div><div class="ex-rng-mean" style="left:'+mp+'%"></div>'+curHtml+'</div><div class="ex-rng-lab"><span><b>'+L('최저','Low')+'</b> '+px(d.targetLow)+'</span><span><b>'+L('최고','High')+'</b> '+px(d.targetHigh)+'</span></div></div>';
     h+='<div class="ex-note">'+L('증권사 목표가가 '+px(d.targetLow)+' ~ '+px(d.targetHigh)+'로 갈려요. 막대가 넓을수록 의견 차이가 큽니다.','Brokerage targets span '+px(d.targetLow)+' to '+px(d.targetHigh)+' — a wider bar means more disagreement.')+'</div>';
   }
