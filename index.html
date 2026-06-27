@@ -715,7 +715,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.26</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.27</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -839,10 +839,10 @@ async function fetchRaw(){
   if(loading) return; loading = true;
   try {
     let data = {};
-    try { const res = await fetch(MOVERS_PROXY, { cache: "no-store" }); if(res.ok) data = await res.json(); } catch(e){}
-    const lists = [ data.gainers||[], data.losers||[], data.actives||[] ];
+    try { const res = await fetch(MOVERS_PROXY.replace(/\/movers$/,'/yscreen')+'?ids=most_actives,day_gainers,day_losers&count=100', { cache: "no-store" }); if(res.ok) data = await res.json(); } catch(e){}
+    const lists = [ data.most_actives||[], data.day_gainers||[], data.day_losers||[] ];
     const fresh = {};
-    lists.flat().forEach(o=>{ if(o && o.symbol){ const pct = pickPct(o); if(typeof pct==="number" && !isNaN(pct)) fresh[o.symbol] = { price:o.price, pct, name:o.name||o.companyName||o.symbol }; } });
+    lists.flat().forEach(o=>{ if(o && o.symbol){ const pct = (typeof o.changePct==="number"?o.changePct:pickPct(o)); if(typeof pct==="number" && !isNaN(pct)) fresh[o.symbol] = { price:o.price, pct, name:o.name||o.symbol }; } });
     if(Object.keys(fresh).length){
       RAW = fresh; lastUpdated = new Date(); dataReady = true;
       // 장중에 받은 마지막 데이터를 저장 — 장마감/오류 때 폴백으로 사용
