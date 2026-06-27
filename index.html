@@ -390,6 +390,20 @@ html.is-android .briefbar{display:flex;}
 .ex-rng-lab b{color:var(--ink2); font-weight:600;}
 .ex-meta2{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--sec); margin-top:16px;}
 .ex-meta2 b{color:var(--ink2); font-weight:600;}
+.ex-tabs{display:flex; gap:2px; margin:14px 0 16px; border-bottom:1px solid var(--hair);}
+.ex-tab{background:none; border:none; padding:8px 11px 10px; font-size:13px; color:var(--sec); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px;}
+.ex-tab.on{color:var(--ink); font-weight:600; border-bottom-color:var(--ink);}
+.ex-ovtbl{display:flex; flex-direction:column;}
+.ex-ovr{display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--hair); font-size:13.5px;}
+.ex-ovr:last-child{border-bottom:none;}
+.ex-ovk{color:var(--sec);}
+.ex-ovv{color:var(--ink2); font-weight:500; text-align:right;}
+.ex-news{display:flex; flex-direction:column;}
+.ex-nitem{display:block; padding:11px 0; border-bottom:1px solid var(--hair); text-decoration:none;}
+.ex-nitem:last-child{border-bottom:none;}
+.ex-ntitle{font-size:13.5px; color:var(--ink2); line-height:1.45; margin-bottom:4px;}
+.ex-nitem:hover .ex-ntitle{color:var(--ink);}
+.ex-nmeta{font-size:11px; color:var(--sec);}
 .ex-note{font-size:11.5px; color:var(--sec); line-height:1.55; margin-top:13px;}
 .ex-sout{display:none; border:1px solid var(--hair2); border-radius:10px; overflow:hidden; margin:-2px 0 14px; background:var(--surf);}
 .ex-sout.on{display:block;}
@@ -797,7 +811,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.381</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.39</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1242,9 +1256,9 @@ window.loadSurge = loadSurge;
 var EX_ALIAS={ '삼성전자':'005930','삼성':'005930','sk하이닉스':'000660','하이닉스':'000660','현대차':'005380','기아':'000270','네이버':'035420','naver':'035420','카카오':'035720','lg에너지솔루션':'373220','엘지에너지솔루션':'373220','삼성바이오로직스':'207940','삼성바이오':'207940','셀트리온':'068270','포스코':'005490','포스코홀딩스':'005490','현대모비스':'012330','kb금융':'105560','신한지주':'055550','신한금융':'055550','하나금융지주':'086790','하나금융':'086790','삼성sdi':'006400','lg화학':'051910','삼성물산':'028260','한화에어로':'012450','한화에어로스페이스':'012450','삼성전기':'009150','sk이노베이션':'096770','카카오뱅크':'323410','크래프톤':'259960','한국전력':'015760','한전':'015760','sk텔레콤':'017670','skt':'017670','kt':'030200','삼성생명':'032830','삼성화재':'000810','기업은행':'024110','우리금융':'316140','우리금융지주':'316140','lg전자':'066570','hmm':'011200','고려아연':'010130','kt&g':'033780','ktng':'033780','대한항공':'003490','삼성에스디에스':'018260','삼성sds':'018260','두산에너빌리티':'034020','한미반도체':'042700','에코프로비엠':'247540','에코프로':'086520','lg디스플레이':'034220','현대글로비스':'086280','sk스퀘어':'402340','메리츠금융':'138040','두산밥캣':'241560','현대제철':'004020','lg':'003550','아모레퍼시픽':'090430' };
 function exResolve(q){ q=(q||'').trim(); if(!q) return null; var low=q.toLowerCase(); if(EX_ALIAS[q]) return {sym:EX_ALIAS[q],label:q,kr:true}; if(EX_ALIAS[low]) return {sym:EX_ALIAS[low],label:q,kr:true}; if(/^\d{6}$/.test(q)) return {sym:q,label:q,kr:true}; return {sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}; }
 function exSpread(d){ if(d.targetHigh==null||d.targetLow==null||!d.targetMean) return null; var s=(d.targetHigh-d.targetLow)/d.targetMean; if(s<0.25) return {cls:'s-agree',ko:'의견 대체로 일치',en:'Broad agreement'}; if(s<0.6) return {cls:'s-mid',ko:'의견 다소 갈림',en:'Some disagreement'}; return {cls:'s-wide',ko:'의견 크게 갈림',en:'Wide disagreement'}; }
-function exDetailHTML(d, info, curPrice){
-  var label=info.label;
-  if(!d || d.none || d.rating==null) return '<div class="ex-card"><div class="ex-name">'+label+'</div><div class="cns-none">'+L('전문가 의견(목표주가·투자의견) 정보가 없는 종목이에요','No analyst coverage for this stock')+'</div></div>';
+var NEWS_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/news");
+function exCnsBody(d, info, curPrice){
+  if(!d || d.none || d.rating==null) return '<div class="cns-none">'+L('전문가 의견(목표주가·투자의견) 정보가 없는 종목이에요','No analyst coverage for this stock')+'</div>';
   var segKo=['적극매도','매도','중립','매수','적극매수'], segEn=['Strong Sell','Sell','Hold','Buy','Strong Buy'];
   var ai=Math.min(4,Math.max(0,Math.round(d.rating)-1));
   var pos=Math.min(96,Math.max(4,(d.rating-1)/4*100));
@@ -1253,10 +1267,7 @@ function exDetailHTML(d, info, curPrice){
   var segs=''; for(var i=0;i<5;i++) segs+='<div class="cns-seg s'+i+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>';
   var up=(curPrice&&d.targetMean)?((d.targetMean-curPrice)/curPrice*100):null;
   var upTxt=(up!=null)?' <span class="'+(up>=0?'up':'down')+'">('+(up>=0?'+':'')+up.toFixed(1)+'%)</span>':'';
-  var sp=exSpread(d);
-  var h='<div class="ex-card">';
-  h+='<div class="ex-name">'+label+(sp?' <span class="ex-spread '+sp.cls+'">'+L(sp.ko,sp.en)+'</span>':'')+'</div>';
-  h+='<div class="ex-sub">'+L('투자의견','Rating')+' '+d.rating.toFixed(2)+'/5 · '+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
+  var h='<div class="ex-sub">'+L('투자의견','Rating')+' '+d.rating.toFixed(2)+'/5 · '+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
   h+='<div class="cns-barwrap"><div class="cns-bubble s'+ai+'" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
   if(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow){
     var span=d.targetHigh-d.targetLow;
@@ -1268,14 +1279,53 @@ function exDetailHTML(d, info, curPrice){
   }
   h+='<div class="ex-meta2">'+(curPrice!=null?'<span>'+L('현재가','Price')+' <b>'+px(curPrice)+'</b></span>':'')+'<span>'+L('목표주가 평균','Avg target')+' <b>'+(px(d.targetMean)||'—')+'</b>'+upTxt+'</span></div>';
   if(!(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow)){
-    h+='<div class="ex-note">'+L('이 종목은 증권사별 목표가 범위(최저~최고) 데이터가 아직 없어 평균 의견만 표시해요.','Per-brokerage target range isn\'t available yet — showing the average only.')+'</div>';
+    h+='<div class="ex-note">'+L('이 종목은 증권사별 목표가 범위(최저~최고) 데이터가 아직 없어 평균 의견만 표시해요.','Per-brokerage target range is not available yet — showing the average only.')+'</div>';
   }
   if(up!=null && up<0){ h+='<div class="cns-warn">'+L('현재가가 평균 목표가를 넘었어요 — 의견은 최근 3개월 평균이라 급등 시 시차가 있습니다','Price is above the average target — the rating is a lagging 3-month average')+'</div>'; }
+  return h;
+}
+function exOvBody(info, q){
+  if(!q) return '<div class="cns-none">'+L('시세 정보를 불러오지 못했어요','Quote unavailable')+'</div>';
+  var krc=!!info.kr; var unit=krc?'₩':'$';
+  function px(v){ if(v==null) return '—'; return unit+Number(v).toLocaleString('en-US', krc?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  var chg=q.changePct;
+  var chgTxt=(chg!=null)?'<span class="'+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':'—';
+  var rows=[['현재가','Price','<b>'+px(q.price)+'</b> &nbsp;'+chgTxt]];
+  if(q.dayLow!=null&&q.dayHigh!=null) rows.push(['당일 범위','Day range', px(q.dayLow)+' ~ '+px(q.dayHigh)]);
+  if(q.wk52Low!=null&&q.wk52High!=null) rows.push(['52주 범위','52-week range', px(q.wk52Low)+' ~ '+px(q.wk52High)]);
+  var ex=(!krc&&q.exch)?q.exch:(krc?'KRX (KOSPI/KOSDAQ)':'');
+  if(ex) rows.push(['거래소','Exchange', ex+' · '+(krc?'KRW':(q.currency||'USD'))]);
+  var h='<div class="ex-ovtbl">'+rows.map(function(r){ return '<div class="ex-ovr"><span class="ex-ovk">'+L(r[0],r[1])+'</span><span class="ex-ovv">'+r[2]+'</span></div>'; }).join('')+'</div>';
+  h+='<div class="ex-note">'+L('시세 출처: '+(krc?'네이버(KRX)':'야후 파이낸스')+'. 약 5분 캐시.', 'Quote: '+(krc?'Naver (KRX)':'Yahoo Finance')+', ~5-min cache.')+'</div>';
+  return h;
+}
+function exFmtWhen(n){ if(n.ts){ try{ return new Date(n.ts).toLocaleDateString(); }catch(e){} } if(n.when) return String(n.when).replace('T',' ').slice(0,16); return ''; }
+function exNewsBody(items){
+  if(items===null) return '<div class="cns-none">'+L('뉴스 불러오는 중…','Loading news…')+'</div>';
+  if(!items.length) return '<div class="cns-none">'+L('관련 뉴스를 찾지 못했어요','No related news found')+'</div>';
+  return '<div class="ex-news">'+items.map(function(n){ var meta=[n.source, exFmtWhen(n)].filter(Boolean).join(' · '); var ti=String(n.title).replace(/</g,'&lt;'); return '<a class="ex-nitem" href="'+n.url+'" target="_blank" rel="noopener noreferrer"><div class="ex-ntitle">'+ti+'</div><div class="ex-nmeta">'+meta+'</div></a>'; }).join('')+'</div>';
+}
+function exCardHTML(info, q, d, cur){
+  var spHTML=''; if(d && !d.none && d.rating!=null){ var sp=exSpread(d); if(sp) spHTML=' <span class="ex-spread '+sp.cls+'">'+L(sp.ko,sp.en)+'</span>'; }
+  var h='<div class="ex-card">';
+  h+='<div class="ex-name">'+info.label+spHTML+'</div>';
+  h+='<div class="ex-tabs"><button class="ex-tab" data-extab="ov">'+L('개요','Overview')+'</button><button class="ex-tab on" data-extab="cns">'+L('전문가의견','Analyst')+'</button><button class="ex-tab" data-extab="news">'+L('관련뉴스','News')+'</button></div>';
+  h+='<div class="ex-pane" data-pane="ov" style="display:none">'+exOvBody(info,q)+'</div>';
+  h+='<div class="ex-pane" data-pane="cns">'+exCnsBody(d,info,cur)+'</div>';
+  h+='<div class="ex-pane" data-pane="news" style="display:none">'+exNewsBody(null)+'</div>';
   h+='</div>';
   return h;
 }
+function exLoadNews(info){
+  var pane=document.querySelector('#exDetail .ex-pane[data-pane="news"]'); if(!pane) return;
+  if(pane.getAttribute('data-loaded')==='1') return; pane.setAttribute('data-loaded','1');
+  pane.innerHTML=exNewsBody(null);
+  fetch(NEWS_PROXY+'?sym='+encodeURIComponent(info.sym)+'&kr='+(info.kr?1:0)+'&name='+encodeURIComponent(info.label||'')).then(function(r){return r.ok?r.json():null;}).then(function(j){ pane.innerHTML=exNewsBody((j&&j.news)||[]); }).catch(function(){ pane.innerHTML=exNewsBody([]); });
+}
+window.exLoadNews=exLoadNews;
+document.addEventListener('click', function(e){ var tb=e.target.closest?e.target.closest('.ex-tab'):null; if(!tb) return; var card=tb.closest('.ex-card'); if(!card) return; var tt=tb.getAttribute('data-extab'); var tabs=card.querySelectorAll('.ex-tab'); for(var i=0;i<tabs.length;i++) tabs[i].classList.toggle('on', tabs[i]===tb); var panes=card.querySelectorAll('.ex-pane'); for(var j=0;j<panes.length;j++){ panes[j].style.display=(panes[j].getAttribute('data-pane')===tt)?'':'none'; } if(tt==='news' && window.__exInfo) exLoadNews(window.__exInfo); });
 function loadExpert(info){
-  if(!info||!info.sym) return; window.__exSym=info.sym;
+  if(!info||!info.sym) return; window.__exSym=info.sym; window.__exInfo=info;
   var box=document.getElementById('exDetail'); if(!box) return;
   box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('불러오는 중…','Loading…')+'</div></div>';
   var pxUrl=info.kr?(KR_PROXY+'?stocks='+encodeURIComponent(info.sym)):(QUOTES_PROXY+'?symbols='+encodeURIComponent(info.sym));
@@ -1283,9 +1333,12 @@ function loadExpert(info){
     fetch(CONS_PROXY+'?symbol='+encodeURIComponent(info.sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
     fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
   ]).then(function(res){
-    var d=res[0],q=res[1],cur=null;
-    if(q){ if(info.kr){ if(q.stocks&&q.stocks[0]){ cur=q.stocks[0].price; if(q.stocks[0].name) info.label=q.stocks[0].name+' ('+info.sym+')'; } } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; }
-    box.innerHTML=exDetailHTML(d, info, cur); if(window.exAddRecent) exAddRecent(info);
+    var d=res[0],qall=res[1],q=null,cur=null;
+    if(qall){ if(info.kr){ q=qall.stocks&&qall.stocks[0]; } else { q=qall.quotes&&qall.quotes[0]; } }
+    if(q){ cur=q.price; if(info.kr && q.name) info.label=q.name+' ('+info.sym+')'; }
+    window.__exInfo=info;
+    box.innerHTML=exCardHTML(info, q, d, cur);
+    if(window.exAddRecent) exAddRecent(info);
   });
 }
 function exChip(sym,label,kr){ return '<button class="ex-chip'+(window.__exSym===sym?' on':'')+'" data-sym="'+sym+'" data-kr="'+(kr?1:0)+'" data-label="'+String(label).replace(/"/g,'')+'">'+label+'</button>'; }
