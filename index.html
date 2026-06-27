@@ -379,6 +379,7 @@ html.is-android .briefbar{display:flex;}
 .cns-meta .up{color:var(--up);} .cns-meta .down{color:var(--down);}
 .cns-src{font-size:11px; color:var(--sec); margin-top:7px;}
 .cns-none{font-size:13px; color:var(--sec); padding:6px 0;}
+.cns-warn{font-size:11.5px; color:var(--down); margin-top:6px;}
 @media(max-width:600px){ .cns-inner{padding:0 16px;} }
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
@@ -740,7 +741,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.311</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.312</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1087,6 +1088,7 @@ function consensusHTML(d, label, curPrice){
   var h='<div class="cns-h">'+L('전문가 의견','Analyst View')+' · <b>'+label+'</b></div>';
   h+='<div class="cns-barwrap"><div class="cns-bubble s'+ai+'" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
   h+='<div class="cns-meta">'+(curPrice!=null?'<span>'+L('현재가','Price')+' <b>'+px(curPrice)+'</b></span>':'')+'<span>'+L('목표주가','Target')+' <b>'+(px(d.targetMean)||'—')+'</b>'+upTxt+'</span>'+((d.targetLow!=null&&d.targetHigh!=null)?'<span>'+L('목표가 범위','Target range')+' '+px(d.targetLow)+'~'+px(d.targetHigh)+'</span>':'')+'</div>';
+  if(up!=null && up<0){ h+='<div class="cns-warn">'+L('현재가가 목표주가를 상회 — 의견은 최근 3개월 평균이라 급등 시 시차가 있어요','Price is above the target — the rating is a lagging 3-month average')+'</div>'; }
   h+='<div class="cns-src">'+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
   return h;
 }
