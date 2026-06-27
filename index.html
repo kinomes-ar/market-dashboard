@@ -359,18 +359,24 @@ html.is-android .briefbar{display:flex;}
 .surge-criteria b{color:var(--ink2); font-weight:600;}
 #surgeView .surge-row{cursor:pointer;}
 #surgeView .surge-row.sel{background:var(--surf);}
-.cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px; min-height:80px;}
-.cns-h{font-size:14px; color:var(--ink2); margin-bottom:22px;}
+#surgeView{padding-bottom:176px;}
+.cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px;}
+#cnsPanel{position:fixed; left:0; right:0; bottom:0; z-index:80; background:var(--bg); border-top:1px solid var(--hair2); box-shadow:0 -7px 22px rgba(0,0,0,.16); padding:11px 0 15px; margin:0; display:none;}
+#cnsPanel.show{display:block;}
+.cns-inner{max-width:1000px; margin:0 auto; padding:0 24px;}
+.cns-h{font-size:13.5px; color:var(--ink2); margin-bottom:20px;}
 .cns-h b{color:var(--ink); font-weight:600;}
-.cns-barwrap{position:relative; margin:0 0 12px;}
-.cns-bubble{position:absolute; top:-22px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
+.cns-barwrap{position:relative; margin:0 0 11px;}
+.cns-bubble{position:absolute; top:-21px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
 .cns-segs{display:flex; gap:3px;}
-.cns-seg{flex:1; text-align:center; font-size:11px; color:var(--sec); padding-top:8px; border-top:3px solid var(--hair2);}
+.cns-seg{flex:1; text-align:center; font-size:11px; color:var(--sec); padding-top:7px; border-top:3px solid var(--hair2);}
 .cns-seg.on{color:var(--ink); font-weight:700; border-top-color:var(--ink);}
-.cns-meta{display:flex; gap:20px; flex-wrap:wrap; font-size:13px; color:var(--ink2); margin-top:4px;}
+.cns-meta{display:flex; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--ink2); margin-top:4px;}
 .cns-meta b{color:var(--ink); font-weight:600;}
-.cns-src{font-size:11px; color:var(--sec); margin-top:8px;}
+.cns-meta .up{color:var(--up);} .cns-meta .down{color:var(--down);}
+.cns-src{font-size:11px; color:var(--sec); margin-top:7px;}
 .cns-none{font-size:13px; color:var(--sec); padding:6px 0;}
+@media(max-width:600px){ .cns-inner{padding:0 16px;} }
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
 .ttsbtn.on{border-color:var(--ink); color:var(--ink);}
@@ -731,7 +737,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.30</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.31</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1066,49 +1072,57 @@ async function loadUSMajor(){
 window.loadUSMajor=loadUSMajor;
 const CONS_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/consensus");
 var cnsSel = null;
-function consensusHTML(d, label){
-  if(!d || d.none || d.rating==null) return '<div class="cns-h">'+L('컨센서스','Consensus')+' · <b>'+label+'</b></div><div class="cns-none">'+L('애널리스트 컨센서스 정보 없음','No analyst consensus')+'</div>';
+function consensusHTML(d, label, curPrice){
+  if(!d || d.none || d.rating==null) return '<div class="cns-h">'+L('전문가 의견','Analyst View')+' · <b>'+label+'</b></div><div class="cns-none">'+L('전문가 의견 정보 없음','No analyst coverage')+'</div>';
   var segKo=['적극매도','매도','중립','매수','적극매수'], segEn=['Strong Sell','Sell','Hold','Buy','Strong Buy'];
   var ai=Math.min(4,Math.max(0,Math.round(d.rating)-1));
   var pos=Math.min(96,Math.max(4,(d.rating-1)/4*100));
-  var cur=d.currency==='KRW'?'\u20A9':'$';
-  var tgt=(d.targetMean!=null)?cur+Number(d.targetMean).toLocaleString('en-US'):'—';
-  var rng=(d.targetLow!=null&&d.targetHigh!=null)?(cur+Number(d.targetLow).toLocaleString('en-US')+' ~ '+cur+Number(d.targetHigh).toLocaleString('en-US')):'';
-  var segs='';
-  for(var i=0;i<5;i++){ segs+='<div class="cns-seg'+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>'; }
-  var h='<div class="cns-h">'+L('컨센서스','Consensus')+' · <b>'+label+'</b></div>';
+  function px(v){ if(v==null) return null; return (d.currency==='KRW'?'₩':'$')+Number(v).toLocaleString('en-US', d.currency==='KRW'?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  var segs=''; for(var i=0;i<5;i++) segs+='<div class="cns-seg'+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>';
+  var up=(curPrice&&d.targetMean)?((d.targetMean-curPrice)/curPrice*100):null;
+  var upTxt=(up!=null)?' <span class="'+(up>=0?'up':'down')+'">('+(up>=0?'+':'')+up.toFixed(1)+'%)</span>':'';
+  var h='<div class="cns-h">'+L('전문가 의견','Analyst View')+' · <b>'+label+'</b></div>';
   h+='<div class="cns-barwrap"><div class="cns-bubble" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
-  h+='<div class="cns-meta"><span>'+L('목표주가','Target')+' <b>'+tgt+'</b></span>'+(rng?'<span>'+L('범위','Range')+' '+rng+'</span>':'')+'</div>';
+  h+='<div class="cns-meta">'+(curPrice!=null?'<span>'+L('현재가','Price')+' <b>'+px(curPrice)+'</b></span>':'')+'<span>'+L('목표주가','Target')+' <b>'+(px(d.targetMean)||'—')+'</b>'+upTxt+'</span>'+((d.targetLow!=null&&d.targetHigh!=null)?'<span>'+L('범위','Range')+' '+px(d.targetLow)+'~'+px(d.targetHigh)+'</span>':'')+'</div>';
   h+='<div class="cns-src">'+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
   return h;
 }
-async function loadConsensus(symbol, label){
-  var panel=document.getElementById('cnsPanel'); if(!panel) return;
-  panel.innerHTML='<div class="cns-h">'+L('컨센서스','Consensus')+' …</div>';
-  try{ var r=await fetch(CONS_PROXY+'?symbol='+encodeURIComponent(symbol)); var d=r.ok?await r.json():null; panel.innerHTML=consensusHTML(d,label||symbol); }
-  catch(e){ panel.innerHTML=consensusHTML(null,label||symbol); }
+async function loadConsensus(symbol, label, curPrice){
+  var p=document.getElementById('cnsPanel'); if(!p) return;
+  p.innerHTML='<div class="cns-inner"><div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div></div>';
+  try{ var r=await fetch(CONS_PROXY+'?symbol='+encodeURIComponent(symbol)); var d=r.ok?await r.json():null; p.innerHTML='<div class="cns-inner">'+consensusHTML(d,label||symbol,curPrice)+'</div>'; }
+  catch(e){ p.innerHTML='<div class="cns-inner">'+consensusHTML(null,label||symbol,curPrice)+'</div>'; }
 }
+function rowPrice(row){ var s=((row.querySelector('.px')||{}).textContent||''); var n=parseFloat(s.replace(/[^0-9.]/g,'')); return isNaN(n)?null:n; }
 function surgeRowSel(row){
   if(!row) return;
   var tk=((row.querySelector('.tk')||{}).textContent||'').trim();
   var sub=((row.querySelector('.sub2')||{}).textContent||'').trim();
+  var cur=rowPrice(row);
   var kr=row.closest('#krUp')||row.closest('#krDown');
-  if(kr){ cnsSel=sub; loadConsensus(sub, tk||sub); } else { cnsSel=tk; loadConsensus(tk, tk); }
+  if(kr){ cnsSel=sub; loadConsensus(sub, tk||sub, cur); } else { cnsSel=tk; loadConsensus(tk, tk, cur); }
   var prev=document.querySelectorAll('#surgeView .surge-row.sel'); for(var i=0;i<prev.length;i++) prev[i].classList.remove('sel');
   row.classList.add('sel');
 }
 document.addEventListener('click', function(e){ var row=e.target.closest?e.target.closest('.surge-row'):null; if(row && row.closest('#surgeView')){ surgeRowSel(row); } });
 function firstVisRow(id){ var rows=document.querySelectorAll('#'+id+' .surge-row'); for(var i=0;i<rows.length;i++){ if(rows[i].offsetParent!==null && rows[i].style.display!=='none') return rows[i]; } return null; }
-function setDefaultConsensus(){ if(cnsSel) return; var row=firstVisRow('krUp')||firstVisRow('usUp')||firstVisRow('krDown')||firstVisRow('usDown'); if(row) surgeRowSel(row); }
+function setDefaultConsensus(force){ if(!force && cnsSel) return; cnsSel=null; var row=firstVisRow('krUp')||firstVisRow('usUp')||firstVisRow('krDown')||firstVisRow('usDown'); if(row) surgeRowSel(row); }
 window.setDefaultConsensus=setDefaultConsensus;
 function fillBriefConsensus(){
   var els=document.querySelectorAll('.brief-cns[data-symbol]');
   Array.prototype.forEach.call(els, function(el){
-    var sym=el.getAttribute('data-symbol'); if(!sym || el.getAttribute('data-done')) return;
-    el.setAttribute('data-done','1');
-    var label=el.getAttribute('data-label')||sym;
-    el.innerHTML='<div class="cns-h">'+L('컨센서스','Consensus')+' …</div>';
-    fetch(CONS_PROXY+'?symbol='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).then(function(d){ el.innerHTML=consensusHTML(d,label); }).catch(function(){ el.innerHTML=consensusHTML(null,label); });
+    var sym=el.getAttribute('data-symbol'); if(!sym || el.getAttribute('data-done')) return; el.setAttribute('data-done','1');
+    var label=el.getAttribute('data-label')||sym; var isKR=/^[0-9]{6}$/.test(sym);
+    var pxUrl=isKR?(KR_PROXY+'?stocks='+sym):(QUOTES_PROXY+'?symbols='+sym);
+    el.innerHTML='<div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div>';
+    Promise.all([
+      fetch(CONS_PROXY+'?symbol='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+      fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+    ]).then(function(res){
+      var d=res[0], q=res[1], cur=null;
+      if(q){ if(isKR){ if(q.stocks&&q.stocks[0]) cur=q.stocks[0].price; } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; }
+      el.innerHTML=consensusHTML(d,label,cur);
+    });
   });
 }
 window.fillBriefConsensus=fillBriefConsensus;
@@ -1161,7 +1175,7 @@ function applySurgeFilter(){
   });
   var tabs=document.querySelectorAll('.surgetab'); for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('active', tabs[i].dataset.mode===mode); }
 }
-document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ try{ localStorage.setItem('gmd_surgemode', b.dataset.mode); }catch(err){} applySurgeFilter(); } });
+document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ try{ localStorage.setItem('gmd_surgemode', b.dataset.mode); }catch(err){} applySurgeFilter(); if(typeof setDefaultConsensus==='function') setDefaultConsensus(true); } });
 window.loadSurge = loadSurge;
 
 // 모닝브리핑 읽어주기(브라우저 내장 TTS)
@@ -1661,7 +1675,7 @@ initSurgeFlags();
     syncTheme();
   });
   const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
-  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } window.scrollTo(0,0); }
+  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ if(_cp.parentElement!==document.body) document.body.appendChild(_cp); _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
