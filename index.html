@@ -391,6 +391,19 @@ html.is-android .briefbar{display:flex;}
 .ex-meta2{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--sec); margin-top:16px;}
 .ex-meta2 b{color:var(--ink2); font-weight:600;}
 .ex-note{font-size:11.5px; color:var(--sec); line-height:1.55; margin-top:13px;}
+.ex-sout{display:none; border:1px solid var(--hair2); border-radius:10px; overflow:hidden; margin:-2px 0 14px; background:var(--surf);}
+.ex-sout.on{display:block;}
+.ex-sitem{display:flex; align-items:baseline; gap:10px; padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--hair);}
+.ex-sitem:last-child{border-bottom:none;}
+.ex-sitem:active,.ex-sitem:hover{background:var(--hair2);}
+.ex-sname{font-size:13.5px; color:var(--ink); font-weight:500;}
+.ex-ssym{font-size:11px; color:var(--sec); margin-left:auto; white-space:nowrap;}
+.ex-recent-wrap{margin-bottom:4px;}
+.ex-recent-h{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--ink2); margin:18px 0 10px;}
+.ex-clear{margin-left:auto; background:none; border:none; color:var(--sec); font-size:11.5px; cursor:pointer; text-decoration:underline; padding:0;}
+.ex-rchip{display:inline-flex; align-items:center; gap:7px;}
+.ex-rx{display:inline-flex; align-items:center; opacity:.5; font-size:14px; line-height:1; cursor:pointer;}
+.ex-rx:hover{opacity:1;}
 .cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px;}
 #cnsPanel{position:fixed; left:0; right:0; bottom:0; z-index:80; background:var(--bg); border-top:1px solid var(--hair2); box-shadow:0 -7px 22px rgba(0,0,0,.16); padding:11px 0 15px; margin:0; display:none;}
 #cnsPanel.show{display:block;}
@@ -769,8 +782,10 @@ html.is-android .briefbar{display:flex;}
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 8px"><span data-lang="ko">전문가 의견</span><span data-lang="en">Analyst View</span></h1>
     <p class="ex-lead"><span data-lang="ko">목표주가·투자의견은 <b>여러 증권사 의견의 평균</b>이에요. 목표가 <b>범위(최저~최고)가 넓을수록 증권사마다 의견이 갈린다</b>는 뜻입니다.</span><span data-lang="en">Targets and ratings are an <b>average across brokerages</b>. A <b>wider low–high range means analysts disagree more</b>.</span></p>
-    <div class="ex-search"><input id="exSearch" type="text" autocomplete="off" placeholder="MU · 005930 · 삼성전자" /><button id="exSearchBtn"><span data-lang="ko">조회</span><span data-lang="en">Search</span></button></div>
-    <div class="ex-hint"><span data-lang="ko">미국은 티커(MU), 한국은 종목코드 6자리(005930) 또는 주요 종목명. 아래 '오늘의 종목'에서 골라도 됩니다.</span><span data-lang="en">US: ticker (MU). Korea: 6-digit code (005930) or major name. Or pick from below.</span></div>
+    <div class="ex-search"><input id="exSearch" type="text" autocomplete="off" placeholder="마이크로소프트 · MSFT · 005930" /><button id="exSearchBtn"><span data-lang="ko">조회</span><span data-lang="en">Search</span></button></div>
+    <div id="exSearchOut" class="ex-sout"></div>
+    <div class="ex-hint"><span data-lang="ko">이름·티커·종목코드 아무거나 검색하세요 (예: 마이크로소프트, MSFT, 005930). 아래에서 골라도 됩니다.</span><span data-lang="en">Search by name, ticker, or code (e.g. Microsoft, MSFT, 005930), or pick below.</span></div>
+    <div id="exRecentWrap" class="ex-recent-wrap" style="display:none"><div class="ex-recent-h"><span data-lang="ko">최근 본 종목</span><span data-lang="en">Recently viewed</span><button id="exRecentClear" class="ex-clear"><span data-lang="ko">전체 지우기</span><span data-lang="en">Clear all</span></button></div><div id="exRecent" class="ex-chips"></div></div>
     <div id="exDetail" class="ex-detail"></div>
     <div class="ex-today-h"><span data-lang="ko">오늘의 종목</span><span data-lang="en">Today's stocks</span></div>
     <div id="exToday" class="ex-chips"></div>
@@ -781,7 +796,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.37</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.38</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1269,7 +1284,7 @@ function loadExpert(info){
   ]).then(function(res){
     var d=res[0],q=res[1],cur=null;
     if(q){ if(info.kr){ if(q.stocks&&q.stocks[0]){ cur=q.stocks[0].price; if(q.stocks[0].name) info.label=q.stocks[0].name+' ('+info.sym+')'; } } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; }
-    box.innerHTML=exDetailHTML(d, info, cur);
+    box.innerHTML=exDetailHTML(d, info, cur); if(window.exAddRecent) exAddRecent(info);
   });
 }
 function exChip(sym,label,kr){ return '<button class="ex-chip'+(window.__exSym===sym?' on':'')+'" data-sym="'+sym+'" data-kr="'+(kr?1:0)+'" data-label="'+String(label).replace(/"/g,'')+'">'+label+'</button>'; }
@@ -1288,8 +1303,20 @@ function buildExpertToday(){
   if(!window.__exSym){ var first=box.querySelector('.ex-chip'); if(first){ first.classList.add('on'); loadExpert({sym:first.getAttribute('data-sym'),label:first.getAttribute('data-label'),kr:first.getAttribute('data-kr')==='1'}); } }
 }
 window.buildExpertToday=buildExpertToday; window.loadExpert=loadExpert;
-document.addEventListener('click', function(e){ var c=e.target.closest?e.target.closest('.ex-chip'):null; if(c){ var box=document.getElementById('exToday'); if(box){ var cs=box.querySelectorAll('.ex-chip'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); } c.classList.add('on'); loadExpert({sym:c.getAttribute('data-sym'),label:c.getAttribute('data-label')||c.getAttribute('data-sym'),kr:c.getAttribute('data-kr')==='1'}); } });
-(function exSearchInit(){ var inp=document.getElementById('exSearch'), btn=document.getElementById('exSearchBtn'); function go(){ if(!inp) return; var info=exResolve(inp.value); if(info){ var box2=document.getElementById('exToday'); if(box2){ var cs=box2.querySelectorAll('.ex-chip.on'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); } loadExpert(info); var box=document.getElementById('exDetail'); if(box) box.scrollIntoView({behavior:'smooth',block:'nearest'}); } } if(btn) btn.addEventListener('click', go); if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } }); })();
+document.addEventListener('click', function(e){ var rx=e.target.closest?e.target.closest('.ex-rx'):null; if(rx){ e.stopPropagation(); if(window.exRemoveRecent) exRemoveRecent(rx.getAttribute('data-sym')); return; } var si=e.target.closest?e.target.closest('.ex-sitem'):null; if(si){ if(window.exLoadSel) exLoadSel(si.getAttribute('data-sym'), si.getAttribute('data-label'), si.getAttribute('data-kr')==='1'); var o=document.getElementById('exSearchOut'); if(o){ o.className='ex-sout'; o.innerHTML=''; } var inp=document.getElementById('exSearch'); if(inp) inp.value=si.getAttribute('data-label')||''; return; } var c=e.target.closest?e.target.closest('.ex-chip'):null; if(c){ if(window.exLoadSel) exLoadSel(c.getAttribute('data-sym'), c.getAttribute('data-label')||c.getAttribute('data-sym'), c.getAttribute('data-kr')==='1'); } });
+var SEARCH_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/search");
+var EX_RK='gmd_ex_recent';
+function exGetRecent(){ try{ return JSON.parse(localStorage.getItem(EX_RK)||'[]')||[]; }catch(e){ return []; } }
+function exSetRecent(a){ try{ localStorage.setItem(EX_RK, JSON.stringify(a.slice(0,12))); }catch(e){} }
+function exAddRecent(info){ if(!info||!info.sym) return; var a=exGetRecent().filter(function(x){return x.sym!==info.sym;}); a.unshift({sym:info.sym,label:info.label||info.sym,kr:!!info.kr}); exSetRecent(a); exRenderRecent(); }
+function exRemoveRecent(sym){ exSetRecent(exGetRecent().filter(function(x){return x.sym!==sym;})); exRenderRecent(); }
+function exClearRecent(){ exSetRecent([]); exRenderRecent(); }
+function exRenderRecent(){ var wrap=document.getElementById('exRecentWrap'), box=document.getElementById('exRecent'); if(!box||!wrap) return; var a=exGetRecent(); if(!a.length){ wrap.style.display='none'; box.innerHTML=''; return; } wrap.style.display=''; box.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<span class="ex-chip ex-rchip'+(window.__exSym===x.sym?' on':'')+'" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><span class="ex-rlab">'+lab+'</span><span class="ex-rx" data-sym="'+x.sym+'">×</span></span>'; }).join(''); }
+function exLoadSel(sym,label,kr){ var on=document.querySelectorAll('#exToday .ex-chip.on, #exRecent .ex-chip.on'); for(var i=0;i<on.length;i++) on[i].classList.remove('on'); loadExpert({sym:sym,label:label||sym,kr:!!kr}); var box=document.getElementById('exDetail'); if(box) box.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function exRenderSearch(list){ var out=document.getElementById('exSearchOut'); if(!out) return; if(!list||!list.length){ out.className='ex-sout'; out.innerHTML=''; return; } out.className='ex-sout on'; out.innerHTML=list.map(function(x){ var lab=String(x.name||x.sym).replace(/"/g,''); return '<div class="ex-sitem" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><span class="ex-sname">'+lab+'</span><span class="ex-ssym">'+x.sym+(x.exch?' · '+x.exch:'')+'</span></div>'; }).join(''); }
+function exSearchRemote(q, cb){ fetch(SEARCH_PROXY+'?q='+encodeURIComponent(q)).then(function(r){return r.ok?r.json():null;}).then(function(j){ cb((j&&j.results)||[]); }).catch(function(){ cb([]); }); }
+window.exAddRecent=exAddRecent; window.exRenderRecent=exRenderRecent; window.exRemoveRecent=exRemoveRecent; window.exLoadSel=exLoadSel; window.exClearRecent=exClearRecent;
+(function exSearchInit(){ var inp=document.getElementById('exSearch'), btn=document.getElementById('exSearchBtn'), out=document.getElementById('exSearchOut'); var tmr=null, lastList=[]; function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } } function go(){ if(!inp) return; var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; exLoadSel(x.sym, x.name, x.kr); hide(); return; } var info=exResolve(q); if(info) exLoadSel(info.sym, info.label, info.kr); hide(); } if(inp) inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); if(q.length<2){ lastList=[]; hide(); return; } tmr=setTimeout(function(){ exSearchRemote(q, function(list){ lastList=list; exRenderSearch(list); }); }, 260); }); if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } }); if(btn) btn.addEventListener('click', go); var clr=document.getElementById('exRecentClear'); if(clr) clr.addEventListener('click', exClearRecent); document.addEventListener('click', function(e){ if(out && !(e.target.closest&&e.target.closest('.ex-search')) && !(e.target.closest&&e.target.closest('.ex-sout'))) hide(); }); })();
 
 
 // 모닝브리핑 읽어주기(브라우저 내장 TTS)
@@ -1795,7 +1822,7 @@ initSurgeFlags();
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
   window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); if(typeof applySurgeFilter==='function') applySurgeFilter(); showView('surge'); };
-  window.showExpert    = ()=>{ if(window.loadSurge) loadSurge(); if(window.buildExpertToday) buildExpertToday(); showView('expert'); setTimeout(function(){ if(window.buildExpertToday) buildExpertToday(); }, 1400); };
+  window.showExpert    = ()=>{ if(window.loadSurge) loadSurge(); if(window.exRenderRecent) exRenderRecent(); if(window.buildExpertToday) buildExpertToday(); showView('expert'); setTimeout(function(){ if(window.buildExpertToday) buildExpertToday(); }, 1400); };
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
