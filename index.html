@@ -357,6 +357,20 @@ html.is-android .briefbar{display:flex;}
 .brief-extra .chead{margin-bottom:4px;}
 .surge-criteria{font-size:12px; color:var(--sec); line-height:1.65; margin:0 0 16px;}
 .surge-criteria b{color:var(--ink2); font-weight:600;}
+#surgeView .surge-row{cursor:pointer;}
+#surgeView .surge-row.sel{background:var(--surf);}
+.cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px; min-height:80px;}
+.cns-h{font-size:14px; color:var(--ink2); margin-bottom:22px;}
+.cns-h b{color:var(--ink); font-weight:600;}
+.cns-barwrap{position:relative; margin:0 0 12px;}
+.cns-bubble{position:absolute; top:-22px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
+.cns-segs{display:flex; gap:3px;}
+.cns-seg{flex:1; text-align:center; font-size:11px; color:var(--sec); padding-top:8px; border-top:3px solid var(--hair2);}
+.cns-seg.on{color:var(--ink); font-weight:700; border-top-color:var(--ink);}
+.cns-meta{display:flex; gap:20px; flex-wrap:wrap; font-size:13px; color:var(--ink2); margin-top:4px;}
+.cns-meta b{color:var(--ink); font-weight:600;}
+.cns-src{font-size:11px; color:var(--sec); margin-top:8px;}
+.cns-none{font-size:13px; color:var(--sec); padding:6px 0;}
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
 .ttsbtn.on{border-color:var(--ink); color:var(--ink);}
@@ -707,6 +721,7 @@ html.is-android .briefbar{display:flex;}
         <div class="surge-col"><div class="surge-h down"><span data-lang="ko">급하락 TOP 10</span><span data-lang="en">Top Losers</span></div><div id="usDown"><div class="surge-set" data-set="major"><!--USDOWN--><div class="surge-row"><div class="rk">1</div><div class="nm"><span class="tk">ATLN</span><span class="sub2">Atlantic International Corp.</span></div><div class="px">$0.78</div><div class="pct down">-41.35%</div></div><div class="surge-row"><div class="rk">2</div><div class="nm"><span class="tk">HTZ</span><span class="sub2">Hertz Global Holdings, Inc.</span></div><div class="px">$3.00</div><div class="pct down">-40.71%</div></div><div class="surge-row"><div class="rk">3</div><div class="nm"><span class="tk">TOYO</span><span class="sub2">TOYO Co., Ltd.</span></div><div class="px">$7.91</div><div class="pct down">-38.82%</div></div><div class="surge-row"><div class="rk">4</div><div class="nm"><span class="tk">CGTX</span><span class="sub2">Cognition Therapeutics, Inc.</span></div><div class="px">$1.02</div><div class="pct down">-38.18%</div></div><div class="surge-row"><div class="rk">5</div><div class="nm"><span class="tk">JLHL</span><span class="sub2">Julong Holding Limited Class A Ordinary Shares</span></div><div class="px">$13.25</div><div class="pct down">-32.05%</div></div><div class="surge-row"><div class="rk">6</div><div class="nm"><span class="tk">NUWE</span><span class="sub2">Nuwellis, Inc.</span></div><div class="px">$0.09</div><div class="pct down">-30.47%</div></div><div class="surge-row"><div class="rk">7</div><div class="nm"><span class="tk">FRTT</span><span class="sub2">Fort Technology Inc. Common Shares</span></div><div class="px">$1.27</div><div class="pct down">-28.25%</div></div><div class="surge-row"><div class="rk">8</div><div class="nm"><span class="tk">SDOT</span><span class="sub2">Sadot Group Inc.</span></div><div class="px">$7.25</div><div class="pct down">-28.18%</div></div><div class="surge-row"><div class="rk">9</div><div class="nm"><span class="tk">BGL</span><span class="sub2">Blue Gold Limited</span></div><div class="px">$0.28</div><div class="pct down">-27.94%</div></div><div class="surge-row"><div class="rk">10</div><div class="nm"><span class="tk">VMAR</span><span class="sub2">Vision Marine Technologies Inc.</span></div><div class="px">$1.96</div><div class="pct down">-27.94%</div></div><!--/USDOWN--></div><div class="surge-set" data-set="large"><!--USDOWN_L--><!--/USDOWN_L--></div></div></div>
       </div>
     </section>
+    <div id="cnsPanel" class="cns-panel"></div>
     <div class="asof-live"><span data-lang="ko">한국 평일 오전·오후 2회, 미국 장중·마감 직전 2회 갱신. 장 외 시간엔 마지막 갱신 데이터 기준.</span><span data-lang="en">Korea updates twice on weekdays; US twice per session (intraday & near close). Last data shown outside hours.</span></div>
   </div>
 
@@ -715,7 +730,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.28</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.29</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1048,6 +1063,43 @@ async function loadUSMajor(){
   }catch(e){}
 }
 window.loadUSMajor=loadUSMajor;
+const CONS_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/consensus");
+var cnsSel = null;
+function consensusHTML(d, label){
+  if(!d || d.none || d.rating==null) return '<div class="cns-h">'+L('컨센서스','Consensus')+' · <b>'+label+'</b></div><div class="cns-none">'+L('애널리스트 컨센서스 정보 없음','No analyst consensus')+'</div>';
+  var segKo=['적극매도','매도','중립','매수','적극매수'], segEn=['Strong Sell','Sell','Hold','Buy','Strong Buy'];
+  var ai=Math.min(4,Math.max(0,Math.round(d.rating)-1));
+  var pos=Math.min(96,Math.max(4,(d.rating-1)/4*100));
+  var cur=d.currency==='KRW'?'\u20A9':'$';
+  var tgt=(d.targetMean!=null)?cur+Number(d.targetMean).toLocaleString('en-US'):'—';
+  var rng=(d.targetLow!=null&&d.targetHigh!=null)?(cur+Number(d.targetLow).toLocaleString('en-US')+' ~ '+cur+Number(d.targetHigh).toLocaleString('en-US')):'';
+  var segs='';
+  for(var i=0;i<5;i++){ segs+='<div class="cns-seg'+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>'; }
+  var h='<div class="cns-h">'+L('컨센서스','Consensus')+' · <b>'+label+'</b></div>';
+  h+='<div class="cns-barwrap"><div class="cns-bubble" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
+  h+='<div class="cns-meta"><span>'+L('목표주가','Target')+' <b>'+tgt+'</b></span>'+(rng?'<span>'+L('범위','Range')+' '+rng+'</span>':'')+'</div>';
+  h+='<div class="cns-src">'+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
+  return h;
+}
+async function loadConsensus(symbol, label){
+  var panel=document.getElementById('cnsPanel'); if(!panel) return;
+  panel.innerHTML='<div class="cns-h">'+L('컨센서스','Consensus')+' …</div>';
+  try{ var r=await fetch(CONS_PROXY+'?symbol='+encodeURIComponent(symbol)); var d=r.ok?await r.json():null; panel.innerHTML=consensusHTML(d,label||symbol); }
+  catch(e){ panel.innerHTML=consensusHTML(null,label||symbol); }
+}
+function surgeRowSel(row){
+  if(!row) return;
+  var tk=((row.querySelector('.tk')||{}).textContent||'').trim();
+  var sub=((row.querySelector('.sub2')||{}).textContent||'').trim();
+  var kr=row.closest('#krUp')||row.closest('#krDown');
+  if(kr){ cnsSel=sub; loadConsensus(sub, tk||sub); } else { cnsSel=tk; loadConsensus(tk, tk); }
+  var prev=document.querySelectorAll('#surgeView .surge-row.sel'); for(var i=0;i<prev.length;i++) prev[i].classList.remove('sel');
+  row.classList.add('sel');
+}
+document.addEventListener('click', function(e){ var row=e.target.closest?e.target.closest('.surge-row'):null; if(row && row.closest('#surgeView')){ surgeRowSel(row); } });
+function firstVisRow(id){ var rows=document.querySelectorAll('#'+id+' .surge-row'); for(var i=0;i<rows.length;i++){ if(rows[i].offsetParent!==null && rows[i].style.display!=='none') return rows[i]; } return null; }
+function setDefaultConsensus(){ if(cnsSel) return; var row=firstVisRow('krUp')||firstVisRow('usUp')||firstVisRow('krDown')||firstVisRow('usDown'); if(row) surgeRowSel(row); }
+window.setDefaultConsensus=setDefaultConsensus;
 function surgeFmtUS(o){ return o.price!=null ? "$"+Number(o.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
 function surgeFmtKR(o){ return o.price!=null ? "₩"+Number(o.price).toLocaleString("en-US") : "—"; }
 function renderSurgeList(elId, items, fmtPx, tkField, subField){
@@ -1065,7 +1117,7 @@ function renderSurgeList(elId, items, fmtPx, tkField, subField){
   });
   el.innerHTML=h;
 }
-function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadKRMajor==='function') loadKRMajor(); if(typeof loadUSSurge==='function') loadUSSurge(); if(typeof loadUSMajor==='function') loadUSMajor(); }
+function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadKRMajor==='function') loadKRMajor(); if(typeof loadUSSurge==='function') loadUSSurge(); if(typeof loadUSMajor==='function') loadUSMajor(); setTimeout(function(){ if(typeof setDefaultConsensus==='function') setDefaultConsensus(); }, 1300); }
 var US_LARGE = (typeof INDEX_SYMBOLS!=='undefined') ? new Set([].concat(INDEX_SYMBOLS.sp500||[], INDEX_SYMBOLS.ndx||[])) : new Set();
 function surgeMode(){ try{ return localStorage.getItem('gmd_surgemode')||'major'; }catch(e){ return 'major'; } }
 function applySurgeFilter(){
