@@ -715,7 +715,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.27</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.28</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -971,6 +971,24 @@ async function loadKRSurge(){
   }catch(e){}
 }
 window.loadKRSurge=loadKRSurge;
+const KRRANK_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/krrank");
+async function loadKRMajor(){
+  try{
+    var bucket=Math.floor(Date.now()/300000);
+    var r=await fetch(KRRANK_PROXY+'?cb='+bucket);
+    if(!r.ok) return; var j=await r.json();
+    function pick(arr,up){ return (arr||[]).filter(function(d){ return d.price!=null && d.changePct!=null && d.price>=1000 && (up? d.changePct>=10 : d.changePct<=-10); }).slice(0,10); }
+    var ups=pick(j.up,true), downs=pick(j.down,false);
+    function rows(list){ return list.map(function(d,i){ var up=d.changePct>=0; var cls=up?'up':'down'; var sign=up?'+':'';
+      return '<div class="surge-row"><div class="rk">'+(i+1)+'</div><div class="nm"><span class="tk">'+(d.name||d.code)+'</span><span class="sub2">'+d.code+'</span></div><div class="px">\u20A9'+Number(d.price).toLocaleString('en-US')+'</div><div class="pct '+cls+'">'+sign+d.changePct.toFixed(2)+'%</div></div>'; }).join(''); }
+    var upSet=document.querySelector('#krUp .surge-set[data-set="major"]');
+    var dnSet=document.querySelector('#krDown .surge-set[data-set="major"]');
+    if(upSet) upSet.innerHTML='<!--KRUP-->'+rows(ups)+'<!--/KRUP-->';
+    if(dnSet) dnSet.innerHTML='<!--KRDOWN-->'+rows(downs)+'<!--/KRDOWN-->';
+    if(typeof applySurgeFilter==='function') applySurgeFilter();
+  }catch(e){}
+}
+window.loadKRMajor=loadKRMajor;
 const QUOTES_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/quotes");
 async function loadUSCard(){
   try{
@@ -1047,7 +1065,7 @@ function renderSurgeList(elId, items, fmtPx, tkField, subField){
   });
   el.innerHTML=h;
 }
-function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadUSSurge==='function') loadUSSurge(); if(typeof loadUSMajor==='function') loadUSMajor(); }
+function loadSurge(){ if(typeof loadKRSurge==='function') loadKRSurge(); if(typeof loadKRMajor==='function') loadKRMajor(); if(typeof loadUSSurge==='function') loadUSSurge(); if(typeof loadUSMajor==='function') loadUSMajor(); }
 var US_LARGE = (typeof INDEX_SYMBOLS!=='undefined') ? new Set([].concat(INDEX_SYMBOLS.sp500||[], INDEX_SYMBOLS.ndx||[])) : new Set();
 function surgeMode(){ try{ return localStorage.getItem('gmd_surgemode')||'major'; }catch(e){ return 'major'; } }
 function applySurgeFilter(){
