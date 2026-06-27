@@ -21,14 +21,14 @@
   color-scheme: dark;
   --bg:#171717; --ink:#ECECEC; --ink2:#C4C4C4; --sec:#8A8A8A; --ter:#767676;
   --hair:#2A2A2A; --hair2:#353535; --surf:#1F1F1F;
-  --up:#E0735C; --down:#5FA0BC; --flat:#8A8A8A;
+  --up:#E0735C; --down:#5FA0BC; --flat:#8A8A8A; --up2:#FF7551; --down2:#5BB8F0;
   --font:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 }
 html[data-theme="light"]{
   color-scheme: light;
   --bg:#F3F2EF; --ink:#1A1A18; --ink2:#33332E; --sec:#8C8C86; --ter:#A0A09A;
   --hair:#E0DFDA; --hair2:#D8D7D1; --surf:#ECEBE6;
-  --up:#C2503E; --down:#3E6E88; --flat:#8C8C86;
+  --up:#C2503E; --down:#3E6E88; --flat:#8C8C86; --up2:#9E2D1B; --down2:#1F4F72;
 }
 [data-ui-lang="en"] [data-lang="ko"]{display:none!important;}
 [data-ui-lang="ko"] [data-lang="en"]{display:none!important;}
@@ -364,16 +364,16 @@ html.is-android .briefbar{display:flex;}
 #cnsPanel{position:fixed; left:0; right:0; bottom:0; z-index:80; background:var(--bg); border-top:1px solid var(--hair2); box-shadow:0 -7px 22px rgba(0,0,0,.16); padding:11px 0 15px; margin:0; display:none;}
 #cnsPanel.show{display:block;}
 .cns-inner{max-width:1000px; margin:0 auto; padding:0 24px;}
-.cns-h{font-size:13.5px; color:var(--ink2); margin-bottom:20px;}
+.cns-h{font-size:13.5px; color:var(--ink2); margin-bottom:26px;}
 .cns-h b{color:var(--ink); font-weight:600;}
 .cns-barwrap{position:relative; margin:0 0 11px;}
-.cns-bubble{position:absolute; top:-21px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
+.cns-bubble{position:absolute; top:-27px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
 .cns-segs{display:flex; gap:3px;}
 .cns-seg{flex:1; text-align:center; font-size:11px; color:var(--sec); padding-top:7px; border-top:3px solid var(--hair2);}
 .cns-seg.on{font-weight:700;}
-.cns-seg.s0{border-top-color:var(--down);} .cns-seg.s1{border-top-color:var(--down);} .cns-seg.s2{border-top-color:var(--flat);} .cns-seg.s3{border-top-color:var(--up);} .cns-seg.s4{border-top-color:var(--up);}
-.cns-seg.on.s0,.cns-seg.on.s1{color:var(--down);} .cns-seg.on.s2{color:var(--flat);} .cns-seg.on.s3,.cns-seg.on.s4{color:var(--up);}
-.cns-bubble.s0,.cns-bubble.s1{background:var(--down);} .cns-bubble.s2{background:var(--flat);} .cns-bubble.s3,.cns-bubble.s4{background:var(--up);}
+.cns-seg.s0{border-top-color:var(--down2);} .cns-seg.s1{border-top-color:var(--down);} .cns-seg.s2{border-top-color:var(--flat);} .cns-seg.s3{border-top-color:var(--up);} .cns-seg.s4{border-top-color:var(--up2);}
+.cns-seg.on.s0{color:var(--down2);} .cns-seg.on.s1{color:var(--down);} .cns-seg.on.s2{color:var(--flat);} .cns-seg.on.s3{color:var(--up);} .cns-seg.on.s4{color:var(--up2);}
+.cns-bubble.s0{background:var(--down2);} .cns-bubble.s1{background:var(--down);} .cns-bubble.s2{background:var(--flat);} .cns-bubble.s3{background:var(--up);} .cns-bubble.s4{background:var(--up2);}
 .cns-meta{display:flex; gap:4px 14px; flex-wrap:wrap; font-size:13px; color:var(--ink2); margin-top:4px;}
 .cns-meta b{color:var(--ink); font-weight:600;}
 .cns-meta .up{color:var(--up);} .cns-meta .down{color:var(--down);}
@@ -741,7 +741,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.312</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.313</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
