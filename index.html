@@ -362,6 +362,35 @@ html.is-android .briefbar{display:flex;}
 #surgeView .surge-row{cursor:pointer;}
 #surgeView .surge-row.sel{background:var(--surf);}
 #surgeView{padding-bottom:176px;}
+#expertView{padding-bottom:60px;}
+.ex-lead{font-size:12.5px; color:var(--sec); line-height:1.6; margin:0 0 16px;}
+.ex-lead b{color:var(--ink2); font-weight:600;}
+.ex-search{display:flex; gap:8px; margin-bottom:8px;}
+.ex-search input{flex:1; min-width:0; background:var(--surf); border:1px solid var(--hair2); border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink);}
+.ex-search button{flex:none; background:var(--ink); color:var(--bg); border:none; border-radius:10px; padding:0 18px; font-size:13px; font-weight:600; cursor:pointer;}
+.ex-hint{font-size:11.5px; color:var(--sec); line-height:1.5; margin-bottom:18px;}
+.ex-today-h{font-size:13px; font-weight:600; color:var(--ink2); margin:22px 0 10px;}
+.ex-chips{display:flex; flex-wrap:wrap; gap:7px;}
+.ex-chip{background:transparent; border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--sec); cursor:pointer;}
+.ex-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.ex-card{border:1px solid var(--hair); border-radius:14px; padding:18px 16px; background:var(--surf);}
+.ex-name{font-size:17px; font-weight:700; color:var(--ink); margin-bottom:3px;}
+.ex-sub{font-size:11.5px; color:var(--sec); margin-bottom:18px;}
+.ex-spread{display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; margin-left:6px; vertical-align:middle;}
+.ex-spread.s-agree{background:rgba(47,163,155,.16); color:#2FA39B;}
+.ex-spread.s-mid{background:var(--hair2); color:var(--sec);}
+.ex-spread.s-wide{background:rgba(224,138,43,.18); color:#E08A2B;}
+.ex-rng{margin:30px 0 4px;}
+.ex-rng-track{position:relative; height:6px; border-radius:999px; background:linear-gradient(90deg,var(--down2),var(--hair2),var(--up2)); margin:0 0 10px;}
+.ex-rng-mean{position:absolute; top:50%; width:13px; height:13px; border-radius:50%; background:var(--ink); transform:translate(-50%,-50%); box-shadow:0 0 0 3px var(--surf); z-index:2;}
+.ex-rng-mean-l{position:absolute; top:-21px; transform:translateX(-50%); font-size:10px; font-weight:600; color:var(--ink2); white-space:nowrap;}
+.ex-rng-cur{position:absolute; top:-6px; bottom:-6px; width:2px; background:var(--ink2); transform:translateX(-50%); z-index:1;}
+.ex-rng-cur::after{content:attr(data-l); position:absolute; bottom:-15px; left:50%; transform:translateX(-50%); font-size:9.5px; color:var(--ink2); white-space:nowrap;}
+.ex-rng-lab{display:flex; justify-content:space-between; font-size:11px; color:var(--sec);}
+.ex-rng-lab b{color:var(--ink2); font-weight:600;}
+.ex-meta2{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--sec); margin-top:16px;}
+.ex-meta2 b{color:var(--ink2); font-weight:600;}
+.ex-note{font-size:11.5px; color:var(--sec); line-height:1.55; margin-top:13px;}
 .cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px;}
 #cnsPanel{position:fixed; left:0; right:0; bottom:0; z-index:80; background:var(--bg); border-top:1px solid var(--hair2); box-shadow:0 -7px 22px rgba(0,0,0,.16); padding:11px 0 15px; margin:0; display:none;}
 #cnsPanel.show{display:block;}
@@ -413,13 +442,14 @@ html.is-android .briefbar{display:flex;}
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">02</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button></nav><div class="menuutil"><div class="utilgrid"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button><button class="utilrow" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">02</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button><button class="ddrow" id="goExpert"><span class="ddnum">06</span><span class="ddt">전문가 의견</span></button></nav><div class="menuutil"><div class="utilgrid"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button><button class="utilrow" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
   </div>
   <div class="links">
     <a href="#sec-summary">요약</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
         <a href="#surge" data-surge="1">급상승</a>
+        <a href="#expert" data-expert="1">전문가</a>
   </div>
   
   <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="홈" aria-label="Market Daily — 홈">
@@ -735,12 +765,23 @@ html.is-android .briefbar{display:flex;}
     <div class="asof-live"><span data-lang="ko">한국 평일 오전·오후 2회, 미국 장중·마감 직전 2회 갱신. 장 외 시간엔 마지막 갱신 데이터 기준.</span><span data-lang="en">Korea updates twice on weekdays; US twice per session (intraday & near close). Last data shown outside hours.</span></div>
   </div>
 
+  <div id="expertView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
+    <h1 style="margin:4px 0 8px"><span data-lang="ko">전문가 의견</span><span data-lang="en">Analyst View</span></h1>
+    <p class="ex-lead"><span data-lang="ko">목표주가·투자의견은 <b>여러 증권사 의견의 평균</b>이에요. 목표가 <b>범위(최저~최고)가 넓을수록 증권사마다 의견이 갈린다</b>는 뜻입니다.</span><span data-lang="en">Targets and ratings are an <b>average across brokerages</b>. A <b>wider low–high range means analysts disagree more</b>.</span></p>
+    <div class="ex-search"><input id="exSearch" type="text" autocomplete="off" placeholder="MU · 005930 · 삼성전자" /><button id="exSearchBtn"><span data-lang="ko">조회</span><span data-lang="en">Search</span></button></div>
+    <div class="ex-hint"><span data-lang="ko">미국은 티커(MU), 한국은 종목코드 6자리(005930) 또는 주요 종목명. 아래 '오늘의 종목'에서 골라도 됩니다.</span><span data-lang="en">US: ticker (MU). Korea: 6-digit code (005930) or major name. Or pick from below.</span></div>
+    <div id="exDetail" class="ex-detail"></div>
+    <div class="ex-today-h"><span data-lang="ko">오늘의 종목</span><span data-lang="en">Today's stocks</span></div>
+    <div id="exToday" class="ex-chips"></div>
+    <div class="asof-live"><span data-lang="ko">목표주가·투자의견 출처: 레피니티브(미국)·에프앤가이드(한국). 약 30분 캐시.</span><span data-lang="en">Targets & ratings: Refinitiv (US) / FnGuide (Korea). ~30-min cache.</span></div>
+  </div>
   <div id="briefingView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.36</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.37</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1180,6 +1221,76 @@ function applySurgeFilter(){
 }
 document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ var tw=b.closest('.surgetabs'); var mkt=tw?tw.getAttribute('data-mkt'):null; if(mkt){ try{ localStorage.setItem('gmd_surgemode_'+mkt, b.dataset.mode); }catch(err){} applySurgeFilter(); if(typeof setDefaultConsensus==='function') setDefaultConsensus(true, mkt); } } });
 window.loadSurge = loadSurge;
+
+// ===== 전문가 의견 탭 =====
+var EX_ALIAS={ '삼성전자':'005930','삼성':'005930','sk하이닉스':'000660','하이닉스':'000660','현대차':'005380','기아':'000270','네이버':'035420','카카오':'035720','lg에너지솔루션':'373220','엘지에너지솔루션':'373220','삼성바이오로직스':'207940','셀트리온':'068270','포스코':'005490','현대모비스':'012330','kb금융':'105560','신한지주':'055550','sk이노베이션':'096770','한화에어로':'012450','lg화학':'051910' };
+function exResolve(q){ q=(q||'').trim(); if(!q) return null; var low=q.toLowerCase(); if(EX_ALIAS[q]) return {sym:EX_ALIAS[q],label:q,kr:true}; if(EX_ALIAS[low]) return {sym:EX_ALIAS[low],label:q,kr:true}; if(/^\d{6}$/.test(q)) return {sym:q,label:q,kr:true}; return {sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}; }
+function exSpread(d){ if(d.targetHigh==null||d.targetLow==null||!d.targetMean) return null; var s=(d.targetHigh-d.targetLow)/d.targetMean; if(s<0.25) return {cls:'s-agree',ko:'의견 대체로 일치',en:'Broad agreement'}; if(s<0.6) return {cls:'s-mid',ko:'의견 다소 갈림',en:'Some disagreement'}; return {cls:'s-wide',ko:'의견 크게 갈림',en:'Wide disagreement'}; }
+function exDetailHTML(d, info, curPrice){
+  var label=info.label;
+  if(!d || d.none || d.rating==null) return '<div class="ex-card"><div class="ex-name">'+label+'</div><div class="cns-none">'+L('전문가 의견(목표주가·투자의견) 정보가 없는 종목이에요','No analyst coverage for this stock')+'</div></div>';
+  var segKo=['적극매도','매도','중립','매수','적극매수'], segEn=['Strong Sell','Sell','Hold','Buy','Strong Buy'];
+  var ai=Math.min(4,Math.max(0,Math.round(d.rating)-1));
+  var pos=Math.min(96,Math.max(4,(d.rating-1)/4*100));
+  var unit=(d.currency==='KRW')?'₩':'$';
+  function px(v){ if(v==null) return null; return unit+Number(v).toLocaleString('en-US', d.currency==='KRW'?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  var segs=''; for(var i=0;i<5;i++) segs+='<div class="cns-seg s'+i+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>';
+  var up=(curPrice&&d.targetMean)?((d.targetMean-curPrice)/curPrice*100):null;
+  var upTxt=(up!=null)?' <span class="'+(up>=0?'up':'down')+'">('+(up>=0?'+':'')+up.toFixed(1)+'%)</span>':'';
+  var sp=exSpread(d);
+  var h='<div class="ex-card">';
+  h+='<div class="ex-name">'+label+(sp?' <span class="ex-spread '+sp.cls+'">'+L(sp.ko,sp.en)+'</span>':'')+'</div>';
+  h+='<div class="ex-sub">'+L('투자의견','Rating')+' '+d.rating.toFixed(2)+'/5 · '+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
+  h+='<div class="cns-barwrap"><div class="cns-bubble s'+ai+'" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
+  if(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow){
+    var span=d.targetHigh-d.targetLow;
+    var mp=Math.min(100,Math.max(0,(d.targetMean-d.targetLow)/span*100));
+    var curHtml='';
+    if(curPrice!=null){ var cp=(curPrice-d.targetLow)/span*100; var oob=(cp<0||cp>100); var cc=Math.min(100,Math.max(0,cp)); curHtml='<div class="ex-rng-cur" style="left:'+cc+'%" data-l="'+L('현재가','Now')+(oob?(cp>100?' ▲':' ▼'):'')+'"></div>'; }
+    h+='<div class="ex-rng"><div class="ex-rng-track"><div class="ex-rng-mean-l" style="left:'+mp+'%">'+L('평균','Avg')+' '+px(d.targetMean)+'</div><div class="ex-rng-mean" style="left:'+mp+'%"></div>'+curHtml+'</div><div class="ex-rng-lab"><span><b>'+L('최저','Low')+'</b> '+px(d.targetLow)+'</span><span><b>'+L('최고','High')+'</b> '+px(d.targetHigh)+'</span></div></div>';
+    h+='<div class="ex-note">'+L('증권사 목표가가 '+px(d.targetLow)+' ~ '+px(d.targetHigh)+'로 갈려요. 막대가 넓을수록 의견 차이가 큽니다.','Brokerage targets span '+px(d.targetLow)+' to '+px(d.targetHigh)+' — a wider bar means more disagreement.')+'</div>';
+  }
+  h+='<div class="ex-meta2">'+(curPrice!=null?'<span>'+L('현재가','Price')+' <b>'+px(curPrice)+'</b></span>':'')+'<span>'+L('목표주가 평균','Avg target')+' <b>'+(px(d.targetMean)||'—')+'</b>'+upTxt+'</span></div>';
+  if(!(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow)){
+    h+='<div class="ex-note">'+L('이 종목은 증권사별 목표가 범위(최저~최고) 데이터가 아직 없어 평균 의견만 표시해요.','Per-brokerage target range isn\'t available yet — showing the average only.')+'</div>';
+  }
+  if(up!=null && up<0){ h+='<div class="cns-warn">'+L('현재가가 평균 목표가를 넘었어요 — 의견은 최근 3개월 평균이라 급등 시 시차가 있습니다','Price is above the average target — the rating is a lagging 3-month average')+'</div>'; }
+  h+='</div>';
+  return h;
+}
+function loadExpert(info){
+  if(!info||!info.sym) return; window.__exSym=info.sym;
+  var box=document.getElementById('exDetail'); if(!box) return;
+  box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('불러오는 중…','Loading…')+'</div></div>';
+  var pxUrl=info.kr?(KR_PROXY+'?stocks='+encodeURIComponent(info.sym)):(QUOTES_PROXY+'?symbols='+encodeURIComponent(info.sym));
+  Promise.all([
+    fetch(CONS_PROXY+'?symbol='+encodeURIComponent(info.sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+    fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+  ]).then(function(res){
+    var d=res[0],q=res[1],cur=null;
+    if(q){ if(info.kr){ if(q.stocks&&q.stocks[0]){ cur=q.stocks[0].price; if(q.stocks[0].name) info.label=q.stocks[0].name+' ('+info.sym+')'; } } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; }
+    box.innerHTML=exDetailHTML(d, info, cur);
+  });
+}
+function exChip(sym,label,kr){ return '<button class="ex-chip'+(window.__exSym===sym?' on':'')+'" data-sym="'+sym+'" data-kr="'+(kr?1:0)+'" data-label="'+String(label).replace(/"/g,'')+'">'+label+'</button>'; }
+function buildExpertToday(){
+  var box=document.getElementById('exToday'); if(!box) return;
+  var seen={}, out=[];
+  function add(sym,label,kr){ sym=(sym||'').trim(); if(!sym||seen[sym]) return; seen[sym]=1; out.push(exChip(sym,label||sym,kr)); }
+  var bc=document.querySelector('.brief-cns[data-stocks]');
+  if(bc){ (bc.getAttribute('data-stocks')||'').split('|').forEach(function(s){ var p=s.split(':'); if(p[0]) add(p[0].trim(),(p[1]||p[0]).trim(),/^\d{6}$/.test(p[0].trim())); }); }
+  ['krUp','krDown','usUp','usDown'].forEach(function(id){
+    var kr=(id.indexOf('kr')===0);
+    var rows=document.querySelectorAll('#'+id+' .surge-set[data-set="large"] .surge-row'); var n=0;
+    for(var i=0;i<rows.length && n<5;i++){ var r=rows[i]; var tk=((r.querySelector('.tk')||{}).textContent||'').trim(); var sub=((r.querySelector('.sub2')||{}).textContent||'').trim(); if(kr){ if(sub){ add(sub, tk||sub, true); n++; } } else { if(tk){ add(tk, tk, false); n++; } } }
+  });
+  box.innerHTML = out.length? out.join('') : '<div class="cns-none">'+L('표시할 종목이 없어요 — 위에서 검색해보세요','No stocks yet — try the search above')+'</div>';
+  if(!window.__exSym){ var first=box.querySelector('.ex-chip'); if(first){ first.classList.add('on'); loadExpert({sym:first.getAttribute('data-sym'),label:first.getAttribute('data-label'),kr:first.getAttribute('data-kr')==='1'}); } }
+}
+window.buildExpertToday=buildExpertToday; window.loadExpert=loadExpert;
+document.addEventListener('click', function(e){ var c=e.target.closest?e.target.closest('.ex-chip'):null; if(c){ var box=document.getElementById('exToday'); if(box){ var cs=box.querySelectorAll('.ex-chip'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); } c.classList.add('on'); loadExpert({sym:c.getAttribute('data-sym'),label:c.getAttribute('data-label')||c.getAttribute('data-sym'),kr:c.getAttribute('data-kr')==='1'}); } });
+(function exSearchInit(){ var inp=document.getElementById('exSearch'), btn=document.getElementById('exSearchBtn'); function go(){ if(!inp) return; var info=exResolve(inp.value); if(info){ var box2=document.getElementById('exToday'); if(box2){ var cs=box2.querySelectorAll('.ex-chip.on'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); } loadExpert(info); var box=document.getElementById('exDetail'); if(box) box.scrollIntoView({behavior:'smooth',block:'nearest'}); } } if(btn) btn.addEventListener('click', go); if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } }); })();
+
 
 // 모닝브리핑 읽어주기(브라우저 내장 TTS)
 (function(){
@@ -1626,6 +1737,7 @@ initSurgeFlags();
   links.forEach(a=> a.addEventListener('click', e=>{
     e.preventDefault();
     if(a.dataset.surge){ if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); return; }
+    if(a.dataset.expert){ if(window.showExpert) showExpert(); return; }
     if(a.dataset.brief){ if(window.showBriefing) showBriefing(); return; }
     const el = document.getElementById(a.getAttribute('href').slice(1));
     if(!el) return;
@@ -1677,12 +1789,13 @@ initSurgeFlags();
     try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
     syncTheme();
   });
-  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
+  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView'), expert: document.getElementById('expertView') };
   function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ if(_cp.parentElement!==document.body) document.body.appendChild(_cp); _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=> showView('cal');
   window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); if(typeof applySurgeFilter==='function') applySurgeFilter(); showView('surge'); };
+  window.showExpert    = ()=>{ if(window.loadSurge) loadSurge(); if(window.buildExpertToday) buildExpertToday(); showView('expert'); setTimeout(function(){ if(window.buildExpertToday) buildExpertToday(); }, 1400); };
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
@@ -1723,6 +1836,7 @@ initSurgeFlags();
     if(_v==='comm' && window.showCommunity) showCommunity();
     else if(_v==='cal' && window.showCalendar) showCalendar();
     else if(_v==='surge' && window.showSurge){ showSurge(); if(window.loadSurge) loadSurge(); }
+    else if(_v==='expert' && window.showExpert){ showExpert(); }
     else if(_v==='brief' && window.showBriefing) showBriefing();
   } }catch(e){}
   const goComm = document.getElementById('goCommunity');
@@ -1734,6 +1848,8 @@ initSurgeFlags();
   if(menuLogo) menuLogo.addEventListener('click', goHomeFn);
   const goSurge = document.getElementById('goSurge');
   if(goSurge) goSurge.addEventListener('click', ()=>{ closeMenu(); if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); });
+  const goExpert = document.getElementById('goExpert');
+  if(goExpert) goExpert.addEventListener('click', ()=>{ closeMenu(); if(window.showExpert) showExpert(); });
   const goBrief = document.getElementById('goBriefing');
   if(goBrief) goBrief.addEventListener('click', ()=>{ closeMenu(); if(window.showBriefing) showBriefing(); });
   const goCal = document.getElementById('goCalendar');
@@ -1774,6 +1890,7 @@ initSurgeFlags();
     ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
+    ['.topnav a[data-expert]','Experts'],
     ['#goHome .ddt','Home'], ['#goBriefing .ddt','Morning Briefing'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goSurge .ddt','Top Movers'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
