@@ -705,7 +705,7 @@ html:not([data-theme="light"]) .topnav .brandlogo .logo-wide.logo-d{display:bloc
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.18</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.19</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1264,7 +1264,8 @@ function setupCollapse(){
     head.appendChild(caret);
     if(saved[key]) sec.classList.add('collapsed');
     caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
-    head.addEventListener('click', ()=>{
+    head.addEventListener('click', (e)=>{
+      if(e.target.closest && e.target.closest('.ttsbtn')) return;
       sec.classList.toggle('collapsed');
       caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
       saved[key] = sec.classList.contains('collapsed');
@@ -1483,13 +1484,15 @@ initSurgeFlags();
       if(_rates){ var _rh=_rates.outerHTML.replace(' collapsed','').replace(/<span class="caret"[^>]*>[^<]*<\/span>/,'').replace('collapsible',''); _extra+=_rh; }
       _extra=_extra.replace(/\sid="[^"]*"/g,'');
       bb.innerHTML=src.outerHTML+_extra;
-      const clone=bb.firstElementChild;
-      if(clone){
-        clone.removeAttribute('id'); clone.classList.remove('collapsed'); clone.style.display='';
-        const head=clone.querySelector('.chead'), car=clone.querySelector('.caret');
-        if(car) car.textContent='−';
-        if(head){ head.style.cursor='pointer'; head.addEventListener('click', ()=>{ clone.classList.toggle('collapsed'); const c=clone.querySelector('.caret'); if(c) c.textContent=clone.classList.contains('collapsed')?'+':'−'; }); }
-      }
+      Array.prototype.forEach.call(bb.children, function(sec){
+        sec.removeAttribute('id'); sec.classList.remove('collapsed'); sec.style.display='';
+        var head=sec.querySelector('.chead'); if(!head) return;
+        var car=sec.querySelector('.caret');
+        if(!car){ car=document.createElement('span'); car.className='caret'; head.appendChild(car); }
+        car.textContent='−';
+        head.classList.add('collapsible'); head.style.cursor='pointer';
+        head.addEventListener('click', function(e){ if(e.target.closest&&e.target.closest('.ttsbtn')) return; sec.classList.toggle('collapsed'); car.textContent=(sec.classList.contains('collapsed')?'+':'−'); });
+      });
     }
     try{ const u=src&&src.querySelector('.upd[data-mkt="usnews"]'); if(u&&u.dataset.iso) localStorage.setItem('gmd_seen_sec_usnews', u.dataset.iso); }catch(e){}
     if(window.updateMenuFlags) updateMenuFlags();
