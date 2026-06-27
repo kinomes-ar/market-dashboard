@@ -513,10 +513,10 @@ html.is-android .briefbar{display:flex;}
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-26T06:58:36Z">6/26 15:30</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label"><span data-lang="ko">코스피</span><span data-lang="en">KOSPI</span></div><div class="val">8,411</div><div class="chg down">▼ -5.8%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">코스닥</span><span data-lang="en">KOSDAQ</span></div><div class="val">851.4</div><div class="chg down">▼ -4.1%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">SK하이닉스</span><span data-lang="en">SK Hynix</span></div><div class="val">₩2,673,000</div><div class="chg down">▼ -8.4%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">삼성전자</span><span data-lang="en">Samsung</span></div><div class="val">₩339,500</div><div class="chg down">▼ -5.3%</div></div>
+      <div class="tile" data-kr="KOSPI"><div class="label"><span data-lang="ko">코스피</span><span data-lang="en">KOSPI</span></div><div class="val">8,411</div><div class="chg down">▼ -5.8%</div></div>
+      <div class="tile" data-kr="KOSDAQ"><div class="label"><span data-lang="ko">코스닥</span><span data-lang="en">KOSDAQ</span></div><div class="val">851.4</div><div class="chg down">▼ -4.1%</div></div>
+      <div class="tile" data-kr="000660"><div class="label"><span data-lang="ko">SK하이닉스</span><span data-lang="en">SK Hynix</span></div><div class="val">₩2,673,000</div><div class="chg down">▼ -8.4%</div></div>
+      <div class="tile" data-kr="005930"><div class="label"><span data-lang="ko">삼성전자</span><span data-lang="en">Samsung</span></div><div class="val">₩339,500</div><div class="chg down">▼ -5.3%</div></div>
       <div class="tile"><div class="label"><span data-lang="ko">원/달러 환율</span><span data-lang="en">USD/KRW</span></div><div class="val">1,555.0</div><div class="chg flat"><span data-lang="ko">▲ +16원 약세</span><span data-lang="en">▲ +16, won softer</span></div></div>
       <div class="tile"><div class="label"><span data-lang="ko">한은 기준금리</span><span data-lang="en">BOK Rate</span></div><div class="val">2.50%</div><div class="chg flat"><span data-lang="ko">7/16 금통위</span><span data-lang="en">BOK Jul 16</span></div></div>
     </div>
@@ -715,7 +715,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.222</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.23</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -934,6 +934,21 @@ document.querySelectorAll('.seg[data-dir]').forEach(b=> b.onclick=()=>{
 
 // ===== 급상승/급하락 페이지 =====
 const KR_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/kr");
+async function loadKR(){
+  try{
+    const r=await fetch(KR_PROXY+'?stocks=005930,000660&index=KOSPI,KOSDAQ&cb='+Math.floor(Date.now()/300000));
+    if(!r.ok) return; const j=await r.json();
+    const map={}; (j.index||[]).concat(j.stocks||[]).forEach(function(d){ if(d&&d.code) map[d.code]=d; });
+    [['KOSPI',true],['KOSDAQ',true],['000660',false],['005930',false]].forEach(function(p){
+      var d=map[p[0]]; if(!d||d.price==null) return;
+      var tile=document.querySelector('#sec-kr .tile[data-kr="'+p[0]+'"]'); if(!tile) return;
+      var val=tile.querySelector('.val'), chg=tile.querySelector('.chg');
+      if(val) val.textContent=(p[1]?'':'\u20A9')+Number(d.price).toLocaleString('en-US');
+      if(chg && d.changePct!=null){ var up=d.changePct>=0; chg.className='chg '+(up?'up':'down'); chg.textContent=(up?'\u25B2 +':'\u25BC -')+Math.abs(d.changePct).toFixed(2)+'%'; }
+    });
+  }catch(e){}
+}
+window.loadKR=loadKR;
 function surgeFmtUS(o){ return o.price!=null ? "$"+Number(o.price).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
 function surgeFmtKR(o){ return o.price!=null ? "₩"+Number(o.price).toLocaleString("en-US") : "—"; }
 function renderSurgeList(elId, items, fmtPx, tkField, subField){
@@ -1266,6 +1281,7 @@ function tick(){
 setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
+loadKR(); setInterval(loadKR, 300000);
 setInterval(()=>{ if(afterHoursActive()) loadAfter(); }, 30*60*1000);
 
 // 섹션 접기/펼치기 (상태 기억)
