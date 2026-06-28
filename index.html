@@ -834,7 +834,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.395</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.396</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1187,7 +1187,7 @@ function consensusHTML(d, label, curPrice){
 }
 async function loadConsensus(symbol, label, curPrice){
   var p=document.getElementById('cnsPanel'); if(!p) return;
-  p.innerHTML='<div class="cns-inner"><div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div></div>';
+  p.innerHTML='<div class="cns-inner"><div class="cns-h">'+L('전문가 의견을 불러오는 중이에요…','Loading analyst view…')+'</div></div>';
   try{ var r=await fetch(CONS_PROXY+'?symbol='+encodeURIComponent(symbol)); var d=r.ok?await r.json():null; p.innerHTML='<div class="cns-inner">'+consensusHTML(d,label||symbol,curPrice)+'</div>'; }
   catch(e){ p.innerHTML='<div class="cns-inner">'+consensusHTML(null,label||symbol,curPrice)+'</div>'; }
 }
@@ -1210,7 +1210,7 @@ function briefChipPick(chip){
   var el=chip.closest('.brief-cns'); if(!el) return; var body=el.querySelector('.cns-body'); if(!body) return;
   var cs=el.querySelectorAll('.cns-chip'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); chip.classList.add('on');
   var sym=chip.getAttribute('data-sym'), label=chip.getAttribute('data-label')||sym;
-  body.innerHTML='<div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div>';
+  body.innerHTML='<div class="cns-h">'+L('전문가 의견을 불러오는 중이에요…','Loading analyst view…')+'</div>';
   var isKR=/^[0-9]{6}$/.test(sym); var pxUrl=isKR?(KR_PROXY+'?stocks='+sym):(QUOTES_PROXY+'?symbols='+sym);
   Promise.all([ fetch(CONS_PROXY+'?symbol='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}), fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}) ]).then(function(res){ var d=res[0],q=res[1],cur=null; if(q){ if(isKR){ if(q.stocks&&q.stocks[0]) cur=q.stocks[0].price; } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; } body.innerHTML=consensusHTML(d,label,cur); });
 }
