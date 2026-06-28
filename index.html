@@ -834,7 +834,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.394</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.395</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1324,7 +1324,7 @@ function exOvBody(info, q){
 }
 function exFmtWhen(n){ if(n.ts){ try{ return new Date(n.ts).toLocaleDateString(); }catch(e){} } if(n.when){ var w=String(n.when); var m=w.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3]+' '+m[4]+':'+m[5]; return w.replace('T',' ').slice(0,16); } return ''; }
 function exNewsBody(items){
-  if(items===null) return '<div class="cns-none">'+L('뉴스 불러오는 중…','Loading news…')+'</div>';
+  if(items===null) return '<div class="cns-none">'+L('관련 뉴스를 불러오는 중이에요…','Loading related news…')+'</div>';
   if(!items.length) return '<div class="cns-none">'+L('관련 뉴스를 찾지 못했어요','No related news found')+'</div>';
   return '<div class="ex-news">'+items.map(function(n){ var meta=[n.source, exFmtWhen(n)].filter(Boolean).join(' · '); var ti=String(n.title).replace(/</g,'&lt;'); return '<a class="ex-nitem" href="'+n.url+'" target="_blank" rel="noopener noreferrer"><div class="ex-ntitle">'+ti+'</div><div class="ex-nmeta">'+meta+'</div></a>'; }).join('')+'</div>';
 }
@@ -1350,7 +1350,7 @@ document.addEventListener('click', function(e){ var tb=e.target.closest?e.target
 function loadExpert(info){
   if(!info||!info.sym) return; window.__exSym=info.sym; window.__exInfo=info;
   var box=document.getElementById('exDetail'); if(!box) return;
-  box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('불러오는 중…','Loading…')+'</div></div>';
+  box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('전문가 의견을 불러오는 중이에요…','Loading analyst view…')+'</div></div>';
   var pxUrl=info.kr?(KR_PROXY+'?stocks='+encodeURIComponent(info.sym)):(QUOTES_PROXY+'?symbols='+encodeURIComponent(info.sym));
   Promise.all([
     fetch(CONS_PROXY+'?symbol='+encodeURIComponent(info.sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
