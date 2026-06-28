@@ -834,7 +834,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.393</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.394</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1897,7 +1897,7 @@ initSurgeFlags();
   function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ if(_cp.parentElement!==document.body) document.body.appendChild(_cp); _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
-  window.showCalendar  = ()=> showView('cal');
+  window.showCalendar  = ()=>{ showView('cal'); var cv=document.getElementById('calendarView'); if(cv){ var ss=cv.querySelectorAll('.country.collapsed, .live.collapsed'); for(var i=0;i<ss.length;i++){ ss[i].classList.remove('collapsed'); var c=ss[i].querySelector('.caret'); if(c) c.textContent='−'; } } };
   window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); if(typeof applySurgeFilter==='function') applySurgeFilter(); showView('surge'); };
   window.showExpert    = ()=>{ if(window.loadSurge) loadSurge(); if(window.exRenderRecent) exRenderRecent(); if(window.buildExpertToday) buildExpertToday(); showView('expert'); setTimeout(function(){ if(window.buildExpertToday) buildExpertToday(); }, 1400); };
   window.showBriefing  = ()=>{
