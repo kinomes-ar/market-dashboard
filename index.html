@@ -210,7 +210,7 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .collapsible:hover .caret{color:var(--ink);}
 .collapsed .caret{transform:translateY(-50%);}
 .country.collapsed > :not(.chead), .live.collapsed > :not(.chead){display:none;}
-.summary.collapsed > p, .summary.collapsed > .sflow, .summary.collapsed > .flow, .summary.collapsed > .brief-cns{display:none;}
+.summary.collapsed > p, .summary.collapsed > .sflow, .summary.collapsed > .flow, .summary.collapsed > .sum-idx-wrap{display:none;}
 .summary.collapsed h2{margin-bottom:0;}
 .chead.collapsible:hover h3, .summary h2.collapsible:hover{color:var(--ink);}
 
@@ -353,6 +353,11 @@ html.is-android .briefbar{display:flex;}
 .idxp-l{font-size:11px; color:var(--sec); white-space:nowrap; margin-bottom:5px;}
 .idxp-v{font-size:15px; font-weight:600; color:var(--ink); white-space:nowrap;}
 .idxp-c{font-size:12px; font-weight:600; margin-top:3px; white-space:nowrap;}
+.sum-idx-wrap{display:none; margin-top:20px;}
+.sum-idx-wrap.on{display:block;}
+.sum-idx-h{font-size:13px; font-weight:600; color:var(--ink2); margin-bottom:11px;}
+.sum-idx{display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+.sum-idx::-webkit-scrollbar{display:none;}
 .idxp-c.up{color:var(--up);} .idxp-c.down{color:var(--down);} .idxp-c.flat{color:var(--sec);}
 .brief-extra .chead{margin-bottom:4px;}
 .surge-criteria{font-size:12px; color:var(--sec); line-height:1.5; margin:0; flex:1; min-width:0;}
@@ -831,7 +836,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.3991</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.40</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1636,7 +1641,7 @@ function layoutMain(){
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
   if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
   if(summary){ var _sh2=summary.querySelector('h2'); if(_sh2){ var _mon=(d.getDay()===1); var _sko=_sh2.querySelector('[data-lang="ko"]'), _sen=_sh2.querySelector('[data-lang="en"]'); if(_sko) _sko.textContent=_mon?'이번 주 전망':'오늘의 시장 흐름'; if(_sen) _sen.textContent=_mon?"This Week's Outlook":"Today's Market"; } }
-  var _sc=document.getElementById('sumCns'); if(_sc) _sc.style.display=(d.getDay()===1 && !wknd)?'':'none';
+  var _siw=document.getElementById('sumIdxWrap'); if(_siw){ if(d.getDay()===1 && !wknd){ _siw.classList.add('on'); if(window.buildSumIdx) buildSumIdx(); } else { _siw.classList.remove('on'); } }
   if(usnews){ var _h3=usnews.querySelector('.chead h3'); if(_h3){ var _ko=_h3.querySelector('[data-lang="ko"]'), _en=_h3.querySelector('[data-lang="en"]'); if(_ko) _ko.textContent=wknd?'주말 브리핑':'모닝 브리핑'; if(_en) _en.textContent=wknd?'Weekend Briefing':'Morning Briefing'; } }
   const sumArr = wknd ? [] : [summary];
   let seq;
@@ -1677,7 +1682,9 @@ setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
 loadKR(); loadUSCard(); setInterval(loadKR, 300000); setInterval(loadUSCard, 300000);
-(function(){ var sm=document.getElementById('sec-summary'); var src=document.querySelector('#sec-usnews .brief-cns[data-stocks]'); if(sm && src && !document.getElementById('sumCns')){ var dd=document.createElement('div'); dd.className='brief-cns cns-panel'; dd.id='sumCns'; dd.style.marginTop='22px'; dd.style.display=(new Date().getDay()===1)?'':'none'; dd.setAttribute('data-stocks', src.getAttribute('data-stocks')||''); sm.appendChild(dd); } })();
+function buildSumIdx(){ var box=document.getElementById('sumIdx'); if(!box) return; function mini(sel,arr){ var tl=document.querySelector(sel); if(!tl) return ''; var ts=tl.querySelectorAll('.tile'); var h=''; arr.forEach(function(i){ var x=ts[i]; if(!x) return; var l=x.querySelector('.label'),v=x.querySelector('.val'),c=x.querySelector('.chg'); h+='<div class="idxp"><div class="idxp-l">'+(l?l.innerHTML:'')+'</div><div class="idxp-v">'+(v?v.textContent:'')+'</div><div class="'+(c?c.className.replace('chg','idxp-c'):'idxp-c')+'">'+(c?c.innerHTML:'')+'</div></div>'; }); return h; } box.innerHTML=mini('#sec-us .tiles',[0,1,2])+mini('#sec-kr .tiles',[0,1])+mini('#sec-cn .tiles',[0,1]); }
+window.buildSumIdx=buildSumIdx;
+(function(){ var sm=document.getElementById('sec-summary'); if(sm && !document.getElementById('sumIdxWrap')){ var w=document.createElement('div'); w.className='sum-idx-wrap'; w.id='sumIdxWrap'; w.innerHTML='<div class="sum-idx-h"><span data-lang="ko">주요 지표</span><span data-lang="en">Key Indices</span></div><div class="sum-idx" id="sumIdx"></div>'; if(new Date().getDay()===1) w.classList.add('on'); sm.appendChild(w); } buildSumIdx(); setTimeout(buildSumIdx,1600); })();
 if(typeof fillBriefConsensus==='function') fillBriefConsensus();
 setInterval(()=>{ if(afterHoursActive()) loadAfter(); }, 30*60*1000);
 
