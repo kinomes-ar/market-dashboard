@@ -831,7 +831,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.398</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.399</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1636,6 +1636,7 @@ function layoutMain(){
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
   if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
   if(summary){ var _sh2=summary.querySelector('h2'); if(_sh2){ var _mon=(d.getDay()===1); var _sko=_sh2.querySelector('[data-lang="ko"]'), _sen=_sh2.querySelector('[data-lang="en"]'); if(_sko) _sko.textContent=_mon?'이번 주 전망':'오늘의 시장 흐름'; if(_sen) _sen.textContent=_mon?"This Week's Outlook":"Today's Market"; } }
+  var _sc=document.getElementById('sumCns'); if(_sc) _sc.style.display=(d.getDay()===1 && !wknd)?'':'none';
   if(usnews){ var _h3=usnews.querySelector('.chead h3'); if(_h3){ var _ko=_h3.querySelector('[data-lang="ko"]'), _en=_h3.querySelector('[data-lang="en"]'); if(_ko) _ko.textContent=wknd?'주말 브리핑':'모닝 브리핑'; if(_en) _en.textContent=wknd?'Weekend Briefing':'Morning Briefing'; } }
   const sumArr = wknd ? [] : [summary];
   let seq;
@@ -1676,6 +1677,7 @@ setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
 loadKR(); loadUSCard(); setInterval(loadKR, 300000); setInterval(loadUSCard, 300000);
+(function(){ var sm=document.getElementById('sec-summary'); var src=document.querySelector('#sec-usnews .brief-cns[data-stocks]'); if(sm && src && !document.getElementById('sumCns')){ var dd=document.createElement('div'); dd.className='brief-cns cns-panel'; dd.id='sumCns'; dd.style.marginTop='22px'; dd.style.display=(new Date().getDay()===1)?'':'none'; dd.setAttribute('data-stocks', src.getAttribute('data-stocks')||''); sm.appendChild(dd); } })();
 if(typeof fillBriefConsensus==='function') fillBriefConsensus();
 setInterval(()=>{ if(afterHoursActive()) loadAfter(); }, 30*60*1000);
 
