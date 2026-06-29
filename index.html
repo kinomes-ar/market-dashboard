@@ -855,7 +855,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.411</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.412</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1724,7 +1724,7 @@ function setupCollapse(){
     const caret = document.createElement('span');
     caret.className = 'caret';
     head.appendChild(caret);
-    if(sec.id !== 'sec-ussurge') sec.classList.add('collapsed');
+    if(sec.id !== 'sec-ussurge' && sec.id !== 'sec-weekoutlook') sec.classList.add('collapsed');
     caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
     head.addEventListener('click', (e)=>{
       if(e.target.closest && e.target.closest('.ttsbtn')) return;
@@ -1739,8 +1739,7 @@ function setupCollapse(){
     const t = head ? head.querySelector('h3') : null;
     attach(sec, head, t ? t.textContent.trim() : ('sec'+i));
   });
-  const sum = document.querySelector('.summary');
-  if(sum) attach(sum, sum.querySelector('h2'), 'summary');
+  document.querySelectorAll('.summary').forEach(function(sm){ attach(sm, sm.querySelector('h2'), 'summary_'+(sm.id||'')); });
 }
 setupCollapse();
 (function inlineIndex(){
