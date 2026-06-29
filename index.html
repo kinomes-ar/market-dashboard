@@ -1643,7 +1643,7 @@ function layoutMain(){
     if(usnews) usnews.style.display='';
     seq=(usnews?[usnews]:[]).concat(order,[rates,live]);
   }
-  else if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); }
+  else if(mode==='morning'){ if(d.getDay()===1){ if(usnews) usnews.style.display='none'; seq=sumArr.concat(order,[rates,live]); } else { if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); } }
   else { if(usnews) usnews.style.display='none';
     seq = (mode==='usopen') ? sumArr.concat([live],order,[rates]) : sumArr.concat(order,[rates,live]); }
   const cur=Array.from(dash.children).filter(c=>seq.indexOf(c)>=0);
