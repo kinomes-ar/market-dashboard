@@ -831,7 +831,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.396</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.397</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1635,6 +1635,7 @@ function layoutMain(){
   const d=new Date(); const h=d.getHours(); const wknd=(d.getDay()===0||d.getDay()===6);
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
   if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
+  if(summary){ var _sh2=summary.querySelector('h2'); if(_sh2){ var _mon=(d.getDay()===1); var _sko=_sh2.querySelector('[data-lang="ko"]'), _sen=_sh2.querySelector('[data-lang="en"]'); if(_sko) _sko.textContent=_mon?'이번 주 전망':'오늘의 시장 흐름'; if(_sen) _sen.textContent=_mon?"This Week's Outlook":"Today's Market"; } }
   if(usnews){ var _h3=usnews.querySelector('.chead h3'); if(_h3){ var _ko=_h3.querySelector('[data-lang="ko"]'), _en=_h3.querySelector('[data-lang="en"]'); if(_ko) _ko.textContent=wknd?'주말 브리핑':'모닝 브리핑'; if(_en) _en.textContent=wknd?'Weekend Briefing':'Morning Briefing'; } }
   const sumArr = wknd ? [] : [summary];
   let seq;
