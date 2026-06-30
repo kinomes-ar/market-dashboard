@@ -468,6 +468,7 @@ html.is-android .briefbar{display:flex;}
 .cns-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
 .cns-warn{font-size:11.5px; color:var(--down); margin-top:6px;}
 @media(max-width:600px){ .cns-inner{padding:0 16px;} }
+@media(min-width:900px){ #cnsPanel{position:static; z-index:auto; background:transparent; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 0; margin-top:24px;} #cnsPanel .cns-inner{max-width:none; padding:0;} #surgeView{padding-bottom:40px;} }
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
 .ttsbtn.on{border-color:var(--ink); color:var(--ink);}
@@ -879,7 +880,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.421</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.422</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1986,7 +1987,7 @@ initSurgeFlags();
     syncTheme();
   });
   const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView'), expert: document.getElementById('expertView'), weekoutlook: document.getElementById('weekOutlookView'), mystocks: document.getElementById('myStocksView') };
-  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ if(_cp.parentElement!==document.body) document.body.appendChild(_cp); _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
+  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ var _sv=document.getElementById('surgeView'); if(window.innerWidth>=900){ if(_sv && _cp.parentElement!==_sv) _sv.appendChild(_cp); } else { if(_cp.parentElement!==document.body) document.body.appendChild(_cp); } _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
   window.showCalendar  = ()=>{ showView('cal'); var cv=document.getElementById('calendarView'); if(cv){ var ss=cv.querySelectorAll('.country.collapsed, .live.collapsed'); for(var i=0;i<ss.length;i++){ ss[i].classList.remove('collapsed'); var c=ss[i].querySelector('.caret'); if(c) c.textContent='−'; } } };
