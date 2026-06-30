@@ -886,7 +886,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.434</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.435</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1456,13 +1456,24 @@ document.addEventListener('click', function(e){
   var rx=e.target.closest?e.target.closest('.my-x'):null; if(rx){ e.stopPropagation(); myRemove(rx.getAttribute('data-mysym')); return; }
   var row=e.target.closest?e.target.closest('.my-row'):null; if(row){ var rows=document.querySelectorAll('#myList .my-row'); for(var i=0;i<rows.length;i++) rows[i].classList.remove('sel'); row.classList.add('sel'); if(window.loadStockCard) loadStockCard({sym:row.getAttribute('data-sym'),label:row.getAttribute('data-label'),kr:row.getAttribute('data-kr')==='1'}, document.getElementById('myDetail'), false); var md=document.getElementById('myDetail'); if(md) md.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 });
+function resolveCode6(code, cb){
+  fetch(KR_PROXY+'?stocks='+encodeURIComponent(code)).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    var s=j&&j.stocks&&j.stocks[0];
+    if(s && s.price!=null){ cb({sym:code,label:s.name||code,kr:true}); return; }
+    fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(code+'.SS,'+code+'.SZ')).then(function(r){return r.ok?r.json():null;}).then(function(jj){
+      var qs=(jj&&jj.quotes)||[]; var hit=null; for(var i=0;i<qs.length;i++){ if(qs[i] && qs[i].price!=null){ hit=qs[i]; break; } }
+      cb(hit?{sym:hit.symbol,label:hit.name||code,kr:false}:null);
+    }).catch(function(){ cb(null); });
+  }).catch(function(){ cb(null); });
+}
+window.resolveCode6=resolveCode6;
 (function mySearchInit(){ var inp=document.getElementById('mySearch'), btn=document.getElementById('mySearchBtn'), out=document.getElementById('mySearchOut'); if(!inp) return; var tmr=null,lastList=[];
   function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } }
   function note(msg){ if(out){ out.className='ex-sout on'; out.innerHTML='<div class="ex-snote">'+msg+'</div>'; } }
   function doSearch(q, cb){ exSearchRemote(q, function(list){ cb((list||[]).filter(function(x){ return x.sym && (x.sym.indexOf('.')<0 || /\.(SS|SZ)$/i.test(x.sym)); })); }); }
   function render(list){ lastList=list; if(!list.length) note(L('검색 결과가 없어요 — 티커(MSFT)나 6자리 코드(005930)로 입력해보세요','No results — try a ticker or 6-digit code')); else renderMySearch(list); }
   inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); lastList=[]; if(q.length<1){ hide(); return; } note(L('검색 중…','Searching…')); tmr=setTimeout(function(){ doSearch(q, function(list){ if(inp.value.trim()!==q) return; render(list); }); }, 220); });
-  function go(){ var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); return; } if(/^[0-9]{6}$/.test(q)){ myAdd({sym:q,label:q,kr:true}); inp.value=''; hide(); return; } note(L('검색 중…','Searching…')); doSearch(q, function(list){ if(list.length){ var x=list[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); } else if(/^[A-Za-z.\-]{1,6}$/.test(q)){ myAdd({sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}); inp.value=''; hide(); } else { note(L('결과가 없어요 — 티커(MSFT)나 6자리 코드로 입력해보세요','No match — try a ticker or 6-digit code')); } }); }
+  function go(){ var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); return; } if(/^[0-9]{6}$/.test(q)){ note(L('검색 중…','Searching…')); resolveCode6(q, function(info){ if(info){ myAdd(info); inp.value=''; lastList=[]; hide(); } else { note(L('해당 코드의 종목을 찾지 못했어요','No stock found for that code')); } }); return; } note(L('검색 중…','Searching…')); doSearch(q, function(list){ if(list.length){ var x=list[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); } else if(/^[A-Za-z.\-]{1,6}$/.test(q)){ myAdd({sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}); inp.value=''; hide(); } else { note(L('결과가 없어요 — 티커(MSFT)나 6자리 코드로 입력해보세요','No match — try a ticker or 6-digit code')); } }); }
   inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } });
   if(btn) btn.addEventListener('click', go);
   document.addEventListener('click', function(e){ if(out && !(e.target.closest&&e.target.closest('#myStocksView .ex-search')) && !(e.target.closest&&e.target.closest('#mySearchOut'))) hide(); }); })();
