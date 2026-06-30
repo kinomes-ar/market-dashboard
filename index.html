@@ -377,7 +377,13 @@ html.is-android .briefbar{display:flex;}
 .my-preset{background:transparent; border:1px dashed var(--hair2); border-radius:999px; padding:6px 12px; font-size:12.5px; color:var(--sec); cursor:pointer;}
 .my-preset:hover{color:var(--ink); border-color:var(--ink2);}
 .my-list{display:flex; flex-direction:column; margin-bottom:18px;}
-.my-row{display:flex; align-items:center; gap:10px; padding:13px 2px; border-bottom:1px solid var(--hair); cursor:pointer;}
+.my-row{display:flex; flex-direction:column; align-items:stretch; gap:6px; padding:13px 2px; border-bottom:1px solid var(--hair); cursor:pointer;}
+.my-top{display:flex; align-items:center; gap:10px;}
+.my-bot{display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:12px; color:var(--sec);}
+.my-cost{color:var(--sec);}
+.my-ret{font-weight:700;}
+.my-buybtn{background:none; border:1px solid var(--hair2); border-radius:6px; padding:2px 8px; font-size:11px; color:var(--sec); cursor:pointer;}
+.my-buybtn:hover{color:var(--ink); border-color:var(--ink2);}
 .my-row:last-child{border-bottom:none;}
 .my-row.sel{background:var(--surf);}
 .my-nm{display:flex; align-items:baseline; gap:7px; flex:1; min-width:0;}
@@ -1420,18 +1426,24 @@ function mySet(a){ try{ localStorage.setItem(MY_KEY, JSON.stringify(a.slice(0,50
 function myAdd(info){ if(!info||!info.sym) return; var a=myGet().filter(function(x){return x.sym!==info.sym;}); a.push({sym:info.sym,label:info.label||info.sym,kr:!!info.kr}); mySet(a); myRender(); }
 function myRemove(sym){ mySet(myGet().filter(function(x){return x.sym!==sym;})); myRender(); }
 function myPxId(sym){ return 'mypx-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
+function myRetId(sym){ return 'myret-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
+function myFmt(v,krc){ return (krc?'₩':'$')+Number(v).toLocaleString('en-US', krc?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function mySetPx(sym,price,chg,krc){ var el=document.getElementById(myPxId(sym)); if(!el) return; if(price==null){ el.textContent='—'; return; } var c=(chg!=null)?'<span class="my-chg '+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':''; el.innerHTML=myFmt(price,krc)+c; }
+function mySetRet(item,price){ var el=document.getElementById(myRetId(item.sym)); if(!el) return; if(item.buy==null){ el.innerHTML='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('+ 매입가 입력','+ Add cost')+'</button>'; return; } var ret=(price!=null)?((price-item.buy)/item.buy*100):null; var pl=(price!=null&&item.qty)?((price-item.buy)*item.qty):null; var cls=(ret!=null&&ret>=0)?'up':'down'; var h='<span class="my-cost">'+L('매입','Cost')+' '+myFmt(item.buy,item.kr)+(item.qty?' ×'+item.qty:'')+'</span>'; if(ret!=null) h+='<span class="my-ret '+cls+'">'+(ret>=0?'+':'')+ret.toFixed(2)+'%'+(pl!=null?' ('+(pl>=0?'+':'')+myFmt(pl,item.kr)+')':'')+'</span>'; h+='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('수정','Edit')+'</button>'; el.innerHTML=h; }
+function myEditBuy(sym){ var a=myGet(); var it=null; for(var i=0;i<a.length;i++){ if(a[i].sym===sym){ it=a[i]; break; } } if(!it) return; var bp=prompt(L('매입가를 입력하세요 (숫자만, 비우면 삭제)','Enter cost price (number only, blank to clear)'), it.buy!=null?it.buy:''); if(bp===null) return; bp=String(bp).trim(); if(bp===''){ it.buy=null; it.qty=null; } else { var n=parseFloat(bp.replace(/[^0-9.\-]/g,'')); if(isNaN(n)) return; it.buy=n; var q=prompt(L('수량 (선택 — 평가손익 금액 계산용, 비워도 됨)','Quantity (optional)'), it.qty!=null?it.qty:''); if(q!==null){ q=String(q).trim(); var qn=parseFloat(q.replace(/[^0-9.]/g,'')); it.qty=(q===''||isNaN(qn))?null:qn; } } mySet(a); myRender(); }
+window.myEditBuy=myEditBuy;
 function myFetchPrices(a){
   var us=a.filter(function(x){return !x.kr;}).map(function(x){return x.sym;});
   var kr=a.filter(function(x){return x.kr;}).map(function(x){return x.sym;});
-  function setpx(sym,price,chg,krc){ var el=document.getElementById(myPxId(sym)); if(!el) return; if(price==null){ el.textContent='—'; return; } var unit=krc?'₩':'$'; var p=unit+Number(price).toLocaleString('en-US', krc?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); var c=(chg!=null)?'<span class="my-chg '+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':''; el.innerHTML=p+c; }
-  if(us.length){ fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(us.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.quotes) return; var m={}; j.quotes.forEach(function(q){ m[q.symbol]=q; }); us.forEach(function(s){ var q=m[s]; setpx(s, q?q.price:null, q?q.changePct:null, false); }); }).catch(function(){}); }
-  if(kr.length){ fetch(KR_PROXY+'?stocks='+encodeURIComponent(kr.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.stocks) return; var m={}; j.stocks.forEach(function(q){ m[q.code]=q; }); kr.forEach(function(s){ var q=m[s]; setpx(s, q?q.price:null, q?q.changePct:null, true); }); }).catch(function(){}); }
+  a.forEach(function(it){ mySetRet(it, null); });
+  if(us.length){ fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(us.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.quotes) return; var m={}; j.quotes.forEach(function(q){ m[q.symbol]=q; }); a.filter(function(x){return !x.kr;}).forEach(function(it){ var q=m[it.sym]; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, false); mySetRet(it, q?q.price:null); }); }).catch(function(){}); }
+  if(kr.length){ fetch(KR_PROXY+'?stocks='+encodeURIComponent(kr.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.stocks) return; var m={}; j.stocks.forEach(function(q){ m[q.code]=q; }); a.filter(function(x){return x.kr;}).forEach(function(it){ var q=m[it.sym]; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, true); mySetRet(it, q?q.price:null); }); }).catch(function(){}); }
 }
 function myRender(){
   var list=document.getElementById('myList'); if(!list) return;
   var a=myGet();
   if(!a.length){ list.innerHTML='<div class="my-empty">'+L('아직 추가한 종목이 없어요. 위에서 검색하거나 지수를 추가하세요.','No stocks yet — search above or add an index.')+'</div>'; return; }
-  list.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<div class="my-row" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><div class="my-nm"><span class="my-nmt">'+lab+'</span><span class="my-sym">'+String(x.sym).replace(/"/g,'')+'</span></div><div class="my-px" id="'+myPxId(x.sym)+'">—</div><button class="my-x" data-mysym="'+x.sym+'" aria-label="remove">×</button></div>'; }).join('');
+  list.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<div class="my-row" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><div class="my-top"><div class="my-nm"><span class="my-nmt">'+lab+'</span><span class="my-sym">'+String(x.sym).replace(/"/g,'')+'</span></div><div class="my-px" id="'+myPxId(x.sym)+'">—</div><button class="my-x" data-mysym="'+x.sym+'" aria-label="remove">×</button></div><div class="my-bot" id="'+myRetId(x.sym)+'"></div></div>'; }).join('');
   myFetchPrices(a);
 }
 function myRenderPresets(){ var box=document.getElementById('myPresets'); if(!box) return; var P=[['^GSPC','S&P 500'],['^IXIC','나스닥'],['^DJI','다우'],['^KS11','코스피'],['^KQ11','코스닥'],['000001.SS','상하이종합']]; box.innerHTML=P.map(function(p){ return '<button class="my-preset" data-add-sym="'+p[0]+'" data-add-label="'+p[1]+'">+ '+p[1]+'</button>'; }).join(''); }
@@ -1440,6 +1452,7 @@ function renderMySearch(list){ var out=document.getElementById('mySearchOut'); i
 document.addEventListener('click', function(e){
   var ps=e.target.closest?e.target.closest('.my-preset'):null; if(ps){ myAdd({sym:ps.getAttribute('data-add-sym'),label:ps.getAttribute('data-add-label'),kr:false}); return; }
   var si=e.target.closest?e.target.closest('.my-sitem'):null; if(si){ myAdd({sym:si.getAttribute('data-msym'),label:si.getAttribute('data-mlabel'),kr:si.getAttribute('data-mkr')==='1'}); var o=document.getElementById('mySearchOut'); if(o){ o.className='ex-sout'; o.innerHTML=''; } var mi=document.getElementById('mySearch'); if(mi) mi.value=''; return; }
+  var bb=e.target.closest?e.target.closest('.my-buybtn'):null; if(bb){ e.stopPropagation(); if(window.myEditBuy) myEditBuy(bb.getAttribute('data-buy-sym')); return; }
   var rx=e.target.closest?e.target.closest('.my-x'):null; if(rx){ e.stopPropagation(); myRemove(rx.getAttribute('data-mysym')); return; }
   var row=e.target.closest?e.target.closest('.my-row'):null; if(row){ var rows=document.querySelectorAll('#myList .my-row'); for(var i=0;i<rows.length;i++) rows[i].classList.remove('sel'); row.classList.add('sel'); if(window.loadStockCard) loadStockCard({sym:row.getAttribute('data-sym'),label:row.getAttribute('data-label'),kr:row.getAttribute('data-kr')==='1'}, document.getElementById('myDetail'), false); var md=document.getElementById('myDetail'); if(md) md.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 });
