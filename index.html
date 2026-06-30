@@ -42,7 +42,7 @@ header.top{margin:14px 0 6px;}
 h1{font-size:40px; font-weight:600; margin:14px 0 0; letter-spacing:-.025em; color:var(--ink); line-height:1.08;}
 .asof{font-size:13px; color:var(--sec);}
 
-.summary{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:24px 0; margin:24px 0 0; }
+.summary{ border:0; background:transparent; border-radius:0; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 18px; margin:0; }
 ul.sflow{margin:0 0 2px; padding-left:20px;}
 ul.sflow li{font-size:15px; line-height:1.7; color:var(--ink2); margin-bottom:8px;}
 ul.sflow li:last-child{margin-bottom:0;}
@@ -210,7 +210,7 @@ footer{margin-top:2px; padding-top:22px; border-top:1px solid var(--hair); font-
 .collapsible:hover .caret{color:var(--ink);}
 .collapsed .caret{transform:translateY(-50%);}
 .country.collapsed > :not(.chead), .live.collapsed > :not(.chead){display:none;}
-.summary.collapsed > p, .summary.collapsed > .sflow, .summary.collapsed > .flow{display:none;}
+.summary.collapsed > p, .summary.collapsed > .sflow, .summary.collapsed > .flow, .summary.collapsed > .sum-idx-wrap{display:none;}
 .summary.collapsed h2{margin-bottom:0;}
 .chead.collapsible:hover h3, .summary h2.collapsible:hover{color:var(--ink);}
 
@@ -277,7 +277,7 @@ html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
   .wrap{padding:18px 16px 60px;}
   .kicker{font-size:10.5px;}
   h1{font-size:29px;}
-  .summary{padding:20px 0;}
+  .summary{padding:20px 0 18px;}
   /* 섹션 제목은 27px로 통일 (기본 규칙 사용, 모바일 축소 없음) */
   .summary p{font-size:15px;}
   .tag{font-size:11px; padding:4px 9px;}
@@ -306,7 +306,7 @@ html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
   .rd-post{grid-template-columns:46px 1fr; gap:7px; font-size:12px;}
 }
 #sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
-.topnav .brandlogo{margin-left:auto; display:flex; align-items:center; padding-left:8px; cursor:pointer;}
+.topnav .brandlogo{margin-left:14px; display:flex; align-items:center; padding-left:8px; cursor:pointer;}
 .topnav .brandlogo img{display:none; width:auto;}
 .topnav .brandlogo .logo-wide{height:30px;}
 .topnav .brandlogo .logo-mark{height:26px;}
@@ -353,6 +353,11 @@ html.is-android .briefbar{display:flex;}
 .idxp-l{font-size:11px; color:var(--sec); white-space:nowrap; margin-bottom:5px;}
 .idxp-v{font-size:15px; font-weight:600; color:var(--ink); white-space:nowrap;}
 .idxp-c{font-size:12px; font-weight:600; margin-top:3px; white-space:nowrap;}
+.sum-idx-wrap{display:none; margin-top:20px;}
+.sum-idx-wrap.on{display:block;}
+.sum-idx-h{font-size:13px; font-weight:600; color:var(--ink2); margin-bottom:11px;}
+.sum-idx{display:flex; gap:8px; overflow-x:auto; padding:2px 0 4px; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+.sum-idx::-webkit-scrollbar{display:none;}
 .idxp-c.up{color:var(--up);} .idxp-c.down{color:var(--down);} .idxp-c.flat{color:var(--sec);}
 .brief-extra .chead{margin-bottom:4px;}
 .surge-criteria{font-size:12px; color:var(--sec); line-height:1.5; margin:0; flex:1; min-width:0;}
@@ -362,6 +367,83 @@ html.is-android .briefbar{display:flex;}
 #surgeView .surge-row{cursor:pointer;}
 #surgeView .surge-row.sel{background:var(--surf);}
 #surgeView{padding-bottom:176px;}
+#expertView{padding-bottom:60px;}
+#myStocksView{padding-bottom:60px;}
+.navmy{margin-left:auto; flex:none;}
+.my-sitem{display:flex; align-items:baseline; gap:10px; padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--hair);}
+.my-sitem:last-child{border-bottom:none;}
+.my-sitem:active,.my-sitem:hover{background:var(--hair2);}
+.my-presets{display:flex; flex-wrap:wrap; gap:7px; margin:2px 0 18px;}
+.my-preset{background:transparent; border:1px dashed var(--hair2); border-radius:999px; padding:6px 12px; font-size:12.5px; color:var(--sec); cursor:pointer;}
+.my-preset:hover{color:var(--ink); border-color:var(--ink2);}
+.my-list{display:flex; flex-direction:column; margin-bottom:18px;}
+.my-row{display:flex; align-items:center; gap:10px; padding:13px 2px; border-bottom:1px solid var(--hair); cursor:pointer;}
+.my-row:last-child{border-bottom:none;}
+.my-row.sel{background:var(--surf);}
+.my-nm{display:flex; align-items:baseline; gap:7px; flex:1; min-width:0;}
+.my-nmt{font-size:14.5px; color:var(--ink); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+.my-sym{font-size:11.5px; color:var(--sec); flex:none; white-space:nowrap;}
+.my-px{font-size:14px; font-weight:600; color:var(--ink2); white-space:nowrap; text-align:right;}
+.my-chg{font-size:12px; font-weight:600; margin-left:8px;}
+.my-x{flex:none; opacity:.42; font-size:15px; line-height:1; cursor:pointer; background:none; border:none; color:var(--sec); padding:0 4px;}
+.my-x:hover{opacity:1;}
+.my-empty{font-size:13px; color:var(--sec); padding:14px 0; line-height:1.5;}
+.ex-lead{font-size:12.5px; color:var(--sec); line-height:1.6; margin:0 0 16px;}
+.ex-lead b{color:var(--ink2); font-weight:600;}
+.ex-search{display:flex; gap:8px; margin-bottom:8px;}
+.ex-search input{flex:1; min-width:0; background:var(--surf); border:1px solid var(--hair2); border-radius:10px; padding:11px 13px; font-size:14px; color:var(--ink);}
+.ex-search button{flex:none; background:var(--ink); color:var(--bg); border:none; border-radius:10px; padding:0 18px; font-size:13px; font-weight:600; cursor:pointer;}
+.ex-hint{font-size:11.5px; color:var(--sec); line-height:1.5; margin-bottom:18px;}
+.ex-today-h{font-size:13px; font-weight:600; color:var(--ink2); margin:22px 0 10px;}
+.ex-chips{display:flex; flex-wrap:wrap; gap:7px;}
+.ex-chip{background:transparent; border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--sec); cursor:pointer;}
+.ex-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.ex-card{border:1px solid var(--hair); border-radius:14px; padding:18px 16px; background:var(--surf);}
+.ex-name{font-size:17px; font-weight:700; color:var(--ink); margin-bottom:3px;}
+.ex-sub{font-size:11.5px; color:var(--sec); margin-bottom:18px;}
+.ex-spread{display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; margin-left:6px; vertical-align:middle;}
+.ex-spread.s-agree{background:rgba(47,163,155,.16); color:#2FA39B;}
+.ex-spread.s-mid{background:var(--hair2); color:var(--sec);}
+.ex-spread.s-wide{background:rgba(224,138,43,.18); color:#E08A2B;}
+.ex-rng{margin:34px 0 6px;}
+.ex-rng-track{position:relative; height:6px; border-radius:999px; background:linear-gradient(90deg,var(--down2),var(--hair2),var(--up2)); margin:0 0 14px;}
+.ex-rng-mean{position:absolute; top:50%; width:13px; height:13px; border-radius:50%; background:var(--ink); transform:translate(-50%,-50%); box-shadow:0 0 0 3px var(--surf); z-index:2;}
+.ex-rng-mean-l{position:absolute; top:-21px; transform:translateX(-50%); font-size:10px; font-weight:600; color:var(--ink2); white-space:nowrap;}
+.ex-rng-cur{position:absolute; top:-6px; bottom:-6px; width:2px; background:var(--ink2); transform:translateX(-50%); z-index:1;}
+.ex-rng-cur::after{content:attr(data-l); position:absolute; bottom:-15px; left:50%; transform:translateX(-50%); font-size:9.5px; color:var(--ink2); white-space:nowrap;}
+.ex-rng-lab{display:flex; justify-content:space-between; font-size:11px; color:var(--sec);}
+.ex-rng-lab b{color:var(--ink2); font-weight:600;}
+.ex-meta2{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--sec); margin-top:16px;}
+.ex-meta2 b{color:var(--ink2); font-weight:600;}
+.ex-tabs{display:flex; gap:2px; margin:14px 0 16px; border-bottom:1px solid var(--hair);}
+.ex-tab{background:none; border:none; padding:8px 11px 10px; font-size:13px; color:var(--sec); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px;}
+.ex-tab.on{color:var(--ink); font-weight:600; border-bottom-color:var(--ink);}
+.ex-ovtbl{display:flex; flex-direction:column;}
+.ex-ovr{display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--hair); font-size:13.5px;}
+.ex-ovr:last-child{border-bottom:none;}
+.ex-ovk{color:var(--sec);}
+.ex-ovv{color:var(--ink2); font-weight:500; text-align:right;}
+.ex-news{display:flex; flex-direction:column;}
+.ex-nitem{display:block; padding:11px 0; border-bottom:1px solid var(--hair); text-decoration:none;}
+.ex-nitem:last-child{border-bottom:none;}
+.ex-ntitle{font-size:13.5px; color:var(--ink2); line-height:1.45; margin-bottom:4px;}
+.ex-nitem:hover .ex-ntitle{color:var(--ink);}
+.ex-nmeta{font-size:11px; color:var(--sec);}
+.ex-note{font-size:11.5px; color:var(--sec); line-height:1.55; margin-top:13px;}
+.ex-sout{display:none; border:1px solid var(--hair2); border-radius:10px; overflow:hidden; margin:-2px 0 14px; background:var(--surf);}
+.ex-sout.on{display:block;}
+.ex-sitem{display:flex; align-items:baseline; gap:10px; padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--hair);}
+.ex-sitem:last-child{border-bottom:none;}
+.ex-snote{padding:11px 13px; font-size:12px; color:var(--sec); line-height:1.5;}
+.ex-sitem:active,.ex-sitem:hover{background:var(--hair2);}
+.ex-sname{font-size:13.5px; color:var(--ink); font-weight:500;}
+.ex-ssym{font-size:11px; color:var(--sec); margin-left:auto; white-space:nowrap;}
+.ex-recent-wrap{margin-bottom:4px;}
+.ex-recent-h{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--ink2); margin:18px 0 10px;}
+.ex-clear{margin-left:auto; background:none; border:none; color:var(--sec); font-size:11.5px; cursor:pointer; text-decoration:underline; padding:0;}
+.ex-rchip{display:inline-flex; align-items:center; gap:7px;}
+.ex-rx{display:inline-flex; align-items:center; opacity:.5; font-size:14px; line-height:1; cursor:pointer;}
+.ex-rx:hover{opacity:1;}
 .cns-panel{border-top:1px solid var(--hair); margin-top:18px; padding-top:18px;}
 #cnsPanel{position:fixed; left:0; right:0; bottom:0; z-index:80; background:var(--bg); border-top:1px solid var(--hair2); box-shadow:0 -7px 22px rgba(0,0,0,.16); padding:11px 0 15px; margin:0; display:none;}
 #cnsPanel.show{display:block;}
@@ -369,6 +451,7 @@ html.is-android .briefbar{display:flex;}
 .cns-h{font-size:13.5px; color:var(--ink2); margin-bottom:26px;}
 .cns-h b{color:var(--ink); font-weight:600;}
 .cns-barwrap{position:relative; margin:0 0 11px;}
+.ex-pane .cns-barwrap{margin-top:32px;}
 .cns-bubble{position:absolute; top:-27px; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:12px; font-weight:700; padding:2px 7px; border-radius:6px; white-space:nowrap;}
 .cns-segs{display:flex; gap:3px;}
 .cns-seg{flex:1; text-align:center; font-size:11px; color:var(--sec); padding-top:7px; border-top:3px solid var(--hair2);}
@@ -387,6 +470,7 @@ html.is-android .briefbar{display:flex;}
 .cns-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
 .cns-warn{font-size:11.5px; color:var(--down); margin-top:6px;}
 @media(max-width:600px){ .cns-inner{padding:0 16px;} }
+@media(min-width:900px){ #cnsPanel{position:static; z-index:auto; background:transparent; box-shadow:none; border-top:1px solid var(--hair); padding:20px 0 0; margin-top:24px;} #cnsPanel .cns-inner{max-width:none; padding:0;} #surgeView{padding-bottom:40px;} }
 .ttsbtn{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--hair); background:var(--surf); color:var(--ink2); font-size:12px; font-weight:500; line-height:1; padding:6px 12px; border-radius:999px; cursor:pointer; -webkit-tap-highlight-color:transparent;}
 .ttsbtn:hover{border-color:var(--ink2);}
 .ttsbtn.on{border-color:var(--ink); color:var(--ink);}
@@ -413,14 +497,15 @@ html.is-android .briefbar{display:flex;}
 <nav class="topnav" id="topnav">
   <div class="navmenu">
     <button class="menubtn" id="menuBtn" aria-label="메뉴" aria-expanded="false"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
-    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">02</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">03</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">04</span><span class="ddt">커뮤니티</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button></nav><div class="menuutil"><div class="utilgrid"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button><button class="utilrow" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
+    <div class="menudd" id="menuDD"><div class="menupanel"><div class="menuhd"><span class="menulabel">Menu</span><span class="menulogo" id="menuLogo" role="button" tabindex="0" aria-label="홈"><img class="logo-mark logo-l" src="header-mark-light.png?v=6" alt="Market Daily"><img class="logo-mark logo-d" src="header-mark-dark.png?v=6" alt="" aria-hidden="true"></span></div><nav class="menulist"><button class="ddrow" id="goHome"><span class="ddnum">01</span><span class="ddt">홈</span></button><button class="ddrow" id="goWeekOutlook"><span class="ddnum">02</span><span class="ddt">이번 주 전망</span></button><button class="ddrow" id="goBriefing"><span class="ddnum">03</span><span class="ddt">모닝 브리핑</span></button><button class="ddrow" id="goCalendar"><span class="ddnum">04</span><span class="ddt">경제 캘린더</span></button><button class="ddrow" id="goSurge"><span class="ddnum">05</span><span class="ddt">급등락</span></button><button class="ddrow" id="goExpert"><span class="ddnum">06</span><span class="ddt">전문가 의견</span></button><button class="ddrow" id="goCommunity"><span class="ddnum">07</span><span class="ddt">커뮤니티</span></button></nav><div class="menuutil"><div class="utilgrid"><button class="utilrow" id="goShare"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="#3F84CC"/><circle cx="12" cy="3.9" r="2" fill="#3F84CC"/><circle cx="12" cy="12.1" r="2" fill="#3F84CC"/><path d="M5.6 7 10.4 4.7M5.6 9l4.8 2.4" stroke="#3F84CC" stroke-width="1.4" stroke-linecap="round"/></svg></span><span class="ddt">공유하기</span></button><button class="utilrow" id="goInstall"><span class="ddi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3.4" y="1.8" width="9.2" height="12.4" rx="2.2" fill="#2FA39B"/><path d="M8 5.3v4.6M5.7 7.6h4.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="ddt">홈 화면에 추가</span></button><button class="utilrow" id="themeToggle"><span class="tgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg></span><span class="tgt">라이트 모드</span></button><button class="utilrow" id="langToggle"><span class="lgi"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg></span><span class="lgt">English</span></button></div></div><button class="menuclosebar" id="menuClose" aria-label="닫기"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div></div>
   </div>
   <div class="links">
-    <a href="#sec-summary">요약</a>
     <a href="#sec-us">미국</a>
     <a href="#sec-kr">한국</a>
         <a href="#surge" data-surge="1">급상승</a>
+        <a href="#expert" data-expert="1">전문가</a>
   </div>
+  <a href="#mystocks" data-mystocks="1" class="navmy">내 주식</a>
   
   <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="홈" aria-label="Market Daily — 홈">
     <img class="logo-wide logo-l" src="logo-horizontal-light.png?v=6" alt="Market Daily">
@@ -443,46 +528,51 @@ html.is-android .briefbar{display:flex;}
 
   <!-- CROSS-MARKET SUMMARY -->
   <section class="summary spy" id="sec-summary">
-    <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span><span class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-30T07:01:24Z">—</b> · <span class="tzname">현지</span></span></h2>
+    <h2><span data-lang="ko">오늘의 시장 흐름</span><span data-lang="en">Today's Market</span><span class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="summary" data-iso="2026-06-30T07:06:23Z">—</b> · <span class="tzname">현지</span></span></h2>
     <ul class="sflow" data-lang="ko">
-      <li><b>'AI 비용' 공포가 테크 매도를 키웠다.</b> 데이터센터 캡엑스 부담·오픈AI IPO 연기설이 반도체를 다시 흔들며 나스닥이 <span class="down">-0.24%</span>로 <b>5거래일 연속 하락</b>, S&amp;P·나스닥 모두 주간 약세.</li>
-      <li><!--SUMKR_KO--><b>한국</b> — 서킷브레이커 폭락 뒤 코스피 <span class="up">+1.19%</span> 반등(8,495), 코스닥은 <span class="down">-0.62%</span> 숨고르기(914.9). 삼성·SK하이닉스는 대규모 반도체 투자 발표에도 약세 지속, 외국인 매도·원화 1,545원대 약세.<!--/SUMKR_KO--></li>
-      <li><!--SUMCN_KO--><b>중국</b> — 본토·홍콩 기술주 동반 급락: 상하이 <span class="down">-0.54%</span>·선전 <span class="down">-2.6%</span>, 항셍 <span class="down">-2.3%</span>(항셍테크 <span class="down">-4%</span>)로 주간 -5.8% 1년 만의 최악. 美 연준 매파 전환發 AI 매도 전염.<!--/SUMCN_KO--></li>
-      <li><b>미국</b> — 6/26 혼조~약세 마감(S&amp;P <span class="down">-0.05%</span>·나스닥 <span class="down">-0.24%</span>·다우 <span class="down">-0.09%</span>). <b>ON세미 ~-15%·마이크론 -7%·샌디스크 -5%</b> 반도체 급락에 SOX 조정권(-10%) 임박. 유가는 WTI ~$70로 <b>주간 -10%</b> 급락(전쟁 후 최저).</li>
-      <li><b>관전</b> — 매파 연준(BofA "연내 3회 인상" 전망·PCE 연말 3.6%)이 반등의 천장. 칩 조정 진정 여부·빅테크 이탈 순환매·국채 10년물 ~4.50%·유가 하락이 인플레에 주는 완화 효과가 단기 분수령.</li>
+      <li><b>'안도 랠리'로 반등.</b> 호르무즈 통항 정상화·유가 급락에 위험선호가 살아나며 <b>다우가 사상 첫 5만2천 돌파</b>, 나스닥 <span class="up">+2.07%</span>·S&amp;P <span class="up">+1.18%</span>로 지난주 칩 조정을 일부 만회. <b>7/2 美 6월 고용</b>이 반등 지속의 분수령.</li>
+      <li><!--SUMKR_KO--><b>한국</b> — 서킷브레이커 폭락 뒤 코스피 <span class="up">+3.11%</span> 반등(8,494.93). 전일 폭등했던 코스닥은 <span class="down">-0.62%</span>(914.87) 숨고르기. 삼성전자(+1.7%) 강세·SK하이닉스(-1.4%) 약세로 삼전닉스 엇갈림, 외국인 매도·원/달러 1,545원대 약세.<!--/SUMKR_KO--></li>
+      <li><!--SUMCN_KO--><b>중국</b> — 본토 3대 지수가 기술주 주도로 반등 출발(상하이 <span class="up">+0.38%</span> 4,116·선전 <span class="up">+0.66%</span>), 항셍도 <span class="up">+0.92%</span> 회복. 미 칩기업 호실적에 AI 매도세가 진정되며 반도체·AI주가 견인.<!--/SUMCN_KO--></li>
+      <li><b>미국</b> — 3대 지수 동반 반등. <b>다우 52,182.74(<span class="up">+0.59%</span>)로 사상 첫 5만2천 돌파</b>, 나스닥 <span class="up">+2.07%</span>(25,820)·S&amp;P <span class="up">+1.18%</span>(7,440). <b>알파벳이 다우 신규 편입</b>(버라이즌 대체)되며 <span class="up">+4.96%</span> 급등해 기술주 반등을 견인. 호르무즈 통항 회복에 브렌트 ~$72로 추가 하락, 10년물 ~4.40%.</li>
+      <li><b>관전</b> — 반등의 지속성은 <b>7/2 6월 고용보고서</b>가 좌우. 고용이 강하면 매파 연준(3.50–3.75% 동결) 우려가 재부각될 수 있고, 둔화 시 안도 랠리 연장. 유가 하락의 인플레 완화 효과와 반도체 반등 지속 여부, 7/3 美 독립기념일 휴장도 변수.</li>
     </ul>
     <ul class="sflow" data-lang="en">
-      <li><b>"AI-cost" fear deepened the tech sell-off.</b> Data-center capex worries and a reported OpenAI IPO delay rattled chips again, sending the Nasdaq <span class="down">-0.24%</span> to a <b>5th straight losing session</b>; both the S&amp;P and Nasdaq logged a down week.</li>
-      <li><!--SUMKR_EN--><b>Korea</b> — After the circuit-breaker crash, KOSPI rebounded <span class="up">+1.19%</span> to 8,495 while KOSDAQ paused <span class="down">-0.62%</span> (914.9). Samsung &amp; SK Hynix stayed soft despite big chip-investment pledges; foreign selling, won weak near 1,545.<!--/SUMKR_EN--></li>
-      <li><!--SUMCN_EN--><b>China</b> — mainland and HK tech tumble together: Shanghai <span class="down">-0.54%</span>, Shenzhen <span class="down">-2.6%</span>, Hang Seng <span class="down">-2.3%</span> (HS Tech <span class="down">-4%</span>), heading for a -5.8% week, its worst in over a year, as a hawkish Fed pivot spreads the AI sell-off.<!--/SUMCN_EN--></li>
-      <li><b>US</b> — mixed-to-lower 6/26 close (S&amp;P <span class="down">-0.05%</span>, Nasdaq <span class="down">-0.24%</span>, Dow <span class="down">-0.09%</span>). A chip rout — <b>ON Semi ~-15%, Micron -7%, SanDisk -5%</b> — pushed the SOX near a -10% correction. Oil dove, WTI ~$70 for a <b>-10% week</b> (lowest since the war).</li>
-      <li><b>Watch</b> — a hawkish Fed (BofA sees 3 hikes this year; PCE seen 3.6% at year-end) caps rebounds. The swing factors: whether the chip correction settles, rotation out of megacaps, the 10Y near ~4.50%, and oil's slide easing inflation.</li>
+      <li><b>A 'relief rally' snaps back.</b> Restored Hormuz traffic and a slide in oil revived risk appetite: the <b>Dow closed above 52,000 for the first time</b>, with the Nasdaq <span class="up">+2.07%</span> and S&amp;P <span class="up">+1.18%</span> clawing back part of last week's chip correction. The <b>US June jobs report (Jul 2)</b> is the pivot for whether the bounce holds.</li>
+      <li><!--SUMKR_EN--><b>Korea</b> — After the circuit-breaker crash, KOSPI rebounded <span class="up">+3.11%</span> to 8,494.93, while the prior day's surging KOSDAQ paused <span class="down">-0.62%</span> (914.87). Chip names split — Samsung +1.7%, SK Hynix -1.4%; foreign selling, won soft near 1,545.<!--/SUMKR_EN--></li>
+      <li><!--SUMCN_EN--><b>China</b> — the three mainland indices opened in a tech-led rebound (Shanghai <span class="up">+0.38%</span> at 4,116, Shenzhen <span class="up">+0.66%</span>) and the Hang Seng recovered <span class="up">+0.92%</span>, as solid US chipmaker earnings calmed the AI sell-off and lifted semis and AI names.<!--/SUMCN_EN--></li>
+      <li><b>US</b> — all three majors rebounded. The <b>Dow closed at 52,182.74 (<span class="up">+0.59%</span>), its first finish above 52,000</b>; the Nasdaq rose <span class="up">+2.07%</span> (25,820) and the S&amp;P <span class="up">+1.18%</span> (7,440). <b>Alphabet joined the Dow</b> (replacing Verizon) and jumped <span class="up">+4.96%</span>, leading the tech rebound. Restored Hormuz traffic pushed Brent to ~$72, and the 10Y eased to ~4.40%.</li>
+      <li><b>Watch</b> — the durability of the bounce hinges on the <b>June jobs report (Jul 2)</b>. A strong print could revive worries about a hawkish Fed (on hold at 3.50–3.75%), while a soft one extends the relief rally. Also track oil's disinflationary pull, whether the chip rebound sticks, and the Jul 3 US market holiday.</li>
     </ul>
     <div class="flow" data-lang="ko">
-      <span class="tag">나스닥 5거래일 연속 하락</span>
-      <span class="tag">AI 데이터센터 비용 공포</span>
-      <span class="tag">오픈AI IPO 2027년 연기설</span>
-      <span class="tag">ON세미 ~-15% · 칩 급락</span>
-      <span class="tag">SOX 조정권(-10%) 임박</span>
-      <span class="tag">WTI ~$70 · 주간 -10%</span>
-      <span class="tag">매파 연준 (BofA 연내 3회 인상)</span>
-      <span class="tag">10년물 ~4.50%</span>
+      <span class="tag">안도 랠리 · 다우 5만2천 첫 돌파</span>
+      <span class="tag">알파벳 다우 편입 (+4.96%)</span>
+      <span class="tag">나스닥 +2.07% · 기술주 반등</span>
+      <span class="tag">美 6월 고용 7/2 (분수령)</span>
+      <span class="tag">호르무즈 통항 정상화 · 유가↓</span>
+      <span class="tag">브렌트 ~$72 · 인플레 완화</span>
+      <span class="tag">연준 3.50–3.75% 동결·매파</span>
+      <span class="tag">7/3 美 휴장 (독립기념일)</span>
     </div>
     <div class="flow" data-lang="en">
-      <span class="tag">Nasdaq down 5 sessions straight</span>
-      <span class="tag">AI data-center cost fear</span>
-      <span class="tag">OpenAI IPO seen slipping to 2027</span>
-      <span class="tag">ON Semi ~-15% · chip rout</span>
-      <span class="tag">SOX near -10% correction</span>
-      <span class="tag">WTI ~$70 · -10% week</span>
-      <span class="tag">Hawkish Fed (BofA sees 3 hikes)</span>
-      <span class="tag">10Y ~4.50%</span>
+      <span class="tag">Relief rally · Dow tops 52,000</span>
+      <span class="tag">Alphabet joins the Dow (+4.96%)</span>
+      <span class="tag">Nasdaq +2.07% · tech rebound</span>
+      <span class="tag">US June jobs Jul 2 (the pivot)</span>
+      <span class="tag">Hormuz traffic restored · oil↓</span>
+      <span class="tag">Brent ~$72 · easing inflation</span>
+      <span class="tag">Fed on hold 3.50–3.75% · hawkish</span>
+      <span class="tag">US closed Jul 3 (Independence Day)</span>
     </div>
   </section>
 
+  <section class="summary spy" id="sec-weekoutlook" style="display:none">
+    <h2><span data-lang="ko">이번 주 전망</span><span data-lang="en">This Week's Outlook</span><span class="summary-upd"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="weekoutlook" data-iso="2026-06-29T04:22:27Z">—</b> · <span class="tzname">현지</span></span></h2>
+    <ul class="sflow" data-lang="ko"><!--WKOUT_KO--><li><b>이번 주 핵심</b>: 지난주 글로벌 증시 동반 급락 뒤 이번 주는 <b>반발 매수</b>로 출발. <b>7/2 미국 6월 고용보고서</b>가 금리·달러 경로의 최대 분수령이며, 반도체 투매가 진정될지 '롤러코스피' 변동성이 이어질지가 핵심 관전 포인트.</li><li><b>한국</b>: 지난 금요일 코스피가 <span class="down">-5.81%</span> 폭락(<b>올해 5번째 서킷브레이커</b>)하며 8,411로 마감했으나, 이번 주는 <span class="up">+4%대</span> 반발 매수로 출발. <b>'삼전닉스' 반등</b> 지속 여부가 관건. <b>7/1 6월 수출</b>·<b>7/2 6월 소비자물가</b> 발표와 2분기 실적 시즌 개막이 방향을 가른다(7/16 금통위는 다음 주, 원/달러 1,540원대).</li><li><b>중국</b>: 항셍이 지난주 <span class="down">-5.2%</span>(항셍테크 <span class="down">-7.6%</span>)로 1년 만의 최악 한 주를 보낸 뒤 이번 주 소폭 <span class="up">반등</span> 출발. <b>6/30 국가통계국 6월 PMI</b>·<b>7/1 차이신 제조업 PMI</b>로 경기 모멘텀을 확인하며, 위안 약세 고시 지속과 남향 자금의 저가 매수가 변수다.</li><li><b>미국</b>: 지난주 <b>테크 매도</b>로 나스닥 <span class="down">-3%</span>·S&P <span class="down">-2%</span>(다우는 강보합), AI 데이터센터 비용 우려에 5거래일 연속 하락하며 S&P 7,354로 마감. 이번 주는 <b>6/30 소비자신뢰·JOLTs</b>, <b>7/1 ISM 제조업</b>, <b>7/2 6월 고용보고서</b>가 줄줄이 대기(7/3 휴장). 연준 매파 기조 속 지표 결과가 금리 인상 우려를 키울지 주목.</li><li><b>관전</b>: 이번 주 캘린더는 <b>고용(7/2)·ISM(7/1)·소비신뢰(6/30)</b>에 집중 — 고용이 견조하면 매파 우려로 변동성 재확대, 둔화 신호면 안도 반등 가능. 반도체(메모리 수요·애플發 노이즈)와 <b>WTI</b>(주간 <span class="down">-10%</span>·전쟁 후 최저), 1,540원대 환율도 함께 점검.</li><!--/WKOUT_KO--></ul>
+    <ul class="sflow" data-lang="en"><!--WKOUT_EN--><li><b>This week's key</b>: After last week's global sell-off, markets open the week on a <b>relief bounce</b>. The <b>U.S. June jobs report (Jul 2)</b> is the main pivot for the rates/dollar path; whether the chip rout calms or the "rollercoaster KOSPI" volatility persists is the key thing to watch.</li><li><b>Korea</b>: KOSPI plunged <span class="down">-5.81%</span> last Friday (<b>5th circuit breaker of the year</b>) to close at 8,411, but opens this week with a <span class="up">+4%-ish</span> rebound. The durability of the <b>Samsung/SK Hynix bounce</b> is the swing factor. <b>June exports (Jul 1)</b> and <b>June CPI (Jul 2)</b>, plus the start of Q2 earnings season, set direction (BOK meets next week Jul 16; USD/KRW ~1,540).</li><li><b>China</b>: After Hang Seng's <span class="down">-5.2%</span> week (HS Tech <span class="down">-7.6%</span>) — its worst in a year — indices open this week with a modest <span class="up">rebound</span>. <b>NBS June PMI (Jun 30)</b> and <b>Caixin manufacturing PMI (Jul 1)</b> will gauge momentum; a continued weaker-yuan fix and southbound bargain-buying are wildcards.</li><li><b>U.S.</b>: A <b>tech sell-off</b> drove Nasdaq <span class="down">-3%</span> and S&P <span class="down">-2%</span> last week (Dow roughly flat), with five straight down days on AI datacenter cost worries, S&P closing at 7,354. This week brings <b>consumer confidence/JOLTs (Jun 30)</b>, <b>ISM manufacturing (Jul 1)</b> and the <b>June jobs report (Jul 2)</b> (market closed Jul 3). Watch whether the data fuels rate-hike fears amid a hawkish Fed.</li><li><b>Watch</b>: The calendar centers on <b>jobs (Jul 2), ISM (Jul 1) and confidence (Jun 30)</b> — a strong print revives hawkish volatility, a soft one allows a relief rally. Also track semis (memory demand, Apple-driven noise), <b>WTI</b> (<span class="down">-10%</span> on the week, lowest since the war) and the ~1,540 won.</li><!--/WKOUT_EN--></ul>
+  </section>
   <!-- USA -->
     <section class="country spy" id="sec-usnews">
-    <div class="chead"><h3><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="usnews" data-iso="2026-06-27T21:40:54Z">—</b> · <span class="tzname">현지</span></span></div>
+    <div class="chead"><h3><span data-lang="ko">모닝 브리핑</span><span data-lang="en">Morning Briefing</span></h3><span class="sub"><span data-lang="ko">업데이트</span><span data-lang="en">Updated</span> <b class="upd" data-mkt="usnews" data-iso="2026-06-28T21:39:56Z">—</b> · <span class="tzname">현지</span></span></div>
     <div class="body">
       <div class="briefbar"><button class="ttsbtn" id="briefTTS" type="button" aria-label="듣기">
         <svg class="ic-play" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3.2 12 8l-7.5 4.8z" fill="currentColor"/></svg>
@@ -496,37 +586,37 @@ html.is-android .briefbar{display:flex;}
 
 <section class="country spy" id="sec-us">
     <div class="chead"><h3>미국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-26T21:38:00Z">—</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-06-29T21:34:00Z">—</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
-      <div class="tile" data-us="^GSPC"><div class="label">S&P 500</div><div class="val">7,354.02</div><div class="chg down">▼ -0.05%</div></div>
-      <div class="tile" data-us="^IXIC"><div class="label"><span data-lang="ko">나스닥 종합</span><span data-lang="en">Nasdaq Comp.</span></div><div class="val">25,297.62</div><div class="chg down">▼ -0.24%</div></div>
-      <div class="tile" data-us="^DJI"><div class="label"><span data-lang="ko">다우</span><span data-lang="en">Dow</span></div><div class="val">51,876.11</div><div class="chg down">▼ -0.09%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">마이크론</span><span data-lang="en">Micron</span></div><div class="val">~$1,004</div><div class="chg down"><span data-lang="ko">▼ -7% · AI 매도</span><span data-lang="en">▼ -7% · AI sell-off</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">연준 기준금리</span><span data-lang="en">Fed Funds</span></div><div class="val">3.50–3.75%</div><div class="chg flat"><span data-lang="ko">매파·BofA 연내 3회 인상 전망</span><span data-lang="en">Hawkish · BofA sees 3 hikes</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">美 10년물</span><span data-lang="en">US 10Y</span></div><div class="val">4.50%</div><div class="chg flat"><span data-lang="ko">소폭 하락</span><span data-lang="en">slightly lower</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">WTI 유가</span><span data-lang="en">WTI Crude</span></div><div class="val">~$70</div><div class="chg down"><span data-lang="ko">▼ 주간 -10%·전쟁후 최저</span><span data-lang="en">▼ -10% week · lowest since war</span></div></div>
+      <div class="tile" data-us="^GSPC"><div class="label">S&P 500</div><div class="val">7,440.43</div><div class="chg up">▲ +1.18%</div></div>
+      <div class="tile" data-us="^IXIC"><div class="label"><span data-lang="ko">나스닥 종합</span><span data-lang="en">Nasdaq Comp.</span></div><div class="val">25,820.15</div><div class="chg up">▲ +2.07%</div></div>
+      <div class="tile" data-us="^DJI"><div class="label"><span data-lang="ko">다우</span><span data-lang="en">Dow</span></div><div class="val">52,182.74</div><div class="chg up">▲ +0.59%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">알파벳(구글)</span><span data-lang="en">Alphabet</span></div><div class="val">+4.96%</div><div class="chg up"><span data-lang="ko">▲ 다우 신규 편입</span><span data-lang="en">▲ joins the Dow</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">연준 기준금리</span><span data-lang="en">Fed Funds</span></div><div class="val">3.50–3.75%</div><div class="chg flat"><span data-lang="ko">동결 · 매파 기조</span><span data-lang="en">on hold · hawkish</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">美 10년물</span><span data-lang="en">US 10Y</span></div><div class="val">4.40%</div><div class="chg flat"><span data-lang="ko">소폭 하락</span><span data-lang="en">slightly lower</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">브렌트 유가</span><span data-lang="en">Brent Crude</span></div><div class="val">~$72</div><div class="chg down"><span data-lang="ko">▼ 전쟁 전 수준</span><span data-lang="en">▼ pre-conflict low</span></div></div>
     </div>
     <div class="body">
       <div class="pane issue">
       <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="us">—</b> · <span class="tzname">현지</span></div>
-      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-neg"><span data-lang="ko">테크 매도 지속 · 5거래일 하락</span><span data-lang="en">Tech sell-off · 5-day slide</span></span></h4>
+      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">기술주 반등 · 다우 사상최고</span><span data-lang="en">Tech rebound · Dow record high</span></span></h4>
       <ul data-lang="ko">
-        <li><b>나스닥, 5거래일 연속 하락.</b> AI 데이터센터 비용 부담 우려가 다시 부각되며 <b>S&P -0.05%(7,354.02)·나스닥 -0.24%(25,297.62)·다우 -0.09%(51,876.11)</b>로 약세 마감, S&P·나스닥 모두 주간 하락. 나스닥은 기술주 매도 속 <b>5거래일 연속 하락</b>으로 조정 색채가 짙어졌다.</li>
-        <li><b>반도체가 매도 주도 — SOX 조정권 임박.</b> <b>ON세미컨덕터가 시냅틱스 인수 발표에 ~-15%</b>로 급락한 가운데 <b>마이크론 -7%(약 $1,004)·샌디스크 -5%·에이버리데니슨 -6%</b> 등 칩·메모리가 동반 약세. 필라델피아 반도체지수(SOX)는 고점 대비 약 -10%로 조정권에 다가섰다.</li>
-        <li><b>'오픈AI IPO 연기설'이 심리 압박.</b> 뉴욕타임스가 <b>오픈AI가 IPO를 내년(2027년)으로 미루는 방안을 검토</b> 중이라고 보도 — 스페이스X의 상장 후 부진과 AI주 변동성이 배경. AI 밸류에이션·캡엑스 과열 우려가 빅테크 이탈 순환매를 부추겼다.</li>
-        <li><b>유가 급락·매파 연준.</b> 호르무즈 통항 회복에 <b>WTI가 ~$70</b>로 밀려 <b>주간 -10%</b>(전쟁 후 최저). 인플레엔 우호적이나, BofA가 <b>연내 3회 인상</b>(4.25–4.5%)을 전망하고 점도표상 9명이 인상에 무게를 두는 매파 연준이 반등의 천장 역할. 10년물은 ~4.50%로 소폭 하락.</li>
+        <li><b>3대 지수 동반 반등 — 다우 사상 첫 5만2천 돌파.</b> 중동 긴장 완화에 위험선호가 살아나며 <b>S&P +1.18%(7,440.43)·나스닥 +2.07%(25,820.15)·다우 +0.59%(52,182.74)</b>로 마감. 다우는 사상 처음 5만2천을 넘겼고, 지난주 5거래일 연속 하락하던 나스닥이 강하게 되돌림했다.</li>
+        <li><b>알파벳, 다우 신규 편입 첫날 +4.96%.</b> 알파벳(구글)이 <b>버라이즌을 대체해 다우30에 편입</b>된 첫 거래일 약 +5% 급등하며 지수 사상최고를 견인. 엔비디아 +1.2% 등 빅테크가 동반 반등해 기술주 투자심리가 회복됐다.</li>
+        <li><b>유가 급락·중동 긴장 완화가 반등 연료.</b> 호르무즈 해협 통항이 정상화되며 <b>브렌트가 ~$72</b>로 추가 하락(전쟁 전 수준), WTI도 동반 약세. 에너지 비용 완화 기대가 인플레 우려를 덜며 위험자산 매수를 자극했다.</li>
+        <li><b>매파 연준은 여전히 반등의 천장.</b> 연준이 기준금리 <b>3.50–3.75%를 동결</b>한 가운데 에너지·관세발 인플레 고착 우려가 남아 시장은 연내 추가 완화에 신중하다. 10년물은 ~4.40%로 소폭 하락. <b>7/2 6월 고용보고서</b>가 금리 경로의 분수령.</li>
       </ul>
       <ul data-lang="en">
-        <li><b>Nasdaq logs a 5th straight down day.</b> Renewed worries over AI data-center costs pushed <b>S&P -0.05% (7,354.02), Nasdaq -0.24% (25,297.62) and Dow -0.09% (51,876.11)</b> lower, with both the S&P and Nasdaq down on the week. Amid tech selling, the Nasdaq's <b>5th straight losing session</b> deepened the correction tone.</li>
-        <li><b>Chips led the selling — SOX near a correction.</b> <b>ON Semiconductor sank ~-15%</b> on its deal to buy Synaptics, while <b>Micron -7% (≈$1,004), SanDisk -5% and Avery Dennison -6%</b> dragged chips/memory down together. The PHLX Semiconductor Index (SOX) neared a -10% correction from its highs.</li>
-        <li><b>An "OpenAI IPO delay" report weighed on sentiment.</b> The New York Times reported <b>OpenAI is weighing a delay of its IPO to next year (2027)</b> — citing SpaceX's poor post-debut performance and AI-share volatility. Worries over AI valuations and capex fueled rotation out of megacaps.</li>
-        <li><b>Oil tumbled; the Fed stays hawkish.</b> Restored Hormuz traffic sent <b>WTI to ~$70</b>, a <b>-10% week</b> (lowest since the war). Friendly for inflation, but a hawkish Fed — BofA sees <b>3 hikes this year</b> (to 4.25–4.5%) and 9 dot-plot members lean toward a hike — caps rebounds. The 10Y eased to ~4.50%.</li>
+        <li><b>All three majors rebound — Dow tops 52,000 for the first time.</b> Easing Middle East tension revived risk appetite, lifting <b>the S&P +1.18% (7,440.43), Nasdaq +2.07% (25,820.15) and Dow +0.59% (52,182.74)</b>. The Dow finished above 52,000 for the first time, and the Nasdaq — down five straight last week — snapped back hard.</li>
+        <li><b>Alphabet jumps +4.96% on its first day in the Dow.</b> Alphabet (Google) <b>joined the Dow 30, replacing Verizon</b>, and surged ~5% on day one, powering the index to a record high. Nvidia (+1.2%) and other megacaps rebounded alongside, restoring tech sentiment.</li>
+        <li><b>Falling oil and calmer geopolitics fueled the bounce.</b> Restored Strait of Hormuz traffic pushed <b>Brent to ~$72</b> (a pre-conflict level), with WTI softer too. Hopes for easing energy costs trimmed inflation worries and spurred buying in risk assets.</li>
+        <li><b>A hawkish Fed still caps the rebound.</b> The Fed <b>held rates at 3.50–3.75%</b>, and with energy- and tariff-driven inflation still sticky, markets are cautious on further easing this year. The 10Y eased to ~4.40%. The <b>June jobs report (Jul 2)</b> is the pivot for the rate path.</li>
       </ul>
       <div class="takeaway">
         <div class="t-label"><span data-lang="ko">읽는 법</span><span data-lang="en">Takeaway</span></div>
-        <p data-lang="ko">핵심은 <b>'AI 비용·밸류 부담發 반도체 조정'</b>이다. 마이크론의 호실적에도 주가가 -7% 되밀리고 나스닥이 5거래일 연속 하락한 것은, 시장의 관심이 <b>실적보다 데이터센터 캡엑스·금리</b>로 옮겨갔음을 보여준다. ON세미·메모리 동반 급락에 SOX가 조정권(-10%)에 다가섰고, '오픈AI IPO 연기설'은 AI 거품 경계를 재점화. 다만 빅테크가 빠지는 가운데 자금이 비(非)기술로 이동하는 <b>순환매</b> 성격이라 전방위 패닉과는 거리가 있다. 유가 급락(WTI ~$70·주간 -10%)은 인플레에 우호적이나, <b>BofA "연내 3회 인상"</b>의 매파 연준이 멀티플 천장을 유지하는 한 반등은 제한적. 칩 조정의 진정 여부와 국채금리 방향이 단기 분수령이다.</p>
-        <p data-lang="en">The key is a <b>chip correction driven by AI-cost and valuation strain.</b> Even after Micron's beat, the stock fell -7% and the Nasdaq logged a 5th straight down day — a sign the market's focus has shifted <b>from earnings to data-center capex and rates.</b> ON Semi and memory names tumbled together, pushing the SOX toward a -10% correction, and the "OpenAI IPO delay" report reignited AI-bubble caution. Still, with money rotating out of megacaps and into non-tech, this looks more like <b>rotation</b> than broad panic. Oil's plunge (WTI ~$70, -10% week) is friendly for inflation, but rebounds stay capped while a hawkish Fed — <b>BofA's "3 hikes this year"</b> — holds the multiple ceiling. Whether the chip correction settles and which way yields turn are the near-term swing factors.</p>
+        <p data-lang="ko">핵심은 <b>'중동 긴장 완화·유가 급락이 만든 안도 랠리'</b>다. 지난주 5거래일 연속 하락하던 나스닥이 +2%대로 강하게 되돌림하고 다우가 사상 첫 5만2천을 넘긴 것은, 위험회피의 주범이던 <b>지정학·에너지 변수가 한 풀 꺾였음</b>을 보여준다. 버라이즌을 대체해 다우에 편입된 알파벳이 +5% 급등하며 빅테크 투자심리가 회복됐고, 칩 조정도 일단 진정 국면. 다만 반등의 천장은 여전히 <b>매파 연준</b>이다. 기준금리 3.50–3.75% 동결 속 에너지·관세발 인플레 고착 우려가 남아, 시장은 연내 추가 완화에 신중하다. 결국 <b>7/2 6월 고용</b>이 분수령 — 고용이 강하면 금리 인상 우려가 재부각되며 변동성이 되살아날 수 있고, 둔화 신호면 안도 랠리가 연장될 공산이다.</p>
+        <p data-lang="en">The key is a <b>relief rally born of calmer Middle East tension and a slide in oil.</b> The Nasdaq — down five straight last week — snapped back over +2% and the Dow cleared 52,000 for the first time, a sign the <b>geopolitical and energy drivers</b> behind the recent risk-off have <b>eased.</b> Alphabet, newly added to the Dow in place of Verizon, jumped ~5% and restored big-tech sentiment, while the chip correction steadied for now. Yet the ceiling on the rebound is still a <b>hawkish Fed.</b> With rates on hold at 3.50–3.75% and energy- and tariff-driven inflation still sticky, markets stay cautious on further easing this year. So <b>June payrolls (Jul 2)</b> is the pivot — a hot print could revive rate-hike fears and volatility, while a soft one would likely extend the relief rally.</p>
       </div>
       </div>
     </div>
@@ -535,43 +625,53 @@ html.is-android .briefbar{display:flex;}
   <!-- KOREA -->
   <section class="country spy" id="sec-kr">
     <div class="chead"><h3>한국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-30T07:00:00Z">6/30 15:30</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-06-30T07:05:00Z">6/30 15:30</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
-      <div class="tile" data-kr="KOSPI"><div class="label"><span data-lang="ko">코스피</span><span data-lang="en">KOSPI</span></div><div class="val">8,495</div><div class="chg up">▲ +1.19%</div></div>
-      <div class="tile" data-kr="KOSDAQ"><div class="label"><span data-lang="ko">코스닥</span><span data-lang="en">KOSDAQ</span></div><div class="val">914.9</div><div class="chg down">▼ -0.62%</div></div>
-      <div class="tile" data-kr="000660"><div class="label"><span data-lang="ko">SK하이닉스</span><span data-lang="en">SK Hynix</span></div><div class="val">₩2,628,000</div><div class="chg down">▼ -1.7%</div></div>
-      <div class="tile" data-kr="005930"><div class="label"><span data-lang="ko">삼성전자</span><span data-lang="en">Samsung</span></div><div class="val">₩323,000</div><div class="chg down">▼ -1.5%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">원/달러 환율</span><span data-lang="en">USD/KRW</span></div><div class="val">1,545.2</div><div class="chg flat"><span data-lang="ko">▼ -10원, 1,545원대</span><span data-lang="en">▼ -10, ~1,545</span></div></div>
+      <div class="tile" data-kr="KOSPI"><div class="label"><span data-lang="ko">코스피</span><span data-lang="en">KOSPI</span></div><div class="val">8,494.93</div><div class="chg up">▲ +3.11%</div></div>
+      <div class="tile" data-kr="KOSDAQ"><div class="label"><span data-lang="ko">코스닥</span><span data-lang="en">KOSDAQ</span></div><div class="val">914.87</div><div class="chg down">▼ -0.62%</div></div>
+      <div class="tile" data-kr="000660"><div class="label"><span data-lang="ko">SK하이닉스</span><span data-lang="en">SK Hynix</span></div><div class="val">₩2,560,000</div><div class="chg down">▼ -1.4%</div></div>
+      <div class="tile" data-kr="005930"><div class="label"><span data-lang="ko">삼성전자</span><span data-lang="en">Samsung</span></div><div class="val">₩331,000</div><div class="chg up">▲ +1.7%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">원/달러 환율</span><span data-lang="en">USD/KRW</span></div><div class="val">1,545.2</div><div class="chg flat"><span data-lang="ko">▲ +5원 약세</span><span data-lang="en">▲ +5, won softer</span></div></div>
       <div class="tile"><div class="label"><span data-lang="ko">한은 기준금리</span><span data-lang="en">BOK Rate</span></div><div class="val">2.50%</div><div class="chg flat"><span data-lang="ko">7/16 금통위</span><span data-lang="en">BOK Jul 16</span></div></div>
     </div>
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
       <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="kr">—</b> · <span class="tzname">현지</span></div>
-      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">지수 반등 · 삼전닉스 차별화</span><span data-lang="en">Index rebound · chip giants lag</span></span></h4>
+      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">코스피 반등 · 삼전닉스 엇갈림</span><span data-lang="en">KOSPI rebounds · chip names mixed</span></span></h4>
       <ul data-lang="ko">
-        <li><b>코스피 +1.19% 반등, 8,495 회복.</b> 급락 이후 저가매수와 정책 기대가 유입되며 지수가 <b>+1.19% 오른 8,494.93</b>으로 마감 — 직전의 서킷브레이커 폭락 흐름을 일단 멈춰 세웠다. 다만 거래 내내 미국 기술주 약세 부담은 이어졌다.</li>
-        <li><b>'삼전닉스'는 여전히 약세.</b> 삼성·SK 그룹의 대규모 반도체 투자 발표에도 <b>삼성전자 약 -1.5%(32만3,000원대)</b>·<b>SK하이닉스 약 -1.7%(262만8,000원대)</b>로 매도 압력 지속 — 지수는 올랐지만 두 반도체 대장주는 빠지는 <b>차별화 장세</b>가 뚜렷했다.</li>
-        <li><b>코스닥은 숨고르기 -0.62%.</b> 전일 정부의 <b>약 519조원(약 5,190억달러) 반도체 메가프로젝트</b> 기대에 +8% 급등했던 <b>코스닥은 914.87(-0.62%)</b>로 소폭 조정. 중소형 성장주로의 순환매가 코스피 회복을 일부 견인했다.</li>
-        <li><b>원화 약세 · 외국인 순매도.</b> 원/달러는 <b>1,545원대</b>로 여전히 약세권 — 연초 이후 외국인의 대규모 한국 주식 순매도(누적 100조원대)가 원화 약세의 핵심 배경이다. 한은 기준금리 <b>연 2.50% 동결</b>(다음 금통위 7/16).</li>
+        <li><b>코스피 +3.11% 반등, 8,494.93 회복.</b> 폭락·서킷브레이커로 8,200선까지 밀렸던 지수가 저가매수와 반도체 투자 정책 기대에 <b>약 256p 오른 8,494.93</b>으로 마감 — 직전의 급락 흐름을 일단 끊었다. 다만 외국인 순매도는 이어졌다.</li>
+        <li><b>코스닥은 +8% 급등 뒤 숨고르기 -0.62%(914.87).</b> 전일 순환매로 폭등했던 <b>코스닥이 914.87(-0.62%)</b>로 소폭 되돌림 — 급등 차익실현이 나오면서 자금 일부가 다시 대형주(코스피)로 이동했다.</li>
+        <li><b>'삼전닉스' 엇갈림.</b> 삼성·SK 그룹의 대규모 반도체 투자 발표 속 <b>삼성전자는 +1.7%(약 33만1,000원)</b> 강세, <b>SK하이닉스는 -1.4%(약 256만원)</b> 약세로 갈렸다. 메모리 대장주 회복은 아직 더디지만, 삼성이 지수 반등의 한 축을 받쳤다.</li>
+        <li><b>환율·정책.</b> 원/달러는 외국인 매도 부담에 <b>1,545원대 약세</b>(연초 이후 외국인 누적 순매도 100조원대가 원화 약세의 핵심). 한은 기준금리 <b>연 2.50% 동결</b>(다음 금통위 7/16). 7/1 <b>6월 수출입동향</b>이 반도체 모멘텀 점검의 분수령.</li>
       </ul>
       <ul data-lang="en">
-        <li><b>KOSPI rebounded +1.19% to 8,495.</b> Bargain-hunting and policy hopes lifted the index <b>+1.19% to 8,494.93</b>, halting the prior circuit-breaker crash for now — though weak US tech weighed throughout the session.</li>
-        <li><b>'Samsung-nix' still soft.</b> Despite big chip-investment pledges from the Samsung and SK groups, <b>Samsung fell ~-1.5% (~₩323,000)</b> and <b>SK Hynix ~-1.7% (~₩2,628,000)</b> as selling persisted — a clear <b>split</b> where the index rose but the two chip leaders lagged.</li>
-        <li><b>KOSDAQ paused, -0.62%.</b> After surging ~+8% the prior day on the government's <b>~₩519tn (~$519bn) chip megaproject</b>, the <b>KOSDAQ eased to 914.87 (-0.62%)</b>. Rotation into smaller growth names helped underpin the KOSPI's recovery.</li>
-        <li><b>Weak won, foreign selling.</b> USD/KRW held softer near <b>1,545</b> — heavy foreign net selling of Korean stocks YTD (over ₩100tn) is the key driver of won weakness. BOK rate <b>held at 2.50%</b> (next MPC Jul 16).</li>
+        <li><b>KOSPI rebounded +3.11% to 8,494.93.</b> After the crash and circuit breaker dragged it toward 8,200, bargain-hunting and chip-investment policy hopes lifted the index <b>~256pts to 8,494.93</b>, halting the prior slide — though foreigners kept net selling.</li>
+        <li><b>KOSDAQ paused -0.62% (914.87) after its +8% surge.</b> The small-cap index, which had soared on rotation the prior day, gave back a touch to <b>914.87 (-0.62%)</b> as profit-taking sent some money back into large-caps (KOSPI).</li>
+        <li><b>'Samsung-nix' split.</b> Amid big chip-investment pledges from the Samsung and SK groups, <b>Samsung rose +1.7% (~₩331,000)</b> while <b>SK Hynix slipped -1.4% (~₩2,560,000)</b>. The memory leaders' recovery is still tentative, but Samsung helped underpin the index rebound.</li>
+        <li><b>FX and policy.</b> USD/KRW stayed soft near <b>1,545</b> on foreign selling (over ₩100tn of cumulative YTD foreign net sales is the key won driver). BOK held its base rate at <b>2.50%</b> (next MPC Jul 16). June trade data (7/1) is the next checkpoint for chip-export momentum.</li>
       </ul>
       <div class="takeaway">
         <div class="t-label"><span data-lang="ko">읽는 법</span><span data-lang="en">Takeaway</span></div>
-        <p data-lang="ko">서킷브레이커 폭락 뒤 코스피가 <b>+1.19% 반등(8,495)</b>하며 일단 진정됐지만, 핵심은 <b>'삼전닉스' 차별화</b>다. 정부·그룹의 대형 반도체 투자 발표에도 삼성·SK하이닉스가 약세를 이어가, 지수 반등을 이끈 건 메모리 대장주가 아니라 <b>정책 수혜 중소형·코스닥 순환매</b>였다. 외국인 순매도와 1,545원대 원화 약세는 여전히 <b>수급 부담</b>으로 남아 있다. 단기 관전 포인트는 <b>삼전닉스의 바닥 확인</b>과 7월 실적 시즌 전 반도체 투심 회복 여부.</p>
-        <p data-lang="en">After the circuit-breaker crash, the KOSPI <b>rebounded +1.19% to 8,495</b> and steadied — but the real story is the <b>'Samsung-nix' divergence</b>. Despite big chip-investment announcements, Samsung and SK Hynix stayed weak, so the bounce was led not by the memory leaders but by <b>policy-favored small-caps and KOSDAQ rotation</b>. Foreign selling and a ~1,545 won keep <b>flow pressure</b> on. Near-term watch: whether 'Samsung-nix' finds a floor and chip sentiment recovers ahead of the July earnings season.</p>
+        <p data-lang="ko">서킷브레이커 폭락 뒤 코스피가 <b>+3.11% 반등(8,494.93)</b>하며 일단 진정됐다. 전일 폭등했던 코스닥(-0.62%)에서 차익이 실현되며 자금이 대형주로 일부 회귀한 흐름. 다만 핵심은 여전히 <b>'삼전닉스' 회복 속도</b> — 삼성전자는 반등했지만 SK하이닉스는 약세로, 메모리 대장주의 완전한 바닥 확인은 아직이다. 외국인 순매도·1,545원대 원화 약세가 <b>수급 부담</b>으로 남는다. 단기 관건은 <b>반도체 투심 회복</b>과 7/1 수출지표, 7/16 금통위, 7월 실적 시즌이다.</p>
+        <p data-lang="en">After the circuit-breaker crash, the KOSPI <b>rebounded +3.11% to 8,494.93</b> and steadied. Profit-taking in the prior day's surging KOSDAQ (-0.62%) sent some money back into large-caps. But the real question is still the <b>pace of the 'Samsung-nix' recovery</b> — Samsung bounced while SK Hynix slipped, so the memory leaders haven't fully confirmed a bottom. Foreign net selling and a ~1,545 won keep <b>flow pressure</b> on. Near-term keys: chip sentiment recovery, June trade data (Jul 1), the Jul 16 BOK meeting and the July earnings season.</p>
       </div>
       </div>
       <div class="pane morning" style="display:none">
-        <div class="morning-meta"><span data-lang="ko">오전 동향 업데이트</span><span data-lang="en">Morning update</span> <b class="mupd" data-mkt="kr" data-iso="2026-06-26T02:55:00Z">아직 갱신 전</b> · <span class="tzname">현지</span></div>
-        <ul class="morning-list" data-lang="ko"><li><b>코스피 숨고르기, 약보합 출발.</b> 전일 <b>+5%대 급등</b>에 따른 단기 차익실현 압력으로 오전 <b>-0.8%·8,960선</b>에서 등락. 미국 증시 혼조와 부담에 하락 출발했으나 낙폭은 제한적.</li><li><b>반도체 주도주 흐름은 유지.</b> SK하이닉스 <b>약 290만원</b>·삼성전자 <b>34만5천원</b>으로 차익매물에 소폭 조정. 전일 SK하이닉스가 삼성전자를 제치고 <b>시총 1위</b>를 탈환한 흐름은 이어짐. 코스닥은 <b>-0.8%·884선</b>으로 동반 약세, 반도체 쏠림 지속.</li><li><b>외국인 매도 경계.</b> 금감원 발표 <b>5월 외국인 47조원 순매도</b>가 부각되며 수급 부담. 원/달러는 <b>1,539원선</b>으로 소폭 약세 전환.</li><li><b>변수는 美 PCE·순환매.</b> 오늘 밤 미국 <b>5월 PCE 물가</b>와 반도체 주도주 쏠림 완화(순환매) 여부가 오후 방향을 가를 관건.</li></ul>
-        <ul class="morning-list" data-lang="en"><li><b>KOSPI pauses, opens slightly lower.</b> After the prior session's <b>~+5% surge</b>, short-term profit-taking pushed the index to around <b>-0.8% near 8,960</b> in the morning. A weak start on mixed US markets, but losses stayed contained.</li><li><b>Chip leadership intact.</b> SK Hynix near <b>₩2.9m</b> and Samsung <b>₩345,000</b> eased modestly on profit-taking, but SK Hynix held its newly reclaimed <b>top market-cap spot</b> over Samsung. KOSDAQ also slipped <b>-0.8% near 884</b> as chip concentration persisted.</li><li><b>Foreign selling in focus.</b> The FSS report of <b>₩47tn in foreign net selling in May</b> weighed on flows. USD/KRW edged softer to around <b>1,539</b>.</li><li><b>US PCE and rotation the swing factors.</b> Tonight's US <b>May PCE inflation</b> print and whether the chip-name concentration eases into broader rotation will set the afternoon's direction.</li></ul>
+        <div class="morning-meta"><span data-lang="ko">오전 동향 업데이트</span><span data-lang="en">Morning update</span> <b class="mupd" data-mkt="kr" data-iso="2026-06-30T02:55:39Z">현지 정오 무렵</b> · <span class="tzname">현지</span></div>
+        <ul class="morning-list" data-lang="ko">
+          <li><b>상승 출발 뒤 혼조.</b> 미 기술주 강세에 코스피는 +0.26%(8,416.70) 출발했으나 외국인 8거래일 연속 순매도에 밀려 오전 10시20분 <b>-0.43%(8,350.35)</b>로 전환. <b>코스닥은 +0.36%(917.35)</b>로 강보합을 지켰다.</li>
+          <li><b>'삼전닉스' 기싸움.</b> <b>삼성전자 +1.88%</b> 강세 vs <b>SK하이닉스 -1.66%</b> 약세로 대형 반도체가 엇갈림. 삼성전기 +6.33% 급등한 반면, LG에너지솔루션 -7.99%·삼성물산 -4.56%는 급락.</li>
+          <li><b>수급·업종.</b> 코스피서 외국인 <b>1조5,350억 순매도</b>(개인 +7,617억·기관 +7,417억), 코스닥도 외국인 -2,370억. 업종은 의료·정밀 +8.66%·IT +1.77%·전기전자 +1.75% 강세, 건설·화학·비금속은 약세.</li>
+          <li><b>코멘트·환율.</b> 키움 한지영 연구원은 "미 반도체 장중 급반등·10년물 금리 부담 완화로 상승 출발했으나, 분기·반기말 리밸런싱으로 장 후반 반도체 수급 변동성에 대비할 필요"라고 진단. 원/달러는 <b>1,540원대 약세</b> 유지.</li>
+        </ul>
+        <ul class="morning-list" data-lang="en">
+          <li><b>Higher open, then mixed.</b> On US tech strength the KOSPI opened +0.26% (8,416.70) but slid to <b>-0.43% (8,350.35)</b> by 10:20am as foreigners net-sold for an 8th straight session, while the <b>KOSDAQ held +0.36% (917.35)</b>.</li>
+          <li><b>'Samsung-nix' tug-of-war.</b> <b>Samsung Electronics +1.88%</b> diverged from <b>SK Hynix -1.66%</b>. Samsung Electro-Mechanics jumped +6.33%, while LG Energy Solution -7.99% and Samsung C&T -4.56% fell sharply.</li>
+          <li><b>Flows and sectors.</b> Foreigners net-sold <b>₩1.535tn</b> on the KOSPI (retail +₩762bn, institutions +₩742bn) and -₩237bn on the KOSDAQ. Medical-precision +8.66%, IT +1.77% and electronics +1.75% led; construction, chemicals and non-metals lagged.</li>
+          <li><b>Comment and FX.</b> Kiwoom's Han Ji-young said the open was lifted by an intraday US chip rebound and easing 10-year yields, but warned quarter/half-end rebalancing could stir chip-supply volatility late in the session. USD/KRW held a soft <b>1,540s</b> bias.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -579,50 +679,50 @@ html.is-android .briefbar{display:flex;}
   <!-- CHINA -->
   <section class="country spy" id="sec-cn">
     <div class="chead"><h3>중국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-26T07:23:31Z">6/26 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-06-30T03:55:00Z">6/26 15:00</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label"><span data-lang="ko">상하이종합</span><span data-lang="en">Shanghai Comp.</span></div><div class="val">4,098</div><div class="chg down">▼ -0.54%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">선전성분</span><span data-lang="en">Shenzhen Comp.</span></div><div class="val">15,925</div><div class="chg down">▼ -2.6%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">항셍(홍콩)</span><span data-lang="en">Hang Seng (HK)</span></div><div class="val">22,539</div><div class="chg down">▼ -2.3%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">USD/CNY 고시</span><span data-lang="en">USD/CNY fix</span></div><div class="val">6.82</div><div class="chg flat"><span data-lang="ko">위안 약세 고시 지속</span><span data-lang="en">weaker-yuan fix</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">상하이종합</span><span data-lang="en">Shanghai Comp.</span></div><div class="val">4,116</div><div class="chg up">▲ +0.38%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">선전성분</span><span data-lang="en">Shenzhen Comp.</span></div><div class="val">15,985</div><div class="chg up">▲ +0.66%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">항셍(홍콩)</span><span data-lang="en">Hang Seng (HK)</span></div><div class="val">23,160</div><div class="chg up">▲ +0.92%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">USD/CNY 고시</span><span data-lang="en">USD/CNY fix</span></div><div class="val">6.8050</div><div class="chg flat"><span data-lang="ko">위안 소폭 강세</span><span data-lang="en">slightly firmer yuan</span></div></div>
     </div>
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
       <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="cn">—</b> · <span class="tzname">현지</span></div>
-      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-neg"><span data-lang="ko">기술주 동반 급락 · 항셍 주간 최악</span><span data-lang="en">Tech-led rout · HK worst week</span></span></h4>
+      <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-neg"><span data-lang="ko">기술주 동반 급락 · 항셍 1년 최악 주간</span><span data-lang="en">Tech-led rout · HK worst week in a year</span></span></h4>
       <ul data-lang="ko">
-        <li><b>기술주 동반 급락.</b> 전일 본토 강세가 하루 만에 뒤집혀 <b>상하이종합 -0.54%(4,098)</b>, <b>선전성분 약 -2.6%</b>로 동반 하락. 특히 성장·기술 보드가 직격탄 — <b>커촹반(스타마켓) 50 -2.6%·촹예반 50 -4.2%</b>로 폭락하며 전일 매수세가 차익 실현으로 되밀렸다.</li>
-        <li><b>항셍, 주간 기준 1년 만의 최악.</b> <b>항셍 -2.3%(22,539, 정오)</b>로 무너지며 주간 약 <b>-5.8%</b>(2025년 4월 이후 최대 낙폭) 경로. <b>항셍테크는 약 -4%</b> 급락 — 알리바바·텐센트 등 대형 기술주가 미국발 AI 매도를 그대로 추종.</li>
-        <li><b>연준 매파 전환이 트리거.</b> 유가 쇼크 저점에서 반등하던 글로벌 AI 트레이드가 <b>연준의 매파 선회 + 'AI 수익화 입증 요구'</b>에 다시 꺾이며 중화권 기술주에 매도 압력. 본토·홍콩이 동시에 위험회피로 전환.</li>
-        <li><b>정책·환율은 안정 기조.</b> 1년 LPR 3.0%·5년 LPR 3.5%는 13개월째 동결, USD/CNY 기준환율은 <b>약 6.82</b>의 완만한 위안 약세 고시 유지. 수출(5월 +19.4%)은 버팀목이나 내수·부동산 부진과 글로벌 금리 부담이 지수 상단을 제한.</li>
+        <li><b>본토 3대 지수 동반 급락 마감.</b> <b>상하이종합 -2.26%(4,027)</b>로 2주 최저, <b>선전성분 -3.44%(15,782)</b>로 더 가파른 낙폭. 성장·기술 보드가 직격탄을 맞으며 전일 반등이 차익 실현으로 되밀렸고, 보험·신에너지차 등 대형주(BAIC블루파크 -5.4%, 신화보험 -5.2%)가 낙폭을 키웠다.</li>
+        <li><b>항셍, 1년 만의 최악 주간.</b> <b>항셍 -1.76%(22,671)</b>로 마감해 주간 약 <b>-5.2%</b>(2025년 4월 이후 최대 낙폭). <b>항셍테크는 -3.4%</b> 급락 — 알리바바 등 대형 기술주가 미국발 AI 매도를 그대로 추종, 지수는 약 1년 최저권으로 밀렸다.</li>
+        <li><b>AI 트레이드 조정 + 내수 우려가 트리거.</b> 연준 매파 선회와 'AI 수익화 입증 요구'로 글로벌 AI 트레이드가 꺾인 가운데, 중국의 취약한 소비심리·보조금 규제 강화가 홍콩 상장 플랫폼 기업의 실적 우려를 키웠다.</li>
+        <li><b>정책·환율은 안정 기조.</b> 인민은행은 <b>3,000억 위안 익일물 역레포</b>(신규 도구, 금리 비공개)로 유동성 공급, USD/CNY 기준환율은 <b>6.8175</b>로 위안 약세 고시 유지(위안화는 32개월 최고권). 다만 미·중 바이오 제재(BIOSECURE·우시앱텍) 갈등이 재점화돼 투자심리에 부담.</li>
       </ul>
       <ul data-lang="en">
-        <li><b>Tech-led rout across the board.</b> The prior day's mainland strength reversed in a session: <b>Shanghai Composite -0.54% (4,098)</b> and <b>Shenzhen Component ~-2.6%</b> both fell. Growth/tech boards took the brunt — <b>Shanghai's STAR Market 50 -2.6% and Shenzhen's ChiNext 50 -4.2%</b> slumped as the prior buying gave way to profit-taking.</li>
-        <li><b>Hang Seng heads for its worst week in over a year.</b> The <b>Hang Seng fell -2.3% (22,539, noon)</b>, on track for a roughly <b>-5.8%</b> week — the biggest five-day drop since April 2025. The <b>Hang Seng Tech Index sank ~4%</b> as Alibaba, Tencent and peers tracked the US-led AI sell-off.</li>
-        <li><b>A hawkish Fed pivot was the trigger.</b> The global AI trade — which had rebounded from an oil-shock low — stalled again on the <b>Fed's hawkish turn and demands for proof of AI monetization</b>, pressuring Greater China tech. Both mainland and HK flipped to risk-off together.</li>
-        <li><b>Policy and FX stay steady.</b> The 1Y LPR (3.0%) and 5Y LPR (3.5%) were held for a 13th month, and the USD/CNY fix kept a gentle weaker-yuan bias near <b>6.82</b>. Exports (+19.4% in May) remain a backstop, but soft domestic/property data and global-rate pressure cap the index.</li>
+        <li><b>Mainland's three indices closed sharply lower.</b> The <b>Shanghai Composite fell -2.26% (4,027)</b> to a two-week low and the <b>Shenzhen Component -3.44% (15,782)</b> dropped harder. Growth/tech boards bore the brunt as the prior day's rebound gave way to profit-taking, with insurers and EV names (BAIC BluePark -5.4%, New China Life -5.2%) deepening the losses.</li>
+        <li><b>Hang Seng posts its worst week in over a year.</b> The <b>Hang Seng closed -1.76% (22,671)</b>, finishing the week down about <b>-5.2%</b> — its biggest five-day drop since April 2025. The <b>Hang Seng Tech Index sank -3.4%</b> as Alibaba and peers tracked the US-led AI sell-off, pushing the index near a one-year low.</li>
+        <li><b>AI-trade pullback plus demand worries were the trigger.</b> With the global AI trade stalling on the Fed's hawkish turn and demands to prove AI monetization, China's fragile consumer confidence and tighter subsidy scrutiny stoked earnings worries for HK-listed internet platforms.</li>
+        <li><b>Policy and FX stay steady.</b> The PBOC injected liquidity via <b>300bn yuan of overnight reverse repos</b> (a new tool, rate undisclosed) and set the USD/CNY fix at <b>6.8175</b>, keeping a weaker-yuan bias (the yuan sits near a 32-month high). But renewed US-China biotech-sanction friction (BIOSECURE, WuXi AppTec) weighed on sentiment.</li>
       </ul>
       <div class="takeaway">
         <div class="t-label"><span data-lang="ko">읽는 법</span><span data-lang="en">Takeaway</span></div>
-        <p data-lang="ko">오늘은 <b>중화권 전반의 기술주 동반 매도</b>로 본토·홍콩이 함께 무너졌다. 전일 본토 성장주 강세는 하루 만에 차익 실현에 되밀렸고, 촹예반(-4.2%)·항셍테크(-4%)가 낙폭을 주도. 방아쇠는 <b>연준 매파 전환과 'AI 수익화 입증' 요구</b>로, 미국발 AI 매도가 중화권으로 그대로 전염된 형태다. 정책·환율(LPR 동결·6.82 약세 고시)은 안정적이고 수출도 견조하나, 내수·부동산 부진과 글로벌 금리 부담이 겹쳐 단기엔 <b>AI 트레이드의 진정 여부</b>가 반등의 열쇠. 주간 -5.8%로 향하는 항셍의 낙폭이 멈추는지가 관전 포인트.</p>
-        <p data-lang="en">A <b>broad Greater-China tech sell-off</b> dragged mainland and Hong Kong down together. The prior day's mainland growth strength reversed into profit-taking in a session, with ChiNext (-4.2%) and Hang Seng Tech (-4%) leading the drop. The trigger was the <b>Fed's hawkish pivot and demands to prove AI monetization</b>, transmitting the US-led AI sell-off straight into the region. Policy and FX (LPR on hold, ~6.82 weaker-yuan fix) are steady and exports are firm, but soft domestic/property data plus global-rate pressure mean the near-term key is <b>whether the AI trade stabilizes</b>. Watch whether the Hang Seng — on track for a -5.8% week — finds a floor.</p>
+        <p data-lang="ko">오늘은 <b>중화권 전반의 기술주 동반 매도</b>로 본토·홍콩이 함께 무너지며 마감했다. 상하이종합(-2.26%)·선전성분(-3.44%)이 동반 급락하고 항셍(-1.76%)은 주간 -5.2%로 1년 만의 최악 주간을 기록. 방아쇠는 <b>글로벌 AI 트레이드 조정</b>(연준 매파 선회+수익화 입증 요구)과 <b>중국 내수·소비심리 부진</b>이다. 정책·환율(역레포 유동성 공급·6.8175 약세 고시)은 안정적이나, 미·중 바이오 제재 갈등이 다시 부담으로 작용. 단기엔 <b>AI 트레이드 진정 여부</b>와 항셍의 1년 최저권 지지 확인이 반등의 열쇠.</p>
+        <p data-lang="en">A <b>broad Greater-China tech sell-off</b> dragged mainland and Hong Kong down together into the close. The Shanghai Composite (-2.26%) and Shenzhen Component (-3.44%) slumped, while the Hang Seng (-1.76%) capped its worst week in over a year, down -5.2%. The trigger was the <b>global AI-trade pullback</b> (Fed's hawkish turn plus monetization demands) and <b>soft Chinese demand and consumer confidence</b>. Policy and FX (reverse-repo liquidity, 6.8175 weaker-yuan fix) stay steady, but renewed US-China biotech-sanction friction weighs anew. Near term, the keys to a rebound are <b>whether the AI trade stabilizes</b> and whether the Hang Seng holds near its one-year low.</p>
       </div>
       </div>
       <div class="pane morning" style="display:none">
-        <div class="morning-meta"><span data-lang="ko">오전 동향 업데이트</span><span data-lang="en">Morning update</span> <b class="mupd" data-mkt="cn" data-iso="2026-06-26T07:23:31Z">현지 정오 무렵</b> · <span class="tzname">현지</span></div>
+        <div class="morning-meta"><span data-lang="ko">오전 동향 업데이트</span><span data-lang="en">Morning update</span> <b class="mupd" data-mkt="cn" data-iso="2026-06-30T03:55:00Z">현지 정오 무렵</b> · <span class="tzname">현지</span></div>
         <ul class="morning-list" data-lang="ko">
-          <li><b>출발부터 위험회피.</b> 정오 휴장 무렵 <b>상하이종합 -0.54%(4,098p)</b>·<b>선전성분 약 -2.6%</b>로 동반 약세. 전일 강했던 성장주가 매도 우위로 돌아서며 거래소 전반이 하락 출발.</li>
-          <li><b>성장·기술 보드가 낙폭 주도.</b> <b>커촹반(스타마켓) 50 -2.6%</b>·<b>촹예반 50 -4.2%</b>로 급락. 전일 AI칩·반도체 강세가 차익 실현에 되밀리며 상승 폭을 빠르게 반납.</li>
-          <li><b>항셍 급락.</b> <b>항셍 -2.3%(22,539)</b>·<b>항셍테크 약 -4%</b>로 무너지며 주간 -5.8%(1년 만의 최악) 경로. 알리바바·텐센트 등 대형 기술주가 미국발 AI 매도를 추종.</li>
-          <li><b>정책·환율은 차분.</b> USD/CNY 기준환율 <b>약 6.82</b>의 완만한 약세 고시 유지, LPR 13개월째 동결. 정책 변수보다 <b>글로벌 AI 트레이드 조정</b>이 장세를 지배.</li>
+          <li><b>기술주 주도로 반등 출발.</b> 오전장 <b>상하이종합 +0.38%(4,116)</b>·<b>선전성분 +0.66%(15,985)</b>로 동반 상승. 지난주 급락 이후 저가매수가 유입되며 본토 3대 지수가 일제히 회복 흐름.</li>
+          <li><b>AI·반도체가 견인.</b> 미국 칩 기업들의 양호한 실적·전망으로 AI 매도세가 진정되자 캄브리콘·하이곤·종지이노라이트·이오프토링크·NAURA 등 반도체·광모듈주가 강세. 성장·촹예반 보드가 지수 상승을 주도.</li>
+          <li><b>항셍·항셍테크도 반등.</b> <b>항셍 +0.92%(23,160)</b>로 1년 최악 주간 이후 기술적 반등. 알리바바 등 플랫폼 대형주가 미국 기술주 회복을 추종하며 항셍테크가 상대적 강세.</li>
+          <li><b>정책·환율 안정, IPO 회복 신호.</b> USD/CNY 기준환율 <b>6.8050</b>으로 위안 소폭 강세, 인민은행 유동성 공급 지속. 로봇·반도체 등 약 50개사가 상하이·선전 IPO를 신청(조달 목표 약 1,261억 위안)하며 온쇼어 자금조달 회복 기대가 투자심리 지지.</li>
         </ul>
         <ul class="morning-list" data-lang="en">
-          <li><b>Risk-off from the open.</b> Around the midday break the <b>Shanghai Composite was -0.54% (4,098)</b> and the <b>Shenzhen Component ~-2.6%</b>, both lower. The prior day's strong growth names flipped to net selling, opening the whole market in the red.</li>
-          <li><b>Growth/tech boards led the drop.</b> Shanghai's <b>STAR Market 50 fell -2.6%</b> and Shenzhen's <b>ChiNext 50 -4.2%</b>, as the prior day's AI-chip and semiconductor strength gave way to profit-taking, quickly erasing recent gains.</li>
-          <li><b>Hang Seng slumped.</b> The <b>Hang Seng dropped -2.3% (22,539)</b> and the <b>Hang Seng Tech ~-4%</b>, putting the week on track for -5.8% — its worst in over a year — as Alibaba, Tencent and peers tracked the US-led AI sell-off.</li>
-          <li><b>Policy and FX calm.</b> The USD/CNY fix held a gentle weaker-yuan bias near <b>6.82</b> and the LPR stayed on hold for a 13th month. The <b>global AI-trade pullback</b>, more than any policy shift, drove the tape.</li>
+          <li><b>Tech-led rebound at the open.</b> In the morning session the <b>Shanghai Composite rose +0.38% (4,116)</b> and the <b>Shenzhen Component +0.66% (15,985)</b>, with bargain-hunting after last week's rout lifting all three mainland benchmarks.</li>
+          <li><b>AI and semiconductors did the heavy lifting.</b> As solid earnings and outlooks from US chipmakers eased the AI sell-off, semis and optical-module names (Cambricon, Hygon, Zhongji Innolight, Eoptolink, NAURA) rallied, with growth/ChiNext boards leading the index higher.</li>
+          <li><b>Hang Seng and HS Tech bounce too.</b> The <b>Hang Seng gained +0.92% (23,160)</b>, a technical rebound after its worst week in a year, as Alibaba and other platform majors tracked the US tech recovery, leaving HS Tech relatively strong.</li>
+          <li><b>Policy and FX steady; IPO revival signal.</b> The USD/CNY fix at <b>6.8050</b> nudged the yuan slightly firmer and PBOC liquidity support continued. Nearly 50 firms (robotics, semis) have filed for Shanghai/Shenzhen IPOs targeting ~126.1bn yuan, supporting sentiment on an onshore funding rebound.</li>
         </ul>
       </div>
     </div>
@@ -656,18 +756,18 @@ html.is-android .briefbar{display:flex;}
   <!-- RATES (맨 아래) -->
   <section class="country spy" id="sec-rates">
     <div class="chead"><h3>주요 시세</h3>
-      <div class="sub"><div><span data-lang="ko">코인 실시간 · 금·환율 1일 1회</span><span data-lang="en">Crypto live · gold/FX once daily</span></div><div><span data-lang="ko">금·환율 업데이트</span><span data-lang="en">Gold/FX updated</span> <b class="upd" data-mkt="rates" data-iso="2026-06-27T00:06:39Z">—</b></div></div>
+      <div class="sub"><div><span data-lang="ko">코인 실시간 · 금·환율 1일 1회</span><span data-lang="en">Crypto live · gold/FX once daily</span></div><div><span data-lang="ko">금·환율 업데이트</span><span data-lang="en">Gold/FX updated</span> <b class="upd" data-mkt="rates" data-iso="2026-06-29T22:06:01Z">—</b></div></div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="label"><span data-lang="ko">비트코인 BTC</span><span data-lang="en">Bitcoin BTC</span></div><div class="val" id="btcPrice">$60,465</div><div class="chg flat" id="btcChg"><span data-lang="ko">실시간</span><span data-lang="en">live</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">이더리움 ETH</span><span data-lang="en">Ethereum ETH</span></div><div class="val" id="ethPrice">$1,580</div><div class="chg flat" id="ethChg"><span data-lang="ko">실시간</span><span data-lang="en">live</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">금 Gold (USD/oz)</span><span data-lang="en">Gold (USD/oz)</span></div><div class="val" id="goldPrice">$4,085</div><div class="chg flat">▼ -0.95%</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">원/달러 USD·KRW</span><span data-lang="en">USD/KRW</span></div><div class="val" id="krwPrice">1,540</div><div class="chg flat">USD·KRW</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">비트코인 BTC</span><span data-lang="en">Bitcoin BTC</span></div><div class="val" id="btcPrice">$59,800</div><div class="chg flat" id="btcChg"><span data-lang="ko">실시간</span><span data-lang="en">live</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">이더리움 ETH</span><span data-lang="en">Ethereum ETH</span></div><div class="val" id="ethPrice">$1,573</div><div class="chg flat" id="ethChg"><span data-lang="ko">실시간</span><span data-lang="en">live</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">금 Gold (USD/oz)</span><span data-lang="en">Gold (USD/oz)</span></div><div class="val" id="goldPrice">$4,020</div><div class="chg flat">▼ -0.95%</div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">원/달러 USD·KRW</span><span data-lang="en">USD/KRW</span></div><div class="val" id="krwPrice">1,543</div><div class="chg flat">USD·KRW</div></div>
       <div class="tile"><div class="label"><span data-lang="ko">위안/달러 USD·CNY</span><span data-lang="en">USD/CNY</span></div><div class="val" id="cnyPrice">6.80</div><div class="chg flat">USD·CNY</div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">국제유가 WTI</span><span data-lang="en">WTI Crude</span></div><div class="val" id="oilPrice">$69.50</div><div class="chg flat"><span data-lang="ko">▼ 3개월 최저</span><span data-lang="en">▼ 3-mo low</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">원/위안 KRW·CNY</span><span data-lang="en">KRW/CNY</span></div><div class="val" id="krwcnyPrice">226.5</div><div class="chg flat"><span data-lang="ko">1원당 위안 환산</span><span data-lang="en">won per yuan</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">원/유로 KRW·EUR</span><span data-lang="en">KRW/EUR</span></div><div class="val" id="krweurPrice">1,754</div><div class="chg flat"><span data-lang="ko">1일 1회</span><span data-lang="en">daily</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">유로/달러 EUR·USD</span><span data-lang="en">EUR/USD</span></div><div class="val" id="eurusdPrice">1.139</div><div class="chg flat"><span data-lang="ko">1일 1회</span><span data-lang="en">daily</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">국제유가 WTI</span><span data-lang="en">WTI Crude</span></div><div class="val" id="oilPrice">$69.70</div><div class="chg flat"><span data-lang="ko">▼ 3개월 최저</span><span data-lang="en">▼ 3-mo low</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">원/위안 KRW·CNY</span><span data-lang="en">KRW/CNY</span></div><div class="val" id="krwcnyPrice">226.9</div><div class="chg flat"><span data-lang="ko">1원당 위안 환산</span><span data-lang="en">won per yuan</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">원/유로 KRW·EUR</span><span data-lang="en">KRW/EUR</span></div><div class="val" id="krweurPrice">1,764</div><div class="chg flat"><span data-lang="ko">1일 1회</span><span data-lang="en">daily</span></div></div>
+      <div class="tile"><div class="label"><span data-lang="ko">유로/달러 EUR·USD</span><span data-lang="en">EUR/USD</span></div><div class="val" id="eurusdPrice">1.143</div><div class="chg flat"><span data-lang="ko">1일 1회</span><span data-lang="en">daily</span></div></div>
     </div>
   </section>
 
@@ -692,21 +792,35 @@ html.is-android .briefbar{display:flex;}
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin: 4px 0 16px"><span data-lang="ko">경제 캘린더</span><span data-lang="en">Economic Calendar</span></h1>
     <section class="country">
-      <div class="chead"><h3><span data-lang="ko">이번 주 주요 일정</span><span data-lang="en">This Week's Key Events</span></h3><div class="sub" id="calAsof"><span data-lang="ko">현지 시간 기준 · 갱신 6/27</span><span data-lang="en">Local time · updated 6/27</span></div></div>
+      <div class="chead"><h3><span data-lang="ko">이번 주 주요 일정</span><span data-lang="en">This Week's Key Events</span></h3><div class="sub" id="calAsof"><span data-lang="ko">현지 시간 기준 · 갱신 6/30</span><span data-lang="en">Local time · updated 6/30</span></div></div>
       <div class="body" id="calBody" style="padding-top:16px">
         <div class="cal-day">
-          <div class="cal-date"><span data-lang="ko">6/27 (토)~6/28 (일)</span><span data-lang="en">Sat 6/27 – Sun 6/28</span></div>
-          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>주말 휴장</b> · <b>분기말·반기말 리밸런싱</b> 마무리 국면. 다음 주 6월 고용·ISM 등 빅이벤트 대기</span><span data-lang="en"><b>Weekend close</b> · <b>quarter-/half-end rebalancing</b> winding down; big week ahead (June jobs, ISM)</span></div></div>
-          <div class="cal-ev"><span class="flag">CN</span><div><span data-lang="ko">주말~월초 발표될 <b>6월 NBS 제조업 PMI</b>(6/30) 대기 — 경기 확장선(50) 회복 여부 주목</span><span data-lang="en">Market awaits <b>June NBS manufacturing PMI</b> (6/30) — watch for a return above the 50 expansion line</span></div></div>
+          <div class="cal-date"><span data-lang="ko">6/30 (화)</span><span data-lang="en">Tue, 6/30</span> <span class="hi"><span data-lang="ko">★ 고임팩트</span><span data-lang="en">★ High impact</span></span></div>
+          <div class="cal-ev"><span class="flag">CN</span><div><span data-lang="ko"><b>6월 NBS 제조업·비제조업 PMI</b> — 경기 확장선(<b>50</b>) 회복 여부가 핵심. 이번 주 중화권 경기 풍향계</span><span data-lang="en"><b>June NBS mfg &amp; non-mfg PMI</b> — key is a return above the <b>50</b> expansion line; China's growth weathervane for the week</span></div></div>
+          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>5월 산업활동동향</b>(생산·소비·투자) — 경기 회복 강도 확인</span><span data-lang="en"><b>May industrial activity</b> (output, consumption, investment)</span></div></div>
+          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko">분기말·반기말 리밸런싱 · <b>고용·ISM 빅위크</b> 포지셔닝. 6월 소비자신뢰지수</span><span data-lang="en">Quarter-/half-end rebalancing · positioning into <b>jobs &amp; ISM big week</b>. June consumer confidence</span></div></div>
         </div>
         <div class="cal-day">
-          <div class="cal-date"><span data-lang="ko">다가오는 일정 · 다음 주</span><span data-lang="en">Upcoming · Next Week</span> <span class="hi"><span data-lang="ko">★ 고임팩트</span><span data-lang="en">★ High impact</span></span></div>
-          <div class="cal-ev"><span class="flag">CN</span><div><span data-lang="ko"><b>6월 NBS 제조업·비제조업 PMI</b> — 6/30(화) · <b>차이신(RatingDog) 제조업 PMI</b> — 7/1(수). 내수·수출 회복 강도 가늠</span><span data-lang="en"><b>June NBS mfg & non-mfg PMI</b> — Tue 6/30 · <b>Caixin (RatingDog) mfg PMI</b> — Wed 7/1. Gauge of domestic and export demand</span></div></div>
-          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>5월 산업활동동향</b> — 6/30(화) · <b>6월 수출입동향</b> — 7/1(수) · <b>6월 소비자물가(CPI)</b> — 7/2(목). 반도체發 수출 호조 지속·물가 둔화 여부가 관건</span><span data-lang="en"><b>May industrial activity</b> — Tue 6/30 · <b>June trade data</b> — Wed 7/1 · <b>June CPI</b> — Thu 7/2. Key: does the chip-led export boom hold and inflation keep cooling</span></div></div>
-          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>6월 고용보고서(비농업·실업률)</b> — 7/2(목, 독립기념일 전 조기 발표) <span class="hi"><span data-lang="ko">★</span><span data-lang="en">★</span></span> · ISM 제조업·JOLTS — 7/1(수) · ISM 서비스 — 7/2. <b>7/3(금) 美 증시 휴장</b>(독립기념일)</span><span data-lang="en"><b>June jobs report (NFP & unemployment)</b> — Thu 7/2 (early, ahead of July 4) <span class="hi"><span data-lang="ko">★</span><span data-lang="en">★</span></span> · ISM mfg & JOLTS — Wed 7/1 · ISM services — 7/2. <b>US markets closed Fri 7/3</b> (Independence Day)</span></div></div>
-          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>한국은행 금통위</b> — 7/16(목, 기준금리 결정) · 같은 날 <b>TSMC 2분기 실적</b> — 반도체 업황 풍향계</span><span data-lang="en"><b>Bank of Korea rate decision</b> — Thu 7/16 · same day <b>TSMC Q2 earnings</b> — bellwether for the chip cycle</span></div></div>
-          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>FOMC</b> — 7/28~29 (금리 결정·기자회견)</span><span data-lang="en"><b>FOMC</b> — Jul 28–29 (rate decision & press conference)</span></div></div>
+          <div class="cal-date"><span data-lang="ko">7/1 (수)</span><span data-lang="en">Wed, 7/1</span></div>
+          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>ISM 제조업 PMI</b>·<b>JOLTS 구인</b>·ADP 고용 — 고용보고서 전초전. 워시 연준의장 포르투갈 연설(9:30 ET)</span><span data-lang="en"><b>ISM mfg PMI</b> · <b>JOLTS openings</b> · ADP — preview of the jobs report. Fed Chair Warsh speaks in Portugal (9:30 ET)</span></div></div>
+          <div class="cal-ev"><span class="flag">CN</span><div><span data-lang="ko"><b>차이신(RatingDog) 제조업 PMI</b> — 수출·중소기업 체감 경기</span><span data-lang="en"><b>Caixin (RatingDog) mfg PMI</b> — export &amp; SME sentiment</span></div></div>
+          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>6월 수출입동향</b> — 반도체 호조 지속 여부가 관건</span><span data-lang="en"><b>June trade data</b> — does the chip-driven export boom hold</span></div></div>
         </div>
+        <div class="cal-day">
+          <div class="cal-date"><span data-lang="ko">7/2 (목)</span><span data-lang="en">Thu, 7/2</span> <span class="hi"><span data-lang="ko">★ 고임팩트</span><span data-lang="en">★ High impact</span></span></div>
+          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>6월 고용보고서(비농업·실업률)</b> — 독립기념일 전 <b>조기 발표</b>. 시장 컨센서스 <b>+17.2만명</b>. ISM 서비스 동시 발표</span><span data-lang="en"><b>June jobs report (NFP &amp; unemployment)</b> — released <b>early</b> ahead of July 4. Consensus <b>+172K</b>. ISM services same day</span></div></div>
+          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>6월 소비자물가(CPI)</b> — 물가 둔화 흐름 지속 여부</span><span data-lang="en"><b>June CPI</b> — watch whether disinflation continues</span></div></div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-date"><span data-lang="ko">7/3 (금)</span><span data-lang="en">Fri, 7/3</span></div>
+          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>美 증시 휴장</b> (독립기념일 대체휴일) — 거래 없음</span><span data-lang="en"><b>US markets closed</b> (Independence Day observed) — no trading</span></div></div>
+        </div>
+        <div class="cal-day">
+          <div class="cal-date"><span data-lang="ko">다가오는 일정</span><span data-lang="en">Upcoming</span> <span class="hi"><span data-lang="ko">★ 고임팩트</span><span data-lang="en">★ High impact</span></span></div>
+          <div class="cal-ev"><span class="flag">KR</span><div><span data-lang="ko"><b>한국은행 금통위</b> — 7/16(목, 기준금리 결정) · 같은 날 <b>TSMC 2분기 실적</b> — 반도체 업황 풍향계</span><span data-lang="en"><b>Bank of Korea rate decision</b> — Thu 7/16 · same day <b>TSMC Q2 earnings</b> — chip-cycle bellwether</span></div></div>
+          <div class="cal-ev"><span class="flag">US</span><div><span data-lang="ko"><b>FOMC</b> — 7/28~29 (금리 결정·기자회견)</span><span data-lang="en"><b>FOMC</b> — Jul 28–29 (rate decision &amp; press conference)</span></div></div>
+        </div>
+      
       </div>
     </section>
     <div class="asof-live"><span data-lang="ko">일정·시각은 변동될 수 있습니다. 투자 자문이 아닙니다.</span><span data-lang="en">Dates and times may change. Not investment advice.</span></div>
@@ -735,12 +849,39 @@ html.is-android .briefbar{display:flex;}
     <div class="asof-live"><span data-lang="ko">한국 평일 오전·오후 2회, 미국 장중·마감 직전 2회 갱신. 장 외 시간엔 마지막 갱신 데이터 기준.</span><span data-lang="en">Korea updates twice on weekdays; US twice per session (intraday & near close). Last data shown outside hours.</span></div>
   </div>
 
+  <div id="expertView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
+    <h1 style="margin:4px 0 8px"><span data-lang="ko">전문가 의견</span><span data-lang="en">Analyst View</span></h1>
+    <p class="ex-lead"><span data-lang="ko">목표주가·투자의견은 <b>여러 증권사 의견의 평균</b>이에요. 목표가 <b>범위(최저~최고)가 넓을수록 증권사마다 의견이 갈린다</b>는 뜻입니다.</span><span data-lang="en">Targets and ratings are an <b>average across brokerages</b>. A <b>wider low–high range means analysts disagree more</b>.</span></p>
+    <div class="ex-search"><input id="exSearch" type="text" autocomplete="off" placeholder="마이크로소프트 · MSFT · 005930" /><button id="exSearchBtn"><span data-lang="ko">조회</span><span data-lang="en">Search</span></button></div>
+    <div id="exSearchOut" class="ex-sout"></div>
+    <div class="ex-hint"><span data-lang="ko">이름·티커·종목코드 아무거나 검색하세요 (예: 마이크로소프트, MSFT, 005930). 아래에서 골라도 됩니다.</span><span data-lang="en">Search by name, ticker, or code (e.g. Microsoft, MSFT, 005930), or pick below.</span></div>
+    <div id="exRecentWrap" class="ex-recent-wrap" style="display:none"><div class="ex-recent-h"><span data-lang="ko">최근 본 종목</span><span data-lang="en">Recently viewed</span><button id="exRecentClear" class="ex-clear"><span data-lang="ko">전체 지우기</span><span data-lang="en">Clear all</span></button></div><div id="exRecent" class="ex-chips"></div></div>
+    <div id="exDetail" class="ex-detail"></div>
+    <div class="ex-today-h"><span data-lang="ko">오늘의 종목</span><span data-lang="en">Today's stocks</span></div>
+    <div id="exToday" class="ex-chips"></div>
+    <div class="asof-live"><span data-lang="ko">목표주가·투자의견 출처: 레피니티브(미국)·에프앤가이드(한국). 약 30분 캐시.</span><span data-lang="en">Targets & ratings: Refinitiv (US) / FnGuide (Korea). ~30-min cache.</span></div>
+  </div>
+  <div id="myStocksView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
+    <h1 style="margin:4px 0 8px"><span data-lang="ko">내 주식</span><span data-lang="en">My Stocks</span></h1>
+    <p class="ex-lead"><span data-lang="ko">관심 종목·지수를 추가해 실시간 가격과 전문가 의견·관련 뉴스를 한 곳에서 보세요.</span><span data-lang="en">Track stocks/indices with live price, analyst view and news.</span></p>
+    <div class="ex-search"><input id="mySearch" type="text" autocomplete="off" placeholder="마이크로소프트 · MSFT · 005930" /><button id="mySearchBtn"><span data-lang="ko">추가</span><span data-lang="en">Add</span></button></div>
+    <div id="mySearchOut" class="ex-sout"></div>
+    <div class="my-presets" id="myPresets"></div>
+    <div id="myList" class="my-list"></div>
+    <div id="myDetail" class="ex-detail"></div>
+  </div>
+  <div id="weekOutlookView" style="display:none">
+    <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
+    <div id="weekOutlookBody"></div>
+  </div>
   <div id="briefingView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.36</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.43</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1093,7 +1234,7 @@ function consensusHTML(d, label, curPrice){
 }
 async function loadConsensus(symbol, label, curPrice){
   var p=document.getElementById('cnsPanel'); if(!p) return;
-  p.innerHTML='<div class="cns-inner"><div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div></div>';
+  p.innerHTML='<div class="cns-inner"><div class="cns-h">'+L('전문가 의견을 불러오는 중이에요…','Loading analyst view…')+'</div></div>';
   try{ var r=await fetch(CONS_PROXY+'?symbol='+encodeURIComponent(symbol)); var d=r.ok?await r.json():null; p.innerHTML='<div class="cns-inner">'+consensusHTML(d,label||symbol,curPrice)+'</div>'; }
   catch(e){ p.innerHTML='<div class="cns-inner">'+consensusHTML(null,label||symbol,curPrice)+'</div>'; }
 }
@@ -1116,7 +1257,7 @@ function briefChipPick(chip){
   var el=chip.closest('.brief-cns'); if(!el) return; var body=el.querySelector('.cns-body'); if(!body) return;
   var cs=el.querySelectorAll('.cns-chip'); for(var i=0;i<cs.length;i++) cs[i].classList.remove('on'); chip.classList.add('on');
   var sym=chip.getAttribute('data-sym'), label=chip.getAttribute('data-label')||sym;
-  body.innerHTML='<div class="cns-h">'+L('전문가 의견','Analyst View')+' …</div>';
+  body.innerHTML='<div class="cns-h">'+L('전문가 의견을 불러오는 중이에요…','Loading analyst view…')+'</div>';
   var isKR=/^[0-9]{6}$/.test(sym); var pxUrl=isKR?(KR_PROXY+'?stocks='+sym):(QUOTES_PROXY+'?symbols='+sym);
   Promise.all([ fetch(CONS_PROXY+'?symbol='+encodeURIComponent(sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}), fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}) ]).then(function(res){ var d=res[0],q=res[1],cur=null; if(q){ if(isKR){ if(q.stocks&&q.stocks[0]) cur=q.stocks[0].price; } else if(q.quotes&&q.quotes[0]) cur=q.quotes[0].price; } body.innerHTML=consensusHTML(d,label,cur); });
 }
@@ -1181,6 +1322,162 @@ function applySurgeFilter(){
 document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.surgetab'):null; if(b){ var tw=b.closest('.surgetabs'); var mkt=tw?tw.getAttribute('data-mkt'):null; if(mkt){ try{ localStorage.setItem('gmd_surgemode_'+mkt, b.dataset.mode); }catch(err){} applySurgeFilter(); if(typeof setDefaultConsensus==='function') setDefaultConsensus(true, mkt); } } });
 window.loadSurge = loadSurge;
 
+// ===== 전문가 의견 탭 =====
+var EX_ALIAS={ '삼성전자':'005930','삼성':'005930','sk하이닉스':'000660','하이닉스':'000660','현대차':'005380','기아':'000270','네이버':'035420','naver':'035420','카카오':'035720','lg에너지솔루션':'373220','엘지에너지솔루션':'373220','삼성바이오로직스':'207940','삼성바이오':'207940','셀트리온':'068270','포스코':'005490','포스코홀딩스':'005490','현대모비스':'012330','kb금융':'105560','신한지주':'055550','신한금융':'055550','하나금융지주':'086790','하나금융':'086790','삼성sdi':'006400','lg화학':'051910','삼성물산':'028260','한화에어로':'012450','한화에어로스페이스':'012450','삼성전기':'009150','sk이노베이션':'096770','카카오뱅크':'323410','크래프톤':'259960','한국전력':'015760','한전':'015760','sk텔레콤':'017670','skt':'017670','kt':'030200','삼성생명':'032830','삼성화재':'000810','기업은행':'024110','우리금융':'316140','우리금융지주':'316140','lg전자':'066570','hmm':'011200','고려아연':'010130','kt&g':'033780','ktng':'033780','대한항공':'003490','삼성에스디에스':'018260','삼성sds':'018260','두산에너빌리티':'034020','한미반도체':'042700','에코프로비엠':'247540','에코프로':'086520','lg디스플레이':'034220','현대글로비스':'086280','sk스퀘어':'402340','메리츠금융':'138040','두산밥캣':'241560','현대제철':'004020','lg':'003550','아모레퍼시픽':'090430' };
+function exResolve(q){ q=(q||'').trim(); if(!q) return null; var low=q.toLowerCase(); if(EX_ALIAS[q]) return {sym:EX_ALIAS[q],label:q,kr:true}; if(EX_ALIAS[low]) return {sym:EX_ALIAS[low],label:q,kr:true}; if(/^\d{6}$/.test(q)) return {sym:q,label:q,kr:true}; return {sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}; }
+function exSpread(d){ if(d.targetHigh==null||d.targetLow==null||!d.targetMean) return null; var s=(d.targetHigh-d.targetLow)/d.targetMean; if(s<0.25) return {cls:'s-agree',ko:'의견 대체로 일치',en:'Broad agreement'}; if(s<0.6) return {cls:'s-mid',ko:'의견 다소 갈림',en:'Some disagreement'}; return {cls:'s-wide',ko:'의견 크게 갈림',en:'Wide disagreement'}; }
+var NEWS_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/news");
+function exCnsBody(d, info, curPrice){
+  if(!d || d.none || d.rating==null) return '<div class="cns-none">'+L('전문가 의견(목표주가·투자의견) 정보가 없는 종목이에요','No analyst coverage for this stock')+'</div>';
+  var segKo=['적극매도','매도','중립','매수','적극매수'], segEn=['Strong Sell','Sell','Hold','Buy','Strong Buy'];
+  var ai=Math.min(4,Math.max(0,Math.round(d.rating)-1));
+  var pos=Math.min(96,Math.max(4,(d.rating-1)/4*100));
+  var unit=(d.currency==='KRW')?'₩':'$';
+  function px(v){ if(v==null) return null; return unit+Number(v).toLocaleString('en-US', d.currency==='KRW'?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  var segs=''; for(var i=0;i<5;i++) segs+='<div class="cns-seg s'+i+(i===ai?' on':'')+'">'+L(segKo[i],segEn[i])+'</div>';
+  var up=(curPrice&&d.targetMean)?((d.targetMean-curPrice)/curPrice*100):null;
+  var upTxt=(up!=null)?' <span class="'+(up>=0?'up':'down')+'">('+(up>=0?'+':'')+up.toFixed(1)+'%)</span>':'';
+  var h='<div class="ex-sub">'+L('투자의견','Rating')+' '+d.rating.toFixed(2)+'/5 · '+(d.asOf?d.asOf+' · ':'')+L('레피니티브/에프앤가이드','Refinitiv/FnGuide')+'</div>';
+  h+='<div class="cns-barwrap"><div class="cns-bubble s'+ai+'" style="left:'+pos+'%">'+d.rating.toFixed(2)+'</div><div class="cns-segs">'+segs+'</div></div>';
+  if(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow){
+    var span=d.targetHigh-d.targetLow;
+    var mp=Math.min(100,Math.max(0,(d.targetMean-d.targetLow)/span*100));
+    var curHtml='';
+    if(curPrice!=null){ var cp=(curPrice-d.targetLow)/span*100; if(cp>8 && cp<92){ curHtml='<div class="ex-rng-cur" style="left:'+cp+'%" data-l="'+L('현재','Now')+'"></div>'; } }
+    h+='<div class="ex-rng"><div class="ex-rng-track"><div class="ex-rng-mean-l" style="left:'+mp+'%">'+L('평균','Avg')+' '+px(d.targetMean)+'</div><div class="ex-rng-mean" style="left:'+mp+'%"></div>'+curHtml+'</div><div class="ex-rng-lab"><span><b>'+L('최저','Low')+'</b> '+px(d.targetLow)+'</span><span><b>'+L('최고','High')+'</b> '+px(d.targetHigh)+'</span></div></div>';
+    h+='<div class="ex-note">'+L('증권사 목표가가 '+px(d.targetLow)+' ~ '+px(d.targetHigh)+'로 갈려요. 막대가 넓을수록 의견 차이가 큽니다.','Brokerage targets span '+px(d.targetLow)+' to '+px(d.targetHigh)+' — a wider bar means more disagreement.')+'</div>';
+  }
+  h+='<div class="ex-meta2">'+(curPrice!=null?'<span>'+L('현재가','Price')+' <b>'+px(curPrice)+'</b></span>':'')+'<span>'+L('목표주가 평균','Avg target')+' <b>'+(px(d.targetMean)||'—')+'</b>'+upTxt+'</span></div>';
+  if(!(d.targetHigh!=null && d.targetLow!=null && d.targetHigh>d.targetLow)){
+    h+='<div class="ex-note">'+L('이 종목은 증권사별 목표가 범위(최저~최고) 데이터가 아직 없어 평균 의견만 표시해요.','Per-brokerage target range is not available yet — showing the average only.')+'</div>';
+  }
+  if(up!=null && up<0){ h+='<div class="cns-warn">'+L('현재가가 평균 목표가를 넘었어요 — 의견은 최근 3개월 평균이라 급등 시 시차가 있습니다','Price is above the average target — the rating is a lagging 3-month average')+'</div>'; }
+  return h;
+}
+function exOvBody(info, q){
+  if(!q) return '<div class="cns-none">'+L('시세 정보를 불러오지 못했어요','Quote unavailable')+'</div>';
+  var krc=!!info.kr; var unit=krc?'₩':'$';
+  function px(v){ if(v==null) return '—'; return unit+Number(v).toLocaleString('en-US', krc?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  var chg=q.changePct;
+  var chgTxt=(chg!=null)?'<span class="'+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':'—';
+  var rows=[['현재가','Price','<b>'+px(q.price)+'</b> &nbsp;'+chgTxt]];
+  if(q.dayLow!=null&&q.dayHigh!=null) rows.push(['당일 범위','Day range', px(q.dayLow)+' ~ '+px(q.dayHigh)]);
+  if(q.wk52Low!=null&&q.wk52High!=null) rows.push(['52주 범위','52-week range', px(q.wk52Low)+' ~ '+px(q.wk52High)]);
+  var ex=(!krc&&q.exch)?q.exch:(krc?'KRX (KOSPI/KOSDAQ)':'');
+  if(ex) rows.push(['거래소','Exchange', ex+' · '+(krc?'KRW':(q.currency||'USD'))]);
+  var h='<div class="ex-ovtbl">'+rows.map(function(r){ return '<div class="ex-ovr"><span class="ex-ovk">'+L(r[0],r[1])+'</span><span class="ex-ovv">'+r[2]+'</span></div>'; }).join('')+'</div>';
+  h+='<div class="ex-note">'+L('시세 출처: '+(krc?'네이버(KRX)':'야후 파이낸스')+'. 약 5분 캐시.', 'Quote: '+(krc?'Naver (KRX)':'Yahoo Finance')+', ~5-min cache.')+'</div>';
+  return h;
+}
+function exFmtWhen(n){ if(n.ts){ try{ return new Date(n.ts).toLocaleDateString(); }catch(e){} } if(n.when){ var w=String(n.when); var m=w.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/); if(m) return m[1]+'-'+m[2]+'-'+m[3]+' '+m[4]+':'+m[5]; return w.replace('T',' ').slice(0,16); } return ''; }
+function exNewsBody(items){
+  if(items===null) return '<div class="cns-none">'+L('관련 뉴스를 불러오는 중이에요…','Loading related news…')+'</div>';
+  if(!items.length) return '<div class="cns-none">'+L('관련 뉴스를 찾지 못했어요','No related news found')+'</div>';
+  return '<div class="ex-news">'+items.map(function(n){ var meta=[n.source, exFmtWhen(n)].filter(Boolean).join(' · '); var ti=String(n.title).replace(/</g,'&lt;'); return '<a class="ex-nitem" href="'+n.url+'" target="_blank" rel="noopener noreferrer"><div class="ex-ntitle">'+ti+'</div><div class="ex-nmeta">'+meta+'</div></a>'; }).join('')+'</div>';
+}
+function exCardHTML(info, q, d, cur){
+  var spHTML=''; if(d && !d.none && d.rating!=null){ var sp=exSpread(d); if(sp) spHTML=' <span class="ex-spread '+sp.cls+'">'+L(sp.ko,sp.en)+'</span>'; }
+  var h='<div class="ex-card" data-sym="'+info.sym+'" data-kr="'+(info.kr?1:0)+'" data-label="'+String(info.label).replace(/"/g,'')+'">';
+  h+='<div class="ex-name">'+info.label+spHTML+'</div>';
+  h+='<div class="ex-tabs"><button class="ex-tab" data-extab="ov">'+L('개요','Overview')+'</button><button class="ex-tab on" data-extab="cns">'+L('전문가의견','Analyst')+'</button><button class="ex-tab" data-extab="news">'+L('관련뉴스','News')+'</button></div>';
+  h+='<div class="ex-pane" data-pane="ov" style="display:none">'+exOvBody(info,q)+'</div>';
+  h+='<div class="ex-pane" data-pane="cns">'+exCnsBody(d,info,cur)+'</div>';
+  h+='<div class="ex-pane" data-pane="news" style="display:none">'+exNewsBody(null)+'</div>';
+  h+='</div>';
+  return h;
+}
+function exLoadNews(card){
+  if(!card) return; var pane=card.querySelector('.ex-pane[data-pane="news"]'); if(!pane) return;
+  if(pane.getAttribute('data-loaded')==='1') return; pane.setAttribute('data-loaded','1');
+  pane.innerHTML=exNewsBody(null);
+  var sym=card.getAttribute('data-sym'), kr=card.getAttribute('data-kr')==='1', label=card.getAttribute('data-label')||'';
+  fetch(NEWS_PROXY+'?sym='+encodeURIComponent(sym)+'&kr='+(kr?1:0)+'&name='+encodeURIComponent(label)).then(function(r){return r.ok?r.json():null;}).then(function(j){ pane.innerHTML=exNewsBody((j&&j.news)||[]); }).catch(function(){ pane.innerHTML=exNewsBody([]); });
+}
+window.exLoadNews=exLoadNews;
+document.addEventListener('click', function(e){ var tb=e.target.closest?e.target.closest('.ex-tab'):null; if(!tb) return; var card=tb.closest('.ex-card'); if(!card) return; var tt=tb.getAttribute('data-extab'); var tabs=card.querySelectorAll('.ex-tab'); for(var i=0;i<tabs.length;i++) tabs[i].classList.toggle('on', tabs[i]===tb); var panes=card.querySelectorAll('.ex-pane'); for(var j=0;j<panes.length;j++){ panes[j].style.display=(panes[j].getAttribute('data-pane')===tt)?'':'none'; } if(tt==='news') exLoadNews(card); });
+function loadStockCard(info, box, addRecent){
+  if(!info||!info.sym||!box) return; window.__exSym=info.sym;
+  box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('불러오는 중이에요…','Loading…')+'</div></div>';
+  var pxUrl=info.kr?(KR_PROXY+'?stocks='+encodeURIComponent(info.sym)):(QUOTES_PROXY+'?symbols='+encodeURIComponent(info.sym));
+  Promise.all([
+    fetch(CONS_PROXY+'?symbol='+encodeURIComponent(info.sym)).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+    fetch(pxUrl).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+  ]).then(function(res){
+    var d=res[0],qall=res[1],q=null,cur=null;
+    if(qall){ if(info.kr){ q=qall.stocks&&qall.stocks[0]; } else { q=qall.quotes&&qall.quotes[0]; } }
+    if(q){ cur=q.price; if(info.kr && q.name) info.label=q.name+' ('+info.sym+')'; }
+    box.innerHTML=exCardHTML(info, q, d, cur);
+    if(addRecent && window.exAddRecent) exAddRecent(info);
+  });
+}
+window.loadStockCard=loadStockCard;
+function loadExpert(info){ if(!info||!info.sym) return; window.__exInfo=info; loadStockCard(info, document.getElementById('exDetail'), true); }
+
+// ===== 내 주식 =====
+var MY_KEY='gmd_watchlist';
+function myGet(){ try{ return JSON.parse(localStorage.getItem(MY_KEY)||'[]')||[]; }catch(e){ return []; } }
+function mySet(a){ try{ localStorage.setItem(MY_KEY, JSON.stringify(a.slice(0,50))); }catch(e){} }
+function myAdd(info){ if(!info||!info.sym) return; var a=myGet().filter(function(x){return x.sym!==info.sym;}); a.push({sym:info.sym,label:info.label||info.sym,kr:!!info.kr}); mySet(a); myRender(); }
+function myRemove(sym){ mySet(myGet().filter(function(x){return x.sym!==sym;})); myRender(); }
+function myPxId(sym){ return 'mypx-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
+function myFetchPrices(a){
+  var us=a.filter(function(x){return !x.kr;}).map(function(x){return x.sym;});
+  var kr=a.filter(function(x){return x.kr;}).map(function(x){return x.sym;});
+  function setpx(sym,price,chg,krc){ var el=document.getElementById(myPxId(sym)); if(!el) return; if(price==null){ el.textContent='—'; return; } var unit=krc?'₩':'$'; var p=unit+Number(price).toLocaleString('en-US', krc?{}:{minimumFractionDigits:2,maximumFractionDigits:2}); var c=(chg!=null)?'<span class="my-chg '+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':''; el.innerHTML=p+c; }
+  if(us.length){ fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(us.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.quotes) return; var m={}; j.quotes.forEach(function(q){ m[q.symbol]=q; }); us.forEach(function(s){ var q=m[s]; setpx(s, q?q.price:null, q?q.changePct:null, false); }); }).catch(function(){}); }
+  if(kr.length){ fetch(KR_PROXY+'?stocks='+encodeURIComponent(kr.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.stocks) return; var m={}; j.stocks.forEach(function(q){ m[q.code]=q; }); kr.forEach(function(s){ var q=m[s]; setpx(s, q?q.price:null, q?q.changePct:null, true); }); }).catch(function(){}); }
+}
+function myRender(){
+  var list=document.getElementById('myList'); if(!list) return;
+  var a=myGet();
+  if(!a.length){ list.innerHTML='<div class="my-empty">'+L('아직 추가한 종목이 없어요. 위에서 검색하거나 지수를 추가하세요.','No stocks yet — search above or add an index.')+'</div>'; return; }
+  list.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<div class="my-row" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><div class="my-nm"><span class="my-nmt">'+lab+'</span><span class="my-sym">'+String(x.sym).replace(/"/g,'')+'</span></div><div class="my-px" id="'+myPxId(x.sym)+'">—</div><button class="my-x" data-mysym="'+x.sym+'" aria-label="remove">×</button></div>'; }).join('');
+  myFetchPrices(a);
+}
+function myRenderPresets(){ var box=document.getElementById('myPresets'); if(!box) return; var P=[['^GSPC','S&P 500'],['^IXIC','나스닥'],['^DJI','다우'],['^KS11','코스피'],['^KQ11','코스닥'],['000001.SS','상하이종합']]; box.innerHTML=P.map(function(p){ return '<button class="my-preset" data-add-sym="'+p[0]+'" data-add-label="'+p[1]+'">+ '+p[1]+'</button>'; }).join(''); }
+window.myRender=myRender; window.myRenderPresets=myRenderPresets; window.myAdd=myAdd; window.myRemove=myRemove; window.myFetchPrices=myFetchPrices;
+function renderMySearch(list){ var out=document.getElementById('mySearchOut'); if(!out) return; if(!list||!list.length){ out.className='ex-sout'; out.innerHTML=''; return; } out.className='ex-sout on'; out.innerHTML=list.map(function(x){ var lab=String(x.name||x.sym).replace(/"/g,''); return '<div class="my-sitem" data-msym="'+x.sym+'" data-mkr="'+(x.kr?1:0)+'" data-mlabel="'+lab+'"><span class="ex-sname">'+lab+'</span><span class="ex-ssym">'+x.sym+(x.exch?' · '+x.exch:'')+'</span></div>'; }).join(''); }
+document.addEventListener('click', function(e){
+  var ps=e.target.closest?e.target.closest('.my-preset'):null; if(ps){ myAdd({sym:ps.getAttribute('data-add-sym'),label:ps.getAttribute('data-add-label'),kr:false}); return; }
+  var si=e.target.closest?e.target.closest('.my-sitem'):null; if(si){ myAdd({sym:si.getAttribute('data-msym'),label:si.getAttribute('data-mlabel'),kr:si.getAttribute('data-mkr')==='1'}); var o=document.getElementById('mySearchOut'); if(o){ o.className='ex-sout'; o.innerHTML=''; } var mi=document.getElementById('mySearch'); if(mi) mi.value=''; return; }
+  var rx=e.target.closest?e.target.closest('.my-x'):null; if(rx){ e.stopPropagation(); myRemove(rx.getAttribute('data-mysym')); return; }
+  var row=e.target.closest?e.target.closest('.my-row'):null; if(row){ var rows=document.querySelectorAll('#myList .my-row'); for(var i=0;i<rows.length;i++) rows[i].classList.remove('sel'); row.classList.add('sel'); if(window.loadStockCard) loadStockCard({sym:row.getAttribute('data-sym'),label:row.getAttribute('data-label'),kr:row.getAttribute('data-kr')==='1'}, document.getElementById('myDetail'), false); var md=document.getElementById('myDetail'); if(md) md.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+});
+(function mySearchInit(){ var inp=document.getElementById('mySearch'), btn=document.getElementById('mySearchBtn'), out=document.getElementById('mySearchOut'); if(!inp) return; var tmr=null,lastList=[]; function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } } function add(info){ if(info){ myAdd(info); inp.value=''; lastList=[]; hide(); } } function go(){ var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; add({sym:x.sym,label:x.name,kr:x.kr}); return; } add(exResolve(q)); } inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); if(q.length<2){ lastList=[]; hide(); return; } tmr=setTimeout(function(){ exSearchRemote(q, function(list){ list=(list||[]).filter(function(x){ return x.sym && x.sym.indexOf('.')<0; }); lastList=list; if(!list.length){ if(out){ if(/[가-힣]/.test(q)){ out.className='ex-sout on'; out.innerHTML='<div class="ex-snote">'+L('한글 이름은 주요 종목만 — 코드로 검색해보세요','Korean name covers majors only')+'</div>'; } else hide(); } } else { renderMySearch(list); } }); }, 260); }); inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } }); if(btn) btn.addEventListener('click', go); document.addEventListener('click', function(e){ if(out && !(e.target.closest&&e.target.closest('#myStocksView .ex-search')) && !(e.target.closest&&e.target.closest('#mySearchOut'))) hide(); }); })();
+(function(){ if(document.getElementById('myPresets')){ myRenderPresets(); myRender(); } })();
+setInterval(function(){ if(window.__view==='mystocks') myFetchPrices(myGet()); }, 60000);
+function exChip(sym,label,kr){ return '<button class="ex-chip'+(window.__exSym===sym?' on':'')+'" data-sym="'+sym+'" data-kr="'+(kr?1:0)+'" data-label="'+String(label).replace(/"/g,'')+'">'+label+'</button>'; }
+function buildExpertToday(){
+  var box=document.getElementById('exToday'); if(!box) return;
+  var seen={}, out=[];
+  function add(sym,label,kr){ sym=(sym||'').trim(); if(!sym||seen[sym]) return; seen[sym]=1; out.push(exChip(sym,label||sym,kr)); }
+  var bc=document.querySelector('.brief-cns[data-stocks]');
+  if(bc){ (bc.getAttribute('data-stocks')||'').split('|').forEach(function(s){ var p=s.split(':'); if(p[0]) add(p[0].trim(),(p[1]||p[0]).trim(),/^\d{6}$/.test(p[0].trim())); }); }
+  ['krUp','krDown','usUp','usDown'].forEach(function(id){
+    var kr=(id.indexOf('kr')===0);
+    var rows=document.querySelectorAll('#'+id+' .surge-set[data-set="large"] .surge-row'); var n=0;
+    for(var i=0;i<rows.length && n<5;i++){ var r=rows[i]; var tk=((r.querySelector('.tk')||{}).textContent||'').trim(); var sub=((r.querySelector('.sub2')||{}).textContent||'').trim(); if(kr){ if(sub){ add(sub, tk||sub, true); n++; } } else { if(tk){ add(tk, tk, false); n++; } } }
+  });
+  box.innerHTML = out.length? out.join('') : '<div class="cns-none">'+L('표시할 종목이 없어요 — 위에서 검색해보세요','No stocks yet — try the search above')+'</div>';
+  if(!window.__exSym){ var first=box.querySelector('.ex-chip'); if(first){ first.classList.add('on'); loadExpert({sym:first.getAttribute('data-sym'),label:first.getAttribute('data-label'),kr:first.getAttribute('data-kr')==='1'}); } }
+}
+window.buildExpertToday=buildExpertToday; window.loadExpert=loadExpert;
+document.addEventListener('click', function(e){ var rx=e.target.closest?e.target.closest('.ex-rx'):null; if(rx){ e.stopPropagation(); if(window.exRemoveRecent) exRemoveRecent(rx.getAttribute('data-sym')); return; } var si=e.target.closest?e.target.closest('.ex-sitem'):null; if(si){ if(window.exLoadSel) exLoadSel(si.getAttribute('data-sym'), si.getAttribute('data-label'), si.getAttribute('data-kr')==='1'); var o=document.getElementById('exSearchOut'); if(o){ o.className='ex-sout'; o.innerHTML=''; } var inp=document.getElementById('exSearch'); if(inp) inp.value=si.getAttribute('data-label')||''; return; } var c=e.target.closest?e.target.closest('.ex-chip'):null; if(c){ if(window.exLoadSel) exLoadSel(c.getAttribute('data-sym'), c.getAttribute('data-label')||c.getAttribute('data-sym'), c.getAttribute('data-kr')==='1'); } });
+var SEARCH_PROXY = MOVERS_PROXY.replace(/\/movers$/, "/search");
+var EX_RK='gmd_ex_recent';
+function exGetRecent(){ try{ return JSON.parse(localStorage.getItem(EX_RK)||'[]')||[]; }catch(e){ return []; } }
+function exSetRecent(a){ try{ localStorage.setItem(EX_RK, JSON.stringify(a.slice(0,12))); }catch(e){} }
+function exAddRecent(info){ if(!info||!info.sym) return; var a=exGetRecent().filter(function(x){return x.sym!==info.sym;}); a.unshift({sym:info.sym,label:info.label||info.sym,kr:!!info.kr}); exSetRecent(a); exRenderRecent(); }
+function exRemoveRecent(sym){ exSetRecent(exGetRecent().filter(function(x){return x.sym!==sym;})); exRenderRecent(); }
+function exClearRecent(){ exSetRecent([]); exRenderRecent(); }
+function exRenderRecent(){ var wrap=document.getElementById('exRecentWrap'), box=document.getElementById('exRecent'); if(!box||!wrap) return; var a=exGetRecent(); if(!a.length){ wrap.style.display='none'; box.innerHTML=''; return; } wrap.style.display=''; box.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<span class="ex-chip ex-rchip'+(window.__exSym===x.sym?' on':'')+'" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><span class="ex-rlab">'+lab+'</span><span class="ex-rx" data-sym="'+x.sym+'">×</span></span>'; }).join(''); }
+function exLoadSel(sym,label,kr){ var on=document.querySelectorAll('#exToday .ex-chip.on, #exRecent .ex-chip.on'); for(var i=0;i<on.length;i++) on[i].classList.remove('on'); loadExpert({sym:sym,label:label||sym,kr:!!kr}); var box=document.getElementById('exDetail'); if(box) box.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function exRenderSearch(list){ var out=document.getElementById('exSearchOut'); if(!out) return; if(!list||!list.length){ out.className='ex-sout'; out.innerHTML=''; return; } out.className='ex-sout on'; out.innerHTML=list.map(function(x){ var lab=String(x.name||x.sym).replace(/"/g,''); return '<div class="ex-sitem" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><span class="ex-sname">'+lab+'</span><span class="ex-ssym">'+x.sym+(x.exch?' · '+x.exch:'')+'</span></div>'; }).join(''); }
+function exSearchRemote(q, cb){ fetch(SEARCH_PROXY+'?q='+encodeURIComponent(q)).then(function(r){return r.ok?r.json():null;}).then(function(j){ cb((j&&j.results)||[]); }).catch(function(){ cb([]); }); }
+window.exAddRecent=exAddRecent; window.exRenderRecent=exRenderRecent; window.exRemoveRecent=exRemoveRecent; window.exLoadSel=exLoadSel; window.exClearRecent=exClearRecent;
+(function exSearchInit(){ var inp=document.getElementById('exSearch'), btn=document.getElementById('exSearchBtn'), out=document.getElementById('exSearchOut'); var tmr=null, lastList=[]; function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } } function go(){ if(!inp) return; var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; exLoadSel(x.sym, x.name, x.kr); hide(); return; } var info=exResolve(q); if(info) exLoadSel(info.sym, info.label, info.kr); hide(); } if(inp) inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); if(q.length<2){ lastList=[]; hide(); return; } tmr=setTimeout(function(){ exSearchRemote(q, function(list){ list=(list||[]).filter(function(x){ return x.sym && x.sym.indexOf('.')<0; }); lastList=list; if(!list.length){ var o=document.getElementById('exSearchOut'); if(o){ if(/[가-힣]/.test(q)){ o.className='ex-sout on'; o.innerHTML='<div class="ex-snote">'+L('한글 이름은 주요 종목만 지원해요 — 종목코드 6자리로 검색해보세요','Korean-name search covers majors only — try the 6-digit code')+'</div>'; } else { hide(); } } } else { exRenderSearch(list); } }); }, 260); }); if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } }); if(btn) btn.addEventListener('click', go); var clr=document.getElementById('exRecentClear'); if(clr) clr.addEventListener('click', exClearRecent); document.addEventListener('click', function(e){ if(out && !(e.target.closest&&e.target.closest('.ex-search')) && !(e.target.closest&&e.target.closest('.ex-sout'))) hide(); }); })();
+
+
 // 모닝브리핑 읽어주기(브라우저 내장 TTS)
 (function(){
   function briefData(){
@@ -1215,46 +1512,46 @@ window.loadSurge = loadSurge;
 })();
 
 const REDDIT = [
-  {tk:"MU", nm:"마이크론 테크놀로지", nmEn:"Micron Technology", sent:"neu", desc:"멘션 1,283건·24h -49%, 호실적에도 -7% 되밀림", descEn:"1,283 mentions·-49% 24h, fell -7% despite the beat", posts:[
-    {ups:2310,t:"마이크론, 어닝 폭발에도 -7%($1,004) — '실적보다 금리' 장세?", tEn:"Micron -7% ($1,004) despite the blowout — a 'rates over earnings' tape?"},
-    {ups:1480,t:"AI 데이터센터 캡엑스 공포에 메모리주 차익실현", tEn:"Memory names sold on AI data-center capex fear"},
-    {ups:870,t:"저가 매수 vs 칩 조정 지속 — 다음 지지선 논쟁", tEn:"Dip-buy vs more chip correction — next-support debate"}]},
-  {tk:"WEN", nm:"웬디스", nmEn:"Wendy's", sent:"bull", desc:"멘션 976건·'웬디스 구하자' 숏스퀴즈 열풍", descEn:"976 mentions·a 'Save Wendy's' short-squeeze frenzy", posts:[
-    {ups:9200,t:"'웬디스를 구하라' — WSB 결집에 장중 +42% 폭등", tEn:"'Save Wendy's' — WSB rallies, stock spikes +42% intraday"},
-    {ups:5400,t:"공매도 34% 숏스퀴즈 셋업 + 신임 CFO·펠츠 인수설", tEn:"34% short interest squeeze setup + new CFO, Peltz buyout chatter"},
-    {ups:3100,t:"20년래 최저서 반등 — 밈 랠리 vs 가치함정 논쟁", tEn:"Bouncing off 20-year lows — meme rally vs value-trap debate"}]},
-  {tk:"MSFT", nm:"마이크로소프트", nmEn:"Microsoft", sent:"neu", desc:"멘션 873건·24h +143%, AI 캡엑스·엑스박스 가격 인상", descEn:"873 mentions·+143% 24h, AI capex & Xbox price hike", posts:[
-    {ups:1980,t:"MS, 메모리값 상승에 엑스박스 가격 인상 — 원가 부담 부각", tEn:"Microsoft raises Xbox prices on higher memory costs"},
-    {ups:1240,t:"하이퍼스케일러 AI 캡엑스 과열 우려 — 멀티플 압박", tEn:"Hyperscaler AI-capex overheating worry — multiple pressure"},
-    {ups:560,t:"빅테크 이탈 순환매 속 MSFT 비중 토론", tEn:"Sizing MSFT amid the rotation out of big tech"}]},
-  {tk:"NVDA", nm:"엔비디아", nmEn:"Nvidia", sent:"neu", desc:"멘션 242건·24h +16%, 칩 매도 속 변동성 확대", descEn:"242 mentions·+16% 24h, volatile in the chip sell-off", posts:[
-    {ups:430,t:"반도체 동반 약세 — SOX 조정권(-10%) 진입 우려", tEn:"Chips fall together — fears the SOX is entering a -10% correction"},
-    {ups:240,t:"AI 캡엑스 둔화설 vs 데이터센터 수요 — 매수 논쟁", tEn:"AI-capex slowdown talk vs data-center demand — buy debate"},
-    {ups:130,t:"매파 연준發 금리에 고밸류 성장주 부담", tEn:"Hawkish-Fed rates weigh on high-valuation growth"}]},
-  {tk:"SNDK", nm:"샌디스크", nmEn:"SanDisk", sent:"bear", desc:"멘션 218건·24h +93%, 메모리 매도에 -5%", descEn:"218 mentions·+93% 24h, -5% in the memory sell-off", posts:[
-    {ups:560,t:"샌디스크 -5% — 마이크론 되밀림에 NAND 동반 약세", tEn:"SanDisk -5% — NAND drops alongside Micron's pullback"},
-    {ups:290,t:"급등 후 차익실현 vs 메모리 사이클 지속 논쟁", tEn:"Profit-taking after the run vs memory-cycle-continues debate"},
-    {ups:140,t:"AI 비용 공포가 메모리 트레이드까지 전염?", tEn:"Is the AI-cost fear spreading to the memory trade?"}]},
-  {tk:"SPCX", nm:"스페이스X", nmEn:"SpaceX", sent:"bear", desc:"멘션 154건·24h -39%, 상장 후 부진·오픈AI 연기설 연계", descEn:"154 mentions·-39% 24h, weak post-IPO; tied to OpenAI delay talk", posts:[
-    {ups:2100,t:"스페이스X 상장 후 부진이 '오픈AI IPO 연기설'의 빌미", tEn:"SpaceX's weak post-debut run cited in the 'OpenAI IPO delay' report"},
-    {ups:1150,t:"우주·AI 고밸류주 동반 조정 — 저점 어디?", tEn:"Space/AI high-valuation names correct together — where's the floor?"},
-    {ups:540,t:"채권 발행 후폭풍 vs 스타십 모멘텀 — 밸류 재평가", tEn:"Bond-issue overhang vs Starship momentum — re-rating thread"}]},
-  {tk:"MSTR", nm:"마이크로스트래티지", nmEn:"MicroStrategy", sent:"bear", desc:"멘션 137건·24h +18%, 비트코인 6만 달러 붕괴 직격", descEn:"137 mentions·+18% 24h, hit as Bitcoin breaks $60K", posts:[
-    {ups:880,t:"비트코인 6만 달러 붕괴(~$59,300) — MSTR 레버리지 직격", tEn:"Bitcoin breaks $60K (~$59,300) — MSTR's leverage takes the hit"},
-    {ups:420,t:"ETF 자금 이탈·AI주 순환매에 크립토 약세", tEn:"Crypto soft on ETF outflows and rotation into AI names"},
-    {ups:190,t:"NAV 프리미엄 축소 vs 추가 매집 — 의견 분분", tEn:"Shrinking NAV premium vs more accumulation — split views"}]},
-  {tk:"AAPL", nm:"애플", nmEn:"Apple", sent:"neu", desc:"멘션 136건·24h +656% 급증, 아이폰 가격 인상 화제", descEn:"136 mentions·+656% 24h spike, iPhone price-hike in focus", posts:[
-    {ups:560,t:"애플, 메모리값 상승에 아이폰 가격 인상 발표", tEn:"Apple raises iPhone prices on higher memory costs"},
-    {ups:280,t:"원가 부담 vs 가격 결정력 — 마진 영향 토론", tEn:"Cost pressure vs pricing power — margin-impact debate"},
-    {ups:120,t:"빅테크 조정 속 방어주 역할 점검", tEn:"Checking Apple's defensive role in the big-tech pullback"}]},
-  {tk:"BB", nm:"블랙베리", nmEn:"BlackBerry", sent:"neu", desc:"멘션 121건·24h +227% 급증, 밈·모멘텀 재점화", descEn:"121 mentions·+227% 24h spike, meme/momentum reignites", posts:[
-    {ups:520,t:"블랙베리 멘션 24h +227% — 밈 모멘텀 다시 붙나", tEn:"BlackBerry mentions +227% in 24h — is meme momentum back?"},
-    {ups:240,t:"QNX 자동차·IoT 소프트웨어 재평가 스레드", tEn:"Re-rating the QNX automotive/IoT software story"},
-    {ups:110,t:"숏 비중·거래량 점검 — 단기 스퀴즈 가능성", tEn:"Checking short interest/volume — near-term squeeze odds"}]},
-  {tk:"META", nm:"메타 플랫폼스", nmEn:"Meta Platforms", sent:"neu", desc:"멘션 97건·24h +98%, 빅테크 조정 속 상대적 선방", descEn:"97 mentions·+98% 24h, relatively resilient in the pullback", posts:[
-    {ups:300,t:"빅테크 매도 속 메타 상대적 선방 — 광고 캐시카우 재평가", tEn:"Meta holds up in the big-tech sell-off — ad cash-cow re-rating"},
-    {ups:160,t:"AI 캡엑스 부담 vs 광고 마진 — 장기 보유 근거", tEn:"AI capex drag vs ad margins — the long-hold case"},
-    {ups:80,t:"매파 연준에 성장주 흔들림 — 분할매수 의견", tEn:"Growth wobbles on a hawkish Fed — accumulate-on-dips view"}]}
+  {tk:"MU", nm:"마이크론 테크놀로지", nmEn:"Micron Technology", sent:"bull", desc:"멘션 179건·24h +43%, 반도체 반등에 저가 매수 유입", descEn:"179 mentions·+43% 24h, dip-buying as chips rebound", posts:[
+    {ups:820,t:"칩 매도 진정 — 마이크론 되돌림, 메모리주 동반 강세", tEn:"Chip rout calms — Micron snaps back, memory names rally together"},
+    {ups:470,t:"HBM·AI 메모리 수요 vs 데이터센터 캡엑스 우려 논쟁", tEn:"HBM/AI memory demand vs data-center capex worry — the debate"},
+    {ups:260,t:"SOX 조정권 탈출하나 — 다음 저항선 점검 스레드", tEn:"Is the SOX escaping correction? — next-resistance thread"}]},
+  {tk:"MSFT", nm:"마이크로소프트", nmEn:"Microsoft", sent:"bull", desc:"멘션 167건·24h +221% 급증, 빅테크 순환매 복귀", descEn:"167 mentions·+221% 24h, rotation back into big tech", posts:[
+    {ups:690,t:"빅테크 반등 — MSFT, AI 클라우드 재평가에 강세 복귀", tEn:"Big tech bounces — MSFT back in favor on AI-cloud re-rating"},
+    {ups:330,t:"하이퍼스케일러 캡엑스 부담 vs 애저 성장 — 장기 보유 근거", tEn:"Hyperscaler capex drag vs Azure growth — the long-hold case"},
+    {ups:150,t:"메모리값 상승發 원가 부담, 엑스박스 가격 인상 여파", tEn:"Higher memory costs and the Xbox price-hike fallout"}]},
+  {tk:"WEN", nm:"웬디스", nmEn:"Wendy's", sent:"bull", desc:"멘션 159건·24h +66%, '웬디스 구하자' 밈 열기 지속", descEn:"159 mentions·+66% 24h, the 'Save Wendy's' meme frenzy rolls on", posts:[
+    {ups:1015,t:"'웬디스를 구하라' — WSB 결집에 밈 랠리 재점화", tEn:"'Save Wendy's' — WSB piles in, the meme rally reignites"},
+    {ups:540,t:"공매도 비중 높은 숏스퀴즈 셋업 + 펠츠 인수설", tEn:"High short-interest squeeze setup + Peltz buyout chatter"},
+    {ups:280,t:"20년래 최저서 반등 — 밈 vs 가치함정 논쟁", tEn:"Bouncing off 20-year lows — meme rally vs value-trap debate"}]},
+  {tk:"UI", nm:"유비쿼티", nmEn:"Ubiquiti", sent:"bull", desc:"멘션 75건·24h +1,775% 폭증, 어닝 서프라이즈 급등", descEn:"75 mentions·+1,775% 24h spike on an earnings surprise", posts:[
+    {ups:793,t:"유비쿼티 멘션 24h +1,775% 폭증 — 실적 서프라이즈에 급등", tEn:"Ubiquiti mentions explode +1,775% in 24h on an earnings beat"},
+    {ups:410,t:"네트워킹 마진·자사주 매입 매력 vs 고밸류 부담", tEn:"Networking margins and buybacks vs a stretched valuation"},
+    {ups:190,t:"갑작스런 급등 — 추격 매수 vs 차익실현 토론", tEn:"Sudden pop — chase it or fade it? thread"}]},
+  {tk:"NVDA", nm:"엔비디아", nmEn:"Nvidia", sent:"bull", desc:"멘션 44건·24h -12%, 기술주 반등에 동반 상승", descEn:"44 mentions·-12% 24h, rose with the broader tech rebound", posts:[
+    {ups:415,t:"기술주 반등 — 엔비디아 +1.2%, 칩 투자심리 회복", tEn:"Tech rebounds — Nvidia +1.2% as chip sentiment recovers"},
+    {ups:220,t:"AI 캡엑스 둔화설 vs 데이터센터 수요 — 매수 논쟁", tEn:"AI-capex slowdown talk vs data-center demand — buy debate"},
+    {ups:120,t:"매파 연준發 금리는 고밸류 성장주 부담 요인", tEn:"Hawkish-Fed rates remain a weight on high-multiple growth"}]},
+  {tk:"SPCX", nm:"스페이스X", nmEn:"SpaceX", sent:"neu", desc:"멘션 37건·24h +16%, 상장 후 변동성·우주 테마", descEn:"37 mentions·+16% 24h, post-IPO volatility and space theme", posts:[
+    {ups:573,t:"스페이스X 상장 후 변동성 — 우주·AI 고밸류주 재평가", tEn:"SpaceX post-debut volatility — re-rating high-value space/AI names"},
+    {ups:300,t:"스타십 모멘텀 vs 채권 발행 후폭풍 — 밸류 논쟁", tEn:"Starship momentum vs bond-issue overhang — valuation debate"},
+    {ups:160,t:"위성·발사 수주 기대 vs 차익 매물 — 진입 타이밍", tEn:"Launch/satellite backlog hopes vs profit-taking — entry timing"}]},
+  {tk:"MSTR", nm:"마이크로스트래티지", nmEn:"MicroStrategy", sent:"bull", desc:"멘션 37건·24h +185% 급증, 비트코인 반등 베팅", descEn:"37 mentions·+185% 24h, betting on a Bitcoin rebound", posts:[
+    {ups:290,t:"비트코인 반등 베팅 — MSTR 레버리지 플레이 재유입", tEn:"Betting on a Bitcoin bounce — money back into the MSTR leverage play"},
+    {ups:160,t:"위험선호 회복에 크립토 동반 강세 — NAV 프리미엄 토론", tEn:"Crypto firms up on risk-on — NAV-premium thread"},
+    {ups:90,t:"추가 매집 vs 변동성 경계 — 의견 분분", tEn:"More accumulation vs volatility caution — split views"}]},
+  {tk:"SLS", nm:"셀라스 라이프사이언스", nmEn:"Sellas Life Sciences", sent:"bull", desc:"멘션 32건·24h +300% 급증, 바이오 임상 기대 스퀴즈", descEn:"32 mentions·+300% 24h, biotech catalyst squeeze", posts:[
+    {ups:180,t:"셀라스 멘션 24h +300% — 임상 기대에 소형 바이오 급등", tEn:"Sellas mentions +300% in 24h — small-cap biotech pops on trial hopes"},
+    {ups:95,t:"카탈리스트 일정·공매도 비중 점검 — 스퀴즈 가능성", tEn:"Checking the catalyst calendar and short interest — squeeze odds"},
+    {ups:40,t:"고위험 베팅 경계 — 자금 관리 토론", tEn:"High-risk bet caution — position-sizing thread"}]},
+  {tk:"SNDK", nm:"샌디스크", nmEn:"SanDisk", sent:"bull", desc:"멘션 30건·24h +36%, NAND 반등에 동반 강세", descEn:"30 mentions·+36% 24h, firmer with the NAND rebound", posts:[
+    {ups:390,t:"샌디스크 반등 — 마이크론 되돌림에 NAND 동반 강세", tEn:"SanDisk rebounds — NAND firms up alongside Micron's snap-back"},
+    {ups:200,t:"메모리 사이클 지속 기대 vs 급등 후 차익실현", tEn:"Memory-cycle-continues hopes vs profit-taking after the run"},
+    {ups:110,t:"AI 비용 공포 진정 — 메모리 트레이드 회복?", tEn:"AI-cost fear eases — is the memory trade recovering?"}]},
+  {tk:"ORCL", nm:"오라클", nmEn:"Oracle", sent:"bull", desc:"멘션 13건·24h +550% 급증, AI 클라우드 수주 기대", descEn:"13 mentions·+550% 24h, AI-cloud backlog optimism", posts:[
+    {ups:120,t:"오라클 멘션 24h +550% — AI 클라우드 수주 기대 재부각", tEn:"Oracle mentions +550% in 24h — renewed AI-cloud backlog optimism"},
+    {ups:70,t:"OCI 성장·대형 계약 vs 캡엑스 부담 — 밸류 토론", tEn:"OCI growth and mega-deals vs capex drag — valuation thread"},
+    {ups:33,t:"빅테크 반등 순환매 수혜 점검", tEn:"Checking Oracle's spot in the big-tech rebound rotation"}]}
 ];
 function renderReddit(){
   const map = {bull:["bull","강세","Bullish"], bear:["bear","약세","Bearish"], neu:["neu","중립","Neutral"]};
@@ -1422,17 +1719,26 @@ function layoutMain(){
   const order=cards.map(c=>c.n);
   const d=new Date(); const h=d.getHours(); const wknd=(d.getDay()===0||d.getDay()===6);
   const mode = usO ? 'usopen' : ((h>=6&&h<11)?'morning':'day');
-  if(summary) summary.style.display = wknd ? 'none' : '';   // 주말엔 '오늘의 시장 흐름' 숨김(금요일 종가에서 멈춰 의미 적음)
+  const isMon=(d.getDay()===1);
+  const wo=document.getElementById('sec-weekoutlook');
   if(usnews){ var _h3=usnews.querySelector('.chead h3'); if(_h3){ var _ko=_h3.querySelector('[data-lang="ko"]'), _en=_h3.querySelector('[data-lang="en"]'); if(_ko) _ko.textContent=wknd?'주말 브리핑':'모닝 브리핑'; if(_en) _en.textContent=wknd?'Weekend Briefing':'Morning Briefing'; } }
-  const sumArr = wknd ? [] : [summary];
+  function _show(el,on){ if(el) el.style.display=on?'':'none'; }
   let seq;
   if(wknd){
-    if(usnews) usnews.style.display='';
+    _show(usnews,true); _show(summary,false); _show(wo,false);
     seq=(usnews?[usnews]:[]).concat(order,[rates,live]);
+  } else if(isMon && mode==='morning'){
+    _show(wo,true); _show(usnews,false); _show(summary,false);
+    if(window.buildSumIdx) buildSumIdx();
+    seq=(wo?[wo]:[]).concat(order,[rates,live]);
+  } else if(mode==='morning'){
+    _show(usnews,true); _show(summary,true); _show(wo,false);
+    seq=(usnews?[usnews]:[]).concat([summary],order,[rates,live]);
+  } else {
+    _show(usnews,false); _show(summary,true); _show(wo,false);
+    seq = (mode==='usopen') ? [summary,live].concat(order,[rates]) : [summary].concat(order,[rates,live]);
   }
-  else if(mode==='morning'){ if(usnews) usnews.style.display=''; seq=(usnews?[usnews]:[]).concat(sumArr,order,[rates,live]); }
-  else { if(usnews) usnews.style.display='none';
-    seq = (mode==='usopen') ? sumArr.concat([live],order,[rates]) : sumArr.concat(order,[rates,live]); }
+  seq=seq.filter(Boolean);
   const cur=Array.from(dash.children).filter(c=>seq.indexOf(c)>=0);
   const same = cur.length===seq.length && cur.every((c,i)=>c===seq[i]);
   if(!same) seq.forEach(n=> dash.appendChild(n));
@@ -1463,6 +1769,9 @@ setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
 loadKR(); loadUSCard(); setInterval(loadKR, 300000); setInterval(loadUSCard, 300000);
+function buildSumIdx(box){ box=box||document.getElementById('sumIdx'); if(!box) return; function mini(sel,arr){ var tl=document.querySelector(sel); if(!tl) return ''; var ts=tl.querySelectorAll('.tile'); var h=''; arr.forEach(function(i){ var x=ts[i]; if(!x) return; var l=x.querySelector('.label'),v=x.querySelector('.val'),c=x.querySelector('.chg'); h+='<div class="idxp"><div class="idxp-l">'+(l?l.innerHTML:'')+'</div><div class="idxp-v">'+(v?v.textContent:'')+'</div><div class="'+(c?c.className.replace('chg','idxp-c'):'idxp-c')+'">'+(c?c.innerHTML:'')+'</div></div>'; }); return h; } box.innerHTML=mini('#sec-us .tiles',[0,1,2])+mini('#sec-kr .tiles',[0,1])+mini('#sec-cn .tiles',[0,1]); }
+window.buildSumIdx=buildSumIdx;
+(function(){ var sm=document.getElementById('sec-weekoutlook'); if(sm && !document.getElementById('sumIdxWrap')){ var w=document.createElement('div'); w.className='sum-idx-wrap on'; w.id='sumIdxWrap'; w.innerHTML='<div class="sum-idx-h"><span data-lang="ko">주요 지표</span><span data-lang="en">Key Indices</span></div><div class="sum-idx" id="sumIdx"></div>'; sm.appendChild(w); } buildSumIdx(); setTimeout(function(){buildSumIdx();},1600); })();
 if(typeof fillBriefConsensus==='function') fillBriefConsensus();
 setInterval(()=>{ if(afterHoursActive()) loadAfter(); }, 30*60*1000);
 
@@ -1476,7 +1785,7 @@ function setupCollapse(){
     const caret = document.createElement('span');
     caret.className = 'caret';
     head.appendChild(caret);
-    if(sec.id !== 'sec-ussurge') sec.classList.add('collapsed');
+    if(sec.id !== 'sec-ussurge' && sec.id !== 'sec-weekoutlook') sec.classList.add('collapsed');
     caret.textContent = sec.classList.contains('collapsed') ? '+' : '−';
     head.addEventListener('click', (e)=>{
       if(e.target.closest && e.target.closest('.ttsbtn')) return;
@@ -1491,8 +1800,7 @@ function setupCollapse(){
     const t = head ? head.querySelector('h3') : null;
     attach(sec, head, t ? t.textContent.trim() : ('sec'+i));
   });
-  const sum = document.querySelector('.summary');
-  if(sum) attach(sum, sum.querySelector('h2'), 'summary');
+  document.querySelectorAll('.summary').forEach(function(sm){ attach(sm, sm.querySelector('h2'), 'summary_'+(sm.id||'')); });
 }
 setupCollapse();
 (function inlineIndex(){
@@ -1626,6 +1934,8 @@ initSurgeFlags();
   links.forEach(a=> a.addEventListener('click', e=>{
     e.preventDefault();
     if(a.dataset.surge){ if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); return; }
+    if(a.dataset.expert){ if(window.showExpert) showExpert(); return; }
+    if(a.dataset.mystocks){ if(window.showMyStocks) showMyStocks(); return; }
     if(a.dataset.brief){ if(window.showBriefing) showBriefing(); return; }
     const el = document.getElementById(a.getAttribute('href').slice(1));
     if(!el) return;
@@ -1677,12 +1987,15 @@ initSurgeFlags();
     try { localStorage.setItem('gmd_theme', isLight ? 'dark':'light'); } catch(e){}
     syncTheme();
   });
-  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView') };
-  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ if(_cp.parentElement!==document.body) document.body.appendChild(_cp); _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
+  const views = { dash: document.getElementById('dashboardView'), comm: document.getElementById('communityView'), cal: document.getElementById('calendarView'), surge: document.getElementById('surgeView'), brief: document.getElementById('briefingView'), expert: document.getElementById('expertView'), weekoutlook: document.getElementById('weekOutlookView'), mystocks: document.getElementById('myStocksView') };
+  function showView(name){ window.__view = name; try{ sessionStorage.setItem('gmd_view', name); }catch(e){} for(const k in views){ if(views[k]) views[k].style.display = (k===name) ? 'block' : 'none'; } var _cp=document.getElementById('cnsPanel'); if(_cp){ var _sv=document.getElementById('surgeView'); if(window.innerWidth>=900){ if(_sv && _cp.parentElement!==_sv) _sv.appendChild(_cp); } else { if(_cp.parentElement!==document.body) document.body.appendChild(_cp); } _cp.classList.toggle('show', name==='surge'); } window.scrollTo(0,0); }
   window.showDashboard = ()=> showView('dash');
   window.showCommunity = ()=> showView('comm');
-  window.showCalendar  = ()=> showView('cal');
+  window.showCalendar  = ()=>{ showView('cal'); var cv=document.getElementById('calendarView'); if(cv){ var ss=cv.querySelectorAll('.country.collapsed, .live.collapsed'); for(var i=0;i<ss.length;i++){ ss[i].classList.remove('collapsed'); var c=ss[i].querySelector('.caret'); if(c) c.textContent='−'; } } };
   window.showSurge     = ()=>{ if(typeof layoutSurge==='function') layoutSurge(); if(typeof applySurgeFilter==='function') applySurgeFilter(); showView('surge'); };
+  window.showExpert    = ()=>{ if(window.loadSurge) loadSurge(); if(window.exRenderRecent) exRenderRecent(); if(window.buildExpertToday) buildExpertToday(); showView('expert'); setTimeout(function(){ if(window.buildExpertToday) buildExpertToday(); }, 1400); };
+  window.showMyStocks  = ()=>{ if(window.myRenderPresets) myRenderPresets(); if(window.myRender) myRender(); showView('mystocks'); };
+  window.showWeekOutlook = ()=>{ var src=document.getElementById('sec-weekoutlook'), bb=document.getElementById('weekOutlookBody'); if(src&&bb){ bb.innerHTML=src.outerHTML; var sec=bb.querySelector('section'); if(sec){ sec.removeAttribute('id'); sec.style.display=''; sec.classList.remove('collapsed'); var cr=sec.querySelector('.caret'); if(cr) cr.remove(); var hh=sec.querySelector('h2'); if(hh) hh.classList.remove('collapsible'); } if(window.buildSumIdx){ var si=bb.querySelector('.sum-idx'); if(si){ si.id=''; buildSumIdx(si); } } } showView('weekoutlook'); };
   window.showBriefing  = ()=>{
     const bb=document.getElementById('briefBody'), src=document.getElementById('sec-usnews');
     if(bb&&src){
@@ -1723,6 +2036,9 @@ initSurgeFlags();
     if(_v==='comm' && window.showCommunity) showCommunity();
     else if(_v==='cal' && window.showCalendar) showCalendar();
     else if(_v==='surge' && window.showSurge){ showSurge(); if(window.loadSurge) loadSurge(); }
+    else if(_v==='expert' && window.showExpert){ showExpert(); }
+    else if(_v==='weekoutlook' && window.showWeekOutlook){ showWeekOutlook(); }
+    else if(_v==='mystocks' && window.showMyStocks){ showMyStocks(); }
     else if(_v==='brief' && window.showBriefing) showBriefing();
   } }catch(e){}
   const goComm = document.getElementById('goCommunity');
@@ -1734,6 +2050,10 @@ initSurgeFlags();
   if(menuLogo) menuLogo.addEventListener('click', goHomeFn);
   const goSurge = document.getElementById('goSurge');
   if(goSurge) goSurge.addEventListener('click', ()=>{ closeMenu(); if(window.showSurge) showSurge(); if(window.loadSurge) loadSurge(); });
+  const goExpert = document.getElementById('goExpert');
+  if(goExpert) goExpert.addEventListener('click', ()=>{ closeMenu(); if(window.showExpert) showExpert(); });
+  const goWeekOutlook = document.getElementById('goWeekOutlook');
+  if(goWeekOutlook) goWeekOutlook.addEventListener('click', ()=>{ closeMenu(); if(window.showWeekOutlook) showWeekOutlook(); });
   const goBrief = document.getElementById('goBriefing');
   if(goBrief) goBrief.addEventListener('click', ()=>{ closeMenu(); if(window.showBriefing) showBriefing(); });
   const goCal = document.getElementById('goCalendar');
@@ -1771,9 +2091,10 @@ initSurgeFlags();
   let isEN = false;
   try { isEN = localStorage.getItem('gmd_lang') === 'en'; } catch(e){}
   const SINGLE = [
-    ['.topnav a[href="#sec-summary"]','Summary'], ['.topnav a[href="#sec-us"]','US'],
+    ['.topnav a[href="#sec-us"]','US'],
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
+    ['.topnav a[data-expert]','Experts'],
     ['#goHome .ddt','Home'], ['#goBriefing .ddt','Morning Briefing'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goSurge .ddt','Top Movers'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
