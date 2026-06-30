@@ -306,7 +306,7 @@ html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
   .rd-post{grid-template-columns:46px 1fr; gap:7px; font-size:12px;}
 }
 #sec-us > .chead h3, #sec-kr > .chead h3, #sec-cn > .chead h3{font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink);}
-.topnav .brandlogo{margin-left:14px; display:flex; align-items:center; padding-left:8px; cursor:pointer;}
+.topnav .brandlogo{margin-left:auto; display:flex; align-items:center; padding-left:8px; cursor:pointer;}
 .topnav .brandlogo img{display:none; width:auto;}
 .topnav .brandlogo .logo-wide{height:30px;}
 .topnav .brandlogo .logo-mark{height:26px;}
@@ -369,7 +369,6 @@ html.is-android .briefbar{display:flex;}
 #surgeView{padding-bottom:176px;}
 #expertView{padding-bottom:60px;}
 #myStocksView{padding-bottom:60px;}
-.navmy{margin-left:auto; flex:none;}
 .my-sitem{display:flex; align-items:baseline; gap:10px; padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--hair);}
 .my-sitem:last-child{border-bottom:none;}
 .my-sitem:active,.my-sitem:hover{background:var(--hair2);}
@@ -510,8 +509,8 @@ html.is-android .briefbar{display:flex;}
     <a href="#sec-kr">한국</a>
         <a href="#surge" data-surge="1">급상승</a>
         <a href="#expert" data-expert="1">전문가</a>
+        <a href="#mystocks" data-mystocks="1">내 주식</a>
   </div>
-  <a href="#mystocks" data-mystocks="1" class="navmy">내 주식</a>
   
   <span class="brandlogo" id="brandLogo" role="button" tabindex="0" title="홈" aria-label="Market Daily — 홈">
     <img class="logo-wide logo-l" src="logo-horizontal-light.png?v=6" alt="Market Daily">
@@ -887,7 +886,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.43</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.431</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
