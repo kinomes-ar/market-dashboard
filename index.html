@@ -403,7 +403,17 @@ html.is-android .briefbar{display:flex;}
 .ex-chips{display:flex; flex-wrap:wrap; gap:7px;}
 .ex-chip{background:transparent; border:1px solid var(--hair2); border-radius:999px; padding:6px 13px; font-size:12.5px; color:var(--sec); cursor:pointer;}
 .ex-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
-.ex-card{border:1px solid var(--hair); border-radius:14px; padding:18px 16px; background:var(--surf);}
+.ex-card{border:1px solid var(--hair); border-radius:14px; padding:18px 16px; background:var(--surf); position:relative;}
+.ex-card > .ex-name{padding-right:26px;}
+.my-detail-close{position:absolute; top:13px; right:14px; background:none; border:none; font-size:15px; color:var(--sec); cursor:pointer; line-height:1; padding:4px;}
+.my-detail-close:hover{color:var(--ink);}
+.my-total{margin-top:22px;}
+.my-total-h{font-size:13px; font-weight:600; color:var(--ink2); margin-bottom:10px;}
+.my-total-card{border:1px solid var(--hair); border-radius:12px; padding:14px 16px; background:var(--surf); margin-bottom:8px;}
+.my-total-row{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-size:14px;}
+.my-total-k{color:var(--sec);}
+.my-total-v{color:var(--ink2); font-weight:700;}
+.my-total-hint{font-size:12.5px; color:var(--sec); line-height:1.5; padding:6px 0;}
 .ex-name{font-size:17px; font-weight:700; color:var(--ink); margin-bottom:3px;}
 .ex-sub{font-size:11.5px; color:var(--sec); margin-bottom:18px;}
 .ex-spread{display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; margin-left:6px; vertical-align:middle;}
@@ -870,6 +880,7 @@ html.is-android .briefbar{display:flex;}
     <div class="my-presets" id="myPresets"></div>
     <div id="myList" class="my-list"></div>
     <div id="myDetail" class="ex-detail"></div>
+    <div id="myTotal" class="my-total"></div>
   </div>
   <div id="weekOutlookView" style="display:none">
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
@@ -880,7 +891,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.435</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.44</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1374,9 +1385,10 @@ function exNewsBody(items){
   if(!items.length) return '<div class="cns-none">'+L('관련 뉴스를 찾지 못했어요','No related news found')+'</div>';
   return '<div class="ex-news">'+items.map(function(n){ var meta=[n.source, exFmtWhen(n)].filter(Boolean).join(' · '); var ti=String(n.title).replace(/</g,'&lt;'); return '<a class="ex-nitem" href="'+n.url+'" target="_blank" rel="noopener noreferrer"><div class="ex-ntitle">'+ti+'</div><div class="ex-nmeta">'+meta+'</div></a>'; }).join('')+'</div>';
 }
-function exCardHTML(info, q, d, cur){
+function exCardHTML(info, q, d, cur, withClose){
   var spHTML=''; if(d && !d.none && d.rating!=null){ var sp=exSpread(d); if(sp) spHTML=' <span class="ex-spread '+sp.cls+'">'+L(sp.ko,sp.en)+'</span>'; }
   var h='<div class="ex-card" data-sym="'+info.sym+'" data-kr="'+(info.kr?1:0)+'" data-label="'+String(info.label).replace(/"/g,'')+'">';
+  if(withClose) h+='<button class="my-detail-close" aria-label="닫기">✕</button>';
   h+='<div class="ex-name">'+info.label+spHTML+'</div>';
   h+='<div class="ex-tabs"><button class="ex-tab" data-extab="ov">'+L('개요','Overview')+'</button><button class="ex-tab on" data-extab="cns">'+L('전문가의견','Analyst')+'</button><button class="ex-tab" data-extab="news">'+L('관련뉴스','News')+'</button></div>';
   h+='<div class="ex-pane" data-pane="ov" style="display:none">'+exOvBody(info,q)+'</div>';
@@ -1394,7 +1406,7 @@ function exLoadNews(card){
 }
 window.exLoadNews=exLoadNews;
 document.addEventListener('click', function(e){ var tb=e.target.closest?e.target.closest('.ex-tab'):null; if(!tb) return; var card=tb.closest('.ex-card'); if(!card) return; var tt=tb.getAttribute('data-extab'); var tabs=card.querySelectorAll('.ex-tab'); for(var i=0;i<tabs.length;i++) tabs[i].classList.toggle('on', tabs[i]===tb); var panes=card.querySelectorAll('.ex-pane'); for(var j=0;j<panes.length;j++){ panes[j].style.display=(panes[j].getAttribute('data-pane')===tt)?'':'none'; } if(tt==='news') exLoadNews(card); });
-function loadStockCard(info, box, addRecent){
+function loadStockCard(info, box, addRecent, withClose){
   if(!info||!info.sym||!box) return; window.__exSym=info.sym;
   box.innerHTML='<div class="ex-card"><div class="ex-name">'+info.label+'</div><div class="cns-none">'+L('불러오는 중이에요…','Loading…')+'</div></div>';
   var pxUrl=info.kr?(KR_PROXY+'?stocks='+encodeURIComponent(info.sym)):(QUOTES_PROXY+'?symbols='+encodeURIComponent(info.sym));
@@ -1405,7 +1417,7 @@ function loadStockCard(info, box, addRecent){
     var d=res[0],qall=res[1],q=null,cur=null;
     if(qall){ if(info.kr){ q=qall.stocks&&qall.stocks[0]; } else { q=qall.quotes&&qall.quotes[0]; } }
     if(q){ cur=q.price; if(info.kr && q.name) info.label=q.name+' ('+info.sym+')'; }
-    box.innerHTML=exCardHTML(info, q, d, cur);
+    box.innerHTML=exCardHTML(info, q, d, cur, withClose);
     if(addRecent && window.exAddRecent) exAddRecent(info);
   });
 }
@@ -1429,16 +1441,17 @@ window.myEditBuy=myEditBuy;
 function myFetchPrices(a){
   var us=a.filter(function(x){return !x.kr;}).map(function(x){return x.sym;});
   var kr=a.filter(function(x){return x.kr;}).map(function(x){return x.sym;});
+  window.__myPx=window.__myPx||{};
   a.forEach(function(it){ mySetRet(it, null, it.kr?'KRW':'USD'); });
-  if(us.length){ fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(us.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.quotes) return; var m={}; j.quotes.forEach(function(q){ m[q.symbol]=q; }); a.filter(function(x){return !x.kr;}).forEach(function(it){ var q=m[it.sym]; var cur=(q&&q.currency)||'USD'; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, cur); mySetRet(it, q?q.price:null, cur); }); }).catch(function(){}); }
-  if(kr.length){ fetch(KR_PROXY+'?stocks='+encodeURIComponent(kr.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.stocks) return; var m={}; j.stocks.forEach(function(q){ m[q.code]=q; }); a.filter(function(x){return x.kr;}).forEach(function(it){ var q=m[it.sym]; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, 'KRW'); mySetRet(it, q?q.price:null, 'KRW'); }); }).catch(function(){}); }
+  if(us.length){ fetch(QUOTES_PROXY+'?symbols='+encodeURIComponent(us.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.quotes) return; var m={}; j.quotes.forEach(function(q){ m[q.symbol]=q; }); a.filter(function(x){return !x.kr;}).forEach(function(it){ var q=m[it.sym]; var cur=(q&&q.currency)||'USD'; if(q&&q.price!=null) window.__myPx[it.sym]={price:q.price,cur:cur}; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, cur); mySetRet(it, q?q.price:null, cur); }); if(window.myRenderTotal) myRenderTotal(); }).catch(function(){}); }
+  if(kr.length){ fetch(KR_PROXY+'?stocks='+encodeURIComponent(kr.join(','))).then(function(r){return r.ok?r.json():null;}).then(function(j){ if(!j||!j.stocks) return; var m={}; j.stocks.forEach(function(q){ m[q.code]=q; }); a.filter(function(x){return x.kr;}).forEach(function(it){ var q=m[it.sym]; if(q&&q.price!=null) window.__myPx[it.sym]={price:q.price,cur:'KRW'}; mySetPx(it.sym, q?q.price:null, q?q.changePct:null, 'KRW'); mySetRet(it, q?q.price:null, 'KRW'); }); if(window.myRenderTotal) myRenderTotal(); }).catch(function(){}); }
 }
 function myRender(){
   var list=document.getElementById('myList'); if(!list) return;
   var a=myGet();
   if(!a.length){ list.innerHTML='<div class="my-empty">'+L('아직 추가한 종목이 없어요. 위에서 검색하거나 지수를 추가하세요.','No stocks yet — search above or add an index.')+'</div>'; return; }
   list.innerHTML=a.map(function(x){ var lab=String(x.label||x.sym).replace(/"/g,''); return '<div class="my-row" data-sym="'+x.sym+'" data-kr="'+(x.kr?1:0)+'" data-label="'+lab+'"><div class="my-top"><div class="my-nm"><span class="my-nmt">'+lab+'</span><span class="my-sym">'+String(x.sym).replace(/"/g,'')+'</span></div><div class="my-px" id="'+myPxId(x.sym)+'">—</div><button class="my-x" data-mysym="'+x.sym+'" aria-label="remove">×</button></div><div class="my-bot" id="'+myRetId(x.sym)+'"></div></div>'; }).join('');
-  myFetchPrices(a);
+  myFetchPrices(a); if(window.myRenderTotal) myRenderTotal();
 }
 function myRenderPresets(){ var box=document.getElementById('myPresets'); if(!box) return; var P=[['^GSPC','S&P 500'],['^IXIC','나스닥'],['^DJI','다우'],['^KS11','코스피'],['^KQ11','코스닥'],['000001.SS','상하이종합']]; box.innerHTML=P.map(function(p){ return '<button class="my-preset" data-add-sym="'+p[0]+'" data-add-label="'+p[1]+'">+ '+p[1]+'</button>'; }).join(''); }
 window.myRender=myRender; window.myRenderPresets=myRenderPresets; window.myAdd=myAdd; window.myRemove=myRemove; window.myFetchPrices=myFetchPrices;
@@ -1448,7 +1461,8 @@ document.addEventListener('click', function(e){
   var si=e.target.closest?e.target.closest('.my-sitem'):null; if(si){ myAdd({sym:si.getAttribute('data-msym'),label:si.getAttribute('data-mlabel'),kr:si.getAttribute('data-mkr')==='1'}); var o=document.getElementById('mySearchOut'); if(o){ o.className='ex-sout'; o.innerHTML=''; } var mi=document.getElementById('mySearch'); if(mi) mi.value=''; return; }
   var bb=e.target.closest?e.target.closest('.my-buybtn'):null; if(bb){ e.stopPropagation(); if(window.myEditBuy) myEditBuy(bb.getAttribute('data-buy-sym')); return; }
   var rx=e.target.closest?e.target.closest('.my-x'):null; if(rx){ e.stopPropagation(); myRemove(rx.getAttribute('data-mysym')); return; }
-  var row=e.target.closest?e.target.closest('.my-row'):null; if(row){ var rows=document.querySelectorAll('#myList .my-row'); for(var i=0;i<rows.length;i++) rows[i].classList.remove('sel'); row.classList.add('sel'); if(window.loadStockCard) loadStockCard({sym:row.getAttribute('data-sym'),label:row.getAttribute('data-label'),kr:row.getAttribute('data-kr')==='1'}, document.getElementById('myDetail'), false); var md=document.getElementById('myDetail'); if(md) md.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  var dc=e.target.closest?e.target.closest('.my-detail-close'):null; if(dc){ var md0=document.getElementById('myDetail'); if(md0) md0.innerHTML=''; var sr=document.querySelectorAll('#myList .my-row.sel'); for(var i9=0;i9<sr.length;i9++) sr[i9].classList.remove('sel'); return; }
+  var row=e.target.closest?e.target.closest('.my-row'):null; if(row){ var rows=document.querySelectorAll('#myList .my-row'); for(var i=0;i<rows.length;i++) rows[i].classList.remove('sel'); row.classList.add('sel'); if(window.loadStockCard) loadStockCard({sym:row.getAttribute('data-sym'),label:row.getAttribute('data-label'),kr:row.getAttribute('data-kr')==='1'}, document.getElementById('myDetail'), false, true); var md=document.getElementById('myDetail'); if(md) md.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 });
 function resolveCode6(code, cb){
   fetch(KR_PROXY+'?stocks='+encodeURIComponent(code)).then(function(r){return r.ok?r.json():null;}).then(function(j){
@@ -1461,12 +1475,24 @@ function resolveCode6(code, cb){
   }).catch(function(){ cb(null); });
 }
 window.resolveCode6=resolveCode6;
+function myRenderTotal(){
+  var box=document.getElementById('myTotal'); if(!box) return;
+  window.__myPx=window.__myPx||{};
+  var a=myGet(); var g={};
+  a.forEach(function(it){ if(it.buy==null||it.qty==null) return; var px=window.__myPx[it.sym]; if(!px||px.price==null) return; var cur=px.cur||(it.kr?'KRW':'USD'); g[cur]=g[cur]||{inv:0,val:0}; g[cur].inv+=it.buy*it.qty; g[cur].val+=px.price*it.qty; });
+  var curs=Object.keys(g);
+  if(!curs.length){ box.innerHTML='<div class="my-total-hint">'+L('각 종목에 매입가와 수량을 입력하면 총 투자금액·손익이 여기 표시돼요','Enter cost and quantity per stock to see your total here')+'</div>'; return; }
+  var h='<div class="my-total-h">'+L('내 투자 내역','My Portfolio')+'</div>';
+  curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
+  box.innerHTML=h;
+}
+window.myRenderTotal=myRenderTotal;
 (function mySearchInit(){ var inp=document.getElementById('mySearch'), btn=document.getElementById('mySearchBtn'), out=document.getElementById('mySearchOut'); if(!inp) return; var tmr=null,lastList=[];
   function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } }
   function note(msg){ if(out){ out.className='ex-sout on'; out.innerHTML='<div class="ex-snote">'+msg+'</div>'; } }
   function doSearch(q, cb){ exSearchRemote(q, function(list){ cb((list||[]).filter(function(x){ return x.sym && (x.sym.indexOf('.')<0 || /\.(SS|SZ)$/i.test(x.sym)); })); }); }
   function render(list){ lastList=list; if(!list.length) note(L('검색 결과가 없어요 — 티커(MSFT)나 6자리 코드(005930)로 입력해보세요','No results — try a ticker or 6-digit code')); else renderMySearch(list); }
-  inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); lastList=[]; if(q.length<1){ hide(); return; } note(L('검색 중…','Searching…')); tmr=setTimeout(function(){ doSearch(q, function(list){ if(inp.value.trim()!==q) return; render(list); }); }, 220); });
+  inp.addEventListener('input', function(){ var q=inp.value.trim(); if(tmr) clearTimeout(tmr); lastList=[]; if(q.length<1){ hide(); return; } note(L('검색 중…','Searching…')); tmr=setTimeout(function(){ if(/^[0-9]{6}$/.test(q)){ resolveCode6(q, function(info){ if(inp.value.trim()!==q) return; if(info){ lastList=[{sym:info.sym,name:info.label,kr:info.kr}]; renderMySearch(lastList); } else { note(L('해당 코드의 종목을 찾지 못했어요','No stock for that code')); } }); return; } doSearch(q, function(list){ if(inp.value.trim()!==q) return; render(list); }); }, 220); });
   function go(){ var q=inp.value.trim(); if(!q) return; if(lastList.length){ var x=lastList[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); return; } if(/^[0-9]{6}$/.test(q)){ note(L('검색 중…','Searching…')); resolveCode6(q, function(info){ if(info){ myAdd(info); inp.value=''; lastList=[]; hide(); } else { note(L('해당 코드의 종목을 찾지 못했어요','No stock found for that code')); } }); return; } note(L('검색 중…','Searching…')); doSearch(q, function(list){ if(list.length){ var x=list[0]; myAdd({sym:x.sym,label:x.name,kr:x.kr}); inp.value=''; lastList=[]; hide(); } else if(/^[A-Za-z.\-]{1,6}$/.test(q)){ myAdd({sym:q.toUpperCase(),label:q.toUpperCase(),kr:false}); inp.value=''; hide(); } else { note(L('결과가 없어요 — 티커(MSFT)나 6자리 코드로 입력해보세요','No match — try a ticker or 6-digit code')); } }); }
   inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go(); } });
   if(btn) btn.addEventListener('click', go);
