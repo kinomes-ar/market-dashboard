@@ -369,6 +369,8 @@ html.is-android .briefbar{display:flex;}
 #surgeView{padding-bottom:176px;}
 #expertView{padding-bottom:60px;}
 #myStocksView{padding-bottom:60px;}
+.my-privacy{font-size:12px; color:var(--sec); background:var(--surf); border:1px solid var(--hair); border-radius:9px; padding:10px 13px; margin:-4px 0 18px; line-height:1.55;}
+.my-privacy b{color:var(--ink2); font-weight:600;}
 .my-sitem{display:flex; align-items:baseline; gap:10px; padding:10px 13px; cursor:pointer; border-bottom:1px solid var(--hair);}
 .my-sitem:last-child{border-bottom:none;}
 .my-sitem:active,.my-sitem:hover{background:var(--hair2);}
@@ -881,6 +883,7 @@ html.is-android .briefbar{display:flex;}
     <div class="cback"><a href="#" class="backDash"><svg class="bicon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 8h-9M7 4.5 3.5 8 7 11.5"/></svg><span data-lang="ko">대시보드로</span><span data-lang="en">Back to dashboard</span></a></div>
     <h1 style="margin:4px 0 8px"><span data-lang="ko">내 주식</span><span data-lang="en">My Stocks</span></h1>
     <p class="ex-lead"><span data-lang="ko">관심 종목·지수를 추가해 실시간 가격과 전문가 의견·관련 뉴스를 한 곳에서 보세요.</span><span data-lang="en">Track stocks/indices with live price, analyst view and news.</span></p>
+    <div class="my-privacy"><span data-lang="ko">🔒 추가한 종목·매입가는 <b>이 기기 브라우저에만</b> 저장돼요. 서버로 전송되지 않아 누구도 볼 수 없어요.</span><span data-lang="en">🔒 Your stocks and cost basis are stored <b>only in this browser</b> — never sent to any server, visible to no one.</span></div>
     <div class="ex-search"><input id="mySearch" type="text" autocomplete="off" placeholder="마이크로소프트 · MSFT · 005930" /><button id="mySearchBtn"><span data-lang="ko">추가</span><span data-lang="en">Add</span></button></div>
     <div id="mySearchOut" class="ex-sout"></div>
     <div class="my-presets" id="myPresets"></div>
@@ -897,7 +900,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.445</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.446</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
