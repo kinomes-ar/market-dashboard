@@ -409,6 +409,7 @@ html.is-android .briefbar{display:flex;}
 .my-detail-close:hover{color:var(--ink);}
 .my-total{margin-top:24px;}
 .my-total-h{font-size:14px; font-weight:700; color:var(--ink); margin-bottom:10px;}
+.my-total-cur{font-size:12px; font-weight:600; color:var(--sec); margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--hair);}
 .my-total-card{border:1px solid var(--hair); border-radius:12px; padding:14px 16px; background:var(--surf); margin-bottom:8px;}
 .my-total-row{display:flex; justify-content:space-between; gap:12px; padding:6px 0; font-size:14px;}
 .my-total-k{color:var(--sec);}
@@ -896,7 +897,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.444</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.445</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1438,6 +1439,7 @@ function myRemove(sym){ mySet(myGet().filter(function(x){return x.sym!==sym;}));
 function myPxId(sym){ return 'mypx-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
 function myRetId(sym){ return 'myret-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
 function curSym(c){ c=(c||'').toUpperCase(); return c==='KRW'?'₩':c==='CNY'?'¥':c==='HKD'?'HK$':c==='JPY'?'¥':'$'; }
+function curName(c){ c=(c||'').toUpperCase(); return c==='KRW'?'원화 · KRW':c==='USD'?'미국 달러 · USD':c==='CNY'?'중국 위안 · CNY':c==='HKD'?'홍콩 달러 · HKD':c==='JPY'?'일본 엔 · JPY':c; }
 function myFmt(v,cur){ var c=(cur||'').toUpperCase(); var dec=(c==='KRW')?{maximumFractionDigits:0}:{minimumFractionDigits:2,maximumFractionDigits:2}; return curSym(c)+Number(v).toLocaleString('en-US',dec); }
 function mySetPx(sym,price,chg,cur){ var el=document.getElementById(myPxId(sym)); if(!el) return; if(price==null){ el.textContent='—'; return; } var c=(chg!=null)?'<span class="my-chg '+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':''; el.innerHTML=myFmt(price,cur)+c; }
 function mySetRet(item,price,cur){ cur=cur||(item.kr?'KRW':'USD'); var el=document.getElementById(myRetId(item.sym)); if(!el) return; if(item.buy==null){ el.innerHTML='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('+ 매입가 입력','+ Add cost')+'</button>'; return; } var ret=(price!=null)?((price-item.buy)/item.buy*100):null; var pl=(price!=null&&item.qty)?((price-item.buy)*item.qty):null; var cls=(ret!=null&&ret>=0)?'up':'down'; var h='<span class="my-cost">'+L('매입','Cost')+' '+myFmt(item.buy,cur)+(item.qty?' ×'+item.qty:'')+'</span>'; if(ret!=null) h+='<span class="my-ret '+cls+'">'+(ret>=0?'+':'')+ret.toFixed(2)+'%'+(pl!=null?' ('+(pl>=0?'+':'')+myFmt(pl,cur)+')':'')+'</span>'; h+='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('수정','Edit')+'</button>'; el.innerHTML=h; }
@@ -1488,7 +1490,7 @@ function myRenderTotal(){
   var curs=Object.keys(g);
   if(!curs.length){ box.innerHTML='<div class="my-total-hint">'+L('각 종목에 매입가와 수량을 입력하면 총 투자금액·손익이 여기 표시돼요','Enter cost and quantity per stock to see your total here')+'</div>'; return; }
   var h='<div class="my-total-h">'+L('내 투자 내역','My Portfolio')+'</div>';
-  curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row my-total-pl"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
+  curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-cur">'+curName(cur)+'</div><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row my-total-pl"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
   box.innerHTML=h;
 }
 window.myRenderTotal=myRenderTotal;
