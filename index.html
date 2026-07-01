@@ -407,13 +407,16 @@ html.is-android .briefbar{display:flex;}
 .ex-card > .ex-name{padding-right:26px;}
 .my-detail-close{position:absolute; top:13px; right:14px; background:none; border:none; font-size:15px; color:var(--sec); cursor:pointer; line-height:1; padding:4px;}
 .my-detail-close:hover{color:var(--ink);}
-.my-total{margin-top:22px;}
-.my-total-h{font-size:13px; font-weight:600; color:var(--ink2); margin-bottom:10px;}
-.my-total-card{border:1px solid var(--hair); border-radius:12px; padding:14px 16px; background:var(--surf); margin-bottom:8px;}
-.my-total-row{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-size:14px;}
+.my-total{margin-top:26px;}
+.my-total-h{font-size:16px; font-weight:700; color:var(--ink); margin-bottom:12px;}
+.my-total-card{border:1px solid var(--hair); border-radius:14px; padding:20px 20px; background:var(--surf); margin-bottom:10px;}
+.my-total-row{display:flex; justify-content:space-between; gap:14px; padding:9px 0; font-size:16.5px;}
 .my-total-k{color:var(--sec);}
 .my-total-v{color:var(--ink2); font-weight:700;}
-.my-total-hint{font-size:12.5px; color:var(--sec); line-height:1.5; padding:6px 0;}
+.my-total-pl{border-top:1px solid var(--hair); margin-top:6px; padding-top:14px;}
+.my-total-pl .my-total-k{font-weight:600; color:var(--ink2);}
+.my-total-pl .my-total-v{font-size:19px;}
+.my-total-hint{font-size:14px; color:var(--sec); line-height:1.6; padding:8px 0;}
 .ex-name{font-size:17px; font-weight:700; color:var(--ink); margin-bottom:3px;}
 .ex-sub{font-size:11.5px; color:var(--sec); margin-bottom:18px;}
 .ex-spread{display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; margin-left:6px; vertical-align:middle;}
@@ -891,7 +894,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.441</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.442</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1483,7 +1486,7 @@ function myRenderTotal(){
   var curs=Object.keys(g);
   if(!curs.length){ box.innerHTML='<div class="my-total-hint">'+L('각 종목에 매입가와 수량을 입력하면 총 투자금액·손익이 여기 표시돼요','Enter cost and quantity per stock to see your total here')+'</div>'; return; }
   var h='<div class="my-total-h">'+L('내 투자 내역','My Portfolio')+'</div>';
-  curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
+  curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row my-total-pl"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
   box.innerHTML=h;
 }
 window.myRenderTotal=myRenderTotal;
