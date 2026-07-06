@@ -664,7 +664,7 @@ html.is-android .briefbar{display:flex;}
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
-      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="kr">—</b> · <span class="tzname">현지</span></div>
+      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="kr" data-iso="2026-07-03T07:05:00Z">—</b> · <span class="tzname">현지</span></div>
       <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">코스피 +5.76% 급반등 · 매수 사이드카 발동</span><span data-lang="en">KOSPI rebounds +5.76% · buy sidecar triggered</span></span></h4>
       <ul data-lang="ko">
         <li><b>코스피 +5.76%(8,088.34) 급반등 — 메타 쇼크 폭락 하루 만에 8,000선 회복.</b> +1.20%(7,739.75)로 출발한 뒤 장중 <b>7,378.10까지 밀리며 7,400선이 무너지는 롤러코스터</b>를 거쳐 오후 급등, 고점 8,136.28을 찍고 마감. 급등에 <b>매수 사이드카(올해 16번째)</b>가 발동됐다.</li>
@@ -716,7 +716,7 @@ html.is-android .briefbar{display:flex;}
     <div class="body">
       <div class="ctabs"><button class="ctab active" data-tab="issue">주요 이슈</button><button class="ctab" data-tab="morning">오전 동향</button></div>
       <div class="pane issue">
-      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="cn">—</b> · <span class="tzname">현지</span></div>
+      <div class="morning-meta"><span data-lang="ko">핵심 이슈 업데이트</span><span data-lang="en">Key Issues updated</span> <b class="iupd" data-mkt="cn" data-iso="2026-07-03T07:26:00Z">—</b> · <span class="tzname">현지</span></div>
       <h4><span data-lang="ko">핵심 이슈</span><span data-lang="en">Key Issues</span> <span class="signal s-pos"><span data-lang="ko">급락 하루 만에 반등 마감 · 로봇주 급등</span><span data-lang="en">Rebound a day after the rout · robotics surge</span></span></h4>
       <ul data-lang="ko">
         <li><b>급락 하루 만에 반등 마감 — 다만 오후 들어 상승폭 축소.</b> <b>상하이종합 +0.37%(4,043.64)</b>·<b>선전성분 +0.64%(15,597.51)</b>. 오전 한때 +0.7~1.4%까지 올랐던 지수가 오후에 상승분을 일부 반납하며 전일 급락(-2.03%/-3.85%)의 일부만 회복했다. 전일 4월 이후 최대 낙폭을 기록했던 과학혁신판 STAR50도 반등.</li>
@@ -916,7 +916,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4421</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4422</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -969,7 +969,7 @@ function L(ko,en){ return isEnLang() ? en : ko; }
 // '주요 이슈' 탭의 업데이트 시각 = 해당 카드 헤더의 마감 갱신 시각(.upd)을 그대로 표시
 function fillIssueMeta(){
   document.querySelectorAll('.iupd[data-mkt]').forEach(el=>{
-    const src = document.querySelector('.upd[data-mkt="'+el.dataset.mkt+'"]');
+    const src = el.dataset.iso ? el : document.querySelector('.upd[data-mkt="'+el.dataset.mkt+'"]');
     if(src && src.dataset.iso){ const t=new Date(src.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); }
   });
 }
