@@ -916,7 +916,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4422</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4423</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1673,24 +1673,25 @@ function initCardTabs(){
     const tabs=card.querySelector('.ctabs'); const updEl=card.querySelector('.upd[data-mkt]');
     if(!updEl) return;
     const head=card.querySelector('.chead');
-    const mkt=updEl.dataset.mkt, mEl=card.querySelector('.mupd[data-mkt]');
-    const iso={issue:updEl.dataset.iso||'', morning:(mEl&&mEl.dataset.iso)||''};
+    const mkt=updEl.dataset.mkt;
+    const iEl=card.querySelector('.iupd[data-mkt]'), mEl=card.querySelector('.mupd[data-mkt]');
+    // 이슈 시각=고유 .iupd(마감) 우선, 없으면 헤더 .upd
+    const iso={ issue:(iEl&&iEl.dataset.iso)||updEl.dataset.iso||'', morning:(mEl&&mEl.dataset.iso)||'' };
     const key=t=>'gmd_seen_'+mkt+'_'+t;
     const getSeen=t=>{ try{return localStorage.getItem(key(t))||'';}catch(e){return '';} };
     const isNew=t=> !!(iso[t] && iso[t]>getSeen(t));
-    function badges(){
-      if(tabs) tabs.querySelectorAll('.ctab').forEach(btn=>{ btn.toggleAttribute? btn.toggleAttribute('data-new', isNew(btn.dataset.tab)) : (isNew(btn.dataset.tab)?btn.setAttribute('data-new','1'):btn.removeAttribute('data-new')); });
-      if(head){ if(isNew('issue')||isNew('morning')) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew'); }
+    // 더 최근에 갱신된 쪽 하나만 노출(오전장 뒤 오전동향, 마감 뒤 주요이슈)
+    const only=(iso.morning && (!iso.issue || iso.morning>iso.issue))?'morning':'issue';
+    function paint(){
+      if(tabs) tabs.querySelectorAll('.ctab').forEach(btn=>{ const on=btn.dataset.tab===only; btn.style.display=on?'':'none'; btn.classList.toggle('active',on); if(on && isNew(only)) btn.setAttribute('data-new','1'); else btn.removeAttribute('data-new'); });
+      const pi=card.querySelector('.pane.issue'),pm=card.querySelector('.pane.morning');
+      if(pi)pi.style.display=(only==='issue')?'':'none'; if(pm)pm.style.display=(only==='morning')?'':'none';
+      if(head){ if(isNew(only)) head.setAttribute('data-cardnew','1'); else head.removeAttribute('data-cardnew'); }
     }
-    function show(t){ if(tabs) tabs.querySelectorAll('.ctab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t)); const pi=card.querySelector('.pane.issue'),pm=card.querySelector('.pane.morning'); if(pi)pi.style.display=(t==='issue')?'':'none'; if(pm)pm.style.display=(t==='morning')?'':'none'; }
-    function markSeen(t){ try{ if(iso[t]) localStorage.setItem(key(t),iso[t]); }catch(e){} badges(); }
-    const def=(iso.morning && (!iso.issue || iso.morning>iso.issue))?'morning':'issue';
-    show(def); badges();
-    // 펼쳐져 있을 때만 기본 탭을 '본 것'으로 처리(접혀 있으면 펼칠 때까지 N 유지)
-    if(!card.classList.contains('collapsed')) markSeen(def);
-    if(tabs) tabs.querySelectorAll('.ctab').forEach(btn=> btn.addEventListener('click', ()=>{ const t=btn.dataset.tab; show(t); markSeen(t); }));
-    // 카드를 펼치면 현재 활성 탭을 본 것으로 처리(접기 핸들러가 먼저 클래스 토글)
-    if(head) head.addEventListener('click', ()=>{ if(!card.classList.contains('collapsed')){ const act=tabs?tabs.querySelector('.ctab.active'):null; markSeen(act?act.dataset.tab:def); } });
+    function markSeen(){ try{ if(iso[only]) localStorage.setItem(key(only),iso[only]); }catch(e){} paint(); }
+    paint();
+    if(!card.classList.contains('collapsed')) markSeen();
+    if(head) head.addEventListener('click', ()=>{ if(!card.classList.contains('collapsed')) markSeen(); });
   });
 }
 
