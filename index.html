@@ -914,7 +914,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4423</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4424</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -923,8 +923,8 @@ html.is-android .briefbar{display:flex;}
       <div class="installt"><span data-lang="ko">홈 화면에 추가</span><span data-lang="en">Add to Home Screen</span></div>
       <div id="installIos">
         <div data-lang="ko"><b>아이폰 / 아이패드 (Safari)</b>
-          <ol><li>화면 하단의 <b>공유</b> 버튼 <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2.6M5.4 5.2 8 2.6l2.6 2.6M4 8.4v4.6h8V8.4"/></svg> 을 누르세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li><li><b>추가</b> 를 누르면 완료!</li></ol>
-          <div class="note">※ Safari에서만 됩니다 (크롬·카카오톡 등 인앱 브라우저는 불가)</div>
+          <ol><li><span data-lang="ko">화면 하단의 <b>공유</b> 버튼 </span><span data-lang="en">Tap the <b>Share</b> button </span><svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2.6M5.4 5.2 8 2.6l2.6 2.6M4 8.4v4.6h8V8.4"/></svg><span data-lang="ko"> 을 누르세요</span><span data-lang="en"> at the bottom</span></li><li><span data-lang="ko"><b>'홈 화면에 추가'</b> 를 선택</span><span data-lang="en">Choose <b>'Add to Home Screen'</b></span></li><li><span data-lang="ko"><b>추가</b> 를 누르면 완료!</span><span data-lang="en">Tap <b>Add</b> — done!</span></li></ol>
+          <div class="note"><span data-lang="ko">※ Safari에서만 됩니다 (크롬·카카오톡 등 인앱 브라우저는 불가)</span><span data-lang="en">※ Safari only (in-app browsers like Chrome/KakaoTalk won't work)</span></div>
         </div>
         <div data-lang="en"><b>iPhone / iPad (Safari)</b>
           <ol><li>Tap the <b>Share</b> button <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5V2.6M5.4 5.2 8 2.6l2.6 2.6M4 8.4v4.6h8V8.4"/></svg> at the bottom</li><li>Choose <b>'Add to Home Screen'</b></li><li>Tap <b>Add</b> — done!</li></ol>
@@ -933,7 +933,7 @@ html.is-android .briefbar{display:flex;}
       </div>
       <div id="installGen" style="display:none">
         <div data-lang="ko"><b>안드로이드 / 데스크톱</b>
-          <ol><li>브라우저 메뉴 <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.2" r="1.25"/><circle cx="8" cy="8" r="1.25"/><circle cx="8" cy="12.8" r="1.25"/></svg> 를 여세요</li><li><b>'홈 화면에 추가'</b> 를 선택</li></ol>
+          <ol><li><span data-lang="ko">브라우저 메뉴 </span><span data-lang="en">Open the browser menu </span><svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.2" r="1.25"/><circle cx="8" cy="8" r="1.25"/><circle cx="8" cy="12.8" r="1.25"/></svg><span data-lang="ko"> 를 여세요</span><span data-lang="en"></span></li><li><span data-lang="ko"><b>'홈 화면에 추가'</b> 를 선택</span><span data-lang="en">Choose <b>'Add to Home Screen'</b></span></li></ol>
         </div>
         <div data-lang="en"><b>Android / Desktop</b>
           <ol><li>Open the browser menu <svg class="iguide-ic" width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3.2" r="1.25"/><circle cx="8" cy="8" r="1.25"/><circle cx="8" cy="12.8" r="1.25"/></svg></li><li>Choose <b>'Add to Home screen'</b></li></ol>
@@ -2059,9 +2059,9 @@ initSurgeFlags();
     const ic = tgBtn && tgBtn.querySelector('.tgi');
     const tx = tgBtn && tgBtn.querySelector('.tgt');
     if(ic) ic.innerHTML = light ? '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.2 9.5A5.4 5.4 0 1 1 6.5 2.8 4.3 4.3 0 0 0 13.2 9.5Z" fill="#6A6FC4"/></svg>' : '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="#E0A93C"/><g stroke="#E0A93C" stroke-width="1.5" stroke-linecap="round"><path d="M8 1.4v1.7M8 12.9v1.7M1.4 8h1.7M12.9 8h1.7M3.3 3.3l1.2 1.2M11.5 11.5l1.2 1.2M12.7 3.3l-1.2 1.2M4.5 11.5l-1.2 1.2"/></g></svg>';
-    if(tx) tx.textContent = light ? '다크 모드' : '라이트 모드';
+    if(tx){ var _en=root.getAttribute('data-ui-lang')==='en'; tx.textContent = light ? (_en?'Dark Mode':'다크 모드') : (_en?'Light Mode':'라이트 모드'); }
   }
-  syncTheme();
+  syncTheme(); try{ window.syncThemeLabel = syncTheme; }catch(e){}
   const menuBtn = document.getElementById('menuBtn');
   const menuDD = document.getElementById('menuDD');
   if(menuDD && menuDD.parentElement !== document.body) document.body.appendChild(menuDD);
@@ -2188,7 +2188,7 @@ initSurgeFlags();
     ['.topnav a[href="#sec-kr"]','Korea'],
     ['.topnav a[data-surge]','Top Movers'],
     ['.topnav a[data-expert]','Experts'],
-    ['#goHome .ddt','Home'], ['#goBriefing .ddt','Morning Briefing'], ['#goCalendar .ddt','Economic Calendar'], ['#goCommunity .ddt','Community'], ['#goSurge .ddt','Top Movers'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'],
+    ['#goHome .ddt','Home'], ["#goWeekOutlook .ddt","This Week's Outlook"], ['#goBriefing .ddt','Morning Briefing'], ['#goCalendar .ddt','Economic Calendar'], ['#goSurge .ddt','Top Movers'], ["#goExpert .ddt","Analyst View"], ['#goCommunity .ddt','Community'], ['#goInstall .ddt','Add to Home Screen'], ['#goShare .ddt','Share'], ['.topnav a[data-mystocks]','My Stocks'],
     ['#sec-us .chead h3','US'], ['#sec-kr .chead h3','Korea'], ['#sec-cn .chead h3','China'],
     ['#sec-rates .chead h3','Rates'], ['#sec-live .chead h3','US Stocks · Live'],
     ['#sec-reddit .chead h3','Reddit Trending Top 10'],
@@ -2209,6 +2209,7 @@ initSurgeFlags();
     if(lgi) lgi.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="#2F9FB0"/><path d="M2 8h12" stroke="#fff" stroke-width="1" opacity=".85"/><path d="M8 1.8c2.3 1.8 2.3 10.6 0 12.4M8 1.8c-2.3 1.8-2.3 10.6 0 12.4" stroke="#fff" stroke-width="1" fill="none" opacity=".85"/></svg>';
     document.documentElement.lang = isEN ? 'en' : 'ko';
     document.documentElement.setAttribute('data-ui-lang', isEN ? 'en' : 'ko');
+    if(window.syncThemeLabel) window.syncThemeLabel();
     if(typeof relocalizeDynamic==='function') relocalizeDynamic();
   }
   if(isEN) apply();
