@@ -915,7 +915,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4425</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4426</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -2269,6 +2269,8 @@ initSurgeFlags();
   setTimeout(maybeShowBanner, 1200);
 })();
 </script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "225ac64b2e614c50a9acf7870a999169"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics (본인 기기 제외 옵트아웃: ?noanalytics=1 저장, ?noanalytics=0 해제) -->
+<script>(function(){try{var p=new URLSearchParams(location.search);if(p.get('noanalytics')==='1')localStorage.setItem('gmd_noanalytics','1');if(p.get('noanalytics')==='0')localStorage.removeItem('gmd_noanalytics');}catch(e){}try{if(localStorage.getItem('gmd_noanalytics')==='1')return;}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token": "225ac64b2e614c50a9acf7870a999169"}');document.head.appendChild(s);})();</script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
