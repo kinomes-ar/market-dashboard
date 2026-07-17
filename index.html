@@ -902,7 +902,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4426</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4427</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -965,6 +965,8 @@ function relocalizeDynamic(){
     if(typeof render==='function') render();
     if(typeof renderReddit==='function') renderReddit();
     if(typeof tick==='function') tick();
+    if(typeof myRender==='function') myRender();
+    if(typeof myRenderTotal==='function') myRenderTotal();
     const loc = L('ko-KR','en-US');
     document.querySelectorAll('.nxt[data-mkt]').forEach(el=>{ el.textContent = fmtLocal(nextCloseSh(el.dataset.mkt)); });
     document.querySelectorAll('.upd[data-iso]').forEach(el=>{ const t=new Date(el.dataset.iso); if(!isNaN(t)) el.textContent = fmtLocal(t); });
@@ -1444,7 +1446,7 @@ function myRemove(sym){ mySet(myGet().filter(function(x){return x.sym!==sym;}));
 function myPxId(sym){ return 'mypx-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
 function myRetId(sym){ return 'myret-'+String(sym).replace(/[^A-Za-z0-9]/g,'_'); }
 function curSym(c){ c=(c||'').toUpperCase(); return c==='KRW'?'₩':c==='CNY'?'¥':c==='HKD'?'HK$':c==='JPY'?'¥':'$'; }
-function curName(c){ c=(c||'').toUpperCase(); return c==='KRW'?'원화 · KRW':c==='USD'?'미국 달러 · USD':c==='CNY'?'중국 위안 · CNY':c==='HKD'?'홍콩 달러 · HKD':c==='JPY'?'일본 엔 · JPY':c; }
+function curName(c){ c=(c||'').toUpperCase(); return c==='KRW'?L('원화 · KRW','Korean Won · KRW'):c==='USD'?L('미국 달러 · USD','US Dollar · USD'):c==='CNY'?L('중국 위안 · CNY','Chinese Yuan · CNY'):c==='HKD'?L('홍콩 달러 · HKD','Hong Kong Dollar · HKD'):c==='JPY'?L('일본 엔 · JPY','Japanese Yen · JPY'):c; }
 function myFmt(v,cur){ var c=(cur||'').toUpperCase(); var dec=(c==='KRW')?{maximumFractionDigits:0}:{minimumFractionDigits:2,maximumFractionDigits:2}; return curSym(c)+Number(v).toLocaleString('en-US',dec); }
 function mySetPx(sym,price,chg,cur){ var el=document.getElementById(myPxId(sym)); if(!el) return; if(price==null){ el.textContent='—'; return; } var c=(chg!=null)?'<span class="my-chg '+(chg>=0?'up':'down')+'">'+(chg>=0?'+':'')+Number(chg).toFixed(2)+'%</span>':''; el.innerHTML=myFmt(price,cur)+c; }
 function mySetRet(item,price,cur){ cur=cur||(item.kr?'KRW':'USD'); var el=document.getElementById(myRetId(item.sym)); if(!el) return; if(item.buy==null){ el.innerHTML='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('+ 매입가 입력','+ Add cost')+'</button>'; return; } var ret=(price!=null)?((price-item.buy)/item.buy*100):null; var pl=(price!=null&&item.qty)?((price-item.buy)*item.qty):null; var cls=(ret!=null&&ret>=0)?'up':'down'; var h='<span class="my-cost">'+L('매입','Cost')+' '+myFmt(item.buy,cur)+(item.qty?' ×'+item.qty:'')+'</span>'; if(ret!=null) h+='<span class="my-ret '+cls+'">'+(ret>=0?'+':'')+ret.toFixed(2)+'%'+(pl!=null?' ('+(pl>=0?'+':'')+myFmt(pl,cur)+')':'')+'</span>'; h+='<button class="my-buybtn" data-buy-sym="'+item.sym+'">'+L('수정','Edit')+'</button>'; el.innerHTML=h; }
