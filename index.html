@@ -715,9 +715,9 @@ html.is-android .briefbar{display:flex;}
       <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-07-23T02:47:00Z">—</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
     </div>
         <div class="tiles">
-      <div class="tile"><div class="label"><span data-lang="ko">상하이종합</span><span data-lang="en">Shanghai Comp.</span></div><div class="val">3,867.00</div><div class="chg flat"><span data-lang="ko">0.00% · 오전 장중</span><span data-lang="en">0.00% · AM intraday</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">선전성분</span><span data-lang="en">Shenzhen Comp.</span></div><div class="val">14,125.82</div><div class="chg up"><span data-lang="ko">▲ +0.46% · 오전 장중</span><span data-lang="en">▲ +0.46% · AM intraday</span></div></div>
-      <div class="tile"><div class="label"><span data-lang="ko">항셍(홍콩)</span><span data-lang="en">Hang Seng (HK)</span></div><div class="val">25,041.22</div><div class="chg up"><span data-lang="ko">▲ +0.60% · 오전 장중</span><span data-lang="en">▲ +0.60% · AM intraday</span></div></div>
+      <div class="tile" data-cn="000001.SS"><div class="label"><span data-lang="ko">상하이종합</span><span data-lang="en">Shanghai Comp.</span></div><div class="val">3,867.00</div><div class="chg flat"><span data-lang="ko">0.00% · 오전 장중</span><span data-lang="en">0.00% · AM intraday</span></div></div>
+      <div class="tile" data-cn="399001.SZ"><div class="label"><span data-lang="ko">선전성분</span><span data-lang="en">Shenzhen Comp.</span></div><div class="val">14,125.82</div><div class="chg up"><span data-lang="ko">▲ +0.46% · 오전 장중</span><span data-lang="en">▲ +0.46% · AM intraday</span></div></div>
+      <div class="tile" data-cn="^HSI"><div class="label"><span data-lang="ko">항셍(홍콩)</span><span data-lang="en">Hang Seng (HK)</span></div><div class="val">25,041.22</div><div class="chg up"><span data-lang="ko">▲ +0.60% · 오전 장중</span><span data-lang="en">▲ +0.60% · AM intraday</span></div></div>
       <div class="tile"><div class="label"><span data-lang="ko">USD/CNY 고시</span><span data-lang="en">USD/CNY fix</span></div><div class="val">6.7934</div><div class="chg flat"><span data-lang="ko">7/17 고시 · 6.7909서 25bp 절하</span><span data-lang="en">Jul 17 fix · -25bp vs 6.7909</span></div></div>
     </div>
 <div class="body">
@@ -912,7 +912,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4431</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4432</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1203,6 +1203,27 @@ async function loadUSCard(){
   }catch(e){}
 }
 window.loadUSCard=loadUSCard;
+async function loadCNCard(){
+  try{
+    const r=await fetch(QUOTES_PROXY+'?symbols=000001.SS,399001.SZ,^HSI&cb='+Math.floor(Date.now()/300000));
+    if(!r.ok) return; const j=await r.json(); const map={}; (j.quotes||[]).forEach(function(d){ if(d&&d.symbol) map[d.symbol]=d; });
+    [['000001.SS'],['399001.SZ'],['^HSI']].forEach(function(p){
+      var d=map[p[0]]; if(!d||d.price==null) return;
+      var tile=document.querySelector('#sec-cn .tile[data-cn="'+p[0]+'"]'); if(!tile) return;
+      var val=tile.querySelector('.val'), chg=tile.querySelector('.chg');
+      if(val) val.textContent=Number(d.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      if(chg && d.changePct!=null){
+        var up=d.changePct>0, dn=d.changePct<0;
+        chg.className='chg '+(up?'up':(dn?'down':'flat'));
+        var pctStr=(up?'▲ +':(dn?'▼ -':''))+Math.abs(d.changePct).toFixed(2)+'%';
+        var spans=chg.querySelectorAll('[data-lang]');
+        if(spans.length){ spans.forEach(function(s){ var txt=s.textContent, idx=txt.indexOf('·'); s.textContent=pctStr+(idx>=0?' '+txt.slice(idx):''); }); }
+        else { chg.textContent=pctStr; }
+      }
+    });
+  }catch(e){}
+}
+window.loadCNCard=loadCNCard;
 const USLARGE_LIST=[["AAPL","Apple"],["MSFT","Microsoft"],["NVDA","Nvidia"],["AMZN","Amazon"],["GOOGL","Alphabet"],["META","Meta"],["TSLA","Tesla"],["AVGO","Broadcom"],["LLY","Eli Lilly"],["JPM","JPMorgan"],["V","Visa"],["UNH","UnitedHealth"],["XOM","Exxon"],["MA","Mastercard"],["COST","Costco"],["HD","Home Depot"],["PG","P&G"],["JNJ","J&J"],["WMT","Walmart"],["NFLX","Netflix"],["AMD","AMD"],["INTC","Intel"],["ADBE","Adobe"],["CRM","Salesforce"],["ORCL","Oracle"],["QCOM","Qualcomm"],["AMAT","Applied Materials"],["MU","Micron"],["PLTR","Palantir"],["KO","Coca-Cola"],["PEP","PepsiCo"],["BAC","Bank of America"],["CSCO","Cisco"],["MRK","Merck"],["ABBV","AbbVie"],["WFC","Wells Fargo"],["GE","GE"],["CAT","Caterpillar"],["DIS","Disney"],["BA","Boeing"]];
 async function loadUSSurge(){
   try{
@@ -1846,7 +1867,7 @@ function tick(){
 setInterval(tick, 1000);
 tick();
 loadMovers().then(()=>{ if(marketOpen()) nextUpdateTs = Date.now()+REFRESH_MS; if(afterHoursActive()) loadAfter(); });
-loadKR(); loadUSCard(); setInterval(loadKR, 300000); setInterval(loadUSCard, 300000);
+loadKR(); loadUSCard(); loadCNCard(); setInterval(loadKR, 300000); setInterval(loadUSCard, 300000); setInterval(loadCNCard, 300000);
 function buildSumIdx(box){ box=box||document.getElementById('sumIdx'); if(!box) return; function mini(sel,arr){ var tl=document.querySelector(sel); if(!tl) return ''; var ts=tl.querySelectorAll('.tile'); var h=''; arr.forEach(function(i){ var x=ts[i]; if(!x) return; var l=x.querySelector('.label'),v=x.querySelector('.val'),c=x.querySelector('.chg'); h+='<div class="idxp"><div class="idxp-l">'+(l?l.innerHTML:'')+'</div><div class="idxp-v">'+(v?v.textContent:'')+'</div><div class="'+(c?c.className.replace('chg','idxp-c'):'idxp-c')+'">'+(c?c.innerHTML:'')+'</div></div>'; }); return h; } box.innerHTML=mini('#sec-us .tiles',[0,1,2])+mini('#sec-kr .tiles',[0,1])+mini('#sec-cn .tiles',[0,1]); }
 window.buildSumIdx=buildSumIdx;
 (function(){ var sm=document.getElementById('sec-weekoutlook'); if(sm && !document.getElementById('sumIdxWrap')){ var w=document.createElement('div'); w.className='sum-idx-wrap on'; w.id='sumIdxWrap'; w.innerHTML='<div class="sum-idx-h"><span data-lang="ko">주요 지표</span><span data-lang="en">Key Indices</span></div><div class="sum-idx" id="sumIdx"></div>'; sm.appendChild(w); } buildSumIdx(); setTimeout(function(){buildSumIdx();},1600); })();
