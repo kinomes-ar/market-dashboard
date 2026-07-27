@@ -425,6 +425,13 @@ html.is-android .briefbar{display:flex;}
 .my-total-pl .my-total-k{font-weight:600; color:var(--ink2);}
 .my-total-pl .my-total-v{font-size:15.5px;}
 .my-total-hint{font-size:13px; color:var(--sec); line-height:1.55; padding:6px 0;}
+.my-total-all{border:1.5px solid var(--hair2); border-radius:12px; padding:14px 16px; background:var(--surf); margin-top:12px;}
+.my-total-all-h{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--hair);}
+.my-total-all-t{font-size:12.5px; font-weight:700; color:var(--ink);}
+.my-cur-chips{display:flex; gap:5px;}
+.my-cur-chip{font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; border:1px solid var(--hair2); background:transparent; color:var(--sec); cursor:pointer;}
+.my-cur-chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.my-total-fx{font-size:10.5px; color:var(--ter); margin-top:6px;}
 .ex-name{font-size:17px; font-weight:700; color:var(--ink); margin-bottom:3px;}
 .ex-sub{font-size:11.5px; color:var(--sec); margin-bottom:18px;}
 .ex-spread{display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px; margin-left:6px; vertical-align:middle;}
@@ -922,7 +929,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4434</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4435</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -1539,8 +1546,42 @@ function myRenderTotal(){
   if(!curs.length){ box.innerHTML='<div class="my-total-hint">'+L('각 종목에 매입가와 수량을 입력하면 총 투자금액·손익이 여기 표시돼요','Enter cost and quantity per stock to see your total here')+'</div>'; return; }
   var h='<div class="my-total-h">'+L('내 투자 내역','My Portfolio')+'</div>';
   curs.forEach(function(cur){ var inv=g[cur].inv, val=g[cur].val, pl=val-inv, plp=inv?pl/inv*100:0; var cls=pl>=0?'up':'down'; h+='<div class="my-total-card"><div class="my-total-cur">'+curName(cur)+'</div><div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(inv,cur)+'</span></div><div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(val,cur)+'</span></div><div class="my-total-row my-total-pl"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+cls+'">'+(pl>=0?'+':'')+myFmt(pl,cur)+' ('+(plp>=0?'+':'')+plp.toFixed(2)+'%)</span></div></div>'; });
+  // 전체 합계(통화 선택 환산) — 환율은 '주요 시세' 타일(원/달러·위안/달러, 매일 갱신)
+  var fx=myFxRates();
+  if(fx && curs.length){
+    var tgt='KRW'; try{ tgt=localStorage.getItem('gmd_mytotal_cur')||'KRW'; }catch(e){}
+    var tI=0,tV=0,ok=true;
+    curs.forEach(function(cur){ var r=myFxConv(cur,tgt,fx); if(r==null){ ok=false; return; } tI+=g[cur].inv*r; tV+=g[cur].val*r; });
+    if(ok){
+      var tP=tV-tI, tPp=tI?tP/tI*100:0, tCls=tP>=0?'up':'down';
+      var chips=[['KRW','원화','KRW'],['USD','달러','USD'],['CNY','위안','CNY']].map(function(c){ return '<button class="my-cur-chip'+(tgt===c[0]?' on':'')+'" data-mycur="'+c[0]+'">'+L(c[1],c[2])+'</button>'; }).join('');
+      h+='<div class="my-total-all"><div class="my-total-all-h"><span class="my-total-all-t">'+L('전체 합계','Grand Total')+'</span><span class="my-cur-chips">'+chips+'</span></div>'
+        +'<div class="my-total-row"><span class="my-total-k">'+L('투자 총액','Invested')+'</span><span class="my-total-v">'+myFmt(tI,tgt)+'</span></div>'
+        +'<div class="my-total-row"><span class="my-total-k">'+L('평가액','Current value')+'</span><span class="my-total-v">'+myFmt(tV,tgt)+'</span></div>'
+        +'<div class="my-total-row my-total-pl"><span class="my-total-k">'+L('총 손익','Total P/L')+'</span><span class="my-total-v '+tCls+'">'+(tP>=0?'+':'')+myFmt(tP,tgt)+' ('+(tPp>=0?'+':'')+tPp.toFixed(2)+'%)</span></div>'
+        +'<div class="my-total-fx">'+L('환산 기준: 원/달러 '+fx.usdkrw.toLocaleString()+' · 위안/달러 '+fx.usdcny,'FX: USD/KRW '+fx.usdkrw.toLocaleString()+' · USD/CNY '+fx.usdcny)+'</div></div>';
+    }
+  }
   box.innerHTML=h;
 }
+function myFxRates(){
+  try{
+    var kEl=document.getElementById('krwPrice'), cEl=document.getElementById('cnyPrice');
+    var k=kEl?parseFloat(kEl.textContent.replace(/[^0-9.]/g,'')):NaN;
+    var c=cEl?parseFloat(cEl.textContent.replace(/[^0-9.]/g,'')):NaN;
+    if(!isFinite(k)||k<500||k>3000) return null;
+    if(!isFinite(c)||c<3||c>15) return null;
+    return {usdkrw:k, usdcny:c};
+  }catch(e){ return null; }
+}
+function myFxConv(from,to,fx){
+  if(from===to) return 1;
+  function toUsd(c){ return c==='USD'?1 : c==='KRW'?1/fx.usdkrw : c==='CNY'?1/fx.usdcny : null; }
+  function fromUsd(c){ return c==='USD'?1 : c==='KRW'?fx.usdkrw : c==='CNY'?fx.usdcny : null; }
+  var a=toUsd(from), b=fromUsd(to);
+  return (a==null||b==null)?null:a*b;
+}
+document.addEventListener('click', function(e){ var b=e.target.closest?e.target.closest('.my-cur-chip'):null; if(!b) return; try{ localStorage.setItem('gmd_mytotal_cur', b.getAttribute('data-mycur')); }catch(err){} if(window.myRenderTotal) myRenderTotal(); });
 window.myRenderTotal=myRenderTotal;
 (function mySearchInit(){ var inp=document.getElementById('mySearch'), btn=document.getElementById('mySearchBtn'), out=document.getElementById('mySearchOut'); if(!inp) return; var tmr=null,lastList=[];
   function hide(){ if(out){ out.className='ex-sout'; out.innerHTML=''; } }
