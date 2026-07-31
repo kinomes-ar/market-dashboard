@@ -289,6 +289,7 @@ html:not([data-theme="light"]) .menulogo .logo-d{display:block;}
   .tile{padding:11px 13px;}
   .tile .label{font-size:10px;}
   .tile .val{font-size:16px;}
+.tiles-live{font-size:10.5px; color:var(--ter); margin:6px 2px 0;}
   .tile .chg{font-size:11px;}
   .body p, .body li, .morning-list li{font-size:14px;}
   .takeaway p{font-size:13px;}
@@ -625,7 +626,7 @@ html.is-android .briefbar{display:flex;}
 
 <section class="country spy" id="sec-us">
     <div class="chead"><h3>미국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="us" data-iso="2026-07-30T21:46:35Z">—</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div><span data-lang="ko">이슈 업데이트</span><span data-lang="en">Issues updated</span> <b class="upd" data-mkt="us" data-iso="2026-07-30T21:46:35Z">—</b></div><div>다음 <b class="nxt" data-mkt="us">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
             <div class="tile" data-us="^GSPC"><div class="label">S&P 500</div><div class="val">7,437.63</div><div class="chg up">▲ +1.66%</div></div>
@@ -665,7 +666,7 @@ html.is-android .briefbar{display:flex;}
   <!-- KOREA -->
   <section class="country spy" id="sec-kr">
     <div class="chead"><h3>한국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="kr" data-iso="2026-07-30T06:45:24Z">—</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div><span data-lang="ko">이슈 업데이트</span><span data-lang="en">Issues updated</span> <b class="upd" data-mkt="kr" data-iso="2026-07-30T06:45:24Z">—</b></div><div>다음 <b class="nxt" data-mkt="kr">—</b> · <span class="tzname">현지</span></div></div>
     </div>
     <div class="tiles">
       <div class="tile" data-kr="KOSPI"><div class="label"><span data-lang="ko">코스피</span><span data-lang="en">KOSPI</span></div><div class="val">5,593.56</div><div class="chg down">▼ -1.23%</div></div>
@@ -711,7 +712,7 @@ html.is-android .briefbar{display:flex;}
   <!-- CHINA -->
   <section class="country spy" id="sec-cn">
     <div class="chead"><h3>중국</h3>
-      <div class="sub"><div>업데이트 <b class="upd" data-mkt="cn" data-iso="2026-07-30T07:22:59Z">—</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
+      <div class="sub"><div><span data-lang="ko">이슈 업데이트</span><span data-lang="en">Issues updated</span> <b class="upd" data-mkt="cn" data-iso="2026-07-30T07:22:59Z">—</b></div><div>다음 <b class="nxt" data-mkt="cn">—</b> · <span class="tzname">현지</span></div></div>
     </div>
         <div class="tiles">
       <div class="tile" data-cn="000001.SS"><div class="label"><span data-lang="ko">상하이종합</span><span data-lang="en">Shanghai Comp.</span></div><div class="val">3,798.71</div><div class="chg down"><span data-lang="ko">▼ -0.78% · 마감</span><span data-lang="en">▼ -0.78% · close</span></div></div>
@@ -908,7 +909,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4435</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4436</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -958,6 +959,15 @@ const MOVERS_PROXY = "https://fmp-movers.kinomeartemis.workers.dev/movers";
 // 현재 UI 언어(한/영) — JS로 그려지는 동적 텍스트에 사용
 function isEnLang(){ return document.documentElement.getAttribute('data-ui-lang')==='en'; }
 function L(ko,en){ return isEnLang() ? en : ko; }
+function markQuotesFresh(mkt){
+  try{
+    var tiles=document.querySelector('#sec-'+mkt+' .tiles'); if(!tiles) return;
+    var el=tiles.parentElement.querySelector('.tiles-live[data-mkt="'+mkt+'"]');
+    if(!el){ el=document.createElement('div'); el.className='tiles-live'; el.setAttribute('data-mkt',mkt); tiles.insertAdjacentElement('afterend', el); }
+    var d=new Date(); var hh=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+    el.textContent=L('시세 실시간 · 갱신 ','Live quotes · updated ')+hh+L(' · 5분마다',' · every 5 min');
+  }catch(e){}
+}
 // '주요 이슈' 탭의 업데이트 시각 = 해당 카드 헤더의 마감 갱신 시각(.upd)을 그대로 표시
 function fillIssueMeta(){
   document.querySelectorAll('.iupd[data-mkt]').forEach(el=>{
@@ -1141,6 +1151,7 @@ async function loadKR(){
       if(val) val.textContent=(p[1]?'':'\u20A9')+Number(d.price).toLocaleString('en-US');
       if(chg && d.changePct!=null){ var up=d.changePct>=0; chg.className='chg '+(up?'up':'down'); chg.textContent=(up?'\u25B2 +':'\u25BC -')+Math.abs(d.changePct).toFixed(2)+'%'; }
     });
+    markQuotesFresh('kr');
   }catch(e){}
 }
 window.loadKR=loadKR;
@@ -1196,6 +1207,7 @@ async function loadUSCard(){
       if(val) val.textContent=Number(d.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
       if(chg && d.changePct!=null){ var up=d.changePct>=0; chg.className='chg '+(up?'up':'down'); chg.textContent=(up?'\u25B2 +':'\u25BC -')+Math.abs(d.changePct).toFixed(2)+'%'; }
     });
+    markQuotesFresh('us');
   }catch(e){}
 }
 window.loadUSCard=loadUSCard;
@@ -1217,6 +1229,7 @@ async function loadCNCard(){
         else { chg.textContent=pctStr; }
       }
     });
+    markQuotesFresh('cn');
   }catch(e){}
 }
 window.loadCNCard=loadCNCard;
