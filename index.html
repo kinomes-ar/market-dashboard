@@ -921,7 +921,7 @@ html.is-android .briefbar{display:flex;}
     <div id="briefBody"></div>
   </div>
 
-  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4438</span></footer>
+  <footer><span class="credit">Curated by Lim &amp; Kim</span> · <span class="ver">V2.4439</span></footer>
 
   <!-- ADD TO HOME SCREEN GUIDE -->
   <div class="installov" id="installOv" style="display:none">
@@ -978,6 +978,15 @@ function markQuotesFresh(mkt){
     if(!el){ el=document.createElement('div'); el.className='tiles-live'; el.setAttribute('data-mkt',mkt); tiles.insertAdjacentElement('afterend', el); }
     var d=new Date(); var hh=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
     el.textContent=L('시세 실시간 · 갱신 ','Live quotes · updated ')+hh+L(' · 5분마다',' · every 5 min');
+    // 접힘 카드 헤더(홈 국가 행)의 지수 표시도 최신 타일 값으로 동기화
+    var sec=document.getElementById('sec-'+mkt);
+    if(sec){ var tile=sec.querySelector('.tile'); var head=sec.querySelector('.chead');
+      if(tile&&head){ var val=tile.querySelector('.val'), chg=tile.querySelector('.chg');
+        var v=head.querySelector('.cidx-v'), c=head.querySelector('.cidx-c');
+        if(v&&val) v.textContent=val.textContent.trim();
+        if(c&&chg){ var cls=chg.className.split(' ').filter(function(x){return x&&x!=='chg';}).join(' '); c.className='cidx-c '+cls; c.innerHTML=chg.innerHTML; }
+      }
+    }
   }catch(e){}
 }
 // '주요 이슈' 탭의 업데이트 시각 = 해당 카드 헤더의 마감 갱신 시각(.upd)을 그대로 표시
