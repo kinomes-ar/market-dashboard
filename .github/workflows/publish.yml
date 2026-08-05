@@ -33,7 +33,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
-          prompt: ".github/prompts/${{ steps.t.outputs.task }}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. git 커밋/푸시는 하지 마라(워크플로우가 처리)."
+          prompt: '.github/prompts/${{ steps.t.outputs.task }}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. 작업 완료 후 변경이 있으면 git add index.html, git commit -m "auto: ${{ steps.t.outputs.task }} update", git push origin main 까지 직접 수행하라(push 실패 시 git pull --rebase 후 재시도).'          
           claude_args: '--allowedTools "Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch" --max-turns 80'
       - name: Commit & push
         run: |
