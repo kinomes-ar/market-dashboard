@@ -32,6 +32,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           prompt: ".github/prompts/${{ steps.t.outputs.task }}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. git 커밋/푸시는 하지 마라(워크플로우가 처리)."
           claude_args: '--allowedTools "Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch" --max-turns 80'
       - name: Commit & push
