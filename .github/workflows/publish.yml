@@ -1,0 +1,46 @@
+name: Publish content
+on:
+  repository_dispatch:
+    types: [kr_close, cn_close, us_close, kr_morning, cn_morning, us_news, calendar, week_outlook, weekly_report, fx_gold]
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'task id (kr_close, calendar, ...)'
+        required: true
+        default: calendar
+permissions:
+  contents: write
+concurrency:
+  group: publish
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve task
+        id: t
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "task=${{ github.event.action }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "task=${{ inputs.task }}" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: ".github/prompts/${{ steps.t.outputs.task }}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. git 커밋/푸시는 하지 마라(워크플로우가 처리)."
+          claude_args: '--allowedTools "Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch" --max-turns 80'
+      - name: Commit & push
+        run: |
+          git config user.name "publish-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "auto: ${{ steps.t.outputs.task }} update"
+            for i in 1 2 3; do git push && break || { git pull --rebase && sleep 3; }; done
+          fi
