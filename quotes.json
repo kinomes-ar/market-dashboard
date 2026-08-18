@@ -1,7 +1,7 @@
 {
-  "updated": "2026-08-18T06:54:05Z",
-  "worker_updated_q": 1787036043981,
-  "worker_updated_kr": 1787036045287,
+  "updated": "2026-08-18T07:00:53Z",
+  "worker_updated_q": 1787036453054,
+  "worker_updated_kr": 1787036453860,
   "us": {
     "gspc": {
       "price": 7745.06,
@@ -42,22 +42,22 @@
   },
   "cn": {
     "sse": {
-      "price": 3990.85,
-      "changePct": 1.62,
+      "price": 3990.2,
+      "changePct": 1.6,
       "prevClose": 3927.18,
-      "ts": 1787035140
+      "ts": 1787035550
     },
     "szse": {
-      "price": 14630.86,
-      "changePct": 1.93,
+      "price": 14625.71,
+      "changePct": 1.89,
       "prevClose": 14354.31,
-      "ts": 1787035141
+      "ts": 1787035549
     },
     "hsi": {
-      "price": 25448.73,
-      "changePct": 1.32,
+      "price": 25472.63,
+      "changePct": 1.42,
       "prevClose": 25116.85,
-      "ts": 1787035142
+      "ts": 1787035552
     }
   }
 }
