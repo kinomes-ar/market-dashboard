@@ -1,7 +1,7 @@
 {
-  "updated": "2026-08-18T23:00:53Z",
-  "worker_updated_q": 1787094053159,
-  "worker_updated_kr": 1787094053881,
+  "updated": "2026-08-18T23:10:21Z",
+  "worker_updated_q": 1787094620275,
+  "worker_updated_kr": 1787094621357,
   "us": {
     "gspc": {
       "price": 7691.76,
@@ -25,11 +25,11 @@
   "kr": {
     "kospi": {
       "price": 6869.83,
-      "changePct": -1.55
+      "changePct": 0
     },
     "kosdaq": {
       "price": 834.2,
-      "changePct": -3.52
+      "changePct": 0
     },
     "samsung": {
       "price": 268500,
