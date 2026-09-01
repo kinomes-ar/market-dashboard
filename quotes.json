@@ -1,7 +1,7 @@
 {
-  "updated": "2026-09-01T00:45:05Z",
-  "worker_updated_q": 1788223504204,
-  "worker_updated_kr": 1788223505650,
+  "updated": "2026-09-01T01:00:06Z",
+  "worker_updated_q": 1788224405204,
+  "worker_updated_kr": 1788224406628,
   "us": {
     "gspc": {
       "price": 7686.14,
@@ -24,20 +24,20 @@
   },
   "kr": {
     "kospi": {
-      "price": 6817.81,
-      "changePct": -0.03
+      "price": 6828.4,
+      "changePct": 0.12
     },
     "kosdaq": {
-      "price": 823.17,
-      "changePct": -1.33
+      "price": 824.4,
+      "changePct": -1.19
     },
     "samsung": {
-      "price": 258750,
-      "changePct": -0.48
+      "price": 260750,
+      "changePct": 0.29
     },
     "hynix": {
-      "price": 1693000,
-      "changePct": 1.14
+      "price": 1704000,
+      "changePct": 1.79
     }
   },
   "cn": {
