@@ -1,63 +1,63 @@
 {
-  "updated": "2026-09-01T02:15:06Z",
-  "worker_updated_q": 1788228904578,
-  "worker_updated_kr": 1788228906262,
+  "updated": "2026-09-01T02:30:06Z",
+  "worker_updated_q": 1788229804678,
+  "worker_updated_kr": 1788229806553,
   "us": {
     "gspc": {
       "price": 7686.14,
-      "changePct": -0.33,
-      "prevClose": 7711.76,
+      "changePct": -0.58,
+      "prevClose": 7730.99,
       "ts": 1788210573
     },
     "ixic": {
       "price": 26370.89,
-      "changePct": -0.12,
-      "prevClose": 26402.42,
+      "changePct": -0.64,
+      "prevClose": 26541.35,
       "ts": 1788210959
     },
     "dji": {
       "price": 53185.9,
-      "changePct": -0.7,
-      "prevClose": 53559.99,
+      "changePct": -0.72,
+      "prevClose": 53569.44,
       "ts": 1788210575
     }
   },
   "kr": {
     "kospi": {
-      "price": 6800.46,
-      "changePct": -0.29
+      "price": 6772.76,
+      "changePct": -0.69
     },
     "kosdaq": {
-      "price": 819.85,
-      "changePct": -1.73
+      "price": 817.36,
+      "changePct": -2.03
     },
     "samsung": {
-      "price": 259500,
-      "changePct": -0.19
+      "price": 258500,
+      "changePct": -0.58
     },
     "hynix": {
-      "price": 1690000,
-      "changePct": 0.96
+      "price": 1680000,
+      "changePct": 0.36
     }
   },
   "cn": {
     "sse": {
-      "price": 3981.17,
-      "changePct": 0.73,
-      "prevClose": 3952.18,
-      "ts": 1788228000
+      "price": 3984.72,
+      "changePct": -0.04,
+      "prevClose": 3986.3,
+      "ts": 1788228900
     },
     "szse": {
-      "price": 13860.98,
-      "changePct": -0.66,
-      "prevClose": 13953.07,
-      "ts": 1788228001
+      "price": 13912.1,
+      "changePct": -0.73,
+      "prevClose": 14015,
+      "ts": 1788228901
     },
     "hsi": {
-      "price": 25320.83,
-      "changePct": -1.03,
-      "prevClose": 25584.79,
-      "ts": 1788228002
+      "price": 25290.27,
+      "changePct": -1.08,
+      "prevClose": 25566.99,
+      "ts": 1788228902
     }
   }
 }
