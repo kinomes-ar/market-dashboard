@@ -1,25 +1,25 @@
 {
-  "updated": "2026-09-22T20:00:18Z",
-  "worker_updated_q": 1790107216792,
-  "worker_updated_kr": 1790107218374,
+  "updated": "2026-09-22T20:15:17Z",
+  "worker_updated_q": 1790108115924,
+  "worker_updated_kr": 1790108117462,
   "us": {
     "gspc": {
-      "price": 7764.83,
+      "price": 7764.64,
       "changePct": 0,
       "prevClose": 7764.7,
-      "ts": 1790107215
+      "ts": 1790108115
     },
     "ixic": {
       "price": 27244.28,
       "changePct": 0.45,
       "prevClose": 27122.09,
-      "ts": 1790107212
+      "ts": 1790108113
     },
     "dji": {
-      "price": 51863.8,
+      "price": 51863.69,
       "changePct": -0.36,
       "prevClose": 52048.83,
-      "ts": 1790107214
+      "ts": 1790108105
     }
   },
   "kr": {
