@@ -1,25 +1,25 @@
 {
-  "updated": "2026-09-22T08:48:53Z",
-  "worker_updated_q": 1790066926396,
-  "worker_updated_kr": 1790066933189,
+  "updated": "2026-09-22T20:00:18Z",
+  "worker_updated_q": 1790107216792,
+  "worker_updated_kr": 1790107218374,
   "us": {
     "gspc": {
-      "price": 7764.7,
-      "changePct": 1.49,
-      "prevClose": 7650.5,
-      "ts": 1790023862
+      "price": 7764.83,
+      "changePct": 0,
+      "prevClose": 7764.7,
+      "ts": 1790107215
     },
     "ixic": {
-      "price": 27122.09,
-      "changePct": 2.26,
-      "prevClose": 26522.54,
-      "ts": 1790025359
+      "price": 27244.28,
+      "changePct": 0.45,
+      "prevClose": 27122.09,
+      "ts": 1790107212
     },
     "dji": {
-      "price": 52048.83,
-      "changePct": 0.71,
-      "prevClose": 51682.64,
-      "ts": 1790023857
+      "price": 51863.8,
+      "changePct": -0.36,
+      "prevClose": 52048.83,
+      "ts": 1790107214
     }
   },
   "kr": {
@@ -32,12 +32,12 @@
       "changePct": -0.23
     },
     "samsung": {
-      "price": 275000,
-      "changePct": 0.36
+      "price": 277500,
+      "changePct": 1.28
     },
     "hynix": {
-      "price": 1831000,
-      "changePct": -1.98
+      "price": 1841000,
+      "changePct": -1.45
     }
   },
   "cn": {
@@ -49,8 +49,8 @@
     },
     "szse": {
       "price": 13723.74,
-      "changePct": -0.05,
-      "prevClose": 13730.02,
+      "changePct": 0.61,
+      "prevClose": 13640.87,
       "ts": 1790065792
     },
     "hsi": {
