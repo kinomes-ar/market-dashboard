@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-01T06:30:57Z",
-  "worker_updated_q": 1790836256730,
-  "worker_updated_kr": 1790836257989,
+  "updated": "2026-10-01T06:45:52Z",
+  "worker_updated_q": 1790837151210,
+  "worker_updated_kr": 1790837152663,
   "us": {
     "gspc": {
       "price": 7651.54,
@@ -24,7 +24,7 @@
   },
   "kr": {
     "kospi": {
-      "price": 6971.36,
+      "price": 6971.35,
       "changePct": 1.95
     },
     "kosdaq": {
