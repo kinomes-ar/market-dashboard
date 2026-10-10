@@ -10,7 +10,6 @@ on:
         default: calendar
 permissions:
   contents: write
-  id-token: write
 concurrency:
   group: publish
   cancel-in-progress: false
@@ -20,22 +19,108 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
       - name: Resolve task
         id: t
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          INPUT_TASK: ${{ inputs.task }}
         run: |
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            echo "task=${{ github.event.action }}" >> "$GITHUB_OUTPUT"
+          if [ "$EVENT_NAME" = "repository_dispatch" ]; then
+            task="$EVENT_ACTION"
           else
-            echo "task=${{ inputs.task }}" >> "$GITHUB_OUTPUT"
+            task="$INPUT_TASK"
           fi
-      - name: Run Claude Code
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
-          prompt: '.github/prompts/${{ steps.t.outputs.task }}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. 작업 완료 후 변경이 있으면 git add index.html, git commit -m "auto: ${{ steps.t.outputs.task }} update", git push origin main 까지 직접 수행하라(push 실패 시 git pull --rebase 후 재시도).'          
-          claude_args: '--allowedTools "Bash,Read,Edit,Write,Glob,Grep,WebSearch,WebFetch" --max-turns 80'
+          case "$task" in
+            kr_close|cn_close|us_close|kr_morning|cn_morning|us_news|calendar|week_outlook|weekly_report|fx_gold)
+              ;;
+            *)
+              echo "unknown task: $task" >&2
+              exit 1
+              ;;
+          esac
+          if [ ! -f ".github/prompts/${task}.md" ]; then
+            echo "missing prompt: .github/prompts/${task}.md" >&2
+            exit 1
+          fi
+          echo "task=$task" >> "$GITHUB_OUTPUT"
+
+      # https://cursor.com/docs/cli/github-actions
+      # https://cursor.com/docs/cli/installation
+      # The installer links `agent` into ~/.local/bin. The Actions guide also
+      # lists ~/.cursor/bin, so both are added.
+      - name: Install Cursor CLI
+        run: |
+          curl https://cursor.com/install -fsS | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "$HOME/.cursor/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$HOME/.cursor/bin:$PATH"
+          command -v agent
+          agent --version
+
+      # Headless print mode does not auto-accept web search unless this is set
+      # (or --force is passed). Task prompts require WebSearch and WebFetch.
+      # https://cursor.com/docs/cli/reference/configuration
+      # https://cursor.com/docs/cli/reference/permissions
+      - name: Configure Cursor CLI
+        run: |
+          mkdir -p "$HOME/.cursor"
+          cat > "$HOME/.cursor/cli-config.json" <<'EOF'
+          {
+            "version": 1,
+            "editor": { "vimMode": false },
+            "approvalMode": "unrestricted",
+            "autoAcceptWebSearch": true,
+            "sandbox": { "mode": "disabled" },
+            "attribution": {
+              "attributeCommitsToAgent": false,
+              "attributePRsToAgent": false
+            },
+            "permissions": {
+              "allow": [
+                "Shell(git)",
+                "Shell(curl)",
+                "Shell(python3)",
+                "Shell(python)",
+                "Shell(node)",
+                "Shell(bash)",
+                "Read(**)",
+                "Write(**)",
+                "WebFetch(*)"
+              ],
+              "deny": [
+                "Write(quotes.json)",
+                "Write(.github/workflows/quotes.yml)",
+                "Write(.github/scripts/fetch_quotes.py)"
+              ]
+            }
+          }
+          EOF
+          python3 -m json.tool "$HOME/.cursor/cli-config.json" >/dev/null
+
+      - name: Run Cursor Agent
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+          TASK: ${{ steps.t.outputs.task }}
+        run: |
+          if [ -z "$CURSOR_API_KEY" ]; then
+            echo "Repository secret CURSOR_API_KEY is not set." >&2
+            echo "Create a user API key at Cursor Dashboard → API Keys, or a service-account key at Dashboard → Settings → API Keys → Service Accounts, then store it as the CURSOR_API_KEY Actions secret." >&2
+            exit 1
+          fi
+          git config user.name "publish-bot"
+          git config user.email "actions@users.noreply.github.com"
+          prompt=".github/prompts/${TASK}.md 파일을 읽고 그 지시를 정확히 따르라. 저장소는 현재 디렉터리에 체크아웃되어 있다. 작업 완료 후 변경이 있으면 git add index.html, git commit -m \"auto: ${TASK} update\", git push origin main 까지 직접 수행하라(push 실패 시 git pull --rebase 후 재시도)."
+          # --print --force applies edits and allows shell without prompts.
+          # --trust is required for headless runs. --sandbox disabled keeps
+          # curl to the quote workers and web fetch off the network sandbox.
+          # https://cursor.com/docs/cli/headless
+          agent --print --force --trust --sandbox disabled --output-format text "$prompt"
+
       - name: Commit & push
+        env:
+          TASK: ${{ steps.t.outputs.task }}
         run: |
           git config user.name "publish-bot"
           git config user.email "actions@users.noreply.github.com"
@@ -43,6 +128,23 @@ jobs:
           if git diff --cached --quiet; then
             echo "no change"
           else
-            git commit -m "auto: ${{ steps.t.outputs.task }} update"
-            for i in 1 2 3; do git push && break || { git pull --rebase && sleep 3; }; done
+            git commit -m "auto: ${TASK} update"
+          fi
+          if git rev-parse --verify origin/main >/dev/null 2>&1 \
+            && [ "$(git rev-list --count origin/main..HEAD)" = "0" ]; then
+            echo "nothing to push"
+            exit 0
+          fi
+          pushed=0
+          for i in 1 2 3; do
+            if git push; then
+              pushed=1
+              break
+            fi
+            git pull --rebase origin main || true
+            sleep 3
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "git push failed" >&2
+            exit 1
           fi
