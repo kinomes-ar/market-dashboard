@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-23T07:30:42Z",
-  "worker_updated_q": 1792740640869,
-  "worker_updated_kr": 1792740642121,
+  "updated": "2026-10-23T07:45:41Z",
+  "worker_updated_q": 1792741540582,
+  "worker_updated_kr": 1792741541869,
   "us": {
     "gspc": {
       "price": 7663.43,
@@ -36,8 +36,8 @@
       "changePct": 0
     },
     "hynix": {
-      "price": 1273000,
-      "changePct": 4.09
+      "price": 1271000,
+      "changePct": 3.92
     }
   },
   "cn": {
@@ -45,19 +45,19 @@
       "price": 3690.48,
       "changePct": 0.89,
       "prevClose": 3658.03,
-      "ts": 1792738825
+      "ts": 1792738824
     },
     "szse": {
       "price": 11673.83,
       "changePct": 2.79,
       "prevClose": 11357.32,
-      "ts": 1792739695
+      "ts": 1792740595
     },
     "hsi": {
-      "price": 23133.77,
-      "changePct": 0.87,
+      "price": 23110.06,
+      "changePct": 0.76,
       "prevClose": 22934.68,
-      "ts": 1792739738
+      "ts": 1792740640
     }
   }
 }
