@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-23T08:30:41Z",
-  "worker_updated_q": 1792744240644,
-  "worker_updated_kr": 1792744241927,
+  "updated": "2026-10-23T08:45:41Z",
+  "worker_updated_q": 1792745140575,
+  "worker_updated_kr": 1792745141803,
   "us": {
     "gspc": {
       "price": 7663.43,
@@ -32,12 +32,12 @@
       "changePct": -1.62
     },
     "samsung": {
-      "price": 215500,
-      "changePct": 0.47
+      "price": 215000,
+      "changePct": 0.23
     },
     "hynix": {
-      "price": 1279000,
-      "changePct": 4.58
+      "price": 1276000,
+      "changePct": 4.33
     }
   },
   "cn": {
@@ -51,7 +51,7 @@
       "price": 11673.83,
       "changePct": 2.79,
       "prevClose": 11357.32,
-      "ts": 1792743295
+      "ts": 1792744195
     },
     "hsi": {
       "price": 23093.37,
