@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-06T23:51:02Z",
-  "worker_updated_q": 1794009061869,
-  "worker_updated_kr": 1794009062480,
+  "updated": "2026-11-07T20:00:05Z",
+  "worker_updated_q": 1794081605349,
+  "worker_updated_kr": 1794081605965,
   "us": {
     "gspc": {
       "price": 7376.86,
@@ -19,7 +19,7 @@
       "price": 51285.73,
       "changePct": -0.46,
       "prevClose": 51523.06,
-      "ts": 1794001033
+      "ts": 1794001032
     }
   },
   "kr": {
