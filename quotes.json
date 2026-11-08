@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-08T22:45:05Z",
-  "worker_updated_q": 1794177905290,
-  "worker_updated_kr": 1794177905690,
+  "updated": "2026-11-08T23:00:06Z",
+  "worker_updated_q": 1794178805385,
+  "worker_updated_kr": 1794178806094,
   "us": {
     "gspc": {
       "price": 7376.86,
@@ -37,7 +37,7 @@
     },
     "hynix": {
       "price": 1176000,
-      "changePct": -6.96
+      "changePct": 0
     }
   },
   "cn": {
