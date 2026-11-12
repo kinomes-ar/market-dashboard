@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-12T22:15:36Z",
-  "worker_updated_q": 1794521735063,
-  "worker_updated_kr": 1794521736279,
+  "updated": "2026-11-12T22:30:35Z",
+  "worker_updated_q": 1794522635183,
+  "worker_updated_kr": 1794522635964,
   "us": {
     "gspc": {
       "price": 7592.4,
@@ -13,7 +13,7 @@
       "price": 25366.09,
       "changePct": -0.39,
       "prevClose": 25466.19,
-      "ts": 1794521731
+      "ts": 1794521759
     },
     "dji": {
       "price": 52297.09,
