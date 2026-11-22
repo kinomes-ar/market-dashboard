@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-22T22:45:45Z",
-  "worker_updated_q": 1795387545230,
-  "worker_updated_kr": 1795387545648,
+  "updated": "2026-11-22T23:00:46Z",
+  "worker_updated_q": 1795388444804,
+  "worker_updated_kr": 1795388446170,
   "us": {
     "gspc": {
       "price": 6910.39,
@@ -33,11 +33,11 @@
     },
     "samsung": {
       "price": 180900,
-      "changePct": -8.13
+      "changePct": 0
     },
     "hynix": {
       "price": 1100000,
-      "changePct": -7.02
+      "changePct": 0
     }
   },
   "cn": {
